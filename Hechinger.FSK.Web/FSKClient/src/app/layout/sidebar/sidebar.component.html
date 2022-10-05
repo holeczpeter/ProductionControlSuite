@@ -1,0 +1,32 @@
+<mat-nav-list>
+  <mat-accordion class="example-headers-align" multi>
+    <ng-container *ngFor="let item of menu">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <div class="flex-container">
+            <div>
+              <mat-icon matListIcon>
+                {{ item?.icon }}
+              </mat-icon>
+            </div>
+        
+            <div class="menu-text"> {{item?.title}}
+            </div>
+          </div>
+        </mat-expansion-panel-header>
+        <a *ngFor="let subItem of item.subMenuItems"
+           mat-list-item
+           [routerLink]="[subItem?.route]"
+           routerLinkActive="list-item-active">
+          <mat-icon matListIcon>
+            {{ subItem?.icon }}
+          </mat-icon>
+          <div class="menu-text">
+            {{subItem?.title}}
+          </div>
+          
+        </a>
+      </mat-expansion-panel>
+    </ng-container>
+    </mat-accordion>
+</mat-nav-list>

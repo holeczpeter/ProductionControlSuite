@@ -1,0 +1,22 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="company-name">{{companyName}}</span>
+    <span class="example-spacer"></span>
+    <span class="center-span"><img [src]="imageSrc" class="logo" /></span>
+
+    <span><a (click)="setLanguage('hu', $event)" class="lang">hu</a></span>
+    <span><a (click)="setLanguage('de' , $event)" class="lang">de</a></span>
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    {{name}}
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+  </mat-toolbar-row>
+  <mat-divider></mat-divider>
+ 
+</mat-toolbar>
