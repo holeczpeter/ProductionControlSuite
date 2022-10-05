@@ -32,39 +32,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+    <None Update="FSKClient\src\app\models\generated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>generated.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="FSKClient\src\app\models\generated.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>generated.ts</LastGenOutput>
-    </None>
-    <None Update="FSKClient\src\app\models\generated.ts">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>generated.tt</DependentUpon>
-    </None>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
-  <ItemGroup>
-    <None Update="FSKClient\src\app\models\generated\generated.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>generated.ts</LastGenOutput>
-    </None>
-    <None Update="FSKClient\src\app\models\generated\generated.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>generated.ts</LastGenOutput>
-    </None>
-  
-    <TypeScriptCompile Update="FSKClient\src\app\models\generated\generated.ts">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>generated.tt</DependentUpon>
-    </TypeScriptCompile>
-    <TypeScriptCompile Update="FSKClient\src\app\models\generated\generated.ts">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>generated.tt</DependentUpon>
-    </TypeScriptCompile>
-  </ItemGroup>
+
 </Project>

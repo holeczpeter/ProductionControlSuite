@@ -1,6 +1,8 @@
-﻿namespace Hechinger.FSK.Application.Features.Menu.DTO
+﻿using Hechinger.FSK.Application.Common.Models;
+
+namespace Hechinger.FSK.Application.Features.Menu.DTO
 {
-    public class MenuItemModel
+    public class MenuItemModel : BaseModel
     {
         public int Id { get; set; }
 

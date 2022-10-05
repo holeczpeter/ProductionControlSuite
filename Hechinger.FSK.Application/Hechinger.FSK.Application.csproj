@@ -15,13 +15,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Hechinger.FSK.Core\Hechinger.FSK.Core.csproj" />
+    <ProjectReference Include="..\Hechinger.FSK.Infrastructure\Hechinger.FSK.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Mappings\" />
-    <Folder Include="Common\Models\" />
+    <Folder Include="Features\Workshop\Commands\" />
+    <Folder Include="Features\Workshop\CommandHandlers\" />
   </ItemGroup>
 
 </Project>
