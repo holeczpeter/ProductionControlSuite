@@ -1,11 +1,24 @@
-﻿using Hechinger.FSK.Core.Entities;
-using Hechinger.FSK.Core.EntityConfigurations;
+﻿
+using Hechinger.FSK.Core.Common;
+using Hechinger.FSK.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Hechinger.FSK.Core.FSKDbContext
+namespace Hechinger.FSK.Infrastructure.Persistence
 {
     public class FSKDbContext : DbContext
     {
+        public DbSet<User> Users { get; set; }
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<Role> Role { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<MenuRole> MenuRoles { get; set; }
+        public DbSet<WorkShop> WorkShops { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Operation> Operations { get; set; }
+        public DbSet<Defect> Defects { get; set; }
+        public DbSet<Shift> Shifts { get; set; }
+        public DbSet<SummaryCard> SummaryCards { get; set; }
+        public DbSet<SummaryCardItem> SummaryCardItem { get; set; }
         public FSKDbContext(DbContextOptions options) : base(options)
         {
 

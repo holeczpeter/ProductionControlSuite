@@ -1,4 +1,4 @@
-﻿namespace Hechinger.FSK.Core.Entities
+﻿namespace Hechinger.FSK.Core.Common
 {
     public class Entity : BaseEntity
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Hechinger.FSK.Core.FSKDbContext
+namespace Hechinger.FSK.Infrastructure.Persistence
 {
     public class FSKDbContextFactory : IDesignTimeDbContextFactory<FSKDbContext>
     {

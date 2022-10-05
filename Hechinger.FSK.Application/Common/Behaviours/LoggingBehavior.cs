@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Reflection;
 
-namespace Hechinger.FSK.Application.PipelineBehaviors
+namespace Hechinger.FSK.Application.Common.Behaviours.PipelineBehaviors
 {
     public class LoggingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
@@ -31,6 +31,11 @@ namespace Hechinger.FSK.Application.PipelineBehaviors
                 this.logger.LogInformation($"{DateTime.Now} - Handling {typeof(TRequest).Name} - {typeof(TResponse).Name} Válasz: {JsonConvert.SerializeObject(responseData)} ");
             }
             return response;
+        }
+
+        public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

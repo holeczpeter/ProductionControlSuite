@@ -1,6 +1,4 @@
-﻿using Hechinger.FSK.Core.Enums;
-
-namespace Hechinger.FSK.Core.Entities
+﻿namespace Hechinger.FSK.Core.Common
 {
     public class BaseEntity : IEntity
     {

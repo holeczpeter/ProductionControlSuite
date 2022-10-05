@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace Hechinger.FSK.Core.EntityConfigurations
+namespace Hechinger.FSK.Infrastructure.Common
 {
     public static class ModelConfigurator
     {
@@ -20,7 +20,7 @@ namespace Hechinger.FSK.Core.EntityConfigurations
 
         public static void ConfigureModelEntities(ModelBuilder modelBuilder)
         {
-            var assembly = Assembly.Load("FSK.Core");
+            var assembly = Assembly.GetExecutingAssembly();
             foreach (var configs in GetAllTypesImplementingOpenGenericType(typeof(IEntityTypeConfiguration<>), assembly))
             {
                 dynamic configuratorInstance = Activator.CreateInstance(configs);
