@@ -10,6 +10,26 @@ namespace Hechinger.FSK.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "AuditLogEntities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EntityId = table.Column<long>(type: "bigint", nullable: false),
+                    EntityName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
+                    EntityStatus = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditLogEntities", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Menus",
                 columns: table => new
                 {
@@ -119,6 +139,35 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WorkShops", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AuditLogProperties",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AuditLogEntityId = table.Column<int>(type: "int", nullable: false),
+                    PropertyName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OldValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NewValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Action = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
+                    EntityStatus = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditLogProperties", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AUDITLOGENTITYANDPROPS_CONNECTION",
+                        column: x => x.AuditLogEntityId,
+                        principalTable: "AuditLogEntities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -345,6 +394,21 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AuditLogEntities_EntityStatus",
+                table: "AuditLogEntities",
+                column: "EntityStatus");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AuditLogProperties_AuditLogEntityId",
+                table: "AuditLogProperties",
+                column: "AuditLogEntityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AuditLogProperties_EntityStatus",
+                table: "AuditLogProperties",
+                column: "EntityStatus");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Defects_EntityStatus",
                 table: "Defects",
                 column: "EntityStatus");
@@ -468,6 +532,9 @@ namespace Hechinger.FSK.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AuditLogProperties");
+
+            migrationBuilder.DropTable(
                 name: "MenuRoles");
 
             migrationBuilder.DropTable(
@@ -475,6 +542,9 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserRoles");
+
+            migrationBuilder.DropTable(
+                name: "AuditLogEntities");
 
             migrationBuilder.DropTable(
                 name: "Menus");

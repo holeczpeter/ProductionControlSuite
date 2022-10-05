@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Persistence\Common\" />
-    <Folder Include="Persistence\EntityConfigurations\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +26,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Hechinger.FSK.Core\Hechinger.FSK.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Persistence\Resources\fsk_trigger.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

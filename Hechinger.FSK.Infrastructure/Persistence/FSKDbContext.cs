@@ -1,5 +1,4 @@
-﻿
-using Hechinger.FSK.Core.Common;
+﻿using Hechinger.FSK.Core.Common;
 using Hechinger.FSK.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +6,8 @@ namespace Hechinger.FSK.Infrastructure.Persistence
 {
     public class FSKDbContext : DbContext
     {
+        public DbSet<AuditLogEntity> AuditLogEntities { get; set; }
+        public DbSet<AuditLogProperty> AuditLogProperties { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Menu> Menus { get; set; }
         public DbSet<Role> Role { get; set; }

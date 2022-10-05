@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hechinger.FSK.Infrastructure.Migrations
 {
     [DbContext(typeof(FSKDbContext))]
-    [Migration("20221005183639_init")]
+    [Migration("20221005195530_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,101 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.AuditLogEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Creator")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("EntityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("EntityName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifier")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntityStatus");
+
+                    b.ToTable("AuditLogEntities");
+                });
+
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.AuditLogProperty", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Action")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("AuditLogEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Creator")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifier")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NewValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OldValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PropertyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuditLogEntityId");
+
+                    b.HasIndex("EntityStatus");
+
+                    b.ToTable("AuditLogProperties");
+                });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Defect", b =>
                 {
@@ -621,6 +716,18 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.ToTable("WorkShops");
                 });
 
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.AuditLogProperty", b =>
+                {
+                    b.HasOne("Hechinger.FSK.Core.Entities.AuditLogEntity", "AuditLogEntity")
+                        .WithMany("AuditLogProperties")
+                        .HasForeignKey("AuditLogEntityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_AUDITLOGENTITYANDPROPS_CONNECTION");
+
+                    b.Navigation("AuditLogEntity");
+                });
+
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Defect", b =>
                 {
                     b.HasOne("Hechinger.FSK.Core.Entities.Operation", "Operation")
@@ -748,6 +855,11 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.AuditLogEntity", b =>
+                {
+                    b.Navigation("AuditLogProperties");
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Defect", b =>
