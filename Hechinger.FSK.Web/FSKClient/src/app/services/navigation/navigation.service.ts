@@ -17,7 +17,6 @@ export class NavigationService {
     if (!url) return '';
     if (url === '/') return "home";
     let result = url.split('/', 2)[1];
-    console.log(result)
     return result;
   }
   constructor(private readonly menudataService: MenuDataService) {

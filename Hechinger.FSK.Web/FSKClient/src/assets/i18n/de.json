@@ -2,6 +2,7 @@
   "save": "Speichern",
   "cancel": "Absage",
   "add": "Neue hinzufügen",
+  "copy": "Kopierung",
   "edit": "Bearbeiten",
   "delete": "Löschen",
   "required": "ist erforderlich",
@@ -22,7 +23,7 @@
     "add": "Neue hinzufügen",
     "edit": "Produkt bearbeiten"
   },
-  
+
   "shifts": {
     "title": "Schichte",
     "add": "Neue hinzufügen",

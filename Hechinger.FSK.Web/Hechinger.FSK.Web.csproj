@@ -80,6 +80,7 @@
     </TypeScriptCompile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="FSKClient\src\app\models\dialog-models\" />
     <Folder Include="FSKClient\src\app\services\navigation\" />
   </ItemGroup>
 </Project>
