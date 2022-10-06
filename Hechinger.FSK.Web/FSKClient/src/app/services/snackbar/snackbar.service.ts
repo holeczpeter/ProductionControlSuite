@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { ApiResult } from '../../models/api-result';
+import { Result } from '../../models/generated';
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,30 +10,30 @@ export class SnackbarService {
   timeOut = 1500;
   actionButtonLabel: 'Ok' | undefined;
   config: MatSnackBarConfig = {
-    duration: 3000,
+    duration: 4000,
     horizontalPosition: 'right',
     verticalPosition: 'top',
   }
   constructor(private readonly snackBar: MatSnackBar) {
   }
 
-  open(result: ApiResult) {
+  open(result: Result) {
 
     if (result && result.isSuccess) this.config.panelClass = 'success';
-    else this.config.panelClass = 'notSuccess';
+    else this.config.panelClass = 'error';
 
     var errors = result.errors && result.errors.length > 0 ? ": " + result.errors : "";
     this.snackBar.open(result.message + errors, 'Bezár', this.config);
   }
 
-  openMore(results: Array<ApiResult>) {
+  openMore(results: Array<Result>) {
 
     if (results) {
       results.forEach((result, index) => {
         if (!result) return;
         let panelClass = "";
         if (result && result.isSuccess) panelClass = 'success';
-        else panelClass = 'notSuccess';
+        else panelClass = 'error';
         setTimeout(() => {
           let message = result.isSuccess ? result.message : result.message + ": " + result.errors;
           this.snackBar.open(message, 'Bezár', {

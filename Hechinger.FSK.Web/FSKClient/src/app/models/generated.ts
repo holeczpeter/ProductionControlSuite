@@ -8,10 +8,22 @@ export interface MenuItemModel {
   id: number,
   title: string,
   icon: string,
-  route: string,
-  subMenuItems: Array<MenuItemModel>,
+  path: string,
+  type: MenuTypes,
+  collapsed: boolean,
+  children: Array<MenuItemModel>,
 }
 export interface GetAllMenuItem {
+}
+export interface AddWorkshop {
+  name: string,
+}
+export interface DeleteWorkshop {
+  id: number,
+}
+export interface UpdateWorkshop {
+  id: number,
+  name: string,
 }
 export interface WorkshopModel {
   id: number,
@@ -21,6 +33,11 @@ export interface GetAllWorkshops {
 }
 export interface GetWorkshop {
   id: number,
+}
+export enum MenuTypes {
+  Module = 0,
+  MainMenu = 1,
+  SubMenu = 2,
 }
 export enum DefectCategories {
   F0 = 1,
@@ -38,10 +55,5 @@ export enum LoginResults {
   IsNotValidPassword = 2,
   NotExistUser = 3,
   TokenError = 4,
-}
-export enum MenuTypes {
-  Module = 0,
-  MainMenu = 1,
-  SubMenu = 2,
 }
 

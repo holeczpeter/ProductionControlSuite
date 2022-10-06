@@ -1,5 +1,4 @@
 ﻿using Hechinger.FSK.Core.Attributes;
-using MediatR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Reflection;
@@ -15,7 +14,8 @@ namespace Hechinger.FSK.Application.Common.Behaviours.PipelineBehaviors
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             Type requestType = request.GetType();
             var disable = requestType.GetCustomAttributes(typeof(DisableLoggingAttribute), false).FirstOrDefault() as DisableLoggingAttribute;
@@ -31,11 +31,6 @@ namespace Hechinger.FSK.Application.Common.Behaviours.PipelineBehaviors
                 this.logger.LogInformation($"{DateTime.Now} - Handling {typeof(TRequest).Name} - {typeof(TResponse).Name} Válasz: {JsonConvert.SerializeObject(responseData)} ");
             }
             return response;
-        }
-
-        public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
         }
     }
 }

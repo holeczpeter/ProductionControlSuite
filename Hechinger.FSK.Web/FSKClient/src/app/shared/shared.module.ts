@@ -38,10 +38,15 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
-
+import { TitleComponent } from './title/title.component';
+import { DialogHeaderComponent } from './dialog-header/dialog-header.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    TitleComponent,
+    DialogHeaderComponent
+  ],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -84,6 +89,7 @@ import { MatTreeModule } from '@angular/material/tree';
     CdkTableModule,
     MatGridListModule,
     MatSlideToggleModule,
+    TranslateModule
   ],
   exports: [
     MatToolbarModule,
@@ -126,6 +132,8 @@ import { MatTreeModule } from '@angular/material/tree';
     CdkTableModule,
     MatGridListModule,
     MatSlideToggleModule,
+    TitleComponent,
+    DialogHeaderComponent
    
   ],
   providers: [

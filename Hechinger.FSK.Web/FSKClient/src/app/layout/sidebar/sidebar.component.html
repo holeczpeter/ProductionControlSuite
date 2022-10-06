@@ -1,32 +1,72 @@
-<mat-nav-list>
-  <mat-accordion class="example-headers-align" multi>
-    <ng-container *ngFor="let item of menu">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <div class="flex-container">
-            <div>
-              <mat-icon matListIcon>
-                {{ item?.icon }}
-              </mat-icon>
-            </div>
-        
-            <div class="menu-text"> {{item?.title}}
-            </div>
-          </div>
-        </mat-expansion-panel-header>
-        <a *ngFor="let subItem of item.subMenuItems"
-           mat-list-item
-           [routerLink]="[subItem?.route]"
-           routerLinkActive="list-item-active">
-          <mat-icon matListIcon>
-            {{ subItem?.icon }}
-          </mat-icon>
-          <div class="menu-text">
-            {{subItem?.title}}
-          </div>
+<div class="box">
+  <div class="close-button-container">
+    <div>
+      <button mat-icon-button disableRipple="true">
+        <mat-icon class="side-icon" (click)="close()">chevron_left</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="accordion">
+    <ng-template #recursiveRenderer let-menu let-position="idx">
+      <ng-container [ngSwitch]="menu?.type">
+        <ng-container *ngSwitchCase="'0'">
           
-        </a>
-      </mat-expansion-panel>
+          <!--<ng-container *ngFor="let child of menu.children; index as i">
+            <ng-container *ngTemplateOutlet="recursiveRenderer;context:{$implicit: child,idx: i}"></ng-container>
+          </ng-container>-->
+        </ng-container>
+        <ng-container *ngSwitchCase="'1'">
+          <mat-divider [style.--margin-top.px]="position == 0 ? 0 : 35"></mat-divider>
+          <div class="menu-text menu-main" (click)="toggle(position)">
+            <mat-icon matListIcon class="menu-item-icon">
+              {{menu.icon}}
+            </mat-icon>
+            <div class="title">
+              {{ menu.title }}
+            </div>
+            <ng-container *ngIf="menu.active && menu.item.type === 2;else more">
+              <mat-icon class="menu-item-icon">expand_less</mat-icon>
+            </ng-container>
+            <ng-template #more>
+              <mat-icon class="menu-item-icon">expand_more</mat-icon>
+            </ng-template>
+          </div>
+          <div #submenu
+               class="submenu-container"
+               [style.--max-height.px]="menu.collapsed ? submenu.scrollHeight : 0">
+            <ng-container *ngFor="let child of menu.children ; index as i">
+              <ng-container *ngTemplateOutlet="recursiveRenderer;context:{$implicit: child,idx: i}">
+              </ng-container>
+            </ng-container>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'2'">
+          <div class="menu-text submenu-item"
+               [routerLink]="[menu.path]"
+               routerLinkActive="active">
+            <mat-icon matListIcon class="menu-item-icon">
+              {{menu.icon}}
+            </mat-icon>
+            <div>
+              {{menu.title}}
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-template>
+    <ng-container *ngIf="!!sidebarMenuItems">
+      <ng-container *ngFor="let item of sidebarMenuItems; index as i">
+        <ng-container *ngTemplateOutlet="recursiveRenderer;context:{$implicit: item,idx: i}"></ng-container>
+      </ng-container>
     </ng-container>
-    </mat-accordion>
-</mat-nav-list>
+
+  </div>
+  <!--<img class="logo" [src]="logo" />
+  <div class="version">
+    <div>Verzió: {{applicationInformation?.version}}</div>
+    <div>{{applicationInformation?.copyRight}}</div>
+  </div>-->
+</div>
+
+
+

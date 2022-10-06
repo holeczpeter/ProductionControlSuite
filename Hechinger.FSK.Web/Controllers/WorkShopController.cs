@@ -1,6 +1,5 @@
-﻿using Hechinger.FSK.Application.Features.Workshop.DTO;
-using Hechinger.FSK.Application.Features.Workshop.Queries;
-
+﻿using Hechinger.FSK.Application.Common.Models;
+using Hechinger.FSK.Application.Features;
 
 namespace Hechinger.FSK.Web.Controllers
 {
@@ -8,24 +7,31 @@ namespace Hechinger.FSK.Web.Controllers
     {
         private readonly IMediator mediator;
 
-        public WorkshopController(IMediator mediator)
+        public WorkshopController(IMediator mediator) => this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        
+
+        [HttpPost]
+        public async Task<Result<bool>> Add([FromBody] AddWorkshop request, CancellationToken cancellationToken)
         {
-
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            return await this.mediator.Send(request, cancellationToken);
         }
-
-        //[HttpPost]
-        //public async Task<AddRateModelResult> AddRates([FromBody] AddRateModel request, CancellationToken cancellationToken)
-        //{
-        //    return await this.mediator.Send(request, cancellationToken);
-        //}
-        [HttpGet]
-        public async Task<WorkshopModel> GetWorkshop(GetWorkshop request, CancellationToken cancellationToken)
+        [HttpPost]
+        public async Task<Result<bool>> Update([FromBody] UpdateWorkshop request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+        [HttpPost]
+        public async Task<Result<bool>> Delete([FromBody] DeleteWorkshop request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
         }
         [HttpGet]
-        public async Task<IEnumerable<WorkshopModel>> GetAllWorkshop(GetAllWorkshops request, CancellationToken cancellationToken)
+        public async Task<WorkshopModel> Get(GetWorkshop request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+        [HttpGet]
+        public async Task<IEnumerable<WorkshopModel>> GetAll(GetAllWorkshops request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
         }

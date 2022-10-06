@@ -2,20 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Observable, switchMap } from 'rxjs';
-import { ApiResult } from '../models/api-result';
-import { LoginErrorTypes } from '../models/login-error-types';
-import { RefreshTokenModel } from '../models/refresh-token-model';
-import { UserDataModel } from '../models/user-data-model';
-import { UserLoginModel } from '../models/user-login-model';
-import { UserRegistrationModel } from '../models/user-registration-model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
-  loginErrorType: LoginErrorTypes | undefined;
+  
 
   constructor(
     private readonly httpClient: HttpClient,

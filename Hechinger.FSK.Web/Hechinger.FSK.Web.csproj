@@ -36,6 +36,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="FSKClient\src\assets\i18n\de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="FSKClient\src\assets\i18n\hu.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="FSKClient\src\app\models\generated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>generated.ts</LastGenOutput>
@@ -55,6 +64,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>generated.ts</LastGenOutput>
     </None>
+    <None Update="FSKClient\src\assets\fonts\Roboto\Roboto-Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   
     <TypeScriptCompile Update="FSKClient\src\app\models\generated\generated.ts">
       <DesignTime>True</DesignTime>
@@ -66,5 +78,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>generated.tt</DependentUpon>
     </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="FSKClient\src\app\services\navigation\" />
   </ItemGroup>
 </Project>

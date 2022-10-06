@@ -22,8 +22,6 @@
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Mappings\" />
-    <Folder Include="Features\Workshop\Commands\" />
-    <Folder Include="Features\Workshop\CommandHandlers\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace Hechinger.FSK.Application.Features.Workshop.QueryHandlers
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class GetAllWorkshopHandler : IRequestHandler<GetAllWorkshops, IEnumerable<WorkshopModel>>
     {
@@ -9,11 +9,11 @@
         }
         public async Task<IEnumerable<WorkshopModel>> Handle(GetAllWorkshops request, CancellationToken cancellationToken)
         {
-            return await this.context.WorkShops.Where(x => x.EntityStatus == EntityStatuses.Active).Select(x => new WorkshopModel()
-                {
-                    Id = x.Id,  
-                    Name = x.Name
-                }).ToListAsync();
+            return await context.WorkShops.Where(x => x.EntityStatus == EntityStatuses.Active).Select(x => new WorkshopModel()
+            {
+                Id = x.Id,
+                Name = x.Name
+            }).ToListAsync();
         }
     }
 }

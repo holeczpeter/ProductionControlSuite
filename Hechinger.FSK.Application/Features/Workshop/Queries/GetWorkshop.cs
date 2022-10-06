@@ -1,4 +1,4 @@
-﻿namespace Hechinger.FSK.Application.Features.Workshop.Queries
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class GetWorkshop : IRequest<WorkshopModel>
     {

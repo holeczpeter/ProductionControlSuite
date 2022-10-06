@@ -1,7 +1,4 @@
-﻿using Hechinger.FSK.Application.Features.Menu.DTO;
-using MediatR;
-
-namespace Hechinger.FSK.Application.Features.Menu.Query
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class GetAllMenuItem : IRequest<IEnumerable<MenuItemModel>>
     {

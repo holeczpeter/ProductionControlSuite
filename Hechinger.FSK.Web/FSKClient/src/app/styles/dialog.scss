@@ -1,0 +1,95 @@
+
+.mat-dialog-container {
+  padding: 20px !important;
+  border-radius: 5px !important;
+  overflow: hidden !important;
+  box-shadow: 0px 10px 10px rgba(0,0,0,0.1) !important;
+}
+
+.mat-dialog-title {
+  letter-spacing: 1px;
+  text-align: center !important;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold !important;
+  margin: 0px 0px 40px 0px !important;
+  display: flex !important;
+  cursor: move !important;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.mat-dialog-actions {
+  padding: 0px !important;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 0px !important;
+  align-items: center;
+  box-sizing: content-box;
+  margin-bottom: 0px !important;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.mat-dialog-content {
+  display: block;
+  margin: 0px !important;
+  padding: 0px !important;
+  max-height: 65vh;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mat-dialog-close-button {
+  float: right;
+  top: -24px;
+  right: -24px;
+}
+
+.mat-dialog-actions .mat-button-base + .mat-button-base, .mat-dialog-actions .mat-mdc-button-base + .mat-mdc-button-base {
+  margin-left: 0px !important;
+}
+
+
+
+.confirm-dialog .mat-dialog-container {
+  padding: 60px 60px 40px 60px !important;
+  border-radius: 5px !important;
+  overflow: hidden !important;
+  box-shadow: 0px 4px 4px rgba(0,0,0,0.1) !important;
+}
+
+.confirm-dialog .mat-dialog-content {
+  display: block;
+  margin: 0px !important;
+  padding: 0px !important;
+  max-height: 65vh;
+  overflow: hidden !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+.confirm-dialog .mat-dialog-actions {
+  padding: 0px !important;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 0px !important;
+  align-items: center;
+  box-sizing: content-box;
+  margin-bottom: 0px !important;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.confirm-dialog .mat-dialog-close-button {
+  float: right;
+  top: -65px;
+  right: -65px;
+}
+
+.close-icon {
+  height: 14px;
+  width: 14px;
+  font-size: 14px;
+}

@@ -1,5 +1,4 @@
-﻿using Hechinger.FSK.Application.Features.Menu.DTO;
-using Hechinger.FSK.Application.Features.Menu.Query;
+﻿using Hechinger.FSK.Application.Features;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Hechinger.FSK.Web.Controllers
 {
-   
+
     public class MenuController : ControllerBase
     {
         private readonly IMediator mediator;

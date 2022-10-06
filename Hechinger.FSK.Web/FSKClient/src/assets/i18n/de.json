@@ -1,0 +1,22 @@
+{
+  "save": "Speichern",
+  "cancel": "Absage",
+  "add": "Neue hinzufügen",
+  "edit": "Bearbeiten",
+  "delete": "Löschen",
+  "required": "ist erforderlich",
+  "name": "Benennung",
+  "workshops": {
+    "title": "Werkstätte"
+
+  },
+  "edit-workshops": {
+    "title": {
+      "add": "Neue hinzufügen",
+      "edit": "Werkstätte bearbeiten"
+    }
+  }
+}
+
+
+

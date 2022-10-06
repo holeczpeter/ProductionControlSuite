@@ -1,19 +1,168 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@use '@angular/material' as mat;
+@import "~node_modules/bootstrap/scss/bootstrap.scss";
+@import '@angular/material/theming';
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
 
+@import "~node_modules/bootstrap/scss/functions";
+@import "~node_modules/bootstrap/scss/variables";
+@import "~node_modules/bootstrap/scss/mixins";
 
+@font-face {
+  font-family: "Roboto";
+  src: local("Roboto"), url(./assets/fonts/Roboto/Roboto-Regular.ttf) format("truetype");
+}
 
-.mat-simple-snackbar-action > button {
-  color: white;
-  text-decoration-color: white;
+$typography-configuration: mat-typography-config( $font-family: 'Roboto', $display-4: mat-typography-level(112px, 112px, 300), $display-3: mat-typography-level(100px, 56px, 400), $display-2: mat-typography-level(100px, 48px, 400), $display-1: mat-typography-level(100px, 34px, 400), $headline: mat-typography-level(20px, 1.2, 700, $letter-spacing:'1px'), $title: mat-typography-level(16px, 1.2, 700), $subheading-2: mat-typography-level(14px, 17px, 400), $subheading-1: mat-typography-level(14px, 1.2, 400), $body-2: mat-typography-level(14px, 1.2, 500), $body-1: mat-typography-level(14px, 1.2, 400), $button: mat-typography-level(14px, 1.2, 500));
+
+@include mat-base-typography($typography-configuration);
+@include mat-core($typography-configuration);
+$blue-palette: ( 100 : #F5FDFF, 300 : #8FD2E3, 500 : #4798BE, 700 : #14416A, contrast: ( 100 : #000000, 300 : #000000, 500 : #FFFFFF, 700 : #FFFFFF, ));
+
+$orange-palette: ( 100 : #FFEBDA, 300 : #FFA75D, 500 : #FF9237, 700 : #E3762F, 900 : #AB4900, contrast: ( 100 : #000000, 300 : #000000, 500 : #000000, 700 : #FFFFFF, 900 : #FFFFFF, ));
+
+$primary: mat.define-palette($blue-palette, 500);
+$accent: mat.define-palette($orange-palette,500);
+
+$theme: mat.define-light-theme($primary, $accent);
+
+@include mat.all-component-themes($theme);
+@import "./app/styles/dialog.scss";
+@import "./app/styles/snackbar.scss";
+.primary-light {
+  background-color: mat.get-color-from-palette($blue-palette, 100);
+  color: mat-contrast($blue-palette, 100);
+}
+
+.primary-lighter {
+  background-color: mat.get-color-from-palette($blue-palette, 300);
+  color: mat-contrast($blue-palette, 300);
+}
+
+.primary {
+  background-color: mat.get-color-from-palette($blue-palette, 500);
+  color: mat-contrast($blue-palette, 500);
+}
+
+.primary-dark {
+  background-color: mat.get-color-from-palette($blue-palette, 700);
+  color: mat-contrast($blue-palette, 700);
+}
+
+.secondary-light {
+  background-color: mat.get-color-from-palette($orange-palette, 100);
+  color: mat-contrast($orange-palette, 100);
+}
+
+.secondary-lighter {
+  background-color: mat.get-color-from-palette($orange-palette, 100);
+  color: mat-contrast($orange-palette, 100);
+}
+
+.secondary {
+  background-color: mat.get-color-from-palette($orange-palette, 500);
+  color: mat-contrast($orange-palette, 500);
+}
+
+.secondary-darker {
+  background-color: mat.get-color-from-palette($orange-palette, 700);
+  color: mat-contrast($orange-palette, 700);
+}
+
+.secondary-dark {
+  background-color: mat.get-color-from-palette($orange-palette, 900);
+  color: mat-contrast($orange-palette, 900);
+}
+
+body {
+  font-family: "Roboto";
+  font-size: 14px;
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+h1 {
+  font-size: 20px;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 16px;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+h3 {
+  font-size: 14px;
+  letter-spacing: 2px;
+  font-weight: 400;
+}
+
+.error {
+  background-color: #F35B5A;
+  color: #FFFFFF;
+}
+
+.error-black {
+  background-color: #F35B5A;
+  color: #000000;
 }
 
 .success {
-  background-color: #388e3c;
+  background-color: #5CC953;
+  color: #FFFFFF;
 }
 
-.notSuccess {
-  background-color: #bf360c;
+.success-black {
+  background-color: #5CC953;
+  color: #000000;
+}
+
+.warning {
+  background-color: #FFCA39;
+  color: #000000;
+}
+
+.info {
+  background-color: #379DDA;
+  color: #FFFFFF;
+}
+
+.inactive {
+  background-color: #DBDCDC;
+  color: #A2A2A2;
+}
+
+.base-grey {
+  background-color: #E9EDEE;
+  color: #000000;
+}
+
+.base-light {
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+.dark-dark {
+  color: #202120;
+}
+
+.light-text {
+  color: #FFFFFF;
+}
+
+.inactive-text {
+  color: #A2A2A2;
+}
+
+.active-link {
+  background: black;
+}
+
+
+.flex-title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
 }

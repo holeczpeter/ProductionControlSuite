@@ -1,0 +1,18 @@
+{
+  "save": "Mentés",
+  "cancel": "Mégsem",
+  "add": "Hozzáadás",
+  "edit": "Szerkesztés",
+  "delete": "Törlés",
+  "required": "kötelező",
+  "name": "Megnevezés",
+  "workshops": {
+    "title": "Műhelyek"
+  },
+  "workshopeditor": {
+    "title": {
+      "add": "Új műhely hozzáadása",
+      "edit": "Műhely szerkesztése"
+    }
+  }
+}

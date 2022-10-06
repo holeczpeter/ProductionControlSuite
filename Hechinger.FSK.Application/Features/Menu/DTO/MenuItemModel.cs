@@ -1,6 +1,4 @@
-﻿using Hechinger.FSK.Application.Common.Models;
-
-namespace Hechinger.FSK.Application.Features.Menu.DTO
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class MenuItemModel : BaseModel
     {
@@ -10,8 +8,11 @@ namespace Hechinger.FSK.Application.Features.Menu.DTO
 
         public string Icon { get; set; }
 
-        public string Route { get; set; }
+        public string Path { get; set; }
 
-        public IEnumerable<MenuItemModel> SubMenuItems { get; set; }
+        public MenuTypes Type { get; set; }
+        public bool Collapsed { get; set; }
+
+        public IEnumerable<MenuItemModel> Children { get; set; }
     }
 }

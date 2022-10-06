@@ -1,11 +1,13 @@
 ﻿global using Hechinger.FSK.Application.Common.Behaviours.PipelineBehaviors;
-global using Hechinger.FSK.Application.Features.Workshop.DTO;
-global using Hechinger.FSK.Application.Features.Workshop.Queries;
-global using Hechinger.FSK.Infrastructure.Persistence;
+global using Hechinger.FSK.Application.Common.Models;
 global using Hechinger.FSK.Core.Enums;
-global using Microsoft.EntityFrameworkCore;
+global using Hechinger.FSK.Core.Entities;
+global using Hechinger.FSK.Infrastructure.Persistence;
+global using Hechinger.FSK.Application.Common.Builders;
 global using MediatR;
+global using Microsoft.EntityFrameworkCore;
 global using System;
 global using System.Collections.Generic;
+global using System.ComponentModel.DataAnnotations;
 global using System.Threading;
 global using System.Threading.Tasks;
