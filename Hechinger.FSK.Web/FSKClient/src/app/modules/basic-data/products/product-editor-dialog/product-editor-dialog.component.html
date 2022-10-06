@@ -11,9 +11,29 @@
     </div>
     <div class="row pt-2">
       <mat-form-field class="col">
+        <input matInput [formControlName]="'code'" [placeholder]="'code' | translate" required />
+        <mat-error class="col" *ngIf="formGroup.get('code')?.hasError('required')">
+          {{'code'| translate}} {{'required' | translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row pt-2">
+      <mat-form-field class="col">
         <input matInput [formControlName]="'translatedName'" [placeholder]="'translatedname' | translate" required />
         <mat-error class="col" *ngIf="formGroup.get('translatedName')?.hasError('required')">
           {{'translatedname'| translate}} {{'required' | translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row pt-2">
+      <mat-form-field class="col">
+        <mat-select [formControlName]="'workshopId'" [placeholder]="'workshopName' | translate" required>
+          <mat-option *ngFor="let option of workshops" [value]="option.id">
+            {{ option.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error class="col" *ngIf="formGroup.get('workshopId')?.hasError('required')">
+          {{'workshopName'| translate}} {{'required' | translate}}
         </mat-error>
       </mat-form-field>
     </div>

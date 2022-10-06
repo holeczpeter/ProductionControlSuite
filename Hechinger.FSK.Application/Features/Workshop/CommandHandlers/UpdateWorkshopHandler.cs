@@ -25,7 +25,10 @@ namespace Hechinger.FSK.Application.Features
             else
             {
                 current.Name = request.Name;
+                current.TranslatedName = request.TranslatedName;
+
                 await context.SaveChangesAsync(cancellationToken);
+
                 result.Message = "A műhely sikeresen módosítva";
                 result.IsSuccess = true;
                 return result;

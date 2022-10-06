@@ -6,6 +6,8 @@
   "delete": "Törlés",
   "required": "kötelező",
   "name": "Megnevezés",
+  "code": "Kód",
+  "translatedname": "Német megnevezés",
   "workshops": {
     "title": "Műhelyek"
   },
@@ -13,6 +15,16 @@
     "title": {
       "add": "Új műhely hozzáadása",
       "edit": "Műhely szerkesztése"
+    }
+  },
+  "products": {
+    "title": "Termékek",
+    "workshopName": "Műhely megnevezés"
+  },
+  "producteditor": {
+    "title": {
+      "add": "Új termék hozzáadása",
+      "edit": "Termék szerkesztése"
     }
   }
 }

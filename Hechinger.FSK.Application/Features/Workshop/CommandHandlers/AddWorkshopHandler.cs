@@ -14,6 +14,7 @@
             var current = new WorkShop()
             {
                 Name = request.Name,
+                TranslatedName = request.TranslatedName,
             };
             await this.context.AddAsync(current, cancellationToken);
             await this.context.SaveChangesAsync(cancellationToken);

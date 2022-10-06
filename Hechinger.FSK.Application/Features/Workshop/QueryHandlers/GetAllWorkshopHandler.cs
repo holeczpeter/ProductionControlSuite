@@ -12,7 +12,8 @@
             return await context.WorkShops.Where(x => x.EntityStatus == EntityStatuses.Active).Select(x => new WorkshopModel()
             {
                 Id = x.Id,
-                Name = x.Name
+                Name = x.Name,
+                TranslatedName = x.TranslatedName,  
             }).ToListAsync();
         }
     }

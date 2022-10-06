@@ -15,8 +15,38 @@ export interface MenuItemModel {
 }
 export interface GetAllMenuItem {
 }
+export interface AddProduct {
+  name: string,
+  code: string,
+  translatedName: string,
+  workshopId: number,
+}
+export interface DeleteProduct {
+  id: number,
+}
+export interface UpdateProduct {
+  id: number,
+  name: string,
+  code: string,
+  translatedName: string,
+  workshopId: number,
+}
+export interface ProductModel {
+  id: number,
+  name: string,
+  code: string,
+  translatedName: string,
+  workshopId: number,
+  workshopName: string,
+}
+export interface GetAllProducts {
+}
+export interface GetProduct {
+  id: number,
+}
 export interface AddWorkshop {
   name: string,
+  translatedName: string,
 }
 export interface DeleteWorkshop {
   id: number,
@@ -24,10 +54,12 @@ export interface DeleteWorkshop {
 export interface UpdateWorkshop {
   id: number,
   name: string,
+  translatedName: string,
 }
 export interface WorkshopModel {
   id: number,
   name: string,
+  translatedName: string,
 }
 export interface GetAllWorkshops {
 }

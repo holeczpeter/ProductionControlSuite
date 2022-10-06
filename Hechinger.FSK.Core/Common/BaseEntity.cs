@@ -2,7 +2,7 @@
 {
     public class BaseEntity : IEntity
     {
-
+        public virtual string TranslatedName { get; set; }
         public virtual DateTime Created { get; set; } = DateTime.Now;
         public virtual string Creator { get; set; }
         public virtual DateTime LastModified { get; set; } = DateTime.Now;

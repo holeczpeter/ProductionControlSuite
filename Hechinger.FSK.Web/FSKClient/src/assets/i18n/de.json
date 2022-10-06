@@ -6,6 +6,8 @@
   "delete": "Löschen",
   "required": "ist erforderlich",
   "name": "Benennung",
+  "code": "Code",
+  "translatedname": "Deutche Benennung",
   "workshops": {
     "title": "Werkstätte"
 
@@ -14,6 +16,16 @@
     "title": {
       "add": "Neue hinzufügen",
       "edit": "Werkstätte bearbeiten"
+    }
+  },
+  "products": {
+    "title": "Produkte",
+    "workshopName": "Werkstatt"
+  },
+  "producteditor": {
+    "title": {
+      "add": "Neue hinzufügen",
+      "edit": "Produkt bearbeiten"
     }
   }
 }
