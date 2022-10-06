@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    internal class GetWorkshopHandler : IRequestHandler<GetWorkshop, WorkshopModel>
+    public class GetWorkshopHandler : IRequestHandler<GetWorkshop, WorkshopModel>
     {
         private readonly FSKDbContext context;
         public GetWorkshopHandler(FSKDbContext context)

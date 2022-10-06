@@ -7,24 +7,24 @@
   "required": "kötelező",
   "name": "Megnevezés",
   "code": "Kód",
+  "shortName": "Kód",
+  "start": "Kezdés",
+  "end": "Vége",
   "translatedname": "Német megnevezés",
   "workshops": {
-    "title": "Műhelyek"
-  },
-  "workshopeditor": {
-    "title": {
-      "add": "Új műhely hozzáadása",
-      "edit": "Műhely szerkesztése"
-    }
+    "title": "Műhelyek",
+    "add": "Új műhely hozzáadása",
+    "edit": "Műhely szerkesztése"
   },
   "products": {
     "title": "Termékek",
-    "workshopName": "Műhely megnevezés"
+    "workshopName": "Műhely megnevezés",
+    "add": "Új termék hozzáadása",
+    "edit": "Termék szerkesztése"
   },
-  "producteditor": {
-    "title": {
-      "add": "Új termék hozzáadása",
-      "edit": "Termék szerkesztése"
-    }
+  "shifts": {
+    "title": "Műszakok",
+    "add": "Új műszak hozzáadása",
+    "edit": "Műszak szerkesztése"
   }
 }

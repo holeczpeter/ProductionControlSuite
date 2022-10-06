@@ -42,7 +42,8 @@
                                 {
                                     Id = 9, Title = "Törzsadatok", Path = "/basic-data", Icon = "list",  Type = MenuTypes.Module,
                                     Children = new List<MenuItemModel>()
-                                    {
+                                    {  
+                                        { new MenuItemModel { Id = 7, Title = "Műszakok", Path = "/basic-data/shift", Icon = "edit", Type = MenuTypes.SubMenu   }},
                                         { new MenuItemModel { Id = 7, Title = "Műhelyek", Path = "/basic-data/workshop", Icon = "edit", Type = MenuTypes.SubMenu   }},
                                         { new MenuItemModel { Id = 7, Title = "Termékek", Path = "/basic-data/product", Icon = "edit", Type = MenuTypes.SubMenu    }},
                                         { new MenuItemModel { Id = 7, Title = "Műveletek", Path = "/basic-data/operation", Icon = "edit", Type = MenuTypes.SubMenu    }},

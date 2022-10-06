@@ -21,7 +21,7 @@ export class ProductEditorDialogComponent implements OnInit {
     private readonly workshopDataService: WorkshopDataService,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly snackBar: SnackbarService) {
-    this.title = data ? "producteditor.title.add" : "producteditor.title.edit";
+    this.title = data ? "products.edit" :"products.add";
     this.formGroup = this.formBuilder.group({
       id: [this.data ? this.data.id : '0', [Validators.required]],
       name: [this.data ? this.data.name : '', [Validators.required]],

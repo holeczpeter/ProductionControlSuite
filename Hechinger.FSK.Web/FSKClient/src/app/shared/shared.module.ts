@@ -41,7 +41,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { TitleComponent } from './title/title.component';
 import { DialogHeaderComponent } from './dialog-header/dialog-header.component';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { NgxMaskModule } from 'ngx-mask';
 @NgModule({
   declarations: [
     TitleComponent,
@@ -89,7 +89,8 @@ import { TranslateModule } from '@ngx-translate/core';
     CdkTableModule,
     MatGridListModule,
     MatSlideToggleModule,
-    TranslateModule
+    TranslateModule,
+    NgxMaskModule.forRoot(),
   ],
   exports: [
     MatToolbarModule,
@@ -133,7 +134,8 @@ import { TranslateModule } from '@ngx-translate/core';
     MatGridListModule,
     MatSlideToggleModule,
     TitleComponent,
-    DialogHeaderComponent
+    DialogHeaderComponent,
+    NgxMaskModule,
    
   ],
   providers: [

@@ -7,13 +7,17 @@ import { SharedModule } from '../../shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProductsComponent } from './products/products.component';
 import { ProductEditorDialogComponent } from './products/product-editor-dialog/product-editor-dialog.component';
+import { ShiftsComponent } from './shifts/shifts.component';
+import { ShiftEditorDialogComponent } from './shifts/shift-editor-dialog/shift-editor-dialog.component';
 
 @NgModule({
   declarations: [
     WorkshopsComponent,
     WorkshopEditorDialogComponent,
     ProductsComponent,
-    ProductEditorDialogComponent
+    ProductEditorDialogComponent,
+    ShiftsComponent,
+    ShiftEditorDialogComponent
   ],
   imports: [
     CommonModule,

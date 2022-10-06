@@ -7,26 +7,26 @@
   "required": "ist erforderlich",
   "name": "Benennung",
   "code": "Code",
+  "shortName": "Code",
+  "start": "Start",
+  "end": "Ende",
   "translatedname": "Deutche Benennung",
   "workshops": {
-    "title": "Werkstätte"
-
-  },
-  "edit-workshops": {
-    "title": {
-      "add": "Neue hinzufügen",
-      "edit": "Werkstätte bearbeiten"
-    }
+    "title": "Werkstätte",
+    "add": "Neue hinzufügen",
+    "edit": "Werkstätte bearbeiten"
   },
   "products": {
     "title": "Produkte",
-    "workshopName": "Werkstatt"
+    "workshopName": "Werkstatt",
+    "add": "Neue hinzufügen",
+    "edit": "Produkt bearbeiten"
   },
-  "producteditor": {
-    "title": {
-      "add": "Neue hinzufügen",
-      "edit": "Produkt bearbeiten"
-    }
+  
+  "shifts": {
+    "title": "Schichte",
+    "add": "Neue hinzufügen",
+    "edit": "Schicht bearbeiten"
   }
 }
 

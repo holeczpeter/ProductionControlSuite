@@ -44,6 +44,40 @@ export interface GetAllProducts {
 export interface GetProduct {
   id: number,
 }
+export interface AddShift {
+  name: string,
+  shortName: string,
+  translatedName: string,
+  translatedShortName: string,
+  start: any,
+  end: any,
+}
+export interface DeleteShift {
+  id: number,
+}
+export interface UpdateShift {
+  id: number,
+  name: string,
+  shortName: string,
+  translatedName: string,
+  translatedShortName: string,
+  start: any,
+  end: any,
+}
+export interface ShiftModel {
+  id: number,
+  name: string,
+  shortName: string,
+  translatedName: string,
+  translatedShortName: string,
+  start: any,
+  end: any,
+}
+export interface GetAllShifts {
+}
+export interface GetShift {
+  id: number,
+}
 export interface AddWorkshop {
   name: string,
   translatedName: string,

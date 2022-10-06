@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    internal class DeleteWorkshopHandler : IRequestHandler<DeleteWorkshop, Result<bool>>
+    public class DeleteWorkshopHandler : IRequestHandler<DeleteWorkshop, Result<bool>>
     {
         private readonly FSKDbContext context;
         public DeleteWorkshopHandler(FSKDbContext context)
