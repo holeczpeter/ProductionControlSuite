@@ -22,6 +22,7 @@ builder.Configuration
 builder.Host
     .UseSerilog((ctx, lc) => lc
     .MinimumLevel.Debug()
+    .WriteTo.Console() 
     .WriteTo.File("logs/log.log", rollingInterval: RollingInterval.Day));
 
 builder.Services.AddInfrastructureServices(builder.Configuration);

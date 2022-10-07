@@ -47,5 +47,5 @@
 </mat-dialog-content>
 <div mat-dialog-actions>
   <button mat-raised-button cdkFocusInitial color="primary" (click)="onSave()" [disabled]="!formGroup.valid">{{'save'| translate}} </button>
-  <button mat-stroked-button mat-dialog-close color="blue">{{'cancel'| translate}} </button>
+  <button mat-stroked-button color="blue" (click)="onCancel()">{{'cancel'| translate}} </button>
 </div>

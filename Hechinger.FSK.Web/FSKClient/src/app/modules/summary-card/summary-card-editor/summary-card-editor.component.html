@@ -1,112 +1,104 @@
-<div class="container">
-  <button mat-flat-button (click)="onSave()"
-          [disabled]="cardForm && !cardForm.valid"
-          color="primary"> {{'save' | translate}}
-  </button>
-  <div *ngIf="cardForm" class="row pt-3">
-    <form [formGroup]="cardForm">
-      <div class="header">
-        <div>
-          <span><img [src]="imageSrc" class="logo" /></span>
-        </div>
-        <mat-divider vertical style="height:50px"></mat-divider>
-        <div>
-          <h1>{{'summarycard' | translate }}</h1>
-        </div>
-        <mat-divider vertical style="height:50px"></mat-divider>
-        <div>
-          <div>Azonosító sz:</div>
-          <div>Hgy1-001</div>
-          <div>V.5/2006.10.31</div>
-          
-        </div>
+<div *ngIf="cardForm" class="row pt-3">
+  <form [formGroup]="cardForm">
+    <div class="header">
+      <div>
+        <span><img [src]="imageSrc" class="logo" /></span>
       </div>
-      <div class="header">
-        <div>
-
-          <mat-form-field>
-            <input matInput [matDatepicker]="pickerStart" [formControlName]="'date'" [placeholder]="'date' | translate" required>
-            <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
-            <mat-datepicker #pickerStart></mat-datepicker>
-            <mat-error class="col" *ngIf="cardForm.get('date')?.hasError('required')">
-              {{'date'| translate}} {{'required' | translate}}
-            </mat-error>
-          </mat-form-field>
-
-          <mat-form-field>
-            <input matInput [formControlName]="'worker'" [placeholder]="'worker' | translate" required />
-            <mat-error class="col" *ngIf="cardForm.get('worker')?.hasError('required')">
-              {{'worker'| translate}} {{'required' | translate}}
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-select [formControlName]="'operationId'" [placeholder]="'operationName' | translate" required>
-              <mat-option *ngFor="let option of operations" [value]="option.id">
-                {{ option.name }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="cardForm.get('operationId')?.hasError('required')">
-              {{'operationName'| translate}} {{'required' | translate}}
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <mat-divider vertical style="height:200px"></mat-divider>
-        <div>
-          <mat-form-field>
-            <input matInput type="number" [formControlName]="'quantity'" [placeholder]="'quantity' | translate" required />
-            <mat-error class="col" *ngIf="cardForm.get('quantity')?.hasError('required')">
-              {{'quantity'| translate}} {{'required' | translate}}
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput [formControlName]="'los'" [placeholder]="'los' | translate" required />
-            <mat-error class="col" *ngIf="cardForm.get('los')?.hasError('required')">
-              {{'los'| translate}} {{'required' | translate}}
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-select [formControlName]="'shiftId'" [placeholder]="'shiftName' | translate" required>
-              <mat-option *ngFor="let option of shifts" [value]="option.id">
-                {{ option.name }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="cardForm.get('operationId')?.hasError('required')">
-              {{'shiftName'| translate}} {{'required' | translate}}
-            </mat-error>
-          </mat-form-field>
-        </div>
+      <mat-divider vertical style="height:50px"></mat-divider>
+      <div>
+        <h1>{{'summarycard' | translate }}</h1>
       </div>
-    </form>
-  </div>
+      <mat-divider vertical style="height:50px"></mat-divider>
+      <div>
+        <div>Azonosító sz:</div>
+        <div>Hgy1-001</div>
+        <div>V.5/2006.10.31</div>
 
-  <table mat-table [dataSource]="dataSource">
-    <ng-container matColumnDef="order">
-      <th mat-header-cell *matHeaderCellDef> {{'order' | translate}}  </th>
-      <td mat-cell *matCellDef="let element">{{element.order}}</td>
-    </ng-container>
-    <ng-container matColumnDef="defectName">
-      <th mat-header-cell *matHeaderCellDef> {{'defectName' | translate}}  </th>
-      <td mat-cell *matCellDef="let element">{{element.defectName}}</td>
-    </ng-container>
-    <ng-container matColumnDef="quantity">
-      <th mat-header-cell *matHeaderCellDef> {{'quantity' | translate}}  </th>
-      <td mat-cell *matCellDef="let element">
-        <mat-form-field floatLabel="never">
-          <input matInput type="number"  [(ngModel)]="element.quantity" required>
+      </div>
+    </div>
+    <div class="header">
+      <div>
+        <mat-form-field>
+          <input matInput [matDatepicker]="pickerStart" [formControlName]="'date'" [placeholder]="'date' | translate" required>
+          <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+          <mat-datepicker #pickerStart></mat-datepicker>
+          <mat-error class="col" *ngIf="cardForm.get('date')?.hasError('required')">
+            {{'date'| translate}} {{'required' | translate}}
+          </mat-error>
         </mat-form-field>
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="comment">
-      <th mat-header-cell *matHeaderCellDef> {{'comment' | translate}}  </th>
-      <td mat-cell *matCellDef="let element">
-        <mat-form-field floatLabel="never">
-          <input matInput  [(ngModel)]="element.comment" required>
+        <mat-form-field>
+          <input matInput [formControlName]="'worker'" [placeholder]="'worker' | translate" required />
+          <mat-error class="col" *ngIf="cardForm.get('worker')?.hasError('required')">
+            {{'worker'| translate}} {{'required' | translate}}
+          </mat-error>
         </mat-form-field>
-      </td>
+        <mat-form-field>
+          <mat-select [formControlName]="'operationId'" [placeholder]="'operationName' | translate" required>
+            <mat-option *ngFor="let option of operations" [value]="option.id">
+              {{ option.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="cardForm.get('operationId')?.hasError('required')">
+            {{'operationName'| translate}} {{'required' | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <mat-divider vertical style="height:200px"></mat-divider>
+      <div>
+        <mat-form-field>
+          <input matInput type="number" [formControlName]="'quantity'" [placeholder]="'quantity' | translate" required />
+          <mat-error class="col" *ngIf="cardForm.get('quantity')?.hasError('required')">
+            {{'quantity'| translate}} {{'required' | translate}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [formControlName]="'los'" [placeholder]="'los' | translate" required />
+          <mat-error class="col" *ngIf="cardForm.get('los')?.hasError('required')">
+            {{'los'| translate}} {{'required' | translate}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select [formControlName]="'shiftId'" [placeholder]="'shiftName' | translate" required>
+            <mat-option *ngFor="let option of shifts" [value]="option.id">
+              {{ option.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="cardForm.get('operationId')?.hasError('required')">
+            {{'shiftName'| translate}} {{'required' | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <ng-container formArrayName="items">
+      <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="order">
+          <th mat-header-cell *matHeaderCellDef> {{'order' | translate}}  </th>
+          <td mat-cell *matCellDef="let element">{{element.value.order}}</td>
+        </ng-container>
+        <ng-container matColumnDef="defectName">
+          <th mat-header-cell *matHeaderCellDef> {{'defectName' | translate}}  </th>
+          <td mat-cell *matCellDef="let element">{{element.value.defectName}}</td>
+        </ng-container>
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef> {{'quantity' | translate}}  </th>
+          <td mat-cell *matCellDef="let element" [formGroup]="element">
+            <mat-form-field floatLabel="never">
+              <input matInput type="number" [formControlName]="'quantity'" required>
+            </mat-form-field>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="comment">
+          <th mat-header-cell *matHeaderCellDef> {{'comment' | translate}}  </th>
+          <td mat-cell *matCellDef="let element" [formGroup]="element">
+            <mat-form-field floatLabel="never">
+              <input matInput [formControlName]="'comment'" required>
+            </mat-form-field>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
     </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-
+  </form>
 </div>
 

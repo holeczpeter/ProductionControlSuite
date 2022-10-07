@@ -46,7 +46,7 @@ export class SummaryCardsComponent implements OnInit {
       disableClose: true,
       autoFocus: false,
       data: data.id,
-      minWidth: '600px'
+      minWidth: '800px'
     });
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }

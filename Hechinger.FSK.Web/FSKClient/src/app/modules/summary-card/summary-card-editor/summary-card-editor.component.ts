@@ -1,13 +1,12 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AfterViewChecked, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { AbstractControl, FormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { forkJoin, Subject, takeUntil } from 'rxjs';
-import { AddSummaryCard, AddSummaryCardItem, GetDefectsByOperation, OperationModel, ShiftModel, SummaryCardDetailModel, SummaryCardItemModel, UpdateSummaryCard, UpdateSummaryCardItem } from '../../../models/generated';
+import { DefectModel, GetDefectsByOperation, OperationModel, ShiftModel } from '../../../models/generated';
 import { DefectDataService } from '../../../services/data/defect-data.service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
 import { ShiftDataService } from '../../../services/data/shift-data.service';
 import { SummaryCardDataService } from '../../../services/data/summary-card-data.service';
-import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 
 
 @Component({
@@ -15,78 +14,80 @@ import { SnackbarService } from '../../../services/snackbar/snackbar.service';
   templateUrl: './summary-card-editor.component.html',
   styleUrls: ['./summary-card-editor.component.scss']
 })
-export class SummaryCardEditorComponent implements OnInit, OnDestroy {
-  @Input() id: number = 0;
-  summaryCard!: SummaryCardDetailModel;
+export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewChecked, OnDestroy {
+  
+  @Input() cardForm!: UntypedFormGroup;
   operations!: OperationModel[];
   shifts!: ShiftModel[];
-  dataSource!: MatTableDataSource<SummaryCardItemModel>;
   displayedColumns: Array<string> = ['order', 'defectName', 'quantity', 'comment'];
-  cardForm!: UntypedFormGroup;
+  dataSource = new MatTableDataSource<AbstractControl>();
   destroy$: Subject<any> = new Subject();
-  items!: Array<SummaryCardItemModel>;
   imageSrc = 'assets/images/logo.png';
+  get items(): FormArray {
+    return this.cardForm.get('items') as FormArray;
+  }
+
   constructor(private readonly operationDataService: OperationDataService,
     private readonly shiftsDataService: ShiftDataService,
     private readonly defectsDataService: DefectDataService,
     private readonly summaryCardDataService: SummaryCardDataService,
     private readonly formBuilder: UntypedFormBuilder,
-    private readonly snackBar: SnackbarService) { }
+    private readonly changeDetectorRef: ChangeDetectorRef) { }
+   
 
   ngOnInit(): void {
-    forkJoin([this.getSummaryCard(), this.getAllOperation(), this.getAllShifts()]).subscribe(([summaryCard, operations, shifts]) => {
-      if (summaryCard) {
-        this.summaryCard = summaryCard;
-        this.items = summaryCard ? summaryCard.items : new Array<SummaryCardItemModel>();
-        console.log(this.items)
-        this.dataSource = new MatTableDataSource(this.items);
-      }
-      
+    forkJoin([this.getAllOperation(), this.getAllShifts()]).subscribe(([ operations, shifts]) => {
       this.operations = operations;
       this.shifts = shifts;
-      this.initalize();
     })
   }
-  initalize() {
-    //this.dataSource = new MatTableDataSource<SummaryCardItemModel>();
-    this.createForm();
+  ngOnChanges(changes: SimpleChanges): void {
+    this.dataSource = new MatTableDataSource<AbstractControl>();
+    if (changes['cardForm'] && this.cardForm) {
+      if (this.items.length > 0) this.dataSource.data = this.items.controls;
+      this.valueChanges();
+    }
   }
-  createForm() {
-    
-    this.cardForm = this.formBuilder.group({
-      id: [this.summaryCard ? this.summaryCard.id : 0, [Validators.required]],
-      date: [this.summaryCard ? this.summaryCard.date : '', [Validators.required]],
-      worker: [this.summaryCard ? this.summaryCard.worker : '', [Validators.required]],
-      operationId: [this.summaryCard ? this.summaryCard.operationId : 0, [Validators.required]],
-      quantity: [this.summaryCard ? this.summaryCard.quantity :0, [Validators.required]],
-      los: [this.summaryCard ? this.summaryCard.quantity : ''],
-      shiftId: [this.summaryCard ? this.summaryCard.shiftId :'', [Validators.required]],
-    });
-    this.valueChanges();
-  }
+  
   valueChanges(): void {
-    //startWith(this.cardForm.get('operationId')!.value)
     this.cardForm.get("operationId")!
       .valueChanges
       .pipe(takeUntil(this.destroy$)).subscribe(value => {
+        console.log(value)
         this.createTable();
       });
+    this.cardForm.get("items")!
+      .valueChanges
+      .pipe(takeUntil(this.destroy$)).subscribe(value => {
+        console.log(this.items)
+      });
   }
+
   createTable() {
-    console.log(this.createTable)
-    this.items = new Array<SummaryCardItemModel>();
     let query: GetDefectsByOperation = { operationId: this.cardForm.get('operationId')?.value }
     this.getDefectsByOperation(query).subscribe(results => {
-      results.forEach(result => {
-        let item: SummaryCardItemModel = { order: 1, id: 0, defectId: result.id, defectName: result.name, quantity: 0, comment: '' }
-        this.items.push(item)
-      });
-      this.dataSource = new MatTableDataSource(this.items);
+      this.items.clear();
+      results.forEach((d: DefectModel) => this.addRow(d));
+      this.dataSource.data = this.items.controls;
+      this.changeDetectorRef.detectChanges();
     });
     
   }
+  addRow(d: DefectModel) {
+    const row = this.formBuilder.group({
+      'id': [0],
+      'order': [1],
+      'defectId': [d.id],
+      'defectName': [d.name],
+      'quantity': [0],
+      'comment': [''],
+
+    });
+    this.items.push(row);
+  }
+
   getSummaryCard() {
-    return this.summaryCardDataService.get(this.id);
+    return this.summaryCardDataService.get(this.cardForm.get('id')?.value);
   }
   getAllOperation() {
     return this.operationDataService.getAll();
@@ -97,53 +98,8 @@ export class SummaryCardEditorComponent implements OnInit, OnDestroy {
   getDefectsByOperation(request: GetDefectsByOperation) {
     return this.defectsDataService.getByOperation(request);
   }
-  onSave() {
-    this.cardForm.get('id')?.value == 0 ? this.onAdd() : this.onUpdate();
-  }
-  onAdd() {
-    let items = new Array<AddSummaryCardItem>();
-    this.dataSource.data.forEach(data => {
-      let item: AddSummaryCardItem = { defectId: data.defectId, comment: data.comment, quantity: data.quantity };
-      items.push(item);
-    });
-    let model: AddSummaryCard = {
-      date: this.cardForm.get('date')?.value,
-      worker: this.cardForm.get('worker')?.value,
-      operationId: this.cardForm.get('operationId')?.value,
-      quantity: this.cardForm.get('quantity')?.value,
-      los: this.cardForm.get('los')?.value,
-      shiftId: this.cardForm.get('shiftId')?.value,
-      items: items
-    }
-
-    this.summaryCardDataService.add(model).subscribe(result => {
-      this.snackBar.open(result);
-      if (result.isSuccess) this.initalize();
-
-    });
-  }
-  onUpdate() {
-    let items = new Array<UpdateSummaryCardItem>();
-    this.dataSource.data.forEach(data => {
-      let item: UpdateSummaryCardItem = { id: data.id, defectId: data.defectId, comment: data.comment, quantity: data.quantity };
-      items.push(item);
-    });
-    let model: UpdateSummaryCard = {
-      id: this.cardForm.get('id')?.value,
-      date: this.cardForm.get('date')?.value,
-      worker: this.cardForm.get('worker')?.value,
-      operationId: this.cardForm.get('operationId')?.value,
-      quantity: this.cardForm.get('quantity')?.value,
-      los: this.cardForm.get('los')?.value,
-      shiftId: this.cardForm.get('shiftId')?.value,
-      items: items
-    }
-
-    this.summaryCardDataService.update(model).subscribe(result => {
-      this.snackBar.open(result);
-      if (result.isSuccess) this.initalize();
-
-    });
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges();
   }
   ngOnDestroy(): void {
     this.destroy$.next(null);

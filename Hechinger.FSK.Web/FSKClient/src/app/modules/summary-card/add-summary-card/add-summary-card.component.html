@@ -1,1 +1,13 @@
-<app-summary-card-editor [id]="0"></app-summary-card-editor>
+<div class="container-fluid">
+  <div class="flex-title">
+    <app-title [title]="title"></app-title>
+    <button mat-flat-button (click)="onSave()"
+            [disabled]="cardForm && !cardForm.valid"
+            color="primary">
+      {{'save' | translate}}
+    </button>
+  </div>
+  
+  <app-summary-card-editor [cardForm]="cardForm"></app-summary-card-editor>
+</div>
+
