@@ -23,8 +23,8 @@
                         Id = 1, Title = "Hibagyűjtő", Path = "/defect-card", Icon = "description",Type = MenuTypes.Module,
                         Children = new List<MenuItemModel>
                         {
-                            { new MenuItemModel { Id = 5, Title = "Hibagyűjtők", Path = "/defect-card/list", Icon = "list", Type = MenuTypes.SubMenu  }},
-                            { new MenuItemModel { Id = 5, Title = "Hibagyűjtő", Path = "/defect-card/edit", Icon = "edit", Type = MenuTypes.SubMenu  }},
+                            { new MenuItemModel { Id = 5, Title = "Hibagyűjtő felvitele", Path = "/defect-card/add", Icon = "edit", Type = MenuTypes.SubMenu  }},
+                            { new MenuItemModel { Id = 5, Title = "Hibagyűjtők", Path = "/defect-card/summary-cards", Icon = "list", Type = MenuTypes.SubMenu  }},
                             { new MenuItemModel { Id = 6, Title = "Nyomtatás", Path = "/defect-card/print", Icon = "print", Type = MenuTypes.SubMenu  }},
                         },
                     },

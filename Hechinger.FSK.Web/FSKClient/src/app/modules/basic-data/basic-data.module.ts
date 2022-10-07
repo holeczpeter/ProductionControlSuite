@@ -11,6 +11,8 @@ import { ShiftsComponent } from './shifts/shifts.component';
 import { ShiftEditorDialogComponent } from './shifts/shift-editor-dialog/shift-editor-dialog.component';
 import { OperationsComponent } from './operations/operations.component';
 import { OperationEditorDialogComponent } from './operations/operation-editor-dialog/operation-editor-dialog.component';
+import { DefectsComponent } from './defects/defects.component';
+import { DefectEditorDialogComponent } from './defects/defect-editor-dialog/defect-editor-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { OperationEditorDialogComponent } from './operations/operation-editor-di
     ShiftsComponent,
     ShiftEditorDialogComponent,
     OperationsComponent,
-    OperationEditorDialogComponent
+    OperationEditorDialogComponent,
+    DefectsComponent,
+    DefectEditorDialogComponent
   ],
   imports: [
     CommonModule,

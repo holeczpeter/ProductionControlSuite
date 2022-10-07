@@ -1,8 +1,50 @@
+export interface EnumModel {
+  id: number,
+  name: string,
+}
 export interface Result {
   isSuccess: boolean,
   message: string,
   entities: any,
   errors: Array<string>,
+}
+export interface AddDefect {
+  name: string,
+  code: string,
+  translatedName: string,
+  operationId: number,
+  defectCategory: DefectCategories,
+}
+export interface DeleteDefect {
+  id: number,
+}
+export interface UpdateDefect {
+  id: number,
+  name: string,
+  code: string,
+  translatedName: string,
+  operationId: number,
+  defectCategory: DefectCategories,
+}
+export interface DefectModel {
+  id: number,
+  name: string,
+  translatedName: string,
+  code: string,
+  defectCategory: DefectCategories,
+  operationId: number,
+  operationName: string,
+  operationCode: string,
+}
+export interface GetAllDefect {
+}
+export interface GetAllDefectCategories {
+}
+export interface GetDefect {
+  id: number,
+}
+export interface GetDefectsByOperation {
+  operationId: number,
 }
 export interface MenuItemModel {
   id: number,
@@ -118,6 +160,73 @@ export interface GetAllShifts {
 export interface GetShift {
   id: number,
 }
+export interface AddSummaryCard {
+  date: Date,
+  worker: string,
+  operationId: number,
+  quantity: number,
+  los: string,
+  shiftId: number,
+  items: Array<AddSummaryCardItem>,
+}
+export interface AddSummaryCardItem {
+  defectId: number,
+  quantity: number,
+  comment: string,
+}
+export interface DeleteSummaryCard {
+  id: number,
+}
+export interface UpdateSummaryCard {
+  id: number,
+  date: Date,
+  worker: string,
+  operationId: number,
+  quantity: number,
+  los: string,
+  shiftId: number,
+  items: Array<UpdateSummaryCardItem>,
+}
+export interface UpdateSummaryCardItem {
+  id: number,
+  defectId: number,
+  quantity: number,
+  comment: string,
+}
+export interface SummaryCardDetailModel {
+  id: number,
+  date: Date,
+  worker: string,
+  operationId: number,
+  quantity: number,
+  los: string,
+  shiftId: number,
+  items: Array<SummaryCardItemModel>,
+}
+export interface SummaryCardItemModel {
+  id: number,
+  defectId: number,
+  defectName: string,
+  quantity: number,
+  order: number,
+  comment: string,
+}
+export interface SummaryCardModel {
+  id: number,
+  date: Date,
+  created: Date,
+  shiftName: string,
+  userName: string,
+  workerName: string,
+  operationCode: string,
+  operationName: string,
+  quantity: number,
+}
+export interface GetAllSummaryCards {
+}
+export interface GetSummaryCard {
+  id: number,
+}
 export interface AddWorkshop {
   name: string,
   translatedName: string,
@@ -140,15 +249,15 @@ export interface GetAllWorkshops {
 export interface GetWorkshop {
   id: number,
 }
-export enum MenuTypes {
-  Module = 0,
-  MainMenu = 1,
-  SubMenu = 2,
-}
 export enum DefectCategories {
   F0 = 1,
   F1 = 2,
   F2 = 3,
+}
+export enum MenuTypes {
+  Module = 0,
+  MainMenu = 1,
+  SubMenu = 2,
 }
 export enum EntityStatuses {
   Active = 1,

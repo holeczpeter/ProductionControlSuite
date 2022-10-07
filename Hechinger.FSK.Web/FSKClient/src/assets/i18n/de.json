@@ -6,6 +6,8 @@
   "edit": "Bearbeiten",
   "delete": "Löschen",
   "required": "ist erforderlich",
+  "created": "Erstellungsdatum",
+  "userName": "Urheber",
   "name": "Benennung",
   "code": "Code",
   "shortName": "Code",
@@ -15,6 +17,18 @@
   "workshopName": "Werkstatt",
   "productName": "Produkt",
   "productCode": "Product code",
+  "operationName": "Operation",
+  "operationCode": "Operation code",
+  "shiftName": "Schicht",
+  "defectName": "Fehler",
+  "order": "Nr",
+  "quantity": "Stückzahl",
+  "comment": "Note",
+  "date": "Daten",
+  "worker": "Arbeiter",
+  "los": "Los",
+  "summarycard": "Fehlersammel Karte",
+  "summarycard.edit": "Fehlersammel Karte bearbeiten",
   "workshops": {
     "title": "Werkstätte",
     "add": "Neue hinzufügen",
@@ -33,11 +47,16 @@
   },
   "operations": {
     "title": "Operationen",
-    "add": "Neue hozzáadása",
-    "edit": "Betried szerkesztése",
+    "add": "Neue hinzufügen",
+    "edit": "Betrieb bearbeiten",
     "norma": "Norm",
     "operationTime": "Betriebszeit"
-
+  },
+  "defects": {
+    "title": "Fehler",
+    "add": "Neue hinzufügen",
+    "edit": "Fehler bearbeiten",
+    "defectCategory": "Fehler Kategorie"
   }
 }
 

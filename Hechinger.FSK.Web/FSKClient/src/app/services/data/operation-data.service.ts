@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddOperation, DeleteOperation, OperationModel, Result, UpdateOperation } from '../../models/generated';
+import { AddOperation, DeleteOperation, GetOperationsByProduct, OperationModel, Result, UpdateOperation } from '../../models/generated';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +25,12 @@ export class OperationDataService {
   get(): Observable<OperationModel> {
     return this.httpClient.get<OperationModel>('/Operation/Get');
   }
-  getByProduct(): Observable<OperationModel> {
-    return this.httpClient.get<OperationModel>('/Operation/GetByProduct');
+  getByProduct(request: GetOperationsByProduct): Observable<Array<OperationModel>> {
+    return this.httpClient.get<Array<OperationModel>>('/Operation/GetByProduct', {
+      params: {
+        "productId": request.productId
+      }
+    });
   }
 
   getAll(): Observable<Array<OperationModel>> {

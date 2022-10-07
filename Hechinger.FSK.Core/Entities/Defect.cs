@@ -9,6 +9,7 @@ namespace Hechinger.FSK.Core.Entities
         public DefectCategories DefectCategory { get; set; }
         public virtual int OperationId { get; set; }
         public virtual Operation Operation { get; set; }
+        public int Order { get; set; }
         public virtual ICollection<SummaryCardItem> SummaryCardItems { get; set; } = new HashSet<SummaryCardItem>();
     }
 }

@@ -159,6 +159,9 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.Property<int>("OperationId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
@@ -567,6 +570,9 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
@@ -585,6 +591,9 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.Property<string>("LastModifier")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()

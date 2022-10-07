@@ -5,6 +5,8 @@
   "copy": "Másolás",
   "edit": "Szerkesztés",
   "delete": "Törlés",
+  "created": "Létrehozás dátuma",
+  "userName": "Rögzítő",
   "required": "kötelező",
   "name": "Megnevezés",
   "code": "Kód",
@@ -15,6 +17,18 @@
   "workshopName": "Műhely megnevezés",
   "productName": "Termék megnevezés",
   "productCode": "Termékkód",
+  "operationName": "Művelet megnevezés",
+  "operationCode": "Műveletkód",
+  "shiftName": "Műszak",
+  "defectName": "Hiba megnevezés",
+  "order": "Nr",
+  "quantity": "Darabszám",
+  "comment": "Megjegyzés",
+  "date": "Dátum",
+  "worker": "Dolgozó",
+  "los": "Los",
+  "summarycard": "Hibagyűjtő lap",
+  "summarycard.edit": "Hibagyűjtő lap szerkesztése",
   "workshops": {
     "title": "Műhelyek",
     "add": "Új műhely hozzáadása",
@@ -31,10 +45,16 @@
     "edit": "Műszak szerkesztése"
   },
   "operations": {
-    "title": "Műszakok",
-    "add": "Új műszak hozzáadása",
-    "edit": "Műszak szerkesztése",
+    "title": "Műveletek",
+    "add": "Új művelet hozzáadása",
+    "edit": "Művelet szerkesztése",
     "norma": "Norma",
     "operationTime": "Műveleti idő"
+  },
+  "defects": {
+    "title": "Hibák",
+    "add": "Új hiba hozzáadása",
+    "edit": "Hiba szerkesztése",
+    "defectCategory": "Hiba kategória"
   }
 }

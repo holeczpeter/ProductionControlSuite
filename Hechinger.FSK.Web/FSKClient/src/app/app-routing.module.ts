@@ -7,6 +7,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/basic-data/basic-data.module').then(module => module.BasicDataModule),
   },
   {
+    path: 'defect-card',
+    loadChildren: () => import('./modules/summary-card/summary-card.module').then(module => module.SummaryCardModule),
+  },
+  {
     path: '**',
     redirectTo: 'basic-data'
   }

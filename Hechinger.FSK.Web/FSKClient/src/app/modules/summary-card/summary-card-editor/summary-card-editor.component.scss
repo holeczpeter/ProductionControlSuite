@@ -1,0 +1,35 @@
+.header {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-evenly;
+  border: 1px solid #eceff1;
+  padding: 20px;
+  background: #FFFFFF;
+}
+.header div {
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+}
+.table {
+  border-spacing: 0 5px !important;
+}
+.mat-cell {
+  text-align: center;
+  justify-content: center;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #eceff1;
+}
+
+.mat-header-cell {
+  text-align: center;
+  justify-content: center;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #eceff1;
+}
+.logo {
+  width: 100px;
+}
