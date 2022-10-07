@@ -1,9 +1,7 @@
-import { ChangeDetectorRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { OnDestroy } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
-import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { forkJoin, startWith, Subject, takeUntil } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { AddSummaryCard, AddSummaryCardItem, GetDefectsByOperation, OperationModel, ShiftModel, SummaryCardDetailModel, SummaryCardItemModel, UpdateSummaryCard, UpdateSummaryCardItem } from '../../../models/generated';
 import { DefectDataService } from '../../../services/data/defect-data.service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
