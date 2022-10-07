@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    internal class AddProductHandler : IRequestHandler<AddProduct, Result<bool>>
+    public class AddProductHandler : IRequestHandler<AddProduct, Result<bool>>
     {
         private readonly FSKDbContext context;
         public AddProductHandler(FSKDbContext context)

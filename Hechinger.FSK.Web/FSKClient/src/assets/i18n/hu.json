@@ -12,6 +12,9 @@
   "start": "Kezdés",
   "end": "Vége",
   "translatedname": "Német megnevezés",
+  "workshopName": "Műhely megnevezés",
+  "productName": "Termék megnevezés",
+  "productCode": "Termékkód",
   "workshops": {
     "title": "Műhelyek",
     "add": "Új műhely hozzáadása",
@@ -19,7 +22,6 @@
   },
   "products": {
     "title": "Termékek",
-    "workshopName": "Műhely megnevezés",
     "add": "Új termék hozzáadása",
     "edit": "Termék szerkesztése"
   },
@@ -27,5 +29,12 @@
     "title": "Műszakok",
     "add": "Új műszak hozzáadása",
     "edit": "Műszak szerkesztése"
+  },
+  "operations": {
+    "title": "Műszakok",
+    "add": "Új műszak hozzáadása",
+    "edit": "Műszak szerkesztése",
+    "norma": "Norma",
+    "operationTime": "Műveleti idő"
   }
 }

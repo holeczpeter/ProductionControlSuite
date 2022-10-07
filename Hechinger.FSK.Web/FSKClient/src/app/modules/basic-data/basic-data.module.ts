@@ -9,6 +9,8 @@ import { ProductsComponent } from './products/products.component';
 import { ProductEditorDialogComponent } from './products/product-editor-dialog/product-editor-dialog.component';
 import { ShiftsComponent } from './shifts/shifts.component';
 import { ShiftEditorDialogComponent } from './shifts/shift-editor-dialog/shift-editor-dialog.component';
+import { OperationsComponent } from './operations/operations.component';
+import { OperationEditorDialogComponent } from './operations/operation-editor-dialog/operation-editor-dialog.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { ShiftEditorDialogComponent } from './shifts/shift-editor-dialog/shift-e
     ProductsComponent,
     ProductEditorDialogComponent,
     ShiftsComponent,
-    ShiftEditorDialogComponent
+    ShiftEditorDialogComponent,
+    OperationsComponent,
+    OperationEditorDialogComponent
   ],
   imports: [
     CommonModule,

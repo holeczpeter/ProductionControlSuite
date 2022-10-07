@@ -17,6 +17,14 @@
                 TranslatedName = x.TranslatedName,
                 WorkshopId = x.WorkShop.Id,
                 WorkshopName = x.WorkShop.Name,
+                Operations = x.Operations.Select(operation=> new OperationModel() 
+                { 
+                    Name = operation.Name,  
+                    TranslatedName = operation.TranslatedName,  
+                    Code = operation.Code,    
+                    Norma = operation.Norma,
+                    OperationTime = operation.OperationTime,    
+                }),  
             }).FirstOrDefaultAsync();
         }
     }

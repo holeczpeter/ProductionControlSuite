@@ -12,6 +12,9 @@
   "start": "Start",
   "end": "Ende",
   "translatedname": "Deutche Benennung",
+  "workshopName": "Werkstatt",
+  "productName": "Produkt",
+  "productCode": "Product code",
   "workshops": {
     "title": "Werkstätte",
     "add": "Neue hinzufügen",
@@ -19,7 +22,6 @@
   },
   "products": {
     "title": "Produkte",
-    "workshopName": "Werkstatt",
     "add": "Neue hinzufügen",
     "edit": "Produkt bearbeiten"
   },
@@ -28,6 +30,14 @@
     "title": "Schichte",
     "add": "Neue hinzufügen",
     "edit": "Schicht bearbeiten"
+  },
+  "operations": {
+    "title": "Operationen",
+    "add": "Neue hozzáadása",
+    "edit": "Betried szerkesztése",
+    "norma": "Norm",
+    "operationTime": "Betriebszeit"
+
   }
 }
 

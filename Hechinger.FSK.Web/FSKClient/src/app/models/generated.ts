@@ -15,6 +15,45 @@ export interface MenuItemModel {
 }
 export interface GetAllMenuItem {
 }
+export interface AddOperation {
+  name: string,
+  code: string,
+  translatedName: string,
+  productId: number,
+  operationTime: any,
+  norma: any,
+}
+export interface DeleteOperation {
+  id: number,
+}
+export interface UpdateOperation {
+  id: number,
+  name: string,
+  code: string,
+  translatedName: string,
+  productId: number,
+  operationTime: any,
+  norma: any,
+}
+export interface OperationModel {
+  id: number,
+  name: string,
+  translatedName: string,
+  code: string,
+  operationTime: any,
+  norma: any,
+  productId: number,
+  productName: string,
+  productCode: string,
+}
+export interface GetAllOperation {
+}
+export interface GetOperation {
+  id: number,
+}
+export interface GetOperationsByProduct {
+  productId: number,
+}
 export interface AddProduct {
   name: string,
   code: string,
@@ -38,6 +77,7 @@ export interface ProductModel {
   translatedName: string,
   workshopId: number,
   workshopName: string,
+  operations: Array<OperationModel>,
 }
 export interface GetAllProducts {
 }

@@ -14,7 +14,7 @@ import { SnackbarService } from '../../../../services/snackbar/snackbar.service'
 })
 export class ProductEditorDialogComponent implements OnInit {
   title!: string;
-  product!: ProductModel;
+  product: ProductModel | null;
   formGroup: UntypedFormGroup;
   workshops!: WorkshopModel[];
   constructor(private readonly dialogRef: MatDialogRef<ProductEditorDialogComponent>,
@@ -23,7 +23,7 @@ export class ProductEditorDialogComponent implements OnInit {
     private readonly workshopDataService: WorkshopDataService,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly snackBar: SnackbarService) {
-    this.product = data.productModel;
+    this.product = data ? data.productModel: null;
     this.title = this.product ? "products.edit" :"products.add";
     this.formGroup = this.formBuilder.group({
       id: [this.product && !data.isCopy ? this.product.id : '0', [Validators.required]],

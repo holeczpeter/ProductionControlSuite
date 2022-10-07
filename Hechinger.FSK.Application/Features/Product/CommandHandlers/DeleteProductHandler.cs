@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hechinger.FSK.Application.Features
+﻿namespace Hechinger.FSK.Application.Features
 {
-    internal class DeleteProductHandler : IRequestHandler<DeleteProduct, Result<bool>>
+    public class DeleteProductHandler : IRequestHandler<DeleteProduct, Result<bool>>
     {
         private readonly FSKDbContext context;
         public DeleteProductHandler(FSKDbContext context)

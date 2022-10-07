@@ -2,11 +2,18 @@
 {
     public class GetAllMenuItemHandler : IRequestHandler<GetAllMenuItem, IEnumerable<MenuItemModel>>
     {
-        public GetAllMenuItemHandler()
+        private readonly FSKDbContext context;
+        public GetAllMenuItemHandler(FSKDbContext context)
         {
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
         public async Task<IEnumerable<MenuItemModel>> Handle(GetAllMenuItem request, CancellationToken cancellationToken)
         {
+            //await this.context.Menus.Where(x=>x.EntityStatus == EntityStatuses.Active).Select(x=> new MenuItemModel() 
+            //{ 
+
+
+            //}).ToListAsync();   
             return await Task.Factory.StartNew(() =>
             {
                 var menuitems = new List<MenuItemModel>
@@ -42,12 +49,12 @@
                                 {
                                     Id = 9, Title = "Törzsadatok", Path = "/basic-data", Icon = "list",  Type = MenuTypes.Module,
                                     Children = new List<MenuItemModel>()
-                                    {  
-                                        { new MenuItemModel { Id = 7, Title = "Műszakok", Path = "/basic-data/shift", Icon = "edit", Type = MenuTypes.SubMenu   }},
-                                        { new MenuItemModel { Id = 7, Title = "Műhelyek", Path = "/basic-data/workshop", Icon = "edit", Type = MenuTypes.SubMenu   }},
-                                        { new MenuItemModel { Id = 7, Title = "Termékek", Path = "/basic-data/product", Icon = "edit", Type = MenuTypes.SubMenu    }},
-                                        { new MenuItemModel { Id = 7, Title = "Műveletek", Path = "/basic-data/operation", Icon = "edit", Type = MenuTypes.SubMenu    }},
-                                        { new MenuItemModel { Id = 7, Title = "Hibák", Path = "/basic-data/defects", Icon = "edit", Type = MenuTypes.SubMenu    }},
+                                    {
+                                        { new MenuItemModel { Id = 7, Title = "Műszakok", Path = "/basic-data/shift", Icon = "calendar_today", Type = MenuTypes.SubMenu   }},
+                                        { new MenuItemModel { Id = 7, Title = "Műhelyek", Path = "/basic-data/workshop", Icon = "group_work", Type = MenuTypes.SubMenu   }},
+                                        { new MenuItemModel { Id = 7, Title = "Termékek", Path = "/basic-data/product", Icon = "list", Type = MenuTypes.SubMenu    }},
+                                        { new MenuItemModel { Id = 7, Title = "Műveletek", Path = "/basic-data/operation", Icon = "build", Type = MenuTypes.SubMenu    }},
+                                        { new MenuItemModel { Id = 7, Title = "Hibák", Path = "/basic-data/defects", Icon = "list", Type = MenuTypes.SubMenu    }},
                                     }
                                 },
 
