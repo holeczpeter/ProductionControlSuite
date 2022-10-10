@@ -46,7 +46,7 @@ import { NgChartsModule } from 'ng2-charts';
 @NgModule({
   declarations: [
     TitleComponent,
-    DialogHeaderComponent
+    DialogHeaderComponent,
   ],
   imports: [
     CommonModule,
@@ -135,10 +135,10 @@ import { NgChartsModule } from 'ng2-charts';
     CdkTableModule,
     MatGridListModule,
     MatSlideToggleModule,
-    TitleComponent,
-    DialogHeaderComponent,
     NgxMaskModule,
-    NgChartsModule
+    NgChartsModule,
+    TitleComponent,
+    DialogHeaderComponent
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },

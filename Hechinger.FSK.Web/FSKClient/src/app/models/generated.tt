@@ -103,8 +103,8 @@
     }
 
     public string GetTypescriptType(List<CodeElement> allItems, string typeAsString){
-       
         int genericMarker = typeAsString.IndexOf('<');
+        
         string baseType = null;
         if (genericMarker > 0){
             baseType = typeAsString.Substring(0,genericMarker);
@@ -112,6 +112,7 @@
         }
         else{
             baseType = typeAsString.Substring(typeAsString.LastIndexOf('.')+1);
+            
         }
         string genericType = null;
         if (genericMarker > 0){
@@ -142,6 +143,7 @@
             case "IEnumerable":
             case "List":
                 return "Array";
+            
         }
         if (!string.IsNullOrEmpty(csharpTypeBaseType) && !allItems.Any(x => x.Name == csharpTypeBaseType))
             return "any";

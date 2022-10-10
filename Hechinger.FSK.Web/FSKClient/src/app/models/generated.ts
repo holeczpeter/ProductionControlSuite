@@ -164,12 +164,28 @@ export interface AddRole {
 export interface DeleteRole {
   id: number,
 }
+export interface SetDefaultRole {
+  id: number,
+}
 export interface UpdateRole {
   id: number,
   name: string,
   code: string,
   translatedName: string,
   isDefault: boolean,
+}
+export interface RoleDetailModel {
+  id: number,
+  name: string,
+  code: string,
+  translatedName: string,
+  isDefault: boolean,
+  users: Array<RoleUserItem>,
+}
+export interface RoleUserItem {
+  id: number,
+  fullName: string,
+  code: string,
 }
 export interface RoleModel {
   id: number,
@@ -182,6 +198,9 @@ export interface GetAllRoles {
 }
 export interface GetRole {
   id: number,
+}
+export interface GetUserExceptRole {
+  roleId: number,
 }
 export interface AddShift {
   name: string,
@@ -341,24 +360,9 @@ export interface GetAllWorkshops {
 export interface GetWorkshop {
   id: number,
 }
-export interface GetUserExceptRole {
-  roleId: number,
-}
-export interface RoleDetailModel {
+export interface RoleMenuItem {
   id: number,
   name: string,
-  code: string,
-  translatedName: string,
-  isDefault: boolean,
-  users: Array<RoleUserItem>,
-}
-export interface RoleUserItem {
-  id: number,
-  fullName: string,
-  code: string,
-}
-export interface SetDefaultRole {
-  id: number,
 }
 export enum DefectCategories {
   F0 = 1,
