@@ -13,7 +13,7 @@
   "shortName": "Code",
   "start": "Start",
   "end": "Ende",
-  "translatedname": "Deutche Benennung",
+  "translatedName": "Deutche Benennung",
   "translatedShortName": "Kurze Deutche Benennung",
   "workshopName": "Werkstatt",
   "productName": "Produkt",
@@ -30,6 +30,11 @@
   "los": "Los",
   "summarycard": "Fehlersammel Karte",
   "summarycard.edit": "Fehlersammel Karte bearbeiten",
+  "roleName": "Rolle",
+  "statusName": "Status",
+  "fullName": "Name",
+  "isDefault": "Default",
+  "search": "Suche",
   "workshops": {
     "title": "Werkstätte",
     "add": "Neue hinzufügen",
@@ -58,6 +63,17 @@
     "add": "Neue hinzufügen",
     "edit": "Fehler bearbeiten",
     "defectCategory": "Fehler Kategorie"
+  },
+  "roles": {
+    "title": "Rollen",
+    "add": "Neue Rolle hinzufügen",
+    "edit": "Rolle bearbeiten",
+    "permissions": "Genehmigungen"
+  },
+  "users": {
+    "title": "Benutzer",
+    "add": "Neue Benutzer hinzufügen",
+    "edit": "Benutzer szerkesztése"
   }
 }
 

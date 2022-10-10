@@ -11,6 +11,14 @@ const routes: Routes = [
     loadChildren: () => import('./modules/summary-card/summary-card.module').then(module => module.SummaryCardModule),
   },
   {
+    path: 'quality-assurance',
+    loadChildren: () => import('./modules/quality-assurance/quality-assurance.module').then(module => module.QualityAssuranceModule),
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./modules/admin/admin.module').then(module => module.AdminModule),
+  },
+  {
     path: '**',
     redirectTo: 'basic-data'
   }

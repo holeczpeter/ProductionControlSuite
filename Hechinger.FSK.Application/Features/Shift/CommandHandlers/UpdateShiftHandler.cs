@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    internal class UpdateShiftHandler : IRequestHandler<UpdateShift, Result<bool>>
+    public class UpdateShiftHandler : IRequestHandler<UpdateShift, Result<bool>>
     {
         private readonly FSKDbContext context;
         public UpdateShiftHandler(FSKDbContext context)

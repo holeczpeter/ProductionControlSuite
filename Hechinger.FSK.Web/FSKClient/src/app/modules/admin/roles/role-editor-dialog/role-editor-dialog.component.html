@@ -1,0 +1,115 @@
+<dialog-header [title]="title" (cancel)="onCancel()"></dialog-header>
+<mat-dialog-content *ngIf="formGroup">
+  <mat-stepper orientation="horizontal">
+    <mat-step state="perm_data_setting" label="{{'roles.edit'| translate}}">
+      <ng-template matStepContent>
+        <form [formGroup]="formGroup">
+          <div class="row pt-2">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'name'" [placeholder]="'name' | translate" required />
+              <mat-error class="col" *ngIf="formGroup?.get('name')?.hasError('required')">
+                {{'name'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row pt-2">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'translatedName'" [placeholder]="'translatedName' | translate" required />
+              <mat-error class="col" *ngIf="formGroup?.get('translatedName')?.hasError('required')">
+                {{'translatedName'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row pt-2">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'code'" [placeholder]="'code' | translate" required />
+              <mat-error class="col" *ngIf="formGroup?.get('code')?.hasError('required')">
+                {{'code'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row pt-2">
+            <mat-checkbox [formControlName]="'isDefault'"> {{'isDefault'| translate}}</mat-checkbox>
+          </div>
+        </form>
+        <button mat-button matStepperNext>Next</button>
+      </ng-template>
+    </mat-step>
+    <mat-step state="supervisor_account">
+      <ng-template matStepLabel>{{'users.title'| translate}}</ng-template>
+      <mat-form-field>
+        <input type="text"
+               #userNameInput
+               [placeholder]="'search' | translate"
+               matInput
+               [formControl]="userInputCtrl"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete"
+                          (optionSelected)="onUserSelect($event)">
+          <mat-option *ngFor="let option of filteredUsers | async; trackBy: trackByIdFn" [value]="option">
+            {{option.fullName}} - {{ option.code }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <ng-template matStepContent [formGroup]="formGroup">
+        <ng-container formArrayName="users">
+          <table mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="fullName">
+              <th mat-header-cell *matHeaderCellDef> {{'fullName' | translate}}  </th>
+              <td mat-cell *matCellDef="let element">{{element.value.fullName}}</td>
+            </ng-container>
+            <ng-container matColumnDef="code">
+              <th mat-header-cell *matHeaderCellDef> {{'code' | translate}}  </th>
+              <td mat-cell *matCellDef="let element">{{element.value.code}}</td>
+            </ng-container>
+            <ng-container matColumnDef="delete">
+              <th mat-header-cell *matHeaderCellDef class="text-center">{{'delete' | translate}} </th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <button type="button"
+                        mat-icon-button
+                        color="danger"
+                        (click)="onUserRemove(element.value)">
+                  <mat-icon mat-list-icon [color]="'warn'">delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </ng-container>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </ng-template>
+    </mat-step>
+    <mat-step state="playlist_add_check">
+      <ng-template matStepLabel>{{'roles.permissions'| translate}}</ng-template>
+      <p>This content was rendered eagerly</p>
+      <button mat-button matStepperPrevious>Back</button>
+    </mat-step>
+    <ng-template matStepperIcon="perm_data_setting">
+      <mat-icon>perm_data_setting</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="supervisor_account">
+      <mat-icon>supervisor_account</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="playlist_add_check">
+      <mat-icon>playlist_add_check</mat-icon>
+    </ng-template>
+  </mat-stepper>
+</mat-dialog-content>
+<div mat-dialog-actions>
+  <button mat-raised-button cdkFocusInitial color="primary" (click)="onSave()" [disabled]="formGroup && !formGroup.valid">{{'save'| translate}} </button>
+  <button mat-stroked-button color="blue" (click)="onCancel()">{{'cancel'| translate}} </button>
+</div>
+<ng-template>
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="fullName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'fullName' | translate}}  </th>
+      <td mat-cell *matCellDef="let element">{{element.fullName}}</td>
+    </ng-container>
+    <ng-container matColumnDef="code">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'code' | translate}}  </th>
+      <td mat-cell *matCellDef="let element">{{element.code}}</td>
+    </ng-container>
+  </table>
+</ng-template>

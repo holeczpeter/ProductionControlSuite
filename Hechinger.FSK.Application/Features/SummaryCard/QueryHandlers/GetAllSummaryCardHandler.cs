@@ -17,7 +17,7 @@
                     Created = x.Created,
                     OperationCode = x.Operation.Code,
                     OperationName = x.Operation.Name,   
-                    UserName = x.User.Name,
+                    UserName = x.User.FullName,
                     ShiftName = x.Shift.Name,   
                     Quantity = x.Quantity,
                     WorkerName = x.WorkerCode,

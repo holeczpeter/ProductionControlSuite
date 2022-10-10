@@ -126,6 +126,63 @@ export interface GetAllProducts {
 export interface GetProduct {
   id: number,
 }
+export interface QualityAssuranceProductModel {
+  productId: number,
+  productName: string,
+  productCode: string,
+  operations: Array<QualityAssuranceOperationItemModel>,
+}
+export interface QualityAssuranceOperationItemModel {
+  operationId: number,
+  operationName: string,
+  operationCode: string,
+  quantity: number,
+  defects: Array<QualityAssuranceDefectModel>,
+}
+export interface QualityAssuranceDefectModel {
+  defectId: number,
+  defectName: string,
+  defectCode: string,
+  category: DefectCategories,
+  models: Array<QualityAssuranceModel>,
+  sumQuantity: number,
+  sumPPM: number,
+}
+export interface QualityAssuranceModel {
+  date: Date,
+  month: number,
+  quantity: number,
+}
+export interface GetQualityAssurance {
+}
+export interface AddRole {
+  name: string,
+  code: string,
+  translatedName: string,
+  isDefault: boolean,
+}
+export interface DeleteRole {
+  id: number,
+}
+export interface UpdateRole {
+  id: number,
+  name: string,
+  code: string,
+  translatedName: string,
+  isDefault: boolean,
+}
+export interface RoleModel {
+  id: number,
+  name: string,
+  code: string,
+  translatedName: string,
+  isDefault: boolean,
+}
+export interface GetAllRoles {
+}
+export interface GetRole {
+  id: number,
+}
 export interface AddShift {
   name: string,
   shortName: string,
@@ -227,6 +284,41 @@ export interface GetAllSummaryCards {
 export interface GetSummaryCard {
   id: number,
 }
+export interface AddUser {
+  id: number,
+  code: string,
+  firstName: string,
+  lastName: string,
+  roleId: number,
+  password: string,
+}
+export interface DeleteUser {
+  id: number,
+}
+export interface UpdateUser {
+  id: number,
+  code: string,
+  firstName: string,
+  lastName: string,
+  roleId: number,
+  password: string,
+}
+export interface UserModel {
+  id: number,
+  code: string,
+  firstName: string,
+  lastName: string,
+  fullName: string,
+  roleId: number,
+  roleName: string,
+  status: EntityStatuses,
+  statusName: string,
+}
+export interface GetAllUsers {
+}
+export interface GetUser {
+  id: number,
+}
 export interface AddWorkshop {
   name: string,
   translatedName: string,
@@ -247,6 +339,25 @@ export interface WorkshopModel {
 export interface GetAllWorkshops {
 }
 export interface GetWorkshop {
+  id: number,
+}
+export interface GetUserExceptRole {
+  roleId: number,
+}
+export interface RoleDetailModel {
+  id: number,
+  name: string,
+  code: string,
+  translatedName: string,
+  isDefault: boolean,
+  users: Array<RoleUserItem>,
+}
+export interface RoleUserItem {
+  id: number,
+  fullName: string,
+  code: string,
+}
+export interface SetDefaultRole {
   id: number,
 }
 export enum DefectCategories {

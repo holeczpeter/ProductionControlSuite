@@ -42,6 +42,7 @@ import { TitleComponent } from './title/title.component';
 import { DialogHeaderComponent } from './dialog-header/dialog-header.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxMaskModule } from 'ngx-mask';
+import { NgChartsModule } from 'ng2-charts';
 @NgModule({
   declarations: [
     TitleComponent,
@@ -91,6 +92,7 @@ import { NgxMaskModule } from 'ngx-mask';
     MatSlideToggleModule,
     TranslateModule,
     NgxMaskModule.forRoot(),
+    NgChartsModule
   ],
   exports: [
     MatToolbarModule,
@@ -136,7 +138,7 @@ import { NgxMaskModule } from 'ngx-mask';
     TitleComponent,
     DialogHeaderComponent,
     NgxMaskModule,
-   
+    NgChartsModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },

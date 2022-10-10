@@ -12,6 +12,9 @@
     <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="FSKClient\src\app\modules\quality-assurance\quality-assurance-routing.module.ts" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="MediatR" Version="11.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
@@ -82,5 +85,8 @@
   <ItemGroup>
     <Folder Include="FSKClient\src\app\models\dialog-models\" />
     <Folder Include="FSKClient\src\app\services\navigation\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="FSKClient\src\app\modules\quality-assurance\quality-assurance-routing.module.ts" />
   </ItemGroup>
 </Project>

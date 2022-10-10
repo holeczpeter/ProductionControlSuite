@@ -13,7 +13,7 @@
   "shortName": "Kód",
   "start": "Kezdés",
   "end": "Vége",
-  "translatedname": "Német megnevezés",
+  "translatedName": "Német megnevezés",
   "workshopName": "Műhely megnevezés",
   "productName": "Termék megnevezés",
   "productCode": "Termékkód",
@@ -29,6 +29,11 @@
   "los": "Los",
   "summarycard": "Hibagyűjtő lap",
   "summarycard.edit": "Hibagyűjtő lap szerkesztése",
+  "roleName": "Szerepkör",
+  "statusName": "Státusz",
+  "fullName": "Név",
+  "isDefault": "Alapértelmezett",
+  "search": "Keresés",
   "workshops": {
     "title": "Műhelyek",
     "add": "Új műhely hozzáadása",
@@ -56,5 +61,16 @@
     "add": "Új hiba hozzáadása",
     "edit": "Hiba szerkesztése",
     "defectCategory": "Hiba kategória"
+  },
+  "roles": {
+    "title": "Szerepkörök",
+    "add": "Új szerepkör hozzáadása",
+    "edit": "Szerepkör szerkesztése",
+    "permissions": "Jogosultságok"
+  },
+  "users": {
+    "title": "Felhasználók",
+    "add": "Új felhasználó hozzáadása",
+    "edit": "Felhasználó szerkesztése"
   }
 }

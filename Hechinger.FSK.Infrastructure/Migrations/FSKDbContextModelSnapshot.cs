@@ -439,7 +439,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("EntityStatus");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Shift", b =>
@@ -644,6 +644,9 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsTemporary")
                         .HasColumnType("bit");
 
@@ -653,7 +656,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.Property<string>("LastModifier")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RefreshToken")

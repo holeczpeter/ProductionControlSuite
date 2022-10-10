@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hechinger.FSK.Core.Entities
+﻿namespace Hechinger.FSK.Core.Entities
 {
     public class User : Entity
     {
         public string Code { get; set; }
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string FullName => $"{LastName} {FirstName}";
         public string Salt { get; set; }
         public bool IsTemporary { get; set; }
         public string RefreshToken { get; set; }

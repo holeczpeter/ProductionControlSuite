@@ -10,7 +10,7 @@ namespace Hechinger.FSK.Infrastructure.Persistence
         public DbSet<AuditLogProperty> AuditLogProperties { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Menu> Menus { get; set; }
-        public DbSet<Role> Role { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<MenuRole> MenuRoles { get; set; }
         public DbSet<WorkShop> WorkShops { get; set; }

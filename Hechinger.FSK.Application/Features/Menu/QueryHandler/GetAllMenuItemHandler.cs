@@ -30,10 +30,10 @@
                     },
                     new MenuItemModel
                     {
-                        Id = 2, Title = "Hibaösszesítő", Path = "/diagram", Icon = "assessment" ,Type = MenuTypes.Module,
+                        Id = 2, Title = "Hibaösszesítő", Path = "/quality-assurance", Icon = "assessment" ,Type = MenuTypes.Module,
                         Children = new List<MenuItemModel>
                         {
-                            { new MenuItemModel { Id = 7, Title = "Havi hibaösszesítő", Path = "/diagram/month", Icon = "edit", Type = MenuTypes.SubMenu    }},
+                            { new MenuItemModel { Id = 7, Title = "Havi hibaösszesítő", Path = "/quality-assurance/quality-assurance", Icon = "edit", Type = MenuTypes.SubMenu    }},
                         },
                     },
                     new MenuItemModel
@@ -63,8 +63,8 @@
                                     Id = 9, Title = "Adminisztrátori beállítások", Path = "/admin", Icon = "list",  Type = MenuTypes.Module,
                                     Children = new List<MenuItemModel>()
                                     {
-                                        { new MenuItemModel { Id = 7, Title = "Felhasználók", Path = "/admin/user", Icon = "edit", Type = MenuTypes.SubMenu    }},
-                                        { new MenuItemModel { Id = 7, Title = "Jogosultságok", Path = "/admin/role", Icon = "edit", Type = MenuTypes.SubMenu    }},
+                                        { new MenuItemModel { Id = 7, Title = "Felhasználók", Path = "/admin/users", Icon = "edit", Type = MenuTypes.SubMenu    }},
+                                        { new MenuItemModel { Id = 7, Title = "Jogosultságok", Path = "/admin/roles", Icon = "edit", Type = MenuTypes.SubMenu    }},
                                     }
                     },
 
