@@ -9,6 +9,8 @@
   "delete": "Löschen",
   "language": "Sprache",
   "password": "Passwort",
+  "login": "Anmeldung",
+  "welcome": "Willkommen",
   "required": "ist erforderlich",
   "created": "Erstellungsdatum",
   "userName": "Urheber",

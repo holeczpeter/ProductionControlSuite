@@ -9,6 +9,8 @@
   "delete": "Törlés",
   "language": "Nyelv",
   "password": "Jelszó",
+  "login": "Belépés",
+  "welcome": "Üdözöljünk",
   "created": "Létrehozás dátuma",
   "userName": "Rögzítő",
   "required": "kötelező",
