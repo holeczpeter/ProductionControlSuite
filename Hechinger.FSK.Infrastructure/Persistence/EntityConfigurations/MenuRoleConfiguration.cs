@@ -15,16 +15,14 @@ namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
                 .WithMany(x => x.MenuRoles)
                 .HasForeignKey(x => x.MenuId)
                 .HasConstraintName("FK_MENUROLE_CONNECTION")
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .HasOne(x => x.Role)
                 .WithMany(x => x.MenuRoles)
                 .HasForeignKey(x => x.RoleId)
                 .HasConstraintName("FK_ROLEMENU_CONNECTION")
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

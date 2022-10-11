@@ -3,6 +3,7 @@ import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 import { MenuItemModel } from './models/generated';
+import { TreeItem } from './models/tree-item';
 import { NavigationService } from './services/navigation/navigation.service';
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ export class AppComponent {
   supportedLanguages = ['hu', 'de'];
   onDestroy$ = new Subject();
   openedSidebar = true;
-  sidebarMenuItems!: Array<MenuItemModel>;
+  sidebarMenuItems!: Array<TreeItem<MenuItemModel>>;
 
   constructor(private translateServeice: TranslateService, private router: Router, private readonly navigationService: NavigationService) {
     translateServeice.addLangs(this.supportedLanguages);

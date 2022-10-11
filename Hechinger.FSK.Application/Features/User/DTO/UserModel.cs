@@ -9,6 +9,8 @@
         public string FullName { get; set; }
         public int RoleId { get; set; }
         public string RoleName { get; set; }
+        public int LanguageId { get; set; }
+        public string LanguageName { get; set; }
         public EntityStatuses Status { get; set; }
         public string StatusName { get; set; }
      

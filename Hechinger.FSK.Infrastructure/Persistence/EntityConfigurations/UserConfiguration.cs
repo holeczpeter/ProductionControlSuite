@@ -9,7 +9,20 @@ namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             EntityConfiguration.ConfigureEntityPart(builder);
-            
+
+            builder
+            .HasOne(x => x.Role)
+            .WithMany(x => x.Users)
+            .HasForeignKey(x => x.RoleId)
+            .HasConstraintName("FK_USERROLE_CONNECTION")
+            .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+           .HasOne(x => x.Language)
+           .WithMany(x => x.Users)
+           .HasForeignKey(x => x.LanguageId)
+           .HasConstraintName("FK_USERLANGUAGE_CONNECTION")
+           .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

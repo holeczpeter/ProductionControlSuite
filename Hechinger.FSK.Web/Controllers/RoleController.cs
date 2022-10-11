@@ -41,7 +41,20 @@ namespace Hechinger.FSK.Web.Controllers
         {
             return await this.mediator.Send(request, cancellationToken);
         }
-
-
+        [HttpGet]
+        public async Task<IEnumerable<RoleUserItem>> GetUsersByRole(GetUsersByRole request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+        [HttpGet]
+        public async Task<IEnumerable<RoleUserItem>> GetUsersExceptByRole(GetUsersExceptByRole request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+        [HttpGet]
+        public async Task<IEnumerable<TreeItem<RoleMenuItem>>> GetMenuByRole(GetMenuByRole request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
     }
 }

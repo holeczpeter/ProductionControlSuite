@@ -179,6 +179,51 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.ToTable("Defects");
                 });
 
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.Language", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Creator")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifier")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<string>("TranslatedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntityStatus");
+
+                    b.ToTable("Languages");
+                });
+
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Menu", b =>
                 {
                     b.Property<int>("Id")
@@ -650,6 +695,9 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.Property<bool>("IsTemporary")
                         .HasColumnType("bit");
 
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("datetime2");
 
@@ -659,8 +707,14 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -677,56 +731,11 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("EntityStatus");
 
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Hechinger.FSK.Core.Entities.UserRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("EntityStatus")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifier")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.Property<string>("TranslatedName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EntityStatus");
+                    b.HasIndex("LanguageId");
 
                     b.HasIndex("RoleId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserRoles");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.WorkShop", b =>
@@ -769,6 +778,55 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.HasIndex("EntityStatus");
 
                     b.ToTable("WorkShops");
+                });
+
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.WorkShopUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Creator")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifier")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<string>("TranslatedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkShopId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntityStatus");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("WorkShopId");
+
+                    b.ToTable("WorkShopUsers");
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.AuditLogProperty", b =>
@@ -891,25 +949,46 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.Navigation("SummaryCard");
                 });
 
-            modelBuilder.Entity("Hechinger.FSK.Core.Entities.UserRole", b =>
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.User", b =>
                 {
-                    b.HasOne("Hechinger.FSK.Core.Entities.Role", "Role")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
+                    b.HasOne("Hechinger.FSK.Core.Entities.Language", "Language")
+                        .WithMany("Users")
+                        .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_ROLEUSER_CONNECTION");
+                        .HasConstraintName("FK_USERLANGUAGE_CONNECTION");
 
-                    b.HasOne("Hechinger.FSK.Core.Entities.User", "User")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
+                    b.HasOne("Hechinger.FSK.Core.Entities.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_USERROLE_CONNECTION");
 
+                    b.Navigation("Language");
+
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.WorkShopUser", b =>
+                {
+                    b.HasOne("Hechinger.FSK.Core.Entities.User", "User")
+                        .WithMany("WorkShops")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_USERWORKSHOP_CONNECTION");
+
+                    b.HasOne("Hechinger.FSK.Core.Entities.WorkShop", "WorkShop")
+                        .WithMany("Users")
+                        .HasForeignKey("WorkShopId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_WORKSHOPUSER_CONNECTION");
 
                     b.Navigation("User");
+
+                    b.Navigation("WorkShop");
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.AuditLogEntity", b =>
@@ -920,6 +999,11 @@ namespace Hechinger.FSK.Infrastructure.Migrations
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Defect", b =>
                 {
                     b.Navigation("SummaryCardItems");
+                });
+
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.Language", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Menu", b =>
@@ -943,7 +1027,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Navigation("MenuRoles");
 
-                    b.Navigation("UserRoles");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Shift", b =>
@@ -960,12 +1044,14 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Navigation("SummaryCards");
 
-                    b.Navigation("UserRoles");
+                    b.Navigation("WorkShops");
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.WorkShop", b =>
                 {
                     b.Navigation("Products");
+
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

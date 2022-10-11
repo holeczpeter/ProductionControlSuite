@@ -13,6 +13,8 @@
         [Required]
         public int RoleId { get; set; }
         [Required]
+        public int LanguageId { get; set; }
+      
         public string Password { get; set; }
     }
 }

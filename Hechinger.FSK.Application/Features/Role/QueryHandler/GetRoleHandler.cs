@@ -16,12 +16,6 @@
                 Code = r.ShortName,
                 TranslatedName = r.TranslatedName,
                 IsDefault = r.IsDefault,
-                Users = r.UserRoles.Select(u => new RoleUserItem()
-                {
-                    Id = u.Id,
-                    Code = u.User.Code,
-                    FullName = u.User.FullName,
-                })
 
             }).FirstOrDefaultAsync();
         }

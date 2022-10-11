@@ -21,7 +21,7 @@ export class UsersComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array<string> = ['fullName', 'code', 'roleName', 'statusName', 'edit', 'delete']
+  columnNames: Array<string> = ['fullName', 'code', 'roleName','languageName', 'statusName', 'edit', 'delete']
   title = "users.title";
 
   constructor(private readonly userDataService: UserDataService,

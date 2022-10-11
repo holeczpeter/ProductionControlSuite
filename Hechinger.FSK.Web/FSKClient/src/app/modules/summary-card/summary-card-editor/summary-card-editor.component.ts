@@ -53,13 +53,11 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
     this.cardForm.get("operationId")!
       .valueChanges
       .pipe(takeUntil(this.destroy$)).subscribe(value => {
-        console.log(value)
         this.createTable();
       });
     this.cardForm.get("items")!
       .valueChanges
       .pipe(takeUntil(this.destroy$)).subscribe(value => {
-        console.log(this.items)
       });
   }
 

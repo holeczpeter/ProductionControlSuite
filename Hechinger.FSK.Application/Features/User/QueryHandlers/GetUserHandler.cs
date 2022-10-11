@@ -16,8 +16,10 @@
                 FirstName = u.FirstName,
                 LastName = u.LastName,
                 FullName = u.FullName,
-                RoleId = 1,
-                RoleName = "Admin",
+                RoleId = u.RoleId,
+                RoleName = u.Role.Name,
+                LanguageId = u.Language.Id,
+                LanguageName = u.Language.Name,
                 Status = u.EntityStatus,
                 StatusName = u.EntityStatus.GetDescription()
 

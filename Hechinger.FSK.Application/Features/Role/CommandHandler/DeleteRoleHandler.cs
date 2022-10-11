@@ -26,7 +26,7 @@ namespace Hechinger.FSK.Application.Features
 
             var defaultRole = await context.Roles.Where(x => x.IsDefault && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync();
 
-            foreach (var item in current.UserRoles)
+            foreach (var item in current.Users)
             {
                 item.Role = defaultRole;
             }

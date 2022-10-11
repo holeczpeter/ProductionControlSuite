@@ -18,7 +18,6 @@ export class HeaderComponent implements OnInit {
     this.translateService.onLangChange.subscribe(x => this.currentLang = x.lang);
     this.navigationService.getMenuItems().subscribe(modules => {
       this.modules = modules.filter(y => y.node.type === MenuTypes.Module);
-      console.log(this.modules)
     });
   }
 

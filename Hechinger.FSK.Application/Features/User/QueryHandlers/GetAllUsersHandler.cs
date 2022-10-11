@@ -16,8 +16,10 @@
                 FirstName   = u.FirstName,
                 LastName = u.LastName,
                 FullName = u.FullName,
-                RoleId = u.UserRoles.Select(x=>x.Id).FirstOrDefault(),  
-                RoleName = u.UserRoles.Select(x => x.Role.Name).FirstOrDefault(),
+                RoleId = u.Role.Id,  
+                RoleName = u.Role.Name,
+                LanguageId = u.Language.Id,
+                LanguageName = u.Language.Name,
                 Status = u.EntityStatus,
                 StatusName = u.EntityStatus.GetDescription()
                 

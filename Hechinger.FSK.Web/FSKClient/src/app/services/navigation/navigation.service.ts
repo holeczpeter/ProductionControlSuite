@@ -14,7 +14,6 @@ export class NavigationService {
   }
  
   moduleNameFromUrl(url: string) {
-    console.log(url)
     if (!url) return '';
     if (url === '/') return "home";
     let result = url.split('/', 2)[1];

@@ -2,6 +2,7 @@ import { DoCheck } from '@angular/core';
 import { ChangeDetectorRef, Component, EventEmitter, Input, IterableDiffer, IterableDiffers, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItemModel } from '../../models/generated';
+import { TreeItem } from '../../models/tree-item';
 import { MenuDataService } from '../../services/data/menu-data.service';
 export type AccordionConfig = {
   multi?: boolean
@@ -12,7 +13,7 @@ export type AccordionConfig = {
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit, DoCheck {
-  @Input() sidebarMenuItems!: Array<MenuItemModel>;
+  @Input() sidebarMenuItems!: Array<TreeItem<MenuItemModel>>;
   @Output() onClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   private _differ!: IterableDiffer<any>;
   submenucount!: number;
@@ -39,7 +40,7 @@ export class SidebarComponent implements OnInit, DoCheck {
 
   setCollapsedAll(isCollapsed: boolean) {
     this.sidebarMenuItems.forEach(menu => {
-      menu.collapsed = menu.children?.some(child => child.path == this.router.url) ? true : isCollapsed;
+      menu.collapsed = menu.children?.some(child => child.node.path == this.router.url) ? true : isCollapsed;
     });
   }
 

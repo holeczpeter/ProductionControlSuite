@@ -11,7 +11,7 @@
         public string TranslatedName { get; set; }
 
         public bool IsDefault { get; set; }
-        public IEnumerable<RoleUserItem> Users { get; set; }
+        
     }
    
 }

@@ -25,7 +25,14 @@
         </mat-error>
       </mat-form-field>
     </div>
-    
+    <div class="row pt-2">
+      <mat-form-field class="col">
+        <input matInput [formControlName]="'password'" [placeholder]="'password' | translate" />
+        <mat-error class="col" *ngIf="formGroup.get('password')?.hasError('required')">
+          {{'password'| translate}} {{'required' | translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
     <div class="row pt-2">
       <mat-form-field class="col">
         <mat-select [formControlName]="'roleId'" [placeholder]="'roleName' | translate" required>
@@ -35,6 +42,18 @@
         </mat-select>
         <mat-error class="col" *ngIf="formGroup.get('roleId')?.hasError('required')">
           {{'roleName'| translate}} {{'required' | translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row pt-2">
+      <mat-form-field class="col">
+        <mat-select [formControlName]="'languageId'" [placeholder]="'language' | translate" required>
+          <mat-option *ngFor="let option of languages" [value]="option.id">
+            {{ option.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error class="col" *ngIf="formGroup.get('roleId')?.hasError('required')">
+          {{'language'| translate}} {{'required' | translate}}
         </mat-error>
       </mat-form-field>
     </div>

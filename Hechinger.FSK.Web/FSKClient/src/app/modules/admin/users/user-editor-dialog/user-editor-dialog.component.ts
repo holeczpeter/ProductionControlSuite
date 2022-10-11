@@ -1,7 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AddUser, RoleModel, UpdateUser, UserModel } from '../../../../models/generated';
+import { forkJoin } from 'rxjs';
+import { AddUser, LanguageModel, RoleModel, UpdateUser, UserModel } from '../../../../models/generated';
+import { LanguageDataService } from '../../../../services/data/language-data.service';
 import { RoleDataService } from '../../../../services/data/role-data.service';
 import { UserDataService } from '../../../../services/data/user-data.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
@@ -15,9 +17,11 @@ export class UserEditorDialogComponent implements OnInit {
   title!: string;
   formGroup: UntypedFormGroup;
   roles!: RoleModel[];
+  languages!: LanguageModel[];
   constructor(private readonly dialogRef: MatDialogRef<UserEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: UserModel,
     private readonly userDataService: UserDataService,
+    private readonly languageDataService: LanguageDataService,
     private readonly roleDataService: RoleDataService,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly snackBar: SnackbarService) {
@@ -28,13 +32,24 @@ export class UserEditorDialogComponent implements OnInit {
       lastName: [this.data ? this.data.lastName : '', [Validators.required]],
       code: [this.data ? this.data.code : '', [Validators.required]],
       roleId: [this.data ? this.data.roleId : '', [Validators.required]],
+      password: [null],
+      languageId: [this.data ? this.data.languageId : '', [Validators.required]],
     });
+    if (this.formGroup && this.data) {
+      this.formGroup.get('password')!.clearValidators() 
+    }
+    else if (this.formGroup && this.data == null) {
+      this.formGroup.get('password')!.setValidators(Validators.required);
+    }
+    this.formGroup.valueChanges.subscribe(x => { console.log(x) })
   }
 
   ngOnInit(): void {
-    this.roleDataService.getAll().subscribe(roles => {
+    forkJoin([this.roleDataService.getAll(), this.languageDataService.getAll()]).subscribe(([roles, languages]) => {
       this.roles = roles;
+      this.languages = languages;
     });
+    
   }
 
   onSave() {
@@ -47,8 +62,9 @@ export class UserEditorDialogComponent implements OnInit {
       code: this.formGroup.get('code')?.value,
       firstName: this.formGroup.get('firstName')?.value,
       lastName: this.formGroup.get('lastName')?.value,
-      password: 'valami',
+      password: this.formGroup.get('password')?.value,
       roleId: this.formGroup.get('roleId')?.value,
+      languageId: this.formGroup.get('languageId')?.value,
 
     };
     this.userDataService.add(model).subscribe(result => {
@@ -66,7 +82,9 @@ export class UserEditorDialogComponent implements OnInit {
       lastName: this.formGroup.get('lastName')?.value,
       password: this.formGroup.get('password')?.value,
       roleId: this.formGroup.get('roleId')?.value,
+      languageId: this.formGroup.get('languageId')?.value
     };
+    console.log(model)
     this.userDataService.update(model).subscribe(result => {
       this.snackBar.open(result);
       if (result.isSuccess) this.dialogRef.close(true);

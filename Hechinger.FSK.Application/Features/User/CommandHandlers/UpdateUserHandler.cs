@@ -1,4 +1,6 @@
-﻿namespace Hechinger.FSK.Application.Features
+﻿using Hechinger.FSK.Application.Common;
+
+namespace Hechinger.FSK.Application.Features
 {
     public class UpdateUserHandler : IRequestHandler<UpdateUser, Result<bool>>
     {
@@ -21,7 +23,21 @@
                 current.FirstName = request.FirstName;
                 current.LastName = request.LastName;
                 current.Code = request.Code;
-                
+                current.RoleId = request.RoleId;
+                current.LanguageId = request.LanguageId;
+
+                if (request.Password != null) 
+                {
+                    var salt = Salt.Create();
+                    var hash = Hash.Create(request.Password, salt);
+                    bool isValid = Hash.Validate(request.Password, salt, hash);
+                    current.Password = hash;
+                    current.Salt = salt;
+                    current.IsTemporary = true;
+                    current.ChangePass = DateTime.Now;
+                }
+
+
                 await context.SaveChangesAsync(cancellationToken);
 
                 result.Message = "A felhasználó sikeresen módosítva";

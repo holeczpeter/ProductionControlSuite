@@ -10,15 +10,46 @@
         public async Task<Result<bool>> Handle(AddRole request, CancellationToken cancellationToken)
         {
             var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
-            var role = new Role()
+            var currentRole = new Role()
             {
                 Name = request.Name,
                 ShortName = request.Code,
                 TranslatedName = request.TranslatedName,  
                 IsDefault = request.IsDefault,  
             };
-            await this.context.AddAsync(role);
-           
+            await this.context.AddAsync(currentRole);
+            
+            var defaultRole = await this.context.Roles.Where(x=>x.EntityStatus == EntityStatuses.Active && x.IsDefault).FirstOrDefaultAsync();  
+            
+            
+            //Menu
+            var currentMenuRole = this.context.MenuRoles.Where(x => x.RoleId == currentRole.Id).ToList();
+            var deletedMenuIds = currentMenuRole.Select(x => x.MenuId).Except(request.Menu.Select(x => x.Id));
+            var deletedMenu = currentMenuRole.Where(x => deletedMenuIds.Contains(x.MenuId));
+            this.context.MenuRoles.RemoveRange(deletedMenu);
+            foreach (var menu in request.Menu)
+            {
+                var currentRoleAndMenu = currentMenuRole.Where(x => x.MenuId == menu.Id).FirstOrDefault();
+                if (currentRoleAndMenu == null) currentRoleAndMenu = new MenuRole();
+                currentRoleAndMenu.Role = currentRole;
+                currentRoleAndMenu.MenuId = menu.Id;
+                var state = this.context.Entry(currentRoleAndMenu).State;
+                if (state != EntityState.Modified && state != EntityState.Unchanged) await this.context.MenuRoles.AddAsync(currentRoleAndMenu);
+            }
+
+            //Users
+            var currentUsers = await this.context.Users.Where(x => x.RoleId == currentRole.Id).ToListAsync();
+            var removedUserIds = currentUsers.Select(x => x.Id).Except(request.Users.Select(x => x.Id));
+            var removedUsers = currentUsers.Where(x => removedUserIds.Contains(x.Id));
+            foreach (var removedUser in removedUsers)
+            {
+                removedUser.RoleId = defaultRole.Id;
+            }
+            var addedUsers = await this.context.Users.Where(x => x.RoleId != currentRole.Id && request.Users.Select(u=>u.Id).Contains(x.Id)).ToListAsync();
+            foreach (var added in addedUsers)
+            {
+                added.Role = currentRole;
+            }
 
             await this.context.SaveChangesAsync(cancellationToken);
 

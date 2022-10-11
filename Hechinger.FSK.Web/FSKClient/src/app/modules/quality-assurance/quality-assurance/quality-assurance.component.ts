@@ -27,7 +27,6 @@ export class QualityAssuranceComponent implements OnInit {
 
   ngOnInit(): void {
     this.qualityAssuranceDataService.get().subscribe(x => {
-      console.log(x);
       
     });
   }

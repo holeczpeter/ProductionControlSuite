@@ -52,8 +52,7 @@ export interface MenuItemModel {
   icon: string,
   path: string,
   type: MenuTypes,
-  collapsed: boolean,
-  children: Array<MenuItemModel>,
+  parentId: number,
 }
 export interface GetAllMenuItem {
 }
@@ -160,6 +159,20 @@ export interface AddRole {
   code: string,
   translatedName: string,
   isDefault: boolean,
+  users: Array<RoleUserItem>,
+  menu: Array<RoleMenuItem>,
+}
+export interface RoleUserItem {
+  id: number,
+  fullName: string,
+  code: string,
+}
+export interface RoleMenuItem {
+  id: number,
+  title: string,
+  type: MenuTypes,
+  parentId: number,
+  isEnabled: boolean,
 }
 export interface DeleteRole {
   id: number,
@@ -173,6 +186,8 @@ export interface UpdateRole {
   code: string,
   translatedName: string,
   isDefault: boolean,
+  users: Array<RoleUserItem>,
+  menu: Array<RoleMenuItem>,
 }
 export interface RoleDetailModel {
   id: number,
@@ -180,12 +195,6 @@ export interface RoleDetailModel {
   code: string,
   translatedName: string,
   isDefault: boolean,
-  users: Array<RoleUserItem>,
-}
-export interface RoleUserItem {
-  id: number,
-  fullName: string,
-  code: string,
 }
 export interface RoleModel {
   id: number,
@@ -196,10 +205,16 @@ export interface RoleModel {
 }
 export interface GetAllRoles {
 }
+export interface GetMenuByRole {
+  roleId: number,
+}
 export interface GetRole {
   id: number,
 }
-export interface GetUserExceptRole {
+export interface GetUsersByRole {
+  roleId: number,
+}
+export interface GetUsersExceptByRole {
   roleId: number,
 }
 export interface AddShift {
@@ -309,6 +324,7 @@ export interface AddUser {
   firstName: string,
   lastName: string,
   roleId: number,
+  languageId: number,
   password: string,
 }
 export interface DeleteUser {
@@ -320,6 +336,7 @@ export interface UpdateUser {
   firstName: string,
   lastName: string,
   roleId: number,
+  languageId: number,
   password: string,
 }
 export interface UserModel {
@@ -330,6 +347,8 @@ export interface UserModel {
   fullName: string,
   roleId: number,
   roleName: string,
+  languageId: number,
+  languageName: string,
   status: EntityStatuses,
   statusName: string,
 }
@@ -360,9 +379,12 @@ export interface GetAllWorkshops {
 export interface GetWorkshop {
   id: number,
 }
-export interface RoleMenuItem {
+export interface GetAllLanguages {
+}
+export interface LanguageModel {
   id: number,
   name: string,
+  translatedName: string,
 }
 export enum DefectCategories {
   F0 = 1,

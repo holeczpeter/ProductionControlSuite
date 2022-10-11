@@ -10,5 +10,9 @@
         public string TranslatedName { get; set; }
         [Required]
         public bool IsDefault { get; set; }
+
+        public IEnumerable<RoleUserItem> Users { get; set; }
+
+        public IEnumerable<RoleMenuItem> Menu { get; set; }
     }
 }

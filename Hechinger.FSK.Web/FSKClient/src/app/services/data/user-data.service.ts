@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddUser, DeleteUser, GetUserExceptRole, Result, RoleUserItem, UpdateUser, UserModel } from '../../models/generated';
+import { AddUser, DeleteUser, Result, UpdateUser, UserModel } from '../../models/generated';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +28,6 @@ export class UserDataService {
   getAll(): Observable<Array<UserModel>> {
     return this.httpClient.get<Array<UserModel>>('/User/GetAll');
   }
-  getExceptRole(request: GetUserExceptRole): Observable<Array<RoleUserItem>> {
-    return this.httpClient.get<Array<RoleUserItem>>('/User/GetExceptRole', { params: { 'roleId': request.roleId } });
-  }
+  
   
 }

@@ -11,7 +11,7 @@ namespace Hechinger.FSK.Infrastructure.Persistence
         public DbSet<User> Users { get; set; }
         public DbSet<Menu> Menus { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<WorkShopUser> WorkShopUsers { get; set; }
         public DbSet<MenuRole> MenuRoles { get; set; }
         public DbSet<WorkShop> WorkShops { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -20,6 +20,7 @@ namespace Hechinger.FSK.Infrastructure.Persistence
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<SummaryCard> SummaryCards { get; set; }
         public DbSet<SummaryCardItem> SummaryCardItem { get; set; }
+        public DbSet<Language> Languages { get; set; }
         public FSKDbContext(DbContextOptions options) : base(options)
         {
 

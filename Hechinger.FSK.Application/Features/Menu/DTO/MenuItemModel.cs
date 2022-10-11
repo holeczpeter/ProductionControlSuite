@@ -13,6 +13,5 @@
         public MenuTypes Type { get; set; }
 
         public long ParentId { get; set; }
-        //public IEnumerable<MenuItemModel> Children { get; set; }
     }
 }

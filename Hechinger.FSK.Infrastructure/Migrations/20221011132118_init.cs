@@ -31,6 +31,27 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Languages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
+                    EntityStatus = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Languages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Menus",
                 columns: table => new
                 {
@@ -100,33 +121,6 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Shifts", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Salt = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsTemporary = table.Column<bool>(type: "bit", nullable: false),
-                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ChangePass = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
-                    EntityStatus = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -213,13 +207,21 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRoles",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Salt = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsTemporary = table.Column<bool>(type: "bit", nullable: false),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ChangePass = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
+                    LanguageId = table.Column<int>(type: "int", nullable: false),
                     TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -230,17 +232,17 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRoles", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ROLEUSER_CONNECTION",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
+                        name: "FK_USERLANGUAGE_CONNECTION",
+                        column: x => x.LanguageId,
+                        principalTable: "Languages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_USERROLE_CONNECTION",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -267,6 +269,39 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
                         name: "FK_WORKSHOPPRODUCT_CONNECTION",
+                        column: x => x.WorkShopId,
+                        principalTable: "WorkShops",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WorkShopUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    WorkShopId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
+                    EntityStatus = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkShopUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_USERWORKSHOP_CONNECTION",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_WORKSHOPUSER_CONNECTION",
                         column: x => x.WorkShopId,
                         principalTable: "WorkShops",
                         principalColumn: "Id",
@@ -438,6 +473,11 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 column: "OperationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Languages_EntityStatus",
+                table: "Languages",
+                column: "EntityStatus");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MenuRoles_EntityStatus",
                 table: "MenuRoles",
                 column: "EntityStatus");
@@ -523,29 +563,39 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_EntityStatus",
-                table: "UserRoles",
-                column: "EntityStatus");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_RoleId",
-                table: "UserRoles",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_UserId",
-                table: "UserRoles",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Users_EntityStatus",
                 table: "Users",
                 column: "EntityStatus");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_LanguageId",
+                table: "Users",
+                column: "LanguageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_RoleId",
+                table: "Users",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_WorkShops_EntityStatus",
                 table: "WorkShops",
                 column: "EntityStatus");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkShopUsers_EntityStatus",
+                table: "WorkShopUsers",
+                column: "EntityStatus");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkShopUsers_UserId",
+                table: "WorkShopUsers",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkShopUsers_WorkShopId",
+                table: "WorkShopUsers",
+                column: "WorkShopId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -560,7 +610,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 name: "SummaryCardItem");
 
             migrationBuilder.DropTable(
-                name: "UserRoles");
+                name: "WorkShopUsers");
 
             migrationBuilder.DropTable(
                 name: "AuditLogEntities");
@@ -575,9 +625,6 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 name: "SummaryCards");
 
             migrationBuilder.DropTable(
-                name: "Roles");
-
-            migrationBuilder.DropTable(
                 name: "Operations");
 
             migrationBuilder.DropTable(
@@ -588,6 +635,12 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Languages");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "WorkShops");

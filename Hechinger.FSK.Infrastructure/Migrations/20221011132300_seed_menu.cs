@@ -5,14 +5,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Hechinger.FSK.Infrastructure.Migrations
 {
-    public partial class menu : Migration
+    public partial class seed_menu : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
-             migrationBuilder.InsertData(
+            migrationBuilder.InsertData(
               table: "Menus",
-              columns: new[] { "Id", "Created", "Creator", "LastModified", "LastModifier", "EntityStatus", "MenuType", "Name", "DisplayName", "TranslatedName", "Icon", "Order", "ParentId", "Path"},
+              columns: new[] { "Id", "Created", "Creator", "LastModified", "LastModifier", "EntityStatus", "MenuType", "Name", "DisplayName", "TranslatedName", "Icon", "Order", "ParentId", "Path" },
               values: new object[,]
               {
                     { 1, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.Module, "Hibagyűjtők", "Hibagyűjtők","Fehlersammelkarten", "", 1, 0, "/defect-card"},

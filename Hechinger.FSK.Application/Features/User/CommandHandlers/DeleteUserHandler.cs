@@ -17,7 +17,9 @@
                 return result;
             }
             current.EntityStatus = EntityStatuses.Deleted;
-            foreach (var item in current.UserRoles)
+            
+         
+            foreach (var item in current.WorkShops)
             {
                 item.EntityStatus = EntityStatuses.Deleted;
             }
