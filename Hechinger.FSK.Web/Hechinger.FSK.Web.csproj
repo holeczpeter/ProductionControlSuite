@@ -13,6 +13,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="FSKClient\src\app\modules\quality-assurance\quality-assurance-routing.module.ts" />
+    <None Remove="FSKClient\src\app\validators\custom-validator.ts" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="11.0.0" />
@@ -88,5 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="FSKClient\src\app\modules\quality-assurance\quality-assurance-routing.module.ts" />
+    <TypeScriptCompile Include="FSKClient\src\app\validators\custom-validator.ts" />
   </ItemGroup>
 </Project>

@@ -41,7 +41,7 @@ export class UserEditorDialogComponent implements OnInit {
     else if (this.formGroup && this.data == null) {
       this.formGroup.get('password')!.setValidators(Validators.required);
     }
-    this.formGroup.valueChanges.subscribe(x => { console.log(x) })
+    
   }
 
   ngOnInit(): void {
@@ -84,7 +84,7 @@ export class UserEditorDialogComponent implements OnInit {
       roleId: this.formGroup.get('roleId')?.value,
       languageId: this.formGroup.get('languageId')?.value
     };
-    console.log(model)
+  
     this.userDataService.update(model).subscribe(result => {
       this.snackBar.open(result);
       if (result.isSuccess) this.dialogRef.close(true);

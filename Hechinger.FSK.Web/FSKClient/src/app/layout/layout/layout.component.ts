@@ -24,13 +24,13 @@ export class LayoutComponent implements OnDestroy {
   constructor(private router: Router, private readonly navigationService: NavigationService) {
   
     this.router.events.pipe(takeUntil(this.onDestroy$)).subscribe((x) => {
-      console.log(x)
+     
       if (x instanceof NavigationEnd) {
         this.navigationService!.getMenuItems().subscribe(menuitems => {
           if (menuitems) {
             let currentModule = menuitems.find(menu => menu.node.path === `/${this.navigationService.moduleNameFromUrl(x.url)}`);
             this.sidebarMenuItems = currentModule!.children;
-            console.log(this.sidebarMenuItems)
+           
           }
         });
       }

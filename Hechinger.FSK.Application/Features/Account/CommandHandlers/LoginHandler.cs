@@ -29,6 +29,7 @@ namespace Hechinger.FSK.Application.Features
             result.LoginStatus = currentUser.IsTemporary ? LoginResults.IsTemporaryPassword : LoginResults.Success;
             result.UserInfo = new UserInfo()
             {
+                Id = currentUser.Id,
                 Code = currentUser.Code,
                 Name = currentUser.FullName,
             };

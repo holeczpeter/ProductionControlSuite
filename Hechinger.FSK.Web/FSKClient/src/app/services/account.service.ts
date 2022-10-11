@@ -18,16 +18,12 @@ export class AccountService {
 
   constructor(private readonly httpClient: HttpClient, private readonly router: Router, private dialogRef: MatDialog) { }
 
- 
 
   login(request: LoginModel) {
-    this.isLogin = true;
-    this.router.navigate(['basic-data'])
-
-    return this.httpClient.post<UserDataModel>('/Account/Login', request).pipe(switchMap(x => {
-      if (x) {
-        if (x.loginStatus == LoginResults.Success || x.loginStatus == LoginResults.IsTemporaryPassword) {
-          localStorage.setItem('userData', JSON.stringify(x));
+    return this.httpClient.post<UserDataModel>('/Account/Login', request).pipe(switchMap(result => {
+      if (result) {
+        if (result.loginStatus == LoginResults.Success || result.loginStatus == LoginResults.IsTemporaryPassword) {
+          localStorage.setItem('userData', JSON.stringify(result));
           //this.accesMenus.next(x.accessMenus);
           //let paths = new Array<string>();
           //x.accessMenus.forEach(treeItem => {
@@ -37,7 +33,7 @@ export class AccountService {
         }
       }
       this.isLoggedInSubject.next(true);
-      return of(x);
+      return of(result);
     }
     ));
   }
@@ -51,11 +47,9 @@ export class AccountService {
   }
   logout() {
     this.dialogRef.closeAll();
-    if (!this.isAuthenticated()) {
-      localStorage.clear();
-      this.router.navigateByUrl('/account/login');
-      return;
-    }
+    localStorage.clear();
+    this.router.navigateByUrl('/account/login');
+    return;
   }
 
   saveToken(token: string, refreshtoken: string) {

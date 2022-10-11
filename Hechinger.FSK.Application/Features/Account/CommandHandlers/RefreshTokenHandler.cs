@@ -3,6 +3,10 @@
     public class RefreshTokenHandler : IRequestHandler<UserRefreshToken, Result<bool>>
     {
         private readonly FSKDbContext context;
+        public RefreshTokenHandler(FSKDbContext context)
+        {
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
+        }
         public async Task<Result<bool>> Handle(UserRefreshToken request, CancellationToken cancellationToken)
         {
             var result = new ResultBuilder<bool>().SetMessage("Token frissítés nem sikerült").SetIsSuccess(false).Build();

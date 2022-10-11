@@ -41,14 +41,12 @@ export class RoleUserEditorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
+    
     if (changes["roleId"]) {
       let getUserByRole: GetUsersByRole = { roleId: this.roleId };
       let getUserExceptRole: GetUsersExceptByRole = { roleId: this.roleId };
       forkJoin([this.roleDataService.getUsersByRole(getUserByRole), this.roleDataService.getUsersExceptByRole(getUserExceptRole)]).subscribe(([usersByRole, users]) => {
         this.allUsers = users;
-        console.log(usersByRole)
-        console.log(users)
         this.formGroup = this.formBuilder.group({
           users: this.formBuilder.array(new Array<RoleUserItem>())
         });

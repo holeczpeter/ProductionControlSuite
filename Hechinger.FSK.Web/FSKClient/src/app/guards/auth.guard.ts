@@ -41,8 +41,8 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<u
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log(!this.accountService.isLogin)
-    if (!this.accountService.isLogin) {
+    
+    if (!!this.accountService.isLogin) {
       this.router.navigate(['account/login']);
       return false;
     }
