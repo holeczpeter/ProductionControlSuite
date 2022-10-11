@@ -24,8 +24,9 @@ export class AppComponent {
       if (x instanceof NavigationEnd) {
         this.navigationService!.getMenuItems().subscribe(menuitems => {
           if (menuitems) {
-            let currentModule = menuitems.find(menu => menu.path === `/${this.navigationService.moduleNameFromUrl(x.url)}`);
+            let currentModule = menuitems.find(menu => menu.node.path === `/${this.navigationService.moduleNameFromUrl(x.url)}`);
             this.sidebarMenuItems = currentModule!.children;
+            console.log(this.sidebarMenuItems)
           }
         });
       }});

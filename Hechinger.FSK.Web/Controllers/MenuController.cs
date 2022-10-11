@@ -1,11 +1,5 @@
-﻿using Hechinger.FSK.Application.Features;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Hechinger.FSK.Application.Common.Models;
+using Hechinger.FSK.Application.Features;
 
 namespace Hechinger.FSK.Web.Controllers
 {
@@ -20,7 +14,7 @@ namespace Hechinger.FSK.Web.Controllers
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
         [HttpGet]
-        public async Task<IEnumerable<MenuItemModel>> GetAll(GetAllMenuItem query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<TreeItem<MenuItemModel>>> GetAll(GetAllMenuItem query, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(query, cancellationToken);
         }

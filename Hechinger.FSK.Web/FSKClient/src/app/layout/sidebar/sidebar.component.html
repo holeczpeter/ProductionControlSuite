@@ -8,21 +8,17 @@
   </div>
   <div class="accordion">
     <ng-template #recursiveRenderer let-menu let-position="idx">
-      <ng-container [ngSwitch]="menu?.type">
+      <ng-container [ngSwitch]="menu?.node?.type">
         <ng-container *ngSwitchCase="'0'">
-          
-          <!--<ng-container *ngFor="let child of menu.children; index as i">
-            <ng-container *ngTemplateOutlet="recursiveRenderer;context:{$implicit: child,idx: i}"></ng-container>
-          </ng-container>-->
         </ng-container>
         <ng-container *ngSwitchCase="'1'">
           <mat-divider [style.--margin-top.px]="position == 0 ? 0 : 35"></mat-divider>
           <div class="menu-text menu-main" (click)="toggle(position)">
             <mat-icon matListIcon class="menu-item-icon">
-              {{menu.icon}}
+              {{menu.node.icon}}
             </mat-icon>
             <div class="title">
-              {{ menu.title }}
+              {{ menu.node.title }}
             </div>
             <ng-container *ngIf="menu.active && menu.item.type === 2;else more">
               <mat-icon class="menu-item-icon">expand_less</mat-icon>
@@ -42,13 +38,13 @@
         </ng-container>
         <ng-container *ngSwitchCase="'2'">
           <div class="menu-text submenu-item"
-               [routerLink]="[menu.path]"
+               [routerLink]="[menu.node.path]"
                routerLinkActive="active">
             <mat-icon matListIcon class="menu-item-icon">
-              {{menu.icon}}
+              {{menu.node.icon}}
             </mat-icon>
             <div>
-              {{menu.title}}
+              {{menu.node.title}}
             </div>
           </div>
         </ng-container>

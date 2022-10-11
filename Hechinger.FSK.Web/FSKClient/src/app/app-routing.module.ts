@@ -11,7 +11,7 @@ const routes: Routes = [
     loadChildren: () => import('./modules/summary-card/summary-card.module').then(module => module.SummaryCardModule),
   },
   {
-    path: 'quality-assurance',
+    path: 'report',
     loadChildren: () => import('./modules/quality-assurance/quality-assurance.module').then(module => module.QualityAssuranceModule),
   },
   {

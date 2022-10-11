@@ -11,8 +11,8 @@
         public string Path { get; set; }
 
         public MenuTypes Type { get; set; }
-        public bool Collapsed { get; set; }
 
-        public IEnumerable<MenuItemModel> Children { get; set; }
+        public long ParentId { get; set; }
+        //public IEnumerable<MenuItemModel> Children { get; set; }
     }
 }

@@ -20,7 +20,7 @@
   "productCode": "Product code",
   "operationName": "Operation",
   "operationCode": "Operation code",
-  "shiftName": "Schicht",
+  "shiftName": "Arbeitsschicht",
   "defectName": "Fehler",
   "order": "Nr",
   "quantity": "Stückzahl",
@@ -47,9 +47,9 @@
   },
 
   "shifts": {
-    "title": "Schichte",
+    "title": "Arbeitsschichte",
     "add": "Neue hinzufügen",
-    "edit": "Schicht bearbeiten"
+    "edit": "Arbeitsschicht bearbeiten"
   },
   "operations": {
     "title": "Operationen",
