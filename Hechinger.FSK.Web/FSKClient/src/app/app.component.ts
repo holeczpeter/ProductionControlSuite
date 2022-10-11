@@ -1,14 +1,9 @@
 import { Component } from '@angular/core';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject, takeUntil } from 'rxjs';
-import { MenuItemModel } from './models/generated';
-import { TreeItem } from './models/tree-item';
-import { NavigationService } from './services/navigation/navigation.service';
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  template: `<router-outlet></router-outlet>`
 })
 export class AppComponent {
   

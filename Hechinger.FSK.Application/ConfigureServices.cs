@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Hechinger.FSK.Application.Common.Security;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -10,6 +11,7 @@ namespace Hechinger.FSK.Application
         {
         
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IAuthenticationManager), typeof(AuthenticationManager));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
             return services;
         }

@@ -8,6 +8,35 @@ export interface Result {
   entities: any,
   errors: Array<string>,
 }
+export interface ChangePassword {
+  code: string,
+  oldPassword: string,
+  newPassword: string,
+}
+export interface LoginModel {
+  code: string,
+  password: string,
+}
+export interface UserRefreshToken {
+  userId: number,
+  expiration: Date,
+  token: string,
+  refreshToken: string,
+}
+export interface UserDataModel {
+  userInfo: UserInfo,
+  token: string,
+  refreshToken: string,
+  loginStatus: LoginResults,
+}
+export interface UserInfo {
+  id: number,
+  code: string,
+  name: string,
+}
+export interface GetAccessMenu {
+  userId: number,
+}
 export interface AddDefect {
   name: string,
   code: string,
@@ -45,6 +74,13 @@ export interface GetDefect {
 }
 export interface GetDefectsByOperation {
   operationId: number,
+}
+export interface LanguageModel {
+  id: number,
+  name: string,
+  translatedName: string,
+}
+export interface GetAllLanguages {
 }
 export interface MenuItemModel {
   id: number,
@@ -379,12 +415,25 @@ export interface GetAllWorkshops {
 export interface GetWorkshop {
   id: number,
 }
-export interface GetAllLanguages {
+export interface GetUserTokenInfo {
+  userId: number,
 }
-export interface LanguageModel {
-  id: number,
-  name: string,
-  translatedName: string,
+export interface TokenRequestModel {
+  token: string,
+  userId: number,
+  refreshToken: string,
+}
+export interface UserTokenInfo {
+  userId: number,
+  expiration: Date,
+  refreshToken: string,
+}
+export enum LoginResults {
+  Success = 0,
+  IsTemporaryPassword = 1,
+  IsNotValidPassword = 2,
+  NotExistUser = 3,
+  TokenError = 4,
 }
 export enum DefectCategories {
   F0 = 1,
@@ -400,12 +449,5 @@ export enum EntityStatuses {
   Active = 1,
   Deleted = 2,
   InActive = 3,
-}
-export enum LoginResults {
-  Success = 0,
-  IsTemporaryPassword = 1,
-  IsNotValidPassword = 2,
-  NotExistUser = 3,
-  TokenError = 4,
 }
 

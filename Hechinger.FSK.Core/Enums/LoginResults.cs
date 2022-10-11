@@ -31,7 +31,7 @@ namespace Hechinger.FSK.Core.Enums
         /// <summary>
         /// Token hiba
         /// </summary>
-        [Description(" Token hiba")]
+        [Description("Token hiba")]
         TokenError,
     }
 }

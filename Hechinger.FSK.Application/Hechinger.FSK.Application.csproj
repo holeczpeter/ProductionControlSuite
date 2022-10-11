@@ -23,7 +23,6 @@
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Mappings\" />
-    <Folder Include="Features\Account\" />
   </ItemGroup>
 
 </Project>

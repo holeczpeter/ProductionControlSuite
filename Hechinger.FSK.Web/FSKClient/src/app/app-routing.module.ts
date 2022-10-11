@@ -9,14 +9,15 @@ const routes: Routes = [
     loadChildren: () => import('./modules/account/account.module').then(module => module.AccountModule),
   },
   {
-    path: '**',
-    redirectTo: ''
+    path: '',
+    redirectTo: 'account',
+    pathMatch: 'full'
   },
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
     canLoad: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: [
       {
         path: 'basic-data',
@@ -53,7 +54,7 @@ const routes: Routes = [
 
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true, relativeLinkResolution: 'legacy' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

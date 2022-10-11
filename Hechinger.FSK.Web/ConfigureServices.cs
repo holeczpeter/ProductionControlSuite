@@ -1,4 +1,5 @@
-﻿using Hechinger.FSK.Core;
+﻿using Hechinger.FSK.Application.Common;
+using Hechinger.FSK.Core;
 using Hechinger.FSK.Web.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -57,7 +58,7 @@ namespace Hechinger.FSK.Web
             var validationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(System.Text.UTF8Encoding.UTF8.GetBytes(FSKEnvironment.TokenSecret)),
+                IssuerSigningKey = new SymmetricSecurityKey(System.Text.UTF8Encoding.UTF8.GetBytes(FskEnvironment.TokenSecret)),
                 ValidateIssuer = true,
                 ValidIssuer = configuration["URL"],
                 ValidateAudience = false,
