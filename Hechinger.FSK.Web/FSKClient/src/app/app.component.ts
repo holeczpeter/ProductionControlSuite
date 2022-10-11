@@ -11,34 +11,15 @@ import { NavigationService } from './services/navigation/navigation.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  open = false;
+  
   title = 'FSKClient';
   supportedLanguages = ['hu', 'de'];
-  onDestroy$ = new Subject();
-  openedSidebar = true;
-  sidebarMenuItems!: Array<TreeItem<MenuItemModel>>;
-
-  constructor(private translateServeice: TranslateService, private router: Router, private readonly navigationService: NavigationService) {
+  constructor(private translateServeice: TranslateService,
+    private readonly router: Router ) {
+    router.events.subscribe(x => {
+      console.log(x)
+    });
     translateServeice.addLangs(this.supportedLanguages);
     translateServeice.setDefaultLang(this.supportedLanguages[1]);
-    this.router.events.pipe(takeUntil(this.onDestroy$)).subscribe((x) => {
-      if (x instanceof NavigationEnd) {
-        this.navigationService!.getMenuItems().subscribe(menuitems => {
-          if (menuitems) {
-            let currentModule = menuitems.find(menu => menu.node.path === `/${this.navigationService.moduleNameFromUrl(x.url)}`);
-            this.sidebarMenuItems = currentModule!.children;
-            console.log(this.sidebarMenuItems)
-          }
-        });
-      }});
-  }
-
-  onToggleSidebar() {
-    this.openedSidebar = !this.openedSidebar;
-    
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next(null);
   }
 }

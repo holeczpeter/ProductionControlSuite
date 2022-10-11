@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
+import { LayoutComponent } from './layout/layout/layout.component';
 
 const routes: Routes = [
   {
@@ -7,25 +9,46 @@ const routes: Routes = [
     loadChildren: () => import('./modules/account/account.module').then(module => module.AccountModule),
   },
   {
-    path: 'basic-data',
-    loadChildren: () => import('./modules/basic-data/basic-data.module').then(module => module.BasicDataModule),
-  },
-  {
-    path: 'defect-card',
-    loadChildren: () => import('./modules/summary-card/summary-card.module').then(module => module.SummaryCardModule),
-  },
-  {
-    path: 'report',
-    loadChildren: () => import('./modules/quality-assurance/quality-assurance.module').then(module => module.QualityAssuranceModule),
-  },
-  {
-    path: 'admin',
-    loadChildren: () => import('./modules/admin/admin.module').then(module => module.AdminModule),
-  },
-  {
     path: '**',
-    redirectTo: 'basic-data'
-  }
+    redirectTo: ''
+  },
+  {
+    path: '',
+    component: LayoutComponent,
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard],
+    children: [
+      {
+        path: 'basic-data',
+        loadChildren: () => import('./modules/basic-data/basic-data.module').then(module => module.BasicDataModule),
+        canLoad: [AuthGuard],
+        canActivateChild: [AuthGuard],
+      },
+      {
+        path: 'defect-card',
+        loadChildren: () => import('./modules/summary-card/summary-card.module').then(module => module.SummaryCardModule),
+        canLoad: [AuthGuard],
+        canActivateChild: [AuthGuard],
+      },
+      {
+        path: 'report',
+        loadChildren: () => import('./modules/quality-assurance/quality-assurance.module').then(module => module.QualityAssuranceModule),
+        canLoad: [AuthGuard],
+        canActivateChild: [AuthGuard],
+      },
+      {
+        path: 'admin',
+        loadChildren: () => import('./modules/admin/admin.module').then(module => module.AdminModule),
+        canLoad: [AuthGuard],
+        canActivateChild: [AuthGuard],
+      },
+      {
+        path: '**',
+        redirectTo: 'basic-data',
+        pathMatch: 'full'
+      }
+    ]
+  },
 ];
 
 

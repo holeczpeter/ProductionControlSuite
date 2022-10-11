@@ -26,5 +26,5 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit(): void {
   }
-  onSubmit() { }
+  onSubmit() { this.accountService.isLogin = true; }
 }
