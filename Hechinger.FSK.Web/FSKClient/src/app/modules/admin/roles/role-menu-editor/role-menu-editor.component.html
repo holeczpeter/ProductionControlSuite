@@ -1,45 +1,30 @@
 <div class="flex-container" *ngIf="menu && modules">
   <ng-container *ngFor="let module of modules">
-    <mat-card class="col mat-elevation-z2">
-      <mat-card-header>
-        <h2>{{module.label}}</h2>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-tree [dataSource]="module.dataSource" [treeControl]="module.treeControl">
-          <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
-            <div>
-              {{node.item.node.title}}
-            </div>
-            <mat-checkbox class="col text-right" color="primary"
-                          [checked]="descendantsAllSelected(node,module.treeControl) || checklistSelection.isSelected(node)"
-                          [indeterminate]="descendantsPartiallySelected(node,module.treeControl)"
-                          (change)="itemSelectionToggle(node,module.treeControl, $event)">
-            </mat-checkbox>
-          </mat-tree-node>
-          <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-            <div class="mat-tree-node">
-
-              <div>
-                {{node.item.node.title}}
-              </div>
-
-              <mat-checkbox class="col" color="primary"
-                            [checked]="descendantsAllSelected(node,module.treeControl) || checklistSelection.isSelected(node)"
-                            [indeterminate]="descendantsPartiallySelected(node,module.treeControl)"
-                            (change)="itemSelectionToggle(node,module.treeControl, $event)">
-              </mat-checkbox>
-              <button mat-icon-button matTreeNodeToggle
-                      [attr.aria-label]="'Toggle ' + node.item">
-                <mat-icon class="mat-icon-rtl-mirror">
-                  {{module.treeControl.isExpanded(node) ? 'expand_more' : 'expand_less'}}
-                </mat-icon>
-              </button>
-            </div>
-          </mat-tree-node>
-        </mat-tree>
-      </mat-card-content>
-    </mat-card>
-
+    <mat-tree [dataSource]="module.dataSource" [treeControl]="module.treeControl">
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+        <mat-checkbox class="checklist-leaf-node"
+                      color="primary" 
+                      [checked]="descendantsAllSelected(node,module.treeControl) || checklistSelection.isSelected(node)"
+                      [indeterminate]="descendantsPartiallySelected(node,module.treeControl)"
+                      (change)="itemSelectionToggle(node,module.treeControl, $event)">
+          {{node.item.node.title}}
+        </mat-checkbox>
+      </mat-tree-node>
+      <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+        <button mat-icon-button matTreeNodeToggle
+                [attr.aria-label]="'Toggle ' + node.item">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{module.treeControl.isExpanded(node) ? 'expand_more' : 'expand_less'}}
+          </mat-icon>
+        </button>
+        <mat-checkbox class="col" color="primary"
+                      [checked]="descendantsAllSelected(node,module.treeControl) || checklistSelection.isSelected(node)"
+                      [indeterminate]="descendantsPartiallySelected(node,module.treeControl)"
+                      (change)="itemSelectionToggle(node,module.treeControl, $event)">
+          {{node.item.node.title}}
+        </mat-checkbox>
+      </mat-tree-node>
+    </mat-tree>
   </ng-container>
 </div>
 

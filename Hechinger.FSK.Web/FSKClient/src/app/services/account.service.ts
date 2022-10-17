@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
 import { ChangePassword, GetAccessMenu, LoginModel, LoginResults, MenuItemModel, Result, TokenRequestModel, UserDataModel } from '../models/generated';
 import { TreeItem } from '../models/tree-item';
@@ -16,7 +17,10 @@ export class AccountService {
     return this.isLoggedInSubject.asObservable();
   }
 
-  constructor(private readonly httpClient: HttpClient, private readonly router: Router, private dialogRef: MatDialog) { }
+  constructor(private readonly httpClient: HttpClient,
+    private readonly router: Router,
+    private dialogRef: MatDialog,
+    private translateService: TranslateService) { }
 
 
   login(request: LoginModel) {
@@ -24,6 +28,7 @@ export class AccountService {
       if (result) {
         if (result.loginStatus == LoginResults.Success || result.loginStatus == LoginResults.IsTemporaryPassword) {
           localStorage.setItem('userData', JSON.stringify(result));
+          this.setLanguage(result)
           //this.accesMenus.next(x.accessMenus);
           //let paths = new Array<string>();
           //x.accessMenus.forEach(treeItem => {
@@ -37,6 +42,7 @@ export class AccountService {
     }
     ));
   }
+  
 
   changePassword(request: ChangePassword) {
     return this.httpClient.post<Result>('/Account/ChangePassword', request)
@@ -96,7 +102,14 @@ export class AccountService {
     if (storage != null) return (JSON.parse(storage) as UserDataModel).userInfo.id;
     else return 0;
   }
-
+  setLanguage(userData: UserDataModel) {
+    this.translateService.setDefaultLang(userData.languageCode);
+  }
+  getLanguage(): string {
+    let storage = localStorage.getItem('userData');
+    if (storage != null) return (JSON.parse(storage) as UserDataModel).languageCode;
+    else return "";
+  }
   isAuthenticated() {
     return !!localStorage.getItem('userData');
   }

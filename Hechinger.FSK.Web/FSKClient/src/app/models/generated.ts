@@ -23,18 +23,32 @@ export interface UserRefreshToken {
   token: string,
   refreshToken: string,
 }
+export interface TokenRequestModel {
+  token: string,
+  userId: number,
+  refreshToken: string,
+}
 export interface UserDataModel {
   userInfo: UserInfo,
   token: string,
   refreshToken: string,
   loginStatus: LoginResults,
+  languageCode: string,
 }
 export interface UserInfo {
   id: number,
   code: string,
   name: string,
 }
+export interface UserTokenInfo {
+  userId: number,
+  expiration: Date,
+  refreshToken: string,
+}
 export interface GetAccessMenu {
+  userId: number,
+}
+export interface GetUserTokenInfo {
   userId: number,
 }
 export interface AddDefect {
@@ -414,19 +428,6 @@ export interface GetAllWorkshops {
 }
 export interface GetWorkshop {
   id: number,
-}
-export interface GetUserTokenInfo {
-  userId: number,
-}
-export interface TokenRequestModel {
-  token: string,
-  userId: number,
-  refreshToken: string,
-}
-export interface UserTokenInfo {
-  userId: number,
-  expiration: Date,
-  refreshToken: string,
 }
 export enum LoginResults {
   Success = 0,

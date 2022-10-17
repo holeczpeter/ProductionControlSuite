@@ -9,10 +9,10 @@ export class AppComponent {
   
   title = 'FSKClient';
   supportedLanguages = ['hu', 'de'];
-  constructor(private translateServeice: TranslateService,
+  constructor(private translateService: TranslateService,
     private readonly router: Router ) {
     
-    translateServeice.addLangs(this.supportedLanguages);
-    translateServeice.setDefaultLang(this.supportedLanguages[1]);
+    translateService.addLangs(this.supportedLanguages);
+    translateService.setDefaultLang(this.supportedLanguages[1]);
   }
 }

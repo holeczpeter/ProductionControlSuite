@@ -33,6 +33,8 @@ namespace Hechinger.FSK.Application.Features
                 Code = currentUser.Code,
                 Name = currentUser.FullName,
             };
+            result.LanguageCode = currentUser.Language.Code;
+
             return result;
         }
     }

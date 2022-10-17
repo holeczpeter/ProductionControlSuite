@@ -6,6 +6,8 @@
         public string Token { get; set; }
         public string RefreshToken{ get; set; }
         public LoginResults LoginStatus { get; set; }
+
+        public string LanguageCode { get; set; }
     }
     public class UserInfo 
     {
