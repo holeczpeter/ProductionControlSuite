@@ -6,7 +6,7 @@
         public string Token { get; set; }
         public string RefreshToken{ get; set; }
         public LoginResults LoginStatus { get; set; }
-
+        public int PageSize { get; set; }
         public string LanguageCode { get; set; }
 
         public IEnumerable<TreeItem<MenuItemModel>> AccessMenu { get; set; }

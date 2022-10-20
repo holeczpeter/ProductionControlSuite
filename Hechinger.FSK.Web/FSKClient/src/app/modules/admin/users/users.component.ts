@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import { DeleteUser, UserModel } from '../../../models/generated';
+import { AccountService } from '../../../services/account.service';
 import { UserDataService } from '../../../services/data/user-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { UserEditorDialogComponent } from './user-editor-dialog/user-editor-dialog.component';
@@ -17,7 +18,7 @@ import { UserEditorDialogComponent } from './user-editor-dialog/user-editor-dial
 export class UsersComponent implements OnInit {
 
   dataSource!: MatTableDataSource<UserModel>;
-  pageSize = 25;
+  pageSize = this.accountService.getPageSize();
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -25,6 +26,7 @@ export class UsersComponent implements OnInit {
   title = "users.title";
 
   constructor(private readonly userDataService: UserDataService,
+    private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
     private readonly snackBar: SnackbarService,
     public translate: TranslateService) { }

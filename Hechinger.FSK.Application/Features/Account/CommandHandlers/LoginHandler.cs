@@ -34,7 +34,7 @@ namespace Hechinger.FSK.Application.Features
                 Name = currentUser.FullName,
             };
             result.LanguageCode = currentUser.Language.Code;
-
+            result.PageSize = currentUser.PageSize;
             return result;
         }
     }

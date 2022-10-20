@@ -8,6 +8,7 @@ import { WorkshopDataService } from '../../../services/data/workshop-data.servic
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WorkshopEditorDialogComponent } from './workshop-editor-dialog/workshop-editor-dialog.component';
+import { AccountService } from '../../../services/account.service';
 
 @Component({
   selector: 'app-workshops',
@@ -16,7 +17,7 @@ import { WorkshopEditorDialogComponent } from './workshop-editor-dialog/workshop
 })
 export class WorkshopsComponent implements OnInit {
   dataSource!: MatTableDataSource<WorkshopModel>;
-  pageSize = 25;
+  pageSize = this.accountService.getPageSize();
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -24,6 +25,7 @@ export class WorkshopsComponent implements OnInit {
   title = "workshops.title";
 
   constructor(private readonly workshopdataService: WorkshopDataService,
+    private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
     private readonly workshopDataService: WorkshopDataService,
     private readonly snackBar: SnackbarService,

@@ -139,5 +139,18 @@ export class AccountService {
     return "";
 
   }
-
+  getPageSize() {
+    let storage = localStorage.getItem('userData');
+    if (storage != null) return (JSON.parse(storage) as UserDataModel).pageSize;
+    else return 10;
+  }
+  setPageSize(pageSize: number) {
+    let storage = localStorage.getItem('userData');
+    if (storage) {
+      let userData = JSON.parse(storage) as UserDataModel;
+      userData.pageSize = pageSize;
+      localStorage.setItem("userData", JSON.stringify(userData));
+    }
+    
+  }
 }

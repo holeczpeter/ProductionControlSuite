@@ -36,6 +36,7 @@ export interface UserDataModel {
   token: string,
   refreshToken: string,
   loginStatus: LoginResults,
+  pageSize: number,
   languageCode: string,
   accessMenu: Array<any>,
 }
@@ -410,6 +411,19 @@ export interface UserModel {
 export interface GetAllUsers {
 }
 export interface GetUser {
+  id: number,
+}
+export interface UpdateUserSettings {
+  id: number,
+  languageId: number,
+  pageSize: number,
+}
+export interface UserSettingsModel {
+  id: number,
+  languageId: number,
+  pageSize: number,
+}
+export interface GetUserSettings {
   id: number,
 }
 export interface AddWorkshop {

@@ -1,1 +1,38 @@
-<p>application-settings works!</p>
+<div class="container-fluid" *ngIf="formGroup">
+  <div class="flex-title">
+    <app-title [title]="title"></app-title>
+  </div>
+  <mat-list >
+    <form [formGroup]="formGroup">
+      <div mat-subheader> {{'language'| translate}}</div>
+      <mat-list-item>
+        <mat-icon mat-list-icon>language</mat-icon>
+        <mat-form-field class="col-3 pt-3">
+          <mat-select [formControlName]="'languageId'"
+                      [placeholder]="'language' | translate" required>
+            <mat-option *ngFor="let option of languages" [value]="option.id">
+              {{ option.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error class="col" *ngIf="formGroup.get('languageId')?.hasError('required')">
+            {{'language'| translate}} {{'required' | translate}}
+          </mat-error>
+        </mat-form-field>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <div mat-subheader>{{'spreadsheet'| translate}}</div>
+      <mat-list-item>
+        <mat-icon mat-list-icon>list</mat-icon>
+        <mat-form-field class="col-3 pt-3">
+          <mat-select [formControlName]="'pageSize'" [placeholder]="'Találatok oldalanként'">
+            <mat-option *ngFor="let option of pageSizeOptions"
+                        [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-list-item>
+    </form>
+  </mat-list>
+</div>
+<button mat-flat-button (click)="onSave()" color="primary"> {{'save' | translate}} </button>

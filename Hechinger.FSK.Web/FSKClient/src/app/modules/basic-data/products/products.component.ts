@@ -10,6 +10,7 @@ import { ProductEditorDialogComponent } from './product-editor-dialog/product-ed
 import { TranslateService } from '@ngx-translate/core';
 import { ProductDataService } from '../../../services/data/product-data.service';
 import { ProductEditorModel } from '../../../models/dialog-models/product-editor-model';
+import { AccountService } from '../../../services/account.service';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -17,7 +18,7 @@ import { ProductEditorModel } from '../../../models/dialog-models/product-editor
 })
 export class ProductsComponent implements OnInit {
   dataSource!: MatTableDataSource<ProductModel>;
-  pageSize = 25;
+  pageSize = this.accountService.getPageSize();
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -26,6 +27,7 @@ export class ProductsComponent implements OnInit {
 
   constructor(private readonly productDataService: ProductDataService,
     private readonly workshopdataService: WorkshopDataService,
+    private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
     private readonly snackBar: SnackbarService,
     public translate: TranslateService) { }

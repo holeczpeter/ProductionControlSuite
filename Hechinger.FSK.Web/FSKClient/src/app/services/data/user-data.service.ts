@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddUser, DeleteUser, Result, UpdateUser, UserModel } from '../../models/generated';
+import { AddUser, DeleteUser, GetUser, Result, UpdateUser, UpdateUserSettings, UserModel } from '../../models/generated';
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +20,14 @@ export class UserDataService {
   delete(model: DeleteUser): Observable<Result> {
     return this.httpClient.post<Result>('/User/Delete', model)
   }
-
-  get(): Observable<UserModel> {
-    return this.httpClient.get<UserModel>('/User/Get');
+  
+  get(request: GetUser): Observable<UserModel> {
+    return this.httpClient.get<UserModel>('/User/Get', { params: { id: request.id } });
   }
 
   getAll(): Observable<Array<UserModel>> {
     return this.httpClient.get<Array<UserModel>>('/User/GetAll');
   }
-  
-  
+ 
+ 
 }

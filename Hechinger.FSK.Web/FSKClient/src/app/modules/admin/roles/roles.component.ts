@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import { DeleteRole, RoleModel, SetDefaultRole, UserModel } from '../../../models/generated';
+import { AccountService } from '../../../services/account.service';
 import { RoleDataService } from '../../../services/data/role-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { RoleEditorDialogComponent } from './role-editor-dialog/role-editor-dialog.component';
@@ -17,7 +18,7 @@ import { RoleEditorDialogComponent } from './role-editor-dialog/role-editor-dial
 })
 export class RolesComponent implements OnInit {
   dataSource!: MatTableDataSource<RoleModel>;
-  pageSize = 25;
+  pageSize = this.accountService.getPageSize();
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -25,6 +26,7 @@ export class RolesComponent implements OnInit {
   title = "roles.title";
 
   constructor(private readonly roleDataService: RoleDataService,
+    private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
     private readonly snackBar: SnackbarService,
     public translate: TranslateService) { }

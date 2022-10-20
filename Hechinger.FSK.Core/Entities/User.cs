@@ -16,6 +16,7 @@
         public virtual Role Role { get; set; }
         public virtual int LanguageId { get; set; }
         public virtual Language Language { get; set; }
+        public int PageSize { get; set; }
         public virtual ICollection<SummaryCard> SummaryCards { get; set; } = new HashSet<SummaryCard>();
         public virtual ICollection<WorkShopUser> WorkShops { get; set; } = new HashSet<WorkShopUser>();
     }

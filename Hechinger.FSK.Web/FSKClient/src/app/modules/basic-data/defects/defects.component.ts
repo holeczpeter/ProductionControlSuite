@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import { DefectEditorModel } from '../../../models/dialog-models/defect-editor-model';
 import { DefectModel, DeleteDefect } from '../../../models/generated';
+import { AccountService } from '../../../services/account.service';
 import { DefectDataService } from '../../../services/data/defect-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { DefectEditorDialogComponent } from './defect-editor-dialog/defect-editor-dialog.component';
@@ -18,7 +19,7 @@ import { DefectEditorDialogComponent } from './defect-editor-dialog/defect-edito
 })
 export class DefectsComponent implements  OnInit {
   dataSource!: MatTableDataSource<DefectModel>;
-  pageSize = 25;
+  pageSize = this.accountService.getPageSize();
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -26,6 +27,7 @@ export class DefectsComponent implements  OnInit {
   title = "defects.title";
 
   constructor(private readonly defectDataService: DefectDataService,
+    private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
     private readonly snackBar: SnackbarService,
     public translate: TranslateService) { }

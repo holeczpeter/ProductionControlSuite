@@ -19,6 +19,7 @@ namespace Hechinger.FSK.Web.Controllers
         {
             return await this.mediator.Send(request, cancellationToken);
         }
+       
         [HttpPost]
         public async Task<Result<bool>> Delete([FromBody] DeleteUser request, CancellationToken cancellationToken)
         {
@@ -35,6 +36,6 @@ namespace Hechinger.FSK.Web.Controllers
             return await this.mediator.Send(request, cancellationToken);
         }
 
-       
+        
     }
 }

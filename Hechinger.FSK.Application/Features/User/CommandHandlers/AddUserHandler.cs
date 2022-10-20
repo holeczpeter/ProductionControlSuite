@@ -25,7 +25,8 @@ namespace Hechinger.FSK.Application.Features
                 Salt = salt,
                 IsTemporary = true,
                 Role = role,
-                LanguageId = request.LanguageId
+                LanguageId = request.LanguageId,
+                PageSize = 25,
             };
             await this.context.AddAsync(user);
 

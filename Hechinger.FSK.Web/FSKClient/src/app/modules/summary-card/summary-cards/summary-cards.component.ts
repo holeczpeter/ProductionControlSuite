@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import { DeleteSummaryCard, SummaryCardModel } from '../../../models/generated';
+import { AccountService } from '../../../services/account.service';
 import { SummaryCardDataService } from '../../../services/data/summary-card-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { SummaryCardEditorDialogComponent } from '../summary-card-editor-dialog/summary-card-editor-dialog.component';
@@ -16,7 +17,7 @@ import { SummaryCardEditorDialogComponent } from '../summary-card-editor-dialog/
 })
 export class SummaryCardsComponent implements OnInit {
   dataSource!: MatTableDataSource<SummaryCardModel>;
-  pageSize = 25;
+  pageSize = this.accountService.getPageSize();
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -24,6 +25,7 @@ export class SummaryCardsComponent implements OnInit {
   title = "summarycard";
 
   constructor(private readonly summaryCardDataService: SummaryCardDataService,
+    private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
     private readonly snackBar: SnackbarService,
     public translate: TranslateService) { }

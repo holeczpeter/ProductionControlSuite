@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import { DeleteWorkshop, ShiftModel, WorkshopModel } from '../../../models/generated';
+import { AccountService } from '../../../services/account.service';
 import { ShiftDataService } from '../../../services/data/shift-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { ShiftEditorDialogComponent } from './shift-editor-dialog/shift-editor-dialog.component';
@@ -16,7 +17,7 @@ import { ShiftEditorDialogComponent } from './shift-editor-dialog/shift-editor-d
 })
 export class ShiftsComponent implements OnInit {
   dataSource!: MatTableDataSource<ShiftModel>;
-  pageSize = 25;
+  pageSize = this.accountService.getPageSize();
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -24,6 +25,7 @@ export class ShiftsComponent implements OnInit {
   title = "shifts.title";
 
   constructor(private readonly shiftDataService: ShiftDataService,
+    private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
     private readonly snackBar: SnackbarService,
     public translate: TranslateService) { }

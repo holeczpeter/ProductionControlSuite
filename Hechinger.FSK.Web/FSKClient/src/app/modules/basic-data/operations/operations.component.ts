@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import { OperationEditorModel } from '../../../models/dialog-models/operation-editor-model';
 import { DeleteOperation, DeleteProduct, OperationModel } from '../../../models/generated';
+import { AccountService } from '../../../services/account.service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
 import { ProductDataService } from '../../../services/data/product-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
@@ -18,7 +19,7 @@ import { OperationEditorDialogComponent } from './operation-editor-dialog/operat
 })
 export class OperationsComponent implements OnInit {
   dataSource!: MatTableDataSource<OperationModel>;
-  pageSize = 25;
+  pageSize = this.accountService.getPageSize();
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -27,6 +28,7 @@ export class OperationsComponent implements OnInit {
 
   constructor(private readonly operationDataService: OperationDataService,
     private readonly productDataService: ProductDataService,
+    private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
     private readonly snackBar: SnackbarService,
     public translate: TranslateService) { }
