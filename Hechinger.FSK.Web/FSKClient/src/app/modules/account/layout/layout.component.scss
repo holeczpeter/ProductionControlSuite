@@ -1,0 +1,100 @@
+.main-container {
+ 
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-card {
+  background-color: #FFFFFF;
+  padding: 0px 0px 16px 0px;
+  border-radius: 10px;
+  box-shadow: 4px 4px 4px rgba(0,0,0,0.25);
+}
+
+.container {
+  width: auto;
+  margin: 0px 60px 10px 60px;
+  padding: 0px;
+}
+
+.title {
+  text-align: center;
+  height: 120px;
+  color: #FFFFFF;
+  background-color: #14416A;
+  padding: 40px;
+  border-radius: 10px 10px 0px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: nowrap;
+}
+
+h1 {
+  margin: 0px
+}
+
+h3 {
+  margin: 0px
+}
+
+.logo-container {
+  height: 80px;
+  text-align: center;
+  margin: 20px 0px 20px 0px;
+}
+
+.logo {
+  text-align: center;
+  height: 80px;
+}
+
+.company-text {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.environment {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px !important;
+}
+
+.link-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.version {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  position: fixed;
+  margin-bottom: 20px;
+  bottom: 0;
+}
+.lang {
+  padding-left: 5px;
+  color: #8f534b;
+  z-index: 1000;
+}
+
+.lang:hover {
+  cursor: pointer;
+}

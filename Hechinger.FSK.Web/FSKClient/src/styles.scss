@@ -28,7 +28,10 @@ $accent: mat.define-palette($orange-palette,500);
 $theme: mat.define-light-theme($primary, $accent);
 
 @include mat.all-component-themes($theme);
+@import "./app/styles/authentication.scss";
 @import "./app/styles/dialog.scss";
+@import "./app/styles/button.scss";
+@import "./app/styles/overlay.scss";
 @import "./app/styles/snackbar.scss";
 .primary-light {
   background-color: mat.get-color-from-palette($blue-palette, 100);

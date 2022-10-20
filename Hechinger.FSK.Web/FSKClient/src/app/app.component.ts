@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent {
   
-  title = 'FSKClient';
+  title = 'FSK';
   supportedLanguages = ['hu', 'de'];
   constructor(private translateService: TranslateService,
     private readonly router: Router ) {

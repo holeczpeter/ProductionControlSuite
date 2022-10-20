@@ -12,7 +12,7 @@ import { NavigationService } from '../../services/navigation/navigation.service'
 export class HeaderComponent implements OnInit {
   companyName = "Hechinger Hungary Kft.";
   imageSrc = 'assets/images/logo.png';
-  name = 'Holecz Péter';
+  name = this.accountService.getUsername();
   currentLang!: string;
   modules!: Array<TreeItem<MenuItemModel>>;
   constructor(public translateService: TranslateService,

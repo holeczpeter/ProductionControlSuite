@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { LoginModel, LoginResults } from '../../../models/generated';
 import { AccountService } from '../../../services/account.service';
+import { ResultBuilder } from '../../../services/result/result-builder';
+import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { SpinnerService } from '../../../services/spinner/spinner.service';
 
 @Component({
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private readonly accountService: AccountService,
     private readonly router: Router,
-    private readonly snackBar: MatSnackBar,
+    private readonly snackBarService: SnackbarService,
     private readonly fb: UntypedFormBuilder,
     public readonly spinnerService: SpinnerService) {
   }
@@ -33,44 +34,31 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     let request: LoginModel = { code: this.formGroup.get('code')?.value, password: this.formGroup.get('password')?.value }
     this.accountService.login(request).subscribe(x => {
-      if (x.loginStatus === LoginResults.Success) {
-        this.snackBar.open(
-          `Sikeres bejelentkezés\nÜdv, ${x.userInfo.name}`,
-          'OK',
-          {
-            verticalPosition: 'top',
-            horizontalPosition: 'right',
-            duration: 3000
-          });
-        this.router.navigateByUrl('basic-data/workshop');
+      switch (x.loginStatus) {
 
-      }
-      else {
-        if (x.loginStatus === LoginResults.IsTemporaryPassword) {
+        case LoginResults.Success:
+          let success = new ResultBuilder().setSuccess(true).setMessage(`Sikeres bejelentkezés\nÜdv, ${x.userInfo.name}`).build();
+          this.snackBarService.open(success);
+          this.router.navigateByUrl('/home');
+          break;
+        case LoginResults.IsTemporaryPassword:
           this.router.navigateByUrl('account/change-password');
-        }
-        else {
-          const errorMessage = x.loginStatus === LoginResults.IsNotValidPassword ? "Nem megfelelő jelszó" : "Felhasználó nem létezik";
-          this.snackBar.open(
-            `Sikertelen bejelentkezés!\n${errorMessage}`,
-            'OK',
-            {
-              verticalPosition: 'top',
-              horizontalPosition: 'right',
-              duration: 3000
-            });
-        }
-
+          break;
+        case LoginResults.IsNotValidPassword:
+          const isNotValidPassword = "Nem megfelelő jelszó";
+          let isNotValidPasswordRes = new ResultBuilder().setSuccess(false).setMessage(`Sikertelen bejelentkezés!\n${isNotValidPassword}`).build();
+          this.snackBarService.open(isNotValidPasswordRes);
+          break;
+        case LoginResults.NotExistUser:
+          const notExistUser = "Felhasználó nem létezik";
+          let notExistUserRes = new ResultBuilder().setSuccess(false).setMessage(`Sikertelen bejelentkezés!\n${notExistUser}`).build();
+          this.snackBarService.open(notExistUserRes);
+          break;
+        default:
       }
     }, err => {
-      this.snackBar.open(
-        `Sikertelen bejelentkezés!\n${err}`,
-        'OK',
-        {
-          verticalPosition: 'top',
-          horizontalPosition: 'right',
-          duration: 3000
-        });
+      let notExistUserRes = new ResultBuilder().setSuccess(false).setMessage(`Sikertelen bejelentkezés!\n${err}`).build();
+      this.snackBarService.open(notExistUserRes);
     });
   }
 }

@@ -43,10 +43,20 @@ import { DialogHeaderComponent } from './dialog-header/dialog-header.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgChartsModule } from 'ng2-charts';
+import { LoaderComponent } from './loader/loader.component';
+import { OverlayLoadingDirective } from '../directives/overlay-loading.directive';
+import { SnackbarService } from '../services/snackbar/snackbar.service';
+import { SpinnerInterceptor } from '../services/interceptors/spinner.interceptor';
+import { HttpCancelService } from '../services/http-cancel.service';
+import { AuthInterceptor } from '../services/interceptors/auth.interceptor';
+import { CancelHttpInterceptor } from '../services/interceptors/cancel-http.interceptor';
 @NgModule({
   declarations: [
     TitleComponent,
     DialogHeaderComponent,
+    OverlayLoadingDirective,
+    LoaderComponent
+    
   ],
   imports: [
     CommonModule,
@@ -138,18 +148,22 @@ import { NgChartsModule } from 'ng2-charts';
     NgxMaskModule,
     NgChartsModule,
     TitleComponent,
-    DialogHeaderComponent
+    DialogHeaderComponent,
+    OverlayLoadingDirective,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },
     { provide: MatPaginatorIntl, useValue: CustomPaginator() },
     MatDatepickerModule,
-    //SnackBarService,
-    //HttpCancelService,
-    //{ provide: DateAdapter, useClass: LocaleDateAdapterService },
-    //{ provide: HTTP_INTERCEPTORS, useClass: MainHttpInterceptor, multi: true },
-
+    SnackbarService,
+    HttpCancelService,
+    { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
+  entryComponents: [
+    LoaderComponent,
+   
+  ]
 })
 export class SharedModule { }
 export function CustomPaginator() {

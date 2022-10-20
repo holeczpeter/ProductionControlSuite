@@ -1,42 +1,33 @@
-<div class="row justify-content-center">
-  <mat-card class="col-5 pt-3">
-    <div class="mainheader">
-      <h1> {{'login'| translate}} </h1>
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <mat-form-field>
+      <input matInput [formControlName]="'code'" [placeholder]="'code' | translate" required />
+      <mat-error class="col" *ngIf="formGroup.get('code')?.hasError('required')">
+        {{'code'| translate}} {{'required' | translate}}
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <mat-form-field>
+      <input matInput [formControlName]="'password'" [placeholder]="'password' | translate" required />
+      <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      <mat-error class="col" *ngIf="formGroup.get('password')?.hasError('required')">
+        {{'password'| translate}} {{'required' | translate}}
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div class="navigation">
+    <div>
+      <button mat-raised-button color="blue"
+              type="submit"
+              [disabled]="!formGroup.valid">
+        {{'login'| translate}}
+      </button>
     </div>
-    <div class="row justify-content-center pt-3">
-      <div class="col-auto">
-        <h4>{{'welcome'| translate}}</h4>
+    <div class="link-container">
+      <div>
+        <a [routerLink]="['../change-password']">{{'forgotpassword'| translate}}</a>
       </div>
     </div>
-    <div class="row pt-3">
-      <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-        <div class="row justify-content-center pt-1">
-          <mat-form-field class="col-9">
-            <input matInput [formControlName]="'code'" [placeholder]="'code' | translate" required  />
-            <mat-error class="col" *ngIf="formGroup.get('code')?.hasError('required')">
-              {{'code'| translate}} {{'required' | translate}}
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="row justify-content-center pt-1">
-          <mat-form-field class="col-9">
-            <input matInput [formControlName]="'password'" [placeholder]="'password' | translate" required />
-            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            <mat-error class="col" *ngIf="formGroup.get('password')?.hasError('required')">
-              {{'password'| translate}} {{'required' | translate}}
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="row justify-content-center pt-3">
-          <button class="col-6" mat-raised-button color="primary"
-                  type="submit"
-                  [disabled]="!formGroup.valid">
-            {{'login'| translate}}
-          </button>
-        </div>
-      </form>
-    </div>
-  </mat-card>
-</div>
-
-
+  </div>
+</form>

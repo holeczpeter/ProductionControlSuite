@@ -1,0 +1,29 @@
+<div class="main-container"
+     [overlayLoading]="this.spinnerService.visibility$"
+     [loaderData]="loaderData"
+     [onDestroy$]="onDestroy$">
+  <div>
+    <mat-card>
+      <div class="title">
+        <h1> {{'welcome'| translate}} </h1>
+      </div>
+      <div class="container">
+        <div class="logo-container">
+          <img class="logo" [src]="logo" />
+        </div>
+        <div class="company-text">
+          <h3 class="regular"> {{ companyName  }} </h3>
+        </div>
+        <router-outlet>
+        </router-outlet>
+        <span><a (click)="setLanguage('hu', $event)" class="lang">hu</a></span>
+        <span><a (click)="setLanguage('de' , $event)" class="lang">de</a></span>
+      </div>
+    </mat-card>
+  </div>
+  <div class="version">
+    <!--<div class="version-number"><h3 class="regular">Verzió: {{applicationInformation?.version}}</h3></div>
+    <div><h3 class="regular">{{applicationInformation?.copyRight}}</h3></div>-->
+  </div>
+</div>
+

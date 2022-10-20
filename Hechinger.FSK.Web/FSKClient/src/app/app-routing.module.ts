@@ -20,6 +20,12 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       {
+        path: 'home',
+        loadChildren: () => import('./modules/home/home.module').then(module => module.HomeModule),
+        canLoad: [AuthGuard],
+        canActivateChild: [AuthGuard],
+      },
+      {
         path: 'basic-data',
         loadChildren: () => import('./modules/basic-data/basic-data.module').then(module => module.BasicDataModule),
         canLoad: [AuthGuard],
@@ -45,7 +51,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: 'basic-data',
+        redirectTo: 'home',
         pathMatch: 'full'
       }
     ]

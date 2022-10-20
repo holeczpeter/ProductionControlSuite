@@ -53,13 +53,29 @@
     </ng-template>
   </mat-stepper>
   <div class="stepper-buttons">
-    <button mat-raised-button (click)="goBack(stepper)" [disabled]="stepper.selectedIndex === 0">{{ 'back' | translate }}</button>
+    <ng-container *ngIf="stepper.selectedIndex != 0">
+      <button mat-stroked-button
+              color="blue"
+              (click)="goBack(stepper)"
+              [disabled]="stepper.selectedIndex === 0">
+        {{ 'back' | translate }}
+      </button>
+    </ng-container>
     <ng-container *ngIf="stepper.selectedIndex != 2;else save">
-      <button mat-raised-button (click)="goForward(stepper)" color="primary"
-              [disabled]="formGroup && !formGroup.valid">{{ 'next' | translate}}</button>
+      <button mat-raised-button
+              color="blue"
+              (click)="goForward(stepper)"
+              [disabled]="formGroup && !formGroup.valid">
+        {{ 'next' | translate}}
+      </button>
     </ng-container>
     <ng-template #save>
-      <button mat-raised-button cdkFocusInitial color="primary" (click)="onSave()" [disabled]="formGroup && !formGroup.valid">{{'save'| translate}} </button>
+      <button mat-raised-button cdkFocusInitial
+              color="blue"
+              (click)="onSave()"
+              [disabled]="formGroup && !formGroup.valid">
+        {{'save'| translate}}
+      </button>
     </ng-template>
   </div>
 </mat-dialog-content>

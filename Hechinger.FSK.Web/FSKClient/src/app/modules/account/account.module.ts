@@ -5,12 +5,14 @@ import { AccountRoutingModule } from './account-routing.module';
 import { LoginComponent } from './login/login.component';
 import { SharedModule } from '../../shared/shared.module';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { LayoutComponent } from './layout/layout.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    LayoutComponent
   ],
   imports: [
     CommonModule,
