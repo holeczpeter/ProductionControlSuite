@@ -18,7 +18,8 @@
               {{menu.node.icon}}
             </mat-icon>
             <div class="title">
-              {{ menu.node.title }}
+              {{ (languageService.getCurrentLanguage() | async) == 'hu' ? menu.node.title : menu.node.translatedTitle}}
+
             </div>
             <ng-container *ngIf="menu.active && menu.item.type === 2;else more">
               <mat-icon class="menu-item-icon">expand_less</mat-icon>
@@ -44,7 +45,7 @@
               {{menu.node.icon}}
             </mat-icon>
             <div>
-              {{menu.node.title}}
+              {{ (languageService.getCurrentLanguage() | async) === 'hu' ? menu.node.title : menu.node.translatedTitle}}
             </div>
           </div>
         </ng-container>

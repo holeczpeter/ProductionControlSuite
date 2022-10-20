@@ -12,18 +12,19 @@ namespace Hechinger.FSK.Application.Features
         public async Task<IEnumerable<TreeItem<MenuItemModel>>> Handle(GetAllMenuItem request, CancellationToken cancellationToken)
         {
 
-            var menus = await this.context.Menus.Where(x=>x.EntityStatus == EntityStatuses.Active).Select(menu => new MenuItemModel() 
-            { 
-              Id = menu.Id,
-              Title = menu.Name,
-              Icon = menu.Icon,
-              Path = menu.Path, 
-              ParentId = menu.ParentId, 
-              Type = menu.MenuType
+            var menus = await this.context.Menus.Where(x => x.EntityStatus == EntityStatuses.Active).Select(menu => new MenuItemModel()
+            {
+                Id = menu.Id,
+                Title = menu.Name,
+                TranslatedTitle = menu.TranslatedName,
+                Icon = menu.Icon,
+                Path = menu.Path,
+                ParentId = menu.ParentId,
+                Type = menu.MenuType
             }).ToListAsync();
 
             var result = menus.GenerateTree(i => i.Id, i => i.ParentId);
-            return  result;
+            return result;
 
         }
     }

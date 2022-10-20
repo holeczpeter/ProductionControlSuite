@@ -103,6 +103,7 @@ export interface GetAllLanguages {
 export interface MenuItemModel {
   id: number,
   title: string,
+  translatedTitle: string,
   icon: string,
   path: string,
   type: MenuTypes,

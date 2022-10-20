@@ -22,7 +22,7 @@
               routerLinkActive="active"
               mat-stroked-button
               [routerLink]="[module.node.path]">
-        {{module.node.title}}
+        {{ (languageService.getCurrentLanguage() | async) === 'hu' ? module.node.title : module.node.translatedTitle}}
       </button>
     </ng-container>
   </mat-toolbar-row>

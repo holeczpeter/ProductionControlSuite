@@ -18,6 +18,7 @@ namespace Hechinger.FSK.Application.Features
             {
                 Id = menuRole.Menu.Id,
                 Title = menuRole.Menu.Name,
+                TranslatedTitle = menuRole.Menu.TranslatedName,
                 Icon = menuRole.Menu.Icon,
                 Path = menuRole.Menu.Path,
                 ParentId = menuRole.Menu.ParentId,

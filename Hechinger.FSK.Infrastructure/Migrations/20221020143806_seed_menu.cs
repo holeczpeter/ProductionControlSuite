@@ -38,7 +38,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     { 18, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu,"Jogosultságok", "Jogosultságok","Rollen", "verified_user", 2, 16, "/admin/roles"},
 
                     { 19, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.Module, "Személyes beállítások", "Személyes beállítások","Persönliche Einstellungen", "", 6, 0, "/settings"},
-                    { 20, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu,"Nyelvi beállítások", "Nyelvi beállítások","Spracheinstellungen", "language", 1, 19, "/settings/language"},
+                    { 20, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu,"Alkalmazás beállítások", "Alkalmazás beállítások","Appeinstellungen", "settings_applications", 1, 19, "/settings/application"},
                     { 21, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu,"Jelszó beállítása", "Jelszó beállítása","Passworteinstellungen", "lock", 2, 19, "/settings/password"},
 
             });

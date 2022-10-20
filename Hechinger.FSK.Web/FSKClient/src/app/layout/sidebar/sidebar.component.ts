@@ -1,9 +1,11 @@
 import { DoCheck } from '@angular/core';
 import { ChangeDetectorRef, Component, EventEmitter, Input, IterableDiffer, IterableDiffers, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { MenuItemModel } from '../../models/generated';
 import { TreeItem } from '../../models/tree-item';
 import { MenuDataService } from '../../services/data/menu-data.service';
+import { LanguageService } from '../../services/language/language.service';
 export type AccordionConfig = {
   multi?: boolean
 };
@@ -18,10 +20,12 @@ export class SidebarComponent implements OnInit, DoCheck {
   private _differ!: IterableDiffer<any>;
   submenucount!: number;
   config: AccordionConfig = { multi: false };
+  currentLang!: string;
   constructor(private readonly menudataService: MenuDataService,
     private differs: IterableDiffers,
     private readonly router: Router,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef,
+    public languageService: LanguageService) {
     this._differ = this.differs.find([]).create();
   }
 
