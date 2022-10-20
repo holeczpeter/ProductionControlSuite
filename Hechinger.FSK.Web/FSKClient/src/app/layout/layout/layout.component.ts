@@ -17,7 +17,7 @@ import { SpinnerService } from '../../services/spinner/spinner.service';
 export class LayoutComponent implements OnDestroy {
   loaderData: SpinnerData = {
     type: 'ProgressBar',
-    title: 'Adatok betöltése...'
+    title: 'loading'
   };
  
   supportedLanguages = ['hu', 'de'];

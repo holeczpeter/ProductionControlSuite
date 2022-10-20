@@ -54,6 +54,9 @@ export class AccountService {
   changeTemporaryPassword(request: ChangePassword) {
     return this.httpClient.post<Result>('/Account/ChangeTemporaryPassword', request)
   }
+  changePassword(request: ChangePassword) {
+    return this.httpClient.post<Result>('/Account/ChangePassword', request)
+  }
   forgotPassword(request: ForgotPassword) {
     return this.httpClient.post<Result>('/Account/ForgotPassword', request)
   }

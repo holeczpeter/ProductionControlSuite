@@ -15,7 +15,7 @@ export class LayoutComponent  {
 
   loaderData: SpinnerData = {
     type: 'ProgressBar',
-    title: 'Betöltés folyamatban...'
+    title: 'loading'
   };
   onDestroy$ = new Subject();
   companyName = "Hechinger Hungary Kft.";
@@ -28,9 +28,9 @@ export class LayoutComponent  {
     this.translateService.onLangChange.subscribe(x => this.currentLang = x.lang);
     this.router.events.subscribe(x => {
       if (x instanceof NavigationEnd) {
-        if (x.url.includes('login')) this.loaderData.title = "Belépés folyamatban...";
-        if (x.url.includes('forgot-password')) this.loaderData.title = "Jelszó kérése folyamatban...";
-        if (x.url.includes('change-temporary-password')) this.loaderData.title = "Jelszó beállítása folyamatban...";
+        if (x.url.includes('login')) this.loaderData.title = "logininprogress";
+        if (x.url.includes('forgot-password')) this.loaderData.title = "newpasswordrequestinprogress";
+        if (x.url.includes('change-temporary-password')) this.loaderData.title = "changepasswordinprogress";
       }
     });
     if (this.accountService.isAuthenticated()) this.router.navigate(['/']);

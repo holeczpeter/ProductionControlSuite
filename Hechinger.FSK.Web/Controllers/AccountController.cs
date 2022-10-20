@@ -42,6 +42,11 @@ namespace Hechinger.FSK.Web.Controllers
             return await this.mediator.Send(request, cancellationToken);
         }
         [HttpPost]
+        public async Task<Result<bool>> ChangePassword([FromBody] ChangePassword request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+        [HttpPost]
         public async Task<Result<bool>> ForgotPassword([FromBody] ForgotPassword request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);

@@ -37,7 +37,7 @@ export class ChangeTemporaryPasswordComponent implements OnInit {
     });
   }
   onSubmit() {
-    this.accountService.changeTemporaryPassword(this.formGroup.getRawValue()).subscribe(x => {
+    this.accountService.changePassword(this.formGroup.getRawValue()).subscribe(x => {
       this.snackBarService.open(x);
       if (x.isSuccess == true) {
         this.accountService.logout()
