@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl('/home');
           break;
         case LoginResults.IsTemporaryPassword:
-          this.router.navigateByUrl('account/change-password');
+          this.router.navigateByUrl('account/change-temporary-password');
           break;
         case LoginResults.IsNotValidPassword:
           const isNotValidPassword = "Nem megfelelő jelszó";

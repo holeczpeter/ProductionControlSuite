@@ -4,8 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
-import { ChangePassword, GetAccessMenu, LoginModel, LoginResults, MenuItemModel, Result, TokenRequestModel, UserDataModel } from '../models/generated';
+import { ChangePassword, ForgotPassword, GetAccessMenu, LoginModel, LoginResults, MenuItemModel, Result, TokenRequestModel, UserDataModel } from '../models/generated';
 import { TreeItem } from '../models/tree-item';
+import { ForgotPasswordComponent } from '../modules/account/forgot-password/forgot-password.component';
 import { TreeService } from './tree/tree.service';
 
 @Injectable({
@@ -50,10 +51,12 @@ export class AccountService {
   }
   
 
-  changePassword(request: ChangePassword) {
-    return this.httpClient.post<Result>('/Account/ChangePassword', request)
+  changeTemporaryPassword(request: ChangePassword) {
+    return this.httpClient.post<Result>('/Account/ChangeTemporaryPassword', request)
   }
-
+  forgotPassword(request: ForgotPassword) {
+    return this.httpClient.post<Result>('/Account/ForgotPassword', request)
+  }
   getAccessMenu() {
     let storage = localStorage.getItem('userData');
     if (storage != null) {

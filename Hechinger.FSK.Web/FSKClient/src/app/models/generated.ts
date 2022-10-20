@@ -13,6 +13,9 @@ export interface ChangePassword {
   oldPassword: string,
   newPassword: string,
 }
+export interface ForgotPassword {
+  code: string,
+}
 export interface LoginModel {
   code: string,
   password: string,

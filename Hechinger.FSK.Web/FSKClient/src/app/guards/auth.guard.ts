@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<u
 
     if (this.accountService.isAuthenticated()) {
       if (this.accountService.getLoginStatus() === LoginResults.IsTemporaryPassword) {
-        this.router.navigateByUrl('/account/change-password');
+        this.router.navigateByUrl('/account/change-temporary-password');
         return false;
       }
       return true;

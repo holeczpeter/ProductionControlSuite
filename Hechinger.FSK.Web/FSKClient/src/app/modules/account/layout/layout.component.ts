@@ -29,9 +29,8 @@ export class LayoutComponent  {
     this.router.events.subscribe(x => {
       if (x instanceof NavigationEnd) {
         if (x.url.includes('login')) this.loaderData.title = "Belépés folyamatban...";
-        if (x.url.includes('register')) this.loaderData.title = "Regisztáció folyamatban...";
-        if (x.url.includes('resetPassword')) this.loaderData.title = "Jelszó kérése folyamatban...";
-        if (x.url.includes('changePass')) this.loaderData.title = "Jelszó beállítása folyamatban...";
+        if (x.url.includes('forgot-password')) this.loaderData.title = "Jelszó kérése folyamatban...";
+        if (x.url.includes('change-temporary-password')) this.loaderData.title = "Jelszó beállítása folyamatban...";
       }
     });
     if (this.accountService.isAuthenticated()) this.router.navigate(['/']);

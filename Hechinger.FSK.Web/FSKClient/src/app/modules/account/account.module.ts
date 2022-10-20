@@ -4,15 +4,17 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AccountRoutingModule } from './account-routing.module';
 import { LoginComponent } from './login/login.component';
 import { SharedModule } from '../../shared/shared.module';
-import { ChangePasswordComponent } from './change-password/change-password.component';
 import { LayoutComponent } from './layout/layout.component';
+import { ChangeTemporaryPasswordComponent } from './change-temporary-password/change-temporary-password.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
-    ChangePasswordComponent,
-    LayoutComponent
+    LayoutComponent,
+    ChangeTemporaryPasswordComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     CommonModule,

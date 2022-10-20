@@ -7,11 +7,11 @@ import { SpinnerService } from '../../../services/spinner/spinner.service';
 import { CustomValidator } from '../../../validators/custom-validator';
 
 @Component({
-  selector: 'app-change-password',
-  templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.scss']
+  selector: 'app-change-temporary-password',
+  templateUrl: './change-temporary-password.component.html',
+  styleUrls: ['./change-temporary-password.component.scss']
 })
-export class ChangePasswordComponent implements OnInit {
+export class ChangeTemporaryPasswordComponent implements OnInit {
   formGroup!: UntypedFormGroup;
   hideOld = true;
   hideNew = true;
@@ -37,7 +37,7 @@ export class ChangePasswordComponent implements OnInit {
     });
   }
   onSubmit() {
-    this.accountService.changePassword(this.formGroup.getRawValue()).subscribe(x => {
+    this.accountService.changeTemporaryPassword(this.formGroup.getRawValue()).subscribe(x => {
       this.snackBarService.open(x);
       if (x.isSuccess == true) {
         this.accountService.logout()
@@ -45,3 +45,5 @@ export class ChangePasswordComponent implements OnInit {
     });
   }
 }
+
+

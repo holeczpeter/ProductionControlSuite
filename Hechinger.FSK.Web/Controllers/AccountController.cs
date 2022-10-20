@@ -37,11 +37,15 @@ namespace Hechinger.FSK.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<Result<bool>> ChangePassword([FromBody] ChangePassword request, CancellationToken cancellationToken)
+        public async Task<Result<bool>> ChangeTemporaryPassword([FromBody] ChangePassword request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
         }
-
+        [HttpPost]
+        public async Task<Result<bool>> ForgotPassword([FromBody] ForgotPassword request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
 
         [HttpGet]
         public async Task<IEnumerable<TreeItem<MenuItemModel>>> GetAll(GetAccessMenu request, CancellationToken cancellationToken)
