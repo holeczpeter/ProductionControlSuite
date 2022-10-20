@@ -8,6 +8,8 @@
         public LoginResults LoginStatus { get; set; }
 
         public string LanguageCode { get; set; }
+
+        public IEnumerable<TreeItem<MenuItemModel>> AccessMenu { get; set; }
     }
     public class UserInfo 
     {

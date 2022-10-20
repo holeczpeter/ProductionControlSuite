@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hechinger.FSK.Infrastructure.Migrations
 {
     [DbContext(typeof(FSKDbContext))]
-    [Migration("20221011132353_seed_roles")]
-    partial class seed_roles
+    [Migration("20221020152646_seed_accessmenus_developer")]
+    partial class seed_accessmenus_developer
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -707,6 +707,9 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RefreshToken")

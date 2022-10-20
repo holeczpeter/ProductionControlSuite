@@ -10,13 +10,13 @@ namespace Hechinger.FSK.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.InsertData(
-              table: "Menus",
-              columns: new[] { "Id", "Created", "Creator", "LastModified", "LastModifier", "EntityStatus", "MenuType", "Name", "DisplayName", "TranslatedName", "Icon", "Order", "ParentId", "Path" },
-              values: new object[,]
-              {
+            table: "Menus",
+            columns: new[] { "Id", "Created", "Creator", "LastModified", "LastModifier", "EntityStatus", "MenuType", "Name", "DisplayName", "TranslatedName", "Icon", "Order", "ParentId", "Path" },
+            values: new object[,]
+            {
                     { 1, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.Module, "Főoldal", "Főoldal","Startseite", "", 1, 0, "/home"},
                     { 2, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu, "Főoldal", "Főoldal","Startseite", "dashboard", 1, 1, "/home/dashboard"},
-                    
+
                     { 3, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.Module, "Hibagyűjtők", "Hibagyűjtők","Fehlersammelkarten", "", 3, 0, "/defect-card"},
                     { 4, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu, "Hibagyújtő felvitele", "Hibagyűjtők","Fehlersammelkarten", "edit", 1, 3, "/defect-card/add"},
                     { 5, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu, "Hibagyűjtők", "Hibagyűjtők","Fehlersammelkarten", "list", 2, 3, "/defect-card/summary-cards"},
@@ -41,7 +41,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     { 20, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu,"Nyelvi beállítások", "Nyelvi beállítások","Spracheinstellungen", "language", 1, 19, "/settings/language"},
                     { 21, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu,"Jelszó beállítása", "Jelszó beállítása","Passworteinstellungen", "lock", 2, 19, "/settings/password"},
 
-              });
+            });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

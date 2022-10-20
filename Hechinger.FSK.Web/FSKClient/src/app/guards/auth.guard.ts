@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<u
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    
+
     if (this.accountService.isAuthenticated()) {
       if (this.accountService.getLoginStatus() === LoginResults.IsTemporaryPassword) {
         this.router.navigateByUrl('/account/change-password');
@@ -28,8 +28,13 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<u
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    //TODO: ellenőrizni a sidebar elemeket
-    return true;
+    let storage = localStorage.getItem('availablePaths');
+    if (storage) {
+      const paths: Array<string> = JSON.parse(storage);
+      if (paths.some(s => s.includes(childRoute.url[0].path))) return true;
+      else return false;
+    }
+    else return false;
   }
   canDeactivate(
     component: unknown,
@@ -41,7 +46,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<u
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    
+
     if (!!this.accountService.isLogin) {
       this.router.navigate(['account/login']);
       return false;

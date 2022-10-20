@@ -8,7 +8,7 @@ import { SpinnerData } from '../../models/spinner-data';
 })
 export class LoaderComponent implements OnInit {
   constructor(public data: SpinnerData) {
-  console.log(data)}
+  }
   get isSpinner(): boolean {
     return this.data.type === 'Spinner';
   }

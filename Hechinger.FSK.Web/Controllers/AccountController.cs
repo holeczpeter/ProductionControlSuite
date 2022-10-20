@@ -25,7 +25,7 @@ namespace Hechinger.FSK.Web.Controllers
             Claim[] claims = { new("user", item.UserInfo.Id.ToString()) };
             item.Token = authenticationManager.GenerateSecurityToken(claims);
             item.RefreshToken = authenticationManager.GenerateRefreshToken();
-            //item.AccessMenus = await mediator.Send(new GetAccessMenus(item.UserInfo.Sztsz), cancellationToken);
+            item.AccessMenu = await mediator.Send(new GetAccessMenu(item.UserInfo.Id), cancellationToken);
             var userRefreshToken = new UserRefreshToken
             {
                 UserId = item.UserInfo.Id,

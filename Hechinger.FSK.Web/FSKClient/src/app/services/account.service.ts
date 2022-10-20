@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
 import { ChangePassword, GetAccessMenu, LoginModel, LoginResults, MenuItemModel, Result, TokenRequestModel, UserDataModel } from '../models/generated';
 import { TreeItem } from '../models/tree-item';
+import { TreeService } from './tree/tree.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,25 +17,30 @@ export class AccountService {
   public isLoggedInObservable(): Observable<boolean> {
     return this.isLoggedInSubject.asObservable();
   }
-
+  accesMenus = new BehaviorSubject<Array<TreeItem<MenuItemModel>>>(this.getAccessMenu());
+  public getAccessMenus(): Observable<Array<TreeItem<MenuItemModel>>> {
+    return this.accesMenus.asObservable();
+  }
   constructor(private readonly httpClient: HttpClient,
     private readonly router: Router,
     private dialogRef: MatDialog,
+    private readonly treeService: TreeService,
     private translateService: TranslateService) { }
 
 
   login(request: LoginModel) {
+
     return this.httpClient.post<UserDataModel>('/Account/Login', request).pipe(switchMap(result => {
       if (result) {
         if (result.loginStatus == LoginResults.Success || result.loginStatus == LoginResults.IsTemporaryPassword) {
           localStorage.setItem('userData', JSON.stringify(result));
           this.setLanguage(result)
-          //this.accesMenus.next(x.accessMenus);
-          //let paths = new Array<string>();
-          //x.accessMenus.forEach(treeItem => {
-          //  paths = paths.concat(this.treeHelper.getSubMenuItems(treeItem).map(y => y.path));
-          //});
-          //localStorage.setItem('availablePaths', JSON.stringify(paths));
+          this.accesMenus.next(result.accessMenu);
+          let paths = new Array<string>();
+          result.accessMenu.forEach(treeItem => {
+            paths = paths.concat(this.treeService.getSubMenuItems(treeItem).map(y => y.path));
+          });
+          localStorage.setItem('availablePaths', JSON.stringify(paths));
         }
       }
       this.isLoggedInSubject.next(true);
@@ -48,8 +54,13 @@ export class AccountService {
     return this.httpClient.post<Result>('/Account/ChangePassword', request)
   }
 
-  getAccessMenu(request: GetAccessMenu): Observable<Array<TreeItem<MenuItemModel>>> {
-    return this.httpClient.get<Array<TreeItem<MenuItemModel>>>('/Account/GetAccessMenu', { params: { 'userId': request.userId } });
+  getAccessMenu() {
+    let storage = localStorage.getItem('userData');
+    if (storage != null) {
+      return (JSON.parse(storage) as UserDataModel)?.accessMenu;
+    }
+    else return new Array<TreeItem<MenuItemModel>>();
+   
   }
   logout() {
     this.dialogRef.closeAll();

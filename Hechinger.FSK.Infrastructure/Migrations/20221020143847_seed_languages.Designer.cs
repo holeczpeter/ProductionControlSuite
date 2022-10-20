@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hechinger.FSK.Infrastructure.Migrations
 {
     [DbContext(typeof(FSKDbContext))]
-    [Migration("20221011141440_user_password")]
-    partial class user_password
+    [Migration("20221020143847_seed_languages")]
+    partial class seed_languages
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

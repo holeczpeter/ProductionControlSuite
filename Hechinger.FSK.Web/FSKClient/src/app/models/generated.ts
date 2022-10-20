@@ -34,6 +34,7 @@ export interface UserDataModel {
   refreshToken: string,
   loginStatus: LoginResults,
   languageCode: string,
+  accessMenu: Array<any>,
 }
 export interface UserInfo {
   id: number,
