@@ -1,10 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { map, Observable, startWith } from 'rxjs';
 import { ProductEditorModel } from '../../../../models/dialog-models/product-editor-model';
 import { AddProduct, ProductModel, UpdateProduct, WorkshopModel } from '../../../../models/generated';
 import { ProductDataService } from '../../../../services/data/product-data.service';
 import { WorkshopDataService } from '../../../../services/data/workshop-data.service';
+import { LanguageService } from '../../../../services/language/language.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
 
 @Component({
@@ -17,12 +19,14 @@ export class ProductEditorDialogComponent implements OnInit {
   product: ProductModel | null;
   formGroup: UntypedFormGroup;
   workshops!: WorkshopModel[];
+
   constructor(private readonly dialogRef: MatDialogRef<ProductEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ProductEditorModel,
     private readonly productDataService: ProductDataService,
     private readonly workshopDataService: WorkshopDataService,
     private readonly formBuilder: UntypedFormBuilder,
-    private readonly snackBar: SnackbarService) {
+    private readonly snackBar: SnackbarService,
+    public languageService: LanguageService) {
     this.product = data ? data.productModel: null;
     this.title = this.product ? "products.edit" :"products.add";
     this.formGroup = this.formBuilder.group({
@@ -37,9 +41,10 @@ export class ProductEditorDialogComponent implements OnInit {
   ngOnInit(): void {
     this.workshopDataService.getAll().subscribe(workshops => {
       this.workshops = workshops;
+     
     });
   }
-
+  
   onSave() {
     this.formGroup.get('id')?.value == 0 ? this.add() : this.update();
   }

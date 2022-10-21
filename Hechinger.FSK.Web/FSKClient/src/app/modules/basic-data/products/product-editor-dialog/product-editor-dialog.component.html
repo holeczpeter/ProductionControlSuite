@@ -25,18 +25,18 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <div class="row pt-2">
-      <mat-form-field class="col">
-        <mat-select [formControlName]="'workshopId'" [placeholder]="'workshopName' | translate" required>
-          <mat-option *ngFor="let option of workshops" [value]="option.id">
-            {{ option.name }}
-          </mat-option>
-        </mat-select>
-        <mat-error class="col" *ngIf="formGroup.get('workshopId')?.hasError('required')">
-          {{'workshopName'| translate}} {{'required' | translate}}
-        </mat-error>
-      </mat-form-field>
-    </div>
+      <div class="row pt-2">
+        <mat-form-field class="col">
+          <mat-select [formControlName]="'workshopId'" [placeholder]="'workshopName' | translate" required>
+            <mat-option *ngFor="let option of workshops" [value]="option.id">
+              {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
+            </mat-option>
+          </mat-select>
+          <mat-error class="col" *ngIf="formGroup.get('workshopId')?.hasError('required')">
+            {{'workshopName'| translate}} {{'required' | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
   </form>
 </mat-dialog-content>
 <div mat-dialog-actions>
