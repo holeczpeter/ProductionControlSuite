@@ -22,7 +22,7 @@ export class RolesComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array<string> = ['name', 'code', 'isDefault', 'edit','delete']
+  columnNames: Array<string> = ['name','translatedName', 'code', 'isDefault', 'edit','delete']
   title = "roles.title";
 
   constructor(private readonly roleDataService: RoleDataService,

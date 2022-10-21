@@ -11,9 +11,9 @@
     </div>
     <div class="row pt-2">
       <mat-form-field class="col">
-        <input matInput [formControlName]="'translatedName'" [placeholder]="'translatedname' | translate" required />
+        <input matInput [formControlName]="'translatedName'" [placeholder]="'translatedName' | translate" required />
         <mat-error class="col" *ngIf="formGroup.get('translatedName')?.hasError('required')">
-          {{'translatedname'| translate}} {{'required' | translate}}
+          {{'translatedName'| translate}} {{'required' | translate}}
         </mat-error>
       </mat-form-field>
     </div>

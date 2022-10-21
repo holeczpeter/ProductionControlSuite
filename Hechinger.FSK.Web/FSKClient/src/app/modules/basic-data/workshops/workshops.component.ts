@@ -21,7 +21,7 @@ export class WorkshopsComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array < string > =['name', 'edit', 'delete']
+  columnNames: Array<string> = ['name','translatedName', 'edit', 'delete']
   title = "workshops.title";
 
   constructor(private readonly workshopdataService: WorkshopDataService,

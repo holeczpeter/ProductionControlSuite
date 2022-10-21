@@ -22,7 +22,7 @@ export class ProductsComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array<string> = ['name','code','workshopName','copy', 'edit', 'delete']
+  columnNames: Array<string> = ['name','translatedName','code','workshopName','copy', 'edit', 'delete']
   title = "products.title";
 
   constructor(private readonly productDataService: ProductDataService,

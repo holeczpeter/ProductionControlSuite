@@ -23,7 +23,7 @@ export class DefectsComponent implements  OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array<string> = ['name', 'code', 'operationName', 'operationCode','defectCategory', 'copy', 'edit', 'delete']
+  columnNames: Array<string> = ['name','translatedName', 'code', 'operationName', 'operationCode','defectCategory', 'copy', 'edit', 'delete']
   title = "defects.title";
 
   constructor(private readonly defectDataService: DefectDataService,

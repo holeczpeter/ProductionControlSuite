@@ -23,7 +23,7 @@ export class OperationsComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array<string> = ['name', 'code', 'norma', 'operationTime', 'productName', 'productCode', 'copy', 'edit', 'delete']
+  columnNames: Array<string> = ['name', 'translatedName','code', 'norma', 'operationTime', 'productName', 'productCode', 'copy', 'edit', 'delete']
   title = "operations.title";
 
   constructor(private readonly operationDataService: OperationDataService,
