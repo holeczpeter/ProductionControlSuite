@@ -8,6 +8,7 @@ namespace Hechinger.FSK.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration) 
         {
+
             services.AddDbContext<FSKDbContext>(options =>
             {
                 options.UseLazyLoadingProxies();
