@@ -16,6 +16,7 @@ import { UntypedFormGroup } from '@angular/forms';
 import { TableColumn } from '../../../models/table-column';
 import { filter } from 'rxjs';
 import { SortService } from '../../../services/sort/sort.service';
+import { TableExportService } from '../../../services/table/table-export.service';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -27,6 +28,7 @@ export class ProductsComponent implements OnInit, AfterViewInit{
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  
   columnNames: Array<string> = ['name', 'translatedName', 'code', 'workshopName', 'copy', 'edit', 'delete'];
   filterableColumns: Array<TableColumn> =[
     {
@@ -63,13 +65,16 @@ export class ProductsComponent implements OnInit, AfterViewInit{
     private readonly snackBar: SnackbarService,
     public translate: TranslateService,
     public sortService: SortService,
-    public tableFilterService: TableFilterService) { }
+    public tableFilterService: TableFilterService,
+    private readonly exportService: TableExportService) {
+
+  }
   
 
   ngOnInit(): void {
     this.initalize();
   }
-
+ 
   initalize() {
     this.productDataService.getAll().subscribe(products => {
       this.dataSource = new MatTableDataSource<ProductModel>(products);
@@ -110,6 +115,12 @@ export class ProductsComponent implements OnInit, AfterViewInit{
       }
     });
     this.refreshDataSource(sortedData);
+  }
+  onExport() {
+    this.translate.get(this.title).subscribe(title => {
+      this.exportService.export(this.dataSource, this.filterableColumns, title);
+    });
+    
   }
   onAdd() {
     let dialogRef = this.dialog.open(ProductEditorDialogComponent, {

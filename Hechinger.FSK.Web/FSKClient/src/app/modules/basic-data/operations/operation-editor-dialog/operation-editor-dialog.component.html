@@ -1,61 +1,67 @@
-<dialog-header [title]="title" (cancel)="onCancel()"></dialog-header>
-<mat-dialog-content>
-  <form [formGroup]="formGroup">
-    <div class="row pt-2">
-      <mat-form-field class="col">
-        <input matInput [formControlName]="'name'" [placeholder]="'name' | translate" required />
-        <mat-error class="col" *ngIf="formGroup.get('name')?.hasError('required')">
-          {{'name'| translate}} {{'required' | translate}}
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="row pt-2">
-      <mat-form-field class="col">
-        <input matInput [formControlName]="'code'" [placeholder]="'code' | translate" required />
-        <mat-error class="col" *ngIf="formGroup.get('code')?.hasError('required')">
-          {{'code'| translate}} {{'required' | translate}}
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="row pt-2">
-      <mat-form-field class="col">
-        <input matInput type="number" [formControlName]="'norma'" [placeholder]="'operations.norma' | translate" required />
-        <mat-error class="col" *ngIf="formGroup.get('norma')?.hasError('required')">
-          {{'operations.norma'| translate}} {{'required' | translate}}
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="row pt-2">
-      <mat-form-field class="col">
-        <input matInput type="number" [formControlName]="'operationTime'" [placeholder]="'operations.operationTime' | translate" required />
-        <mat-error class="col" *ngIf="formGroup.get('operationTime')?.hasError('required')">
-          {{'operations.operationTime'| translate}} {{'required' | translate}}
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="row pt-2">
-      <mat-form-field class="col">
-        <input matInput [formControlName]="'translatedName'" [placeholder]="'translatedName' | translate" required />
-        <mat-error class="col" *ngIf="formGroup.get('translatedName')?.hasError('required')">
-          {{'translatedName'| translate}} {{'required' | translate}}
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="row pt-2">
-      <mat-form-field class="col">
-        <mat-select [formControlName]="'productId'" [placeholder]="'productName' | translate" required>
-          <mat-option *ngFor="let option of products" [value]="option.id">
-            {{ option.name }}
-          </mat-option>
-        </mat-select>
-        <mat-error class="col" *ngIf="formGroup.get('productId')?.hasError('required')">
-          {{'productName'| translate}} {{'required' | translate}}
-        </mat-error>
-      </mat-form-field>
-    </div>
-  </form>
-</mat-dialog-content>
-<div mat-dialog-actions>
-  <button mat-raised-button cdkFocusInitial color="blue" (click)="onSave()" [disabled]="!formGroup.valid">{{'save'| translate}} </button>
-  <button mat-stroked-button  color="blue" (click)="onCancel()">{{'cancel'| translate}} </button>
-</div>
+<ng-container *ngIf="formGroup">
+  <dialog-header [title]="title" (cancel)="onCancel()"></dialog-header>
+  <mat-dialog-content>
+    <form [formGroup]="formGroup">
+      <div class="row pt-2">
+        <mat-form-field class="col">
+          <input matInput [formControlName]="'name'" [placeholder]="'name' | translate" required />
+          <mat-error class="col" *ngIf="formGroup.get('name')?.hasError('required')">
+            {{'name'| translate}} {{'required' | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row pt-2">
+        <mat-form-field class="col">
+          <input matInput [formControlName]="'code'" [placeholder]="'code' | translate" required />
+          <mat-error class="col" *ngIf="formGroup.get('code')?.hasError('required')">
+            {{'code'| translate}} {{'required' | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row pt-2">
+        <mat-form-field class="col">
+          <input matInput type="number" [formControlName]="'norma'" [placeholder]="'operations.norma' | translate" required />
+          <mat-error class="col" *ngIf="formGroup.get('norma')?.hasError('required')">
+            {{'operations.norma'| translate}} {{'required' | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row pt-2">
+        <mat-form-field class="col">
+          <input matInput type="number" [formControlName]="'operationTime'" [placeholder]="'operations.operationTime' | translate" required />
+          <mat-error class="col" *ngIf="formGroup.get('operationTime')?.hasError('required')">
+            {{'operations.operationTime'| translate}} {{'required' | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row pt-2">
+        <mat-form-field class="col">
+          <input matInput [formControlName]="'translatedName'" [placeholder]="'translatedName' | translate" required />
+          <mat-error class="col" *ngIf="formGroup.get('translatedName')?.hasError('required')">
+            {{'translatedName'| translate}} {{'required' | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row pt-2">
+        <mat-form-field class="col">
+          <mat-select [formControlName]="'product'" [placeholder]="'productName' | translate" #singleSelect required>
+            <mat-option>
+              <ngx-mat-select-search [formControl]="filterCtrl"></ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let option of filtered | async" [value]="option">
+              {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formGroup.get('product')?.hasError('required')">
+            {{'productName'| translate}} {{'required' | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-dialog-content>
+  <div mat-dialog-actions>
+    <button mat-raised-button cdkFocusInitial color="blue" (click)="onSave()" [disabled]="!formGroup.valid">{{'save'| translate}} </button>
+    <button mat-stroked-button color="blue" (click)="onCancel()">{{'cancel'| translate}} </button>
+  </div>
+
+</ng-container>

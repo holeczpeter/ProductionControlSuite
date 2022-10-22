@@ -49,14 +49,13 @@ import { SnackbarService } from '../services/snackbar/snackbar.service';
 import { SpinnerInterceptor } from '../services/interceptors/spinner.interceptor';
 import { HttpCancelService } from '../services/http-cancel.service';
 import { AuthInterceptor } from '../services/interceptors/auth.interceptor';
-import { CancelHttpInterceptor } from '../services/interceptors/cancel-http.interceptor';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 @NgModule({
   declarations: [
     TitleComponent,
     DialogHeaderComponent,
     OverlayLoadingDirective,
-    LoaderComponent
+    LoaderComponent,
     
   ],
   imports: [
@@ -165,7 +164,6 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
   ],
   entryComponents: [
     LoaderComponent,
-   
   ]
 })
 export class SharedModule { }

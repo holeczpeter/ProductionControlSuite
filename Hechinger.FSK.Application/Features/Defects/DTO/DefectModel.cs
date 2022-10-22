@@ -10,5 +10,6 @@
         public int OperationId { get; set; }
         public string OperationName { get; set; }
         public string OperationCode { get; set; }
+        public string DefectCategoryName { get;  set; }
     }
 }

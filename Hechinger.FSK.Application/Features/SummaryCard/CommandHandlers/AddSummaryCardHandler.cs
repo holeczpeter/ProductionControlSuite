@@ -19,7 +19,7 @@
                 Date = request.Date,
                 LOS = request.Los,
                 Quantity = request.Quantity,
-                UserId = 8,
+                UserId = request.UserId,
 
             };
             await this.context.AddAsync(current, cancellationToken);

@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { SummaryCardDetailModel } from '../../../models/generated';
 import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
-import { forkJoin, Subject, takeUntil } from 'rxjs';
-import { AddSummaryCard, AddSummaryCardItem, GetDefectsByOperation, OperationModel, ShiftModel, SummaryCardItemModel, UpdateSummaryCard, UpdateSummaryCardItem } from '../../../models/generated';
-import { DefectDataService } from '../../../services/data/defect-data.service';
-import { OperationDataService } from '../../../services/data/operation-data.service';
-import { ShiftDataService } from '../../../services/data/shift-data.service';
+import { AddSummaryCard, AddSummaryCardItem } from '../../../models/generated';
+import { AccountService } from '../../../services/account.service';
 import { SummaryCardDataService } from '../../../services/data/summary-card-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 @Component({
@@ -25,7 +20,8 @@ export class AddSummaryCardComponent implements OnInit {
   constructor(
     private readonly summaryCardDataService: SummaryCardDataService,
     private readonly formBuilder: UntypedFormBuilder,
-    private readonly snackBar: SnackbarService) {
+    private readonly snackBar: SnackbarService,
+    private readonly accountService: AccountService) {
   }
 
   ngOnInit(): void {
@@ -34,7 +30,7 @@ export class AddSummaryCardComponent implements OnInit {
       id: [ 0, [Validators.required]],
       date: [ new Date(), [Validators.required]],
       worker: ['', [Validators.required]],
-      operationId: [  0, [Validators.required]],
+      operation: [null, [Validators.required]],
       quantity: [ 0, [Validators.required]],
       los: [ ''],
       shiftId: ['', [Validators.required]],
@@ -51,10 +47,11 @@ export class AddSummaryCardComponent implements OnInit {
     let model: AddSummaryCard = {
       date: this.cardForm.get('date')?.value,
       worker: this.cardForm.get('worker')?.value,
-      operationId: this.cardForm.get('operationId')?.value,
+      operationId: this.cardForm.get('operation')?.value.id,
       quantity: this.cardForm.get('quantity')?.value,
       los: this.cardForm.get('los')?.value,
       shiftId: this.cardForm.get('shiftId')?.value,
+      userId: this.accountService.getUserId(),
       items: items
     }
 
@@ -64,7 +61,6 @@ export class AddSummaryCardComponent implements OnInit {
         this.items.clear();
         this.ngOnInit();
       } 
-
     });
   }
 }

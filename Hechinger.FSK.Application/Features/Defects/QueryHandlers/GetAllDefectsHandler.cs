@@ -16,6 +16,7 @@
                 Code = x.Code,
                 TranslatedName = x.TranslatedName,
                 DefectCategory = x.DefectCategory,
+                DefectCategoryName = x.DefectCategory.GetDescription(),
                 OperationId = x.OperationId,
                 OperationCode = x.Operation.Code,
                 OperationName = x.Operation.Name,

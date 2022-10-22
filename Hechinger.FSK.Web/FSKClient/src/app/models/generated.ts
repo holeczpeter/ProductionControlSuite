@@ -83,6 +83,7 @@ export interface DefectModel {
   operationId: number,
   operationName: string,
   operationCode: string,
+  defectCategoryName: string,
 }
 export interface GetAllDefect {
 }
@@ -209,6 +210,9 @@ export interface QualityAssuranceModel {
   quantity: number,
 }
 export interface GetQualityAssurance {
+  productId: number,
+  startDate: Date,
+  endDate: Date,
 }
 export interface AddRole {
   name: string,
@@ -312,6 +316,7 @@ export interface AddSummaryCard {
   worker: string,
   operationId: number,
   quantity: number,
+  userId: number,
   los: string,
   shiftId: number,
   items: Array<AddSummaryCardItem>,
@@ -330,6 +335,7 @@ export interface UpdateSummaryCard {
   worker: string,
   operationId: number,
   quantity: number,
+  userId: number,
   los: string,
   shiftId: number,
   items: Array<UpdateSummaryCardItem>,
@@ -447,6 +453,12 @@ export interface GetAllWorkshops {
 }
 export interface GetWorkshop {
   id: number,
+}
+export interface ExcelExport {
+  body: any,
+  file: any,
+  mimeType: string,
+  documentName: string,
 }
 export enum LoginResults {
   Success = 0,

@@ -1,7 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { concatMap, forkJoin, map } from 'rxjs';
 import { SummaryCardDetailModel, SummaryCardItemModel, UpdateSummaryCard, UpdateSummaryCardItem } from '../../../models/generated';
+import { AccountService } from '../../../services/account.service';
+import { OperationDataService } from '../../../services/data/operation-data.service';
 import { SummaryCardDataService } from '../../../services/data/summary-card-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 @Component({
@@ -20,26 +23,33 @@ export class SummaryCardEditorDialogComponent implements OnInit {
   constructor(private readonly dialogRef: MatDialogRef<SummaryCardEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: number,
     private readonly summaryCardDataService: SummaryCardDataService,
+    private readonly operationDataService: OperationDataService,
     private readonly formBuilder: UntypedFormBuilder,
-    private readonly snackBar: SnackbarService) {
+    private readonly snackBar: SnackbarService,
+    private readonly accountService: AccountService) {
     this.title = "summarycard.edit";
   }
 
   ngOnInit(): void {
-    this.summaryCardDataService.get(this.data).subscribe(summaryCard => {
-      this.summaryCard = summaryCard;
-      this.cardForm = this.formBuilder.group({
-        id: [this.summaryCard ? this.summaryCard.id : 0, [Validators.required]],
-        date: [this.summaryCard ? this.summaryCard.date : '', [Validators.required]],
-        worker: [this.summaryCard ? this.summaryCard.worker : '', [Validators.required]],
-        operationId: [this.summaryCard ? this.summaryCard.operationId : 0, [Validators.required]],
-        quantity: [this.summaryCard ? this.summaryCard.quantity : 0, [Validators.required]],
-        los: [this.summaryCard ? this.summaryCard.quantity : ''],
-        shiftId: [this.summaryCard ? this.summaryCard.shiftId : '', [Validators.required]],
-        items: this.formBuilder.array([])
+    this.summaryCardDataService.get(this.data).pipe(
+      concatMap(card => forkJoin([this.operationDataService.get({ id: card.operationId })]).pipe(map(operation => ({ card, operation }))))).subscribe(results => {
+        this.summaryCard = results.card;
+        let currentOperation = results.operation;
+        this.cardForm = this.formBuilder.group({
+          id: [this.summaryCard ? this.summaryCard.id : 0, [Validators.required]],
+          date: [this.summaryCard ? this.summaryCard.date : '', [Validators.required]],
+          worker: [this.summaryCard ? this.summaryCard.worker : '', [Validators.required]],
+          operation: [this.summaryCard ? currentOperation : null, [Validators.required]],
+          quantity: [this.summaryCard ? this.summaryCard.quantity : 0, [Validators.required]],
+          los: [this.summaryCard ? this.summaryCard.quantity : ''],
+          shiftId: [this.summaryCard ? this.summaryCard.shiftId : '', [Validators.required]],
+          items: this.formBuilder.array([])
+        });
+        this.summaryCard.items.forEach((d: SummaryCardItemModel) => this.addRow(d));
       });
-      this.summaryCard.items.forEach((d: SummaryCardItemModel) => this.addRow(d));
-    });
+
+
+    
    
   }
   addRow(d: SummaryCardItemModel) {
@@ -64,10 +74,11 @@ export class SummaryCardEditorDialogComponent implements OnInit {
       id: this.cardForm.get('id')?.value,
       date: this.cardForm.get('date')?.value,
       worker: this.cardForm.get('worker')?.value,
-      operationId: this.cardForm.get('operationId')?.value,
+      operationId: this.cardForm.get('operation')?.value.id,
       quantity: this.cardForm.get('quantity')?.value,
       los: this.cardForm.get('los')?.value,
       shiftId: this.cardForm.get('shiftId')?.value,
+      userId: this.accountService.getUserId(),
       items: items
     }
 

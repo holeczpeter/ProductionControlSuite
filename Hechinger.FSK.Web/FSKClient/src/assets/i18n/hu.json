@@ -54,7 +54,6 @@
   "statusName": "Státusz",
   "fullName": "Név",
   "isDefault": "Alapértelmezett",
-  "search": "Keresés",
   "workshops": {
     "title": "Műhelyek",
     "add": "Új műhely hozzáadása",
@@ -81,7 +80,7 @@
     "title": "Hibák",
     "add": "Új hiba hozzáadása",
     "edit": "Hiba szerkesztése",
-    "defectCategory": "Hiba kategória"
+    "defectCategoryName": "Hiba kategória"
   },
   "roles": {
     "title": "Szerepkörök",

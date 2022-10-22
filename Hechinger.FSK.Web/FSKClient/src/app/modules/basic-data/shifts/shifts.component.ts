@@ -11,6 +11,7 @@ import { AccountService } from '../../../services/account.service';
 import { ShiftDataService } from '../../../services/data/shift-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { SortService } from '../../../services/sort/sort.service';
+import { TableExportService } from '../../../services/table/table-export.service';
 import { TableFilterService } from '../../../services/table/table-filter.service';
 import { ShiftEditorDialogComponent } from './shift-editor-dialog/shift-editor-dialog.component';
 
@@ -55,7 +56,8 @@ export class ShiftsComponent implements OnInit, AfterViewInit {
     private readonly snackBar: SnackbarService,
     public translate: TranslateService,
     public sortService: SortService,
-    public tableFilterService: TableFilterService) { }
+    public tableFilterService: TableFilterService,
+    private readonly exportService: TableExportService) { }
 
   ngOnInit(): void {
     this.initalize();
@@ -100,6 +102,11 @@ export class ShiftsComponent implements OnInit, AfterViewInit {
       }
     });
     this.refreshDataSource(sortedData);
+  }
+  onExport() {
+    this.translate.get(this.title).subscribe(title => {
+      this.exportService.export(this.dataSource, this.filterableColumns, title);
+    });
   }
   onAdd() {
     let dialogRef = this.dialog.open(ShiftEditorDialogComponent, {

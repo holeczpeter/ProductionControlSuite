@@ -13,6 +13,7 @@ import { TableColumn } from '../../../models/table-column';
 import { UntypedFormGroup } from '@angular/forms';
 import { SortService } from '../../../services/sort/sort.service';
 import { TableFilterService } from '../../../services/table/table-filter.service';
+import { TableExportService } from '../../../services/table/table-export.service';
 
 @Component({
   selector: 'app-workshops',
@@ -51,7 +52,8 @@ export class WorkshopsComponent implements OnInit, AfterViewInit {
     private readonly snackBar: SnackbarService,
     public translate: TranslateService,
     public sortService: SortService,
-    public tableFilterService: TableFilterService) { }
+    public tableFilterService: TableFilterService,
+    private readonly exportService: TableExportService) { }
 
   ngOnInit(): void {
     this.initalize();
@@ -95,6 +97,11 @@ export class WorkshopsComponent implements OnInit, AfterViewInit {
       }
     });
     this.refreshDataSource(sortedData);
+  }
+  onExport() {
+    this.translate.get(this.title).subscribe(title => {
+      this.exportService.export(this.dataSource, this.filterableColumns, title);
+    });
   }
   onAdd() {
     let dialogRef = this.dialog.open(WorkshopEditorDialogComponent, {

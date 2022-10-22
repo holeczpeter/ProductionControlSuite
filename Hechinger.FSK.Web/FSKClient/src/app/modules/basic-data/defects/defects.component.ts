@@ -12,11 +12,9 @@ import { AccountService } from '../../../services/account.service';
 import { DefectDataService } from '../../../services/data/defect-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { SortService } from '../../../services/sort/sort.service';
+import { TableExportService } from '../../../services/table/table-export.service';
 import { TableFilterService } from '../../../services/table/table-filter.service';
 import { DefectEditorDialogComponent } from './defect-editor-dialog/defect-editor-dialog.component';
-
-
-
 
 @Component({
   selector: 'app-defects',
@@ -29,7 +27,7 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array<string> = ['name','translatedName', 'code', 'operationName', 'operationCode','defectCategory', 'copy', 'edit', 'delete']
+  columnNames: Array<string> = ['name','translatedName', 'code', 'operationName', 'operationCode','defectCategoryName', 'copy', 'edit', 'delete']
   title = "defects.title";
   filterableColumns: Array<TableColumn> = [
     {
@@ -63,13 +61,13 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
       columnDef: 'operationCodeFilter'
     },
     {
-      name: 'defectCategory',
-      displayName: 'Termék kód',
+      name: 'defectCategoryName',
+      displayName: 'Hiba kategória',
       exportable: true,
-      columnDef: 'defectCategoryFilter'
+      columnDef: 'defectCategoryNameFilter'
     },
   ];
-  filterableColumnNames: Array<string> = ['nameFilter', 'translatedNameFilter', 'codeFilter', 'operationNameFilter', 'operationCodeFilter', 'defectCategoryFilter', 'more'];
+  filterableColumnNames: Array<string> = ['nameFilter', 'translatedNameFilter', 'codeFilter', 'operationNameFilter', 'operationCodeFilter', 'defectCategoryNameFilter', 'more'];
   filterForm: UntypedFormGroup;
   constructor(private readonly defectDataService: DefectDataService,
     private readonly accountService: AccountService,
@@ -77,7 +75,8 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
     private readonly snackBar: SnackbarService,
     public translate: TranslateService,
     public sortService: SortService,
-    public tableFilterService: TableFilterService ) { }
+    public tableFilterService: TableFilterService,
+    private readonly exportService: TableExportService) { }
 
   ngOnInit(): void {
     this.initalize();
@@ -127,6 +126,11 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
       }
     });
     this.refreshDataSource(sortedData);
+  }
+  onExport() {
+    this.translate.get(this.title).subscribe(title => {
+      this.exportService.export(this.dataSource, this.filterableColumns, title);
+    });
   }
   onAdd() {
     let dialogRef = this.dialog.open(DefectEditorDialogComponent, {

@@ -22,7 +22,7 @@
             currentCard.Date = request.Date;
             currentCard.LOS = request.Los;
             currentCard.Quantity = request.Quantity;
-            currentCard.UserId = 8;
+            currentCard.UserId = request.UserId;
 
             foreach (var item in request.Items)
             {

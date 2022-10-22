@@ -32,13 +32,16 @@
             {{'worker'| translate}} {{'required' | translate}}
           </mat-error>
         </mat-form-field>
-        <mat-form-field>
-          <mat-select [formControlName]="'operationId'" [placeholder]="'operationName' | translate" required>
-            <mat-option *ngFor="let option of operations" [value]="option.id">
-              {{ option.name }}
+        <mat-form-field class="col">
+          <mat-select [formControlName]="'operation'" [placeholder]="'operationName' | translate" #singleSelect required>
+            <mat-option>
+              <ngx-mat-select-search [formControl]="filterCtrl"></ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let option of filtered | async" [value]="option">
+              {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="cardForm.get('operationId')?.hasError('required')">
+          <mat-error *ngIf="cardForm.get('operation')?.hasError('required')">
             {{'operationName'| translate}} {{'required' | translate}}
           </mat-error>
         </mat-form-field>

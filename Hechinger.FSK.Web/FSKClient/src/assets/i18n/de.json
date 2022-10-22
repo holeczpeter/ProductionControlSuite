@@ -55,7 +55,6 @@
   "statusName": "Status",
   "fullName": "Name",
   "isDefault": "Default",
-  "search": "Suche",
   "workshops": {
     "title": "Werkstätte",
     "add": "Neue hinzufügen",
@@ -83,7 +82,7 @@
     "title": "Fehler",
     "add": "Neue hinzufügen",
     "edit": "Fehler bearbeiten",
-    "defectCategory": "Fehler Kategorie"
+    "defectCategoryName": "Fehler Kategorie"
   },
   "roles": {
     "title": "Rollen",

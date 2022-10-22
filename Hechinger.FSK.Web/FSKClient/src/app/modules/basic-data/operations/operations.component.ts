@@ -13,6 +13,7 @@ import { OperationDataService } from '../../../services/data/operation-data.serv
 import { ProductDataService } from '../../../services/data/product-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { SortService } from '../../../services/sort/sort.service';
+import { TableExportService } from '../../../services/table/table-export.service';
 import { TableFilterService } from '../../../services/table/table-filter.service';
 import { OperationEditorDialogComponent } from './operation-editor-dialog/operation-editor-dialog.component';
 
@@ -70,7 +71,8 @@ export class OperationsComponent implements OnInit, AfterViewInit {
     private readonly snackBar: SnackbarService,
     public translate: TranslateService,
     public sortService: SortService,
-    public tableFilterService: TableFilterService  ) { }
+    public tableFilterService: TableFilterService,
+    private readonly exportService: TableExportService) { }
 
   ngOnInit(): void {
     this.initalize();
@@ -120,7 +122,12 @@ export class OperationsComponent implements OnInit, AfterViewInit {
     });
     this.refreshDataSource(sortedData);
   }
- 
+  onExport() {
+    this.translate.get(this.title).subscribe(title => {
+      this.exportService.export(this.dataSource, this.filterableColumns, title);
+    });
+
+  }
   onAdd() {
     let dialogRef = this.dialog.open(OperationEditorDialogComponent, {
       disableClose: true,

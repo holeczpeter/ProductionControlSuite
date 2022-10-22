@@ -41,7 +41,6 @@ export class ProductEditorDialogComponent implements OnInit, AfterViewInit, OnDe
     
     this.workshopDataService.getAll().subscribe(workshops => {
       this.workshops = workshops;
-   
       this.formGroup = this.formBuilder.group({
         id: [this.product && !this.data.isCopy ? this.product.id : '0', [Validators.required]],
         name: [this.product ? this.product.name : '', [Validators.required]],
@@ -49,6 +48,7 @@ export class ProductEditorDialogComponent implements OnInit, AfterViewInit, OnDe
         translatedName: [this.product ? this.product.translatedName : '', [Validators.required]],
         workshop: [this.product ? this.workshops.find(ws => ws.id == this.product!.workshopId) : null, [Validators.required]],
       });
+     
       this.filtered.next(this.workshops.slice());
 
       this.filterCtrl.valueChanges
@@ -79,7 +79,6 @@ export class ProductEditorDialogComponent implements OnInit, AfterViewInit, OnDe
     this.filtered.next(this.workshops.filter(workshop => workshop.name.toLowerCase().indexOf(search) > -1));
   }
   onSave() {
-    console.log(this.formGroup)
     this.formGroup.get('id')?.value == 0 ? this.add() : this.update();
   }
 
@@ -115,7 +114,7 @@ export class ProductEditorDialogComponent implements OnInit, AfterViewInit, OnDe
     this.dialogRef.close(false);
   }
   ngAfterViewInit() {
-   this.setInitialValue();
+    this.setInitialValue();
   }
 
   ngOnDestroy() {
