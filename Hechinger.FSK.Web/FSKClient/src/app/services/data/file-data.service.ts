@@ -9,7 +9,4 @@ export class FileDataService {
 
   constructor(private readonly httpClient: HttpClient) { }
 
-  getTableExport(spreadSheetContent: ExcelExport) {
-    return this.httpClient.post('File/GetExcelExport', spreadSheetContent, { responseType: 'blob' })
-  }
 }
