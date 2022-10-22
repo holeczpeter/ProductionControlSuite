@@ -24,6 +24,7 @@
     "@ngx-translate/http-loader": "^7.0.0",
     "bootstrap": "^5.2.2",
     "chart.js": "^3.9.1",
+    "date-fns": "^2.29.3",
     "ng2-charts": "^4.0.1",
     "ngx-mask": "^14.2.3",
     "ngx-mat-select-search": "^5.0.0",

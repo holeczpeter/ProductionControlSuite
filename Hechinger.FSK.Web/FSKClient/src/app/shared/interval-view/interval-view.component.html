@@ -1,0 +1,80 @@
+<div class="row justify-content-end pt-3">
+  <div class="col-auto">
+    <mat-button-toggle-group #group="matButtonToggleGroup"
+                             appearance="legacy"
+                             [value]="intervalViewModel!.selectedView"
+                             (change)="selectionChanged(group.value)">
+      <mat-button-toggle *ngFor="let option of intervalOptions"
+                         [value]="option.value">
+        {{option.name}}
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</div>
+<ng-container [ngSwitch]="group.value" *ngIf="intervalOptions">
+  <ng-container *ngSwitchDefault>
+    <ng-container *ngTemplateOutlet="Month"> </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="views.Year">
+    <ng-container *ngTemplateOutlet="Year"></ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="views.Month">
+    <ng-container *ngTemplateOutlet="Month"></ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="views.Week">
+    <ng-container *ngTemplateOutlet="Week"></ng-container>
+  </ng-container>
+</ng-container>
+<ng-template #Year>
+  <div class="row pt-2">
+    <button type="button" class="col-auto" mat-icon-button color="red" (click)="previousYear()">
+      <mat-icon mat-list-icon color="primary" matTooltip="Előző" class="navigate-icon">navigate_before</mat-icon>
+    </button>
+    <div class="col-auto ms-auto">
+      <h2>
+        {{ intervalViewModel!.currentYear}}
+      </h2>
+    </div>
+    <button class="col-auto ms-auto" type="button" mat-icon-button color="grey" (click)="nextYear()">
+      <mat-icon mat-list-icon color="primary" matTooltip="Következő" class="navigate-icon">navigate_next</mat-icon>
+    </button>
+  </div>
+</ng-template>
+<ng-template #Month>
+  <div class="row pt-2">
+    <button type="button" class="col-auto" mat-icon-button color="grey" (click)="previousMonth()">
+      <mat-icon mat-list-icon color="primary" matTooltip="Előző" class="navigate-icon">navigate_before</mat-icon>
+    </button>
+    <div class="col-auto ms-auto">
+      <h2>
+        {{intervalViewModel!.currentYear}}.
+        {{intervalViewModel!.currentMonth}}
+      </h2>
+    </div>
+    <button type="button" class="col-auto ms-auto" mat-icon-button color="grey" (click)="nextMonth()">
+      <mat-icon mat-list-icon color="primary" matTooltip="Következő" class="navigate-icon">navigate_next</mat-icon>
+    </button>
+  </div>
+</ng-template>
+<ng-template #Week>
+  <div class="row pt-2">
+    <button type="button" class="col-auto" mat-icon-button color="grey" (click)="previousWeek()">
+      <mat-icon mat-list-icon color="primary" matTooltip="Előző" class="navigate-icon">navigate_before</mat-icon>
+    </button>
+    <div class="col-auto ms-auto">
+      <h2>
+        <ng-container *ngIf="intervalViewModel!.currentWeek  - 1 !== 0; else Turn">
+          {{intervalViewModel!.currentYear }}.
+          {{intervalViewModel!.currentWeek }}. hét
+        </ng-container>
+        <ng-template #Turn>
+          {{intervalViewModel!.currentYear }}.53. hét / {{intervalViewModel!.currentYear+1 }}.1. hét
+        </ng-template>
+      </h2>
+    </div>
+    <button type="button" class="col-auto ms-auto" mat-icon-button color="grey" (click)="nextWeek()">
+      <mat-icon mat-list-icon color="primary" matTooltip="Következő" class="navigate-icon">navigate_next</mat-icon>
+    </button>
+  </div>
+</ng-template>
+

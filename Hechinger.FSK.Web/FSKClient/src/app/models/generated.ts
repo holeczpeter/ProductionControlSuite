@@ -2,6 +2,26 @@ export interface EnumModel {
   id: number,
   name: string,
 }
+export interface IntervalModel {
+  startDate: Date,
+  endDate: Date,
+  differenceInCalendarDays: number,
+  selectedView: Views,
+  currentYear: number,
+  currentMonth: number,
+  currentMonthName: string,
+  currentWeek: number,
+}
+export interface IntervalOption {
+  name: string,
+  value: Views,
+  isDefault: boolean,
+}
+export interface MonthExtension {
+  name: string,
+  value: number,
+  stringValue: string,
+}
 export interface Result {
   isSuccess: boolean,
   message: string,
@@ -213,6 +233,7 @@ export interface GetQualityAssurance {
   productId: number,
   startDate: Date,
   endDate: Date,
+  view: Views,
 }
 export interface AddRole {
   name: string,
@@ -454,11 +475,10 @@ export interface GetAllWorkshops {
 export interface GetWorkshop {
   id: number,
 }
-export interface ExcelExport {
-  body: any,
-  file: any,
-  mimeType: string,
-  documentName: string,
+export enum Views {
+  Week = 1,
+  Month = 2,
+  Year = 3,
 }
 export enum LoginResults {
   Success = 0,

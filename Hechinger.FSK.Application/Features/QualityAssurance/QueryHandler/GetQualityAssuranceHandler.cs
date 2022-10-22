@@ -20,7 +20,7 @@ namespace Hechinger.FSK.Application.Features
         {
            
 
-            var item = await this.context.Products.Where(x => x.Id == 1).Select(x => new QualityAssuranceProductModel()
+            var item = await this.context.Products.Where(x => x.Id == request.ProductId).Select(x => new QualityAssuranceProductModel()
             {
                 ProductId = x.Id,
                 ProductCode = x.Code,
@@ -36,7 +36,7 @@ namespace Hechinger.FSK.Application.Features
                         DefectCode = def.Code,
                         DefectName = def.Name,
                         Category = def.DefectCategory,
-                        SumQuantity = 10 ,//def.SummaryCardItems.GroupBy(g=> g.DefectId).Select(gl=> new { defectId = gl.Key, items= gl.ToList() }).Select(a=> a.items.Sum(c => c.Quantity)),
+                        SumQuantity = 10,//def.SummaryCardItems.GroupBy(g=> g.DefectId).Select(gl=> new { defectId = gl.Key, items= gl.ToList() }).Select(a=> a.items.Sum(c => c.Quantity)),
                         SumPPM = 5, //def.SummaryCardItems.GroupBy(g => g.DefectId).Select(g => g.Sum(c => c.Quantity),
                         Models = def.SummaryCardItems.Select(i => new QualityAssuranceModel()
                         {

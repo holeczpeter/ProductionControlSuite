@@ -50,12 +50,14 @@ import { SpinnerInterceptor } from '../services/interceptors/spinner.interceptor
 import { HttpCancelService } from '../services/http-cancel.service';
 import { AuthInterceptor } from '../services/interceptors/auth.interceptor';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { IntervalViewComponent } from './interval-view/interval-view.component';
 @NgModule({
   declarations: [
     TitleComponent,
     DialogHeaderComponent,
     OverlayLoadingDirective,
     LoaderComponent,
+    IntervalViewComponent,
     
   ],
   imports: [
@@ -151,7 +153,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     TitleComponent,
     DialogHeaderComponent,
     OverlayLoadingDirective,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    IntervalViewComponent
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },
@@ -164,6 +167,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
   ],
   entryComponents: [
     LoaderComponent,
+    IntervalViewComponent
   ]
 })
 export class SharedModule { }

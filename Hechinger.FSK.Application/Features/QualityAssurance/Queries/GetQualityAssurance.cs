@@ -12,6 +12,7 @@ namespace Hechinger.FSK.Application.Features
         public int ProductId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public Views View { get; set; }
         public GetQualityAssurance()
         {
 

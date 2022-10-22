@@ -5,12 +5,14 @@ import { QualityAssuranceRoutingModule } from './quality-assurance-routing.modul
 import { TranslateModule } from '@ngx-translate/core';
 import { QualityAssuranceComponent } from './quality-assurance/quality-assurance.component';
 import { QualityAssuranceTableComponent } from './quality-assurance-table/quality-assurance-table.component';
+import { CrapCostsComponent } from './crap-costs/crap-costs.component';
 
 
 @NgModule({
   declarations: [
     QualityAssuranceComponent,
-    QualityAssuranceTableComponent
+    QualityAssuranceTableComponent,
+    CrapCostsComponent
   ],
   imports: [
     CommonModule,
