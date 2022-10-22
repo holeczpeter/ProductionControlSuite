@@ -93,6 +93,24 @@ export class ProductsComponent implements OnInit, AfterViewInit{
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+  sortData(sort: Sort) {
+    const data = this.dataSource.filteredData;
+    if (!sort.active || sort.direction === '') {
+      this.refreshDataSource(this.dataSource.filteredData);
+      return;
+    }
+    let sortedData = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'name': return this.sortService.compareString(a.name, b.name, isAsc);
+        case 'code': return this.sortService.compareString(a.code, b.code, isAsc);
+        case 'translatedName': return this.sortService.compareString(a.translatedName, b.translatedName, isAsc);
+        case 'workshopName': return this.sortService.compareString(a.workshopName, b.workshopName, isAsc);
+        default: return 0;
+      }
+    });
+    this.refreshDataSource(sortedData);
+  }
   onAdd() {
     let dialogRef = this.dialog.open(ProductEditorDialogComponent, {
       disableClose: true,
@@ -136,25 +154,7 @@ export class ProductsComponent implements OnInit, AfterViewInit{
 
     });
   }
-  sortData(sort: Sort) {
-    const data = this.dataSource.filteredData;
-    if (!sort.active || sort.direction === '') {
-      this.refreshDataSource(this.dataSource.filteredData);
-      return;
-    }
-    let sortedData = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'name': return this.sortService.compareString(a.name, b.name, isAsc);
-        case 'code': return this.sortService.compareString(a.code, b.code, isAsc);
-        case 'translatedName': return this.sortService.compareString(a.translatedName, b.translatedName, isAsc);
-        case 'workshopName': return this.sortService.compareString(a.workshopName, b.workshopName, isAsc);
-        
-        default: return 0;
-      }
-    });
-    this.refreshDataSource(sortedData);
-  }
+  
   ngAfterViewInit(): void {
     if (this.dataSource) {
       this.dataSource.paginator = this.paginator;

@@ -72,6 +72,9 @@
     <None Update="FSKClient\src\assets\fonts\Roboto\Roboto-Regular.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="FSKClient\src\assets\wallpaper01.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   
     <TypeScriptCompile Update="FSKClient\src\app\models\generated\generated.ts">
       <DesignTime>True</DesignTime>
