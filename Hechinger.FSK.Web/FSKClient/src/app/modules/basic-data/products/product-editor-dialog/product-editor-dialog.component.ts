@@ -41,13 +41,13 @@ export class ProductEditorDialogComponent implements OnInit, AfterViewInit, OnDe
     
     this.workshopDataService.getAll().subscribe(workshops => {
       this.workshops = workshops;
-      let currentWorkShop = this.workshops.find(ws => ws.id == this.product!.workshopId);
+   
       this.formGroup = this.formBuilder.group({
         id: [this.product && !this.data.isCopy ? this.product.id : '0', [Validators.required]],
         name: [this.product ? this.product.name : '', [Validators.required]],
         code: [this.product ? this.product.code : '', [Validators.required]],
         translatedName: [this.product ? this.product.translatedName : '', [Validators.required]],
-        workshop: [this.product ? currentWorkShop : null, [Validators.required]],
+        workshop: [this.product ? this.workshops.find(ws => ws.id == this.product!.workshopId) : null, [Validators.required]],
       });
       this.filtered.next(this.workshops.slice());
 
