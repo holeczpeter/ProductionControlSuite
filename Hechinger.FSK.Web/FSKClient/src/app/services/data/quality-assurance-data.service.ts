@@ -14,4 +14,8 @@ export class QualityAssuranceDataService {
   get(): Observable<QualityAssuranceProductModel> {
     return this.httpClient.get<QualityAssuranceProductModel>('/QualityAssurance/Get');
   }
+
+  import(): Observable<boolean> {
+    return this.httpClient.post<boolean>('/QualityAssurance/import', null)
+  }
 }

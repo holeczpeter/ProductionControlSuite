@@ -18,7 +18,15 @@ namespace Hechinger.FSK.Application.Features
 
         public async Task<QualityAssuranceProductModel> Handle(GetQualityAssurance request, CancellationToken cancellationToken)
         {
-           
+
+            var cards = this.context.SummaryCards.Where(x => x.Operation.ProductId == request.ProductId).Select(x => new {
+                OperationId= x.OperationId,
+                OperationCode = x.Operation.Code,
+                Quantity = x.Quantity,  
+                //PPM = 1000000 / x.Quantity * x.SummaryCardItems.GroupBy(g => g.DefectId).Select(g => g.Sum(c => c.Quantity))
+            });
+                
+
 
             var item = await this.context.Products.Where(x => x.Id == request.ProductId).Select(x => new QualityAssuranceProductModel()
             {
@@ -36,15 +44,9 @@ namespace Hechinger.FSK.Application.Features
                         DefectCode = def.Code,
                         DefectName = def.Name,
                         Category = def.DefectCategory,
-                        SumQuantity = 10,//def.SummaryCardItems.GroupBy(g=> g.DefectId).Select(gl=> new { defectId = gl.Key, items= gl.ToList() }).Select(a=> a.items.Sum(c => c.Quantity)),
-                        SumPPM = 5, //def.SummaryCardItems.GroupBy(g => g.DefectId).Select(g => g.Sum(c => c.Quantity),
-                        Models = def.SummaryCardItems.Select(i => new QualityAssuranceModel()
-                        {
-
-                            Date = i.SummaryCard.Date,
-                            Month = i.SummaryCard.Date.Month,
-                            Quantity = i.Quantity
-                        })
+                        SumQuantity = 10, //def.SummaryCardItems.GroupBy(g=> g.DefectId).Select(gl=> new { defectId = gl.Key, items= gl.ToList() }).Select(a=> a.items.Sum(c => c.Quantity)),
+                        //SumPPM = def.SummaryCardItems.GroupBy(g => g.DefectId).Select(g => g.Sum(c => c.Quantity))
+                       
                     })
                 })
                 

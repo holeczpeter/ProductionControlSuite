@@ -31,12 +31,17 @@ namespace Hechinger.FSK.Web.Controllers
             return await this.mediator.Send(request, cancellationToken);
         }
         [HttpGet]
-        public async Task<IEnumerable<OperationModel>> Get(GetOperationsByProduct request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<OperationModel>> GetByProduct(GetOperationsByProduct request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
         }
         [HttpGet]
         public async Task<IEnumerable<OperationModel>> GetAll(GetAllOperation request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+        [HttpGet]
+        public async Task<IEnumerable<SelectModel>> GetAllSelectModel(GetAllOperationSelect request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
         }

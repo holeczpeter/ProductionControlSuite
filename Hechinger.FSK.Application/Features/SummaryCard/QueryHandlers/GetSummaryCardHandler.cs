@@ -9,25 +9,33 @@
         }
         public async Task<SummaryCardDetailModel> Handle(GetSummaryCard request, CancellationToken cancellationToken)
         {
-            return await context.SummaryCards.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).Select(x =>
+            var card =  await context.SummaryCards.Where(card => card.Id == request.Id && card.EntityStatus == EntityStatuses.Active).Select(card =>
             new SummaryCardDetailModel()
             {
-                Id = request.Id,
-                Date = x.Date,
-                Los = x.LOS,
-                OperationId = x.OperationId,
-                Quantity = x.Quantity,
-                ShiftId = x.ShiftId,
-                Worker = x.WorkerCode,
-                Items = x.SummaryCardItems.Select(x => new SummaryCardItemModel()
-                {
-                    Id = x.Id,
-                    DefectId = x.DefectId,
-                    DefectName = x.Defect.Name,
-                    Quantity = x.Quantity,
-                    Comment = x.Comment
-                }),
+                Id = card.Id,
+                Date = card.Date,
+                Los = card.LOS,
+                OperationId = card.OperationId,
+                Quantity = card.Quantity,
+                ShiftId = card.ShiftId,
+                Worker = card.WorkerCode,
             }).FirstOrDefaultAsync();
+
+
+            var defects = this.context.Defects.Where(x => x.OperationId == card.OperationId).ToList().Select(defect =>
+            {
+                var cardItem = this.context.SummaryCardItem.Where(x => x.DefectId == defect.Id && x.SummaryCardId == card.Id).FirstOrDefault();
+                return new SummaryCardItemModel()
+                {
+                    Id = cardItem != null ?  cardItem.Id : 0,
+                    DefectId = defect.Id,
+                    DefectName = defect.Name,
+                    Quantity = cardItem != null ? cardItem.Quantity : 0,
+                    Comment = cardItem != null ? cardItem.Comment : String.Empty,
+                };
+            }).ToList();
+            card.Items = defects;
+            return card;
         }
     }
 }

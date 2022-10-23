@@ -21,7 +21,7 @@
                     ShiftName = x.Shift.Name,   
                     Quantity = x.Quantity,
                     WorkerName = x.WorkerCode,
-                }).ToArrayAsync();
+                }).OrderByDescending(x=>x.Created).ToListAsync(cancellationToken);
         }
     }
 }

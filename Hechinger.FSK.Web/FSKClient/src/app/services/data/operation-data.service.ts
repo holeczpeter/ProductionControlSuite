@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddOperation, DeleteOperation, GetOperation, GetOperationsByProduct, OperationModel, Result, UpdateOperation } from '../../models/generated';
+import { AddOperation, DeleteOperation, GetOperation, GetOperationsByProduct, OperationModel, Result, SelectModel, UpdateOperation } from '../../models/generated';
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +39,8 @@ export class OperationDataService {
 
   getAll(): Observable<Array<OperationModel>> {
     return this.httpClient.get<Array<OperationModel>>('/Operation/GetAll');
+  }
+  getAllSelect(): Observable<Array<SelectModel>> {
+    return this.httpClient.get<Array<SelectModel>>('/Operation/GetAllSelectModel');
   }
 }

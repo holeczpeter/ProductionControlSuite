@@ -3,7 +3,7 @@ import { AbstractControl, FormArray, FormControl, UntypedFormBuilder, UntypedFor
 import { MatSelect } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
 import { forkJoin, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
-import { DefectModel, GetDefectsByOperation, OperationModel, ShiftModel } from '../../../models/generated';
+import { DefectModel, GetDefectsByOperation, OperationModel, SelectModel, ShiftModel } from '../../../models/generated';
 import { DefectDataService } from '../../../services/data/defect-data.service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
 import { ShiftDataService } from '../../../services/data/shift-data.service';
@@ -19,14 +19,14 @@ import { LanguageService } from '../../../services/language/language.service';
 export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewChecked, OnDestroy,AfterViewInit {
   
   @Input() cardForm!: UntypedFormGroup;
-  operations!: OperationModel[];
+  operations!: SelectModel[];
   shifts!: ShiftModel[];
   displayedColumns: Array<string> = ['order', 'defectName', 'quantity', 'comment'];
   dataSource = new MatTableDataSource<AbstractControl>();
   destroy$: Subject<any> = new Subject();
   imageSrc = 'assets/images/logo.png';
   public filterCtrl: FormControl = new FormControl();
-  public filtered: ReplaySubject<OperationModel[]> = new ReplaySubject<OperationModel[]>(1);
+  public filtered: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
   protected _onDestroy = new Subject<void>();
   @ViewChild('singleSelect') singleSelect: MatSelect;
   get items(): FormArray {
@@ -48,7 +48,7 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
   ngOnChanges(changes: SimpleChanges): void {
     this.dataSource = new MatTableDataSource<AbstractControl>();
     if (changes['cardForm'] && this.cardForm) {
-      console.log(changes)
+     
       forkJoin([this.getAllOperation(), this.getAllShifts()]).subscribe(([operations, shifts]) => {
         this.operations = operations;
         this.shifts = shifts;
@@ -67,7 +67,7 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
     this.filtered
       .pipe(take(1), takeUntil(this._onDestroy))
       .subscribe(() => {
-        if (this.singleSelect) this.singleSelect.compareWith = (a: OperationModel, b: OperationModel) => a && b && a.id === b.id;
+        if (this.singleSelect) this.singleSelect.compareWith = (a: SelectModel, b: SelectModel) => a && b && a.id === b.id;
       });
   }
 
@@ -86,7 +86,6 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
     this.cardForm.get("operation")!
       .valueChanges
       .pipe(takeUntil(this.destroy$)).subscribe(value => {
-        console.log(value)
         this.createTable();
       });
     this.cardForm.get("items")!
@@ -111,6 +110,7 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
       'order': [1],
       'defectId': [d.id],
       'defectName': [d.name],
+      'defectTranslatedName': [d.translatedName],
       'quantity': [0],
       'comment': [''],
 
@@ -122,7 +122,7 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
     return this.summaryCardDataService.get(this.cardForm.get('id')?.value);
   }
   getAllOperation() {
-    return this.operationDataService.getAll();
+    return this.operationDataService.getAllSelect();
   }
   getAllShifts() {
     return this.shiftsDataService.getAll();

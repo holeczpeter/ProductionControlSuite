@@ -8,18 +8,18 @@ namespace Hechinger.FSK.Core.Enums
         /// F0
         /// </summary>
         [Description("F0")]
-        F0 = 1,
+        F0 = 0,
 
         /// <summary>
         /// Törölt
         /// </summary>
         [Description("F1")]
-        F1 = 2,
+        F1 = 1,
 
         /// <summary>
         /// Inaktív
         /// </summary>
         [Description("F2")]
-        F2 = 3,
+        F2 = 2,
     }
 }

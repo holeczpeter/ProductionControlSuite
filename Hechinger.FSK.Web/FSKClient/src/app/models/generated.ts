@@ -164,7 +164,15 @@ export interface OperationModel {
   productName: string,
   productCode: string,
 }
+export interface SelectModel {
+  id: number,
+  name: string,
+  translatedName: string,
+  code: string,
+}
 export interface GetAllOperation {
+}
+export interface GetAllOperationSimple {
 }
 export interface GetOperation {
   id: number,
@@ -488,9 +496,9 @@ export enum LoginResults {
   TokenError = 4,
 }
 export enum DefectCategories {
-  F0 = 1,
-  F1 = 2,
-  F2 = 3,
+  F0 = 0,
+  F1 = 1,
+  F2 = 2,
 }
 export enum MenuTypes {
   Module = 0,

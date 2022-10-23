@@ -39,7 +39,7 @@ namespace Hechinger.FSK.Infrastructure.Persistence
         }
         public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
-            await OnBeforeChangesAsync();
+           //await OnBeforeChangesAsync();
             return await base.SaveChangesAsync();
         }
 
