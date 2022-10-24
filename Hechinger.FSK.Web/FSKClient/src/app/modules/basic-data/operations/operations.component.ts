@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
+import { debounceTime } from 'rxjs';
 import { OperationEditorModel } from '../../../models/dialog-models/operation-editor-model';
 import { DeleteOperation, DeleteProduct, OperationModel } from '../../../models/generated';
 import { TableColumn } from '../../../models/table-column';
@@ -12,7 +13,10 @@ import { AccountService } from '../../../services/account.service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
 import { ProductDataService } from '../../../services/data/product-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
-import { SortService } from '../../../services/sort/sort.service';
+import { CompareService } from '../../../services/sort/sort.service';
+import { DefectFilterService } from '../../../services/table/defect-filter.service';
+import { PaginationService } from '../../../services/table/pagination.service';
+import { SortService } from '../../../services/table/sort.service';
 import { TableExportService } from '../../../services/table/table-export.service';
 import { TableFilterService } from '../../../services/table/table-filter.service';
 import { OperationEditorDialogComponent } from './operation-editor-dialog/operation-editor-dialog.component';
@@ -64,63 +68,65 @@ export class OperationsComponent implements OnInit, AfterViewInit {
   ];
   filterableColumnNames: Array<string> = ['nameFilter', 'codeFilter', 'translatedNameFilter', 'productNameFilter', 'productCodeFilter', 'more',];
   filterForm: UntypedFormGroup;
+  totalCount!: number;
   constructor(private readonly operationDataService: OperationDataService,
     private readonly productDataService: ProductDataService,
     private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
     private readonly snackBar: SnackbarService,
     public translate: TranslateService,
-    public sortService: SortService,
     public tableFilterService: TableFilterService,
-    private readonly exportService: TableExportService) { }
+    public compareService: CompareService,
+    public sortService: SortService,
+    private readonly exportService: TableExportService,
+    public paginationService: PaginationService,
+    private readonly filterService: DefectFilterService  ) { }
 
   ngOnInit(): void {
     this.initalize();
   }
   initalize() {
-    this.operationDataService.getAll().subscribe(operations => {
-      this.dataSource = new MatTableDataSource<OperationModel>(operations);
+    this.operationDataService.getAll().subscribe(result => {
+      this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
+      this.dataSource = new MatTableDataSource<OperationModel>(result.body);
       this.createDinamicallyFormGroup();
-      this.filterValueChanges();
-      this.dataSource.paginator = this.paginator;
+      this.filterForm.valueChanges.pipe(
+        debounceTime(500)).subscribe(x => {
+          this.getAll();
+        })
       this.dataSource.sort = this.sort;
     });
+    
   }
 
   createDinamicallyFormGroup(): void {
-    this.filterForm = this.tableFilterService.createFilterFormGroup(this.filterableColumns);
+    this.filterForm = this.filterService.createFilterFormGroup(this.filterableColumns);
   }
 
-  filterValueChanges(): void {
-    this.tableFilterService.getFiltered(this.filterForm, this.dataSource.data).subscribe(filtered => {
-      this.refreshDataSource(filtered);
-    });
-  }
-  refreshDataSource(elements: Array<OperationModel>): void {
-    this.dataSource = new MatTableDataSource<OperationModel>(elements);
-    this.dataSource.paginator = this.paginator;
+  refreshDataSource(elements: any): void {
+    this.totalCount = JSON.parse(elements.headers.get('X-Pagination')).totalCount;
+    this.dataSource = new MatTableDataSource<OperationModel>(elements.body);
     this.dataSource.sort = this.sort;
   }
-  sortData(sort: Sort) {
-    const data = this.dataSource.filteredData;
-    if (!sort.active || sort.direction === '') {
-      this.refreshDataSource(this.dataSource.filteredData);
-      return;
-    }
-    let sortedData = data.sort((a, b) => {
+
+  sortData(sort: Sort): void {
+    if (!sort.active || sort.direction === '') return;
+    const sortProperty = this.columnNames.find(x => x === sort.active);
+    if (sortProperty) {
       const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'name': return this.sortService.compareString(a.name, b.name, isAsc);
-        case 'code': return this.sortService.compareString(a.code, b.code, isAsc);
-        case 'translatedName': return this.sortService.compareString(a.translatedName, b.translatedName, isAsc);
-        case 'productName': return this.sortService.compareString(a.productName, b.productName, isAsc);
-        case 'productCode': return this.sortService.compareString(a.productCode, b.productCode, isAsc);
-        case 'norma': return this.sortService.compareString(a.norma, b.norma, isAsc);
-        case 'operationTime': return this.sortService.compareString(a.operationTime, b.operationTime, isAsc);
-        default: return 0;
-      }
+      this.sortService.sort(sortProperty, isAsc);
+      this.getAll();
+    }
+  }
+
+  switchPage(event: PageEvent): void {
+    this.paginationService.change(event);
+    this.getAll();
+  }
+  getAll(): void {
+    this.operationDataService.getAll().subscribe((result: any) => {
+      this.refreshDataSource(result);
     });
-    this.refreshDataSource(sortedData);
   }
   onExport() {
     this.translate.get(this.title).subscribe(title => {
@@ -173,7 +179,6 @@ export class OperationsComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     if (this.dataSource) {
-      this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }
   }

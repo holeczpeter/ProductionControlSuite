@@ -21,7 +21,12 @@
                     ShiftName = x.Shift.Name,   
                     Quantity = x.Quantity,
                     WorkerName = x.WorkerCode,
-                }).OrderByDescending(x=>x.Created).ToListAsync(cancellationToken);
+                })
+                .FilterSummaryCard(request.Parameters)
+                .OrderBy(request.Parameters.OrderBy, request.Parameters.IsAsc)
+                .Skip(request.Parameters.PageCount * (request.Parameters.Page - 1))
+                .Take(request.Parameters.PageCount)
+                .ToListAsync(cancellationToken);
         }
     }
 }

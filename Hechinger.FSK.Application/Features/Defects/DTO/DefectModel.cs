@@ -1,4 +1,6 @@
-﻿namespace Hechinger.FSK.Application.Features
+﻿using System.Linq.Expressions;
+
+namespace Hechinger.FSK.Application.Features
 {
     public class DefectModel : BaseModel
     {
@@ -11,5 +13,7 @@
         public string OperationName { get; set; }
         public string OperationCode { get; set; }
         public string DefectCategoryName { get;  set; }
+        
     }
+    
 }

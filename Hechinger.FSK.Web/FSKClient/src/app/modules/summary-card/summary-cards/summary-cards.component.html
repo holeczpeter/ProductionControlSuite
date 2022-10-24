@@ -80,9 +80,11 @@
     <tr mat-header-row *matHeaderRowDef="filterableColumnNames"></tr>
     <tr mat-row *matRowDef="let row; columns: columnNames"></tr>
   </table>
-  <mat-paginator [pageSize]="pageSize"
-                 [pageSizeOptions]="pageSizeOptions"
-                 showFirstLastButtons></mat-paginator>
+  <mat-paginator [length]="totalCount"
+                 [pageSize]="paginationService.pageCount"
+                 [pageSizeOptions]="paginationService.selectItemsPerPage"
+                 (page)="switchPage($event)">
+  </mat-paginator>
 </div>
 
 

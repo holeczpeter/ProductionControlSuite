@@ -11,7 +11,7 @@ import { WorkshopEditorDialogComponent } from './workshop-editor-dialog/workshop
 import { AccountService } from '../../../services/account.service';
 import { TableColumn } from '../../../models/table-column';
 import { UntypedFormGroup } from '@angular/forms';
-import { SortService } from '../../../services/sort/sort.service';
+import { CompareService } from '../../../services/sort/sort.service';
 import { TableFilterService } from '../../../services/table/table-filter.service';
 import { TableExportService } from '../../../services/table/table-export.service';
 
@@ -51,7 +51,7 @@ export class WorkshopsComponent implements OnInit, AfterViewInit {
     private readonly workshopDataService: WorkshopDataService,
     private readonly snackBar: SnackbarService,
     public translate: TranslateService,
-    public sortService: SortService,
+    public sortService: CompareService,
     public tableFilterService: TableFilterService,
     private readonly exportService: TableExportService) { }
 

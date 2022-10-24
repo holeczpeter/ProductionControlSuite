@@ -1,4 +1,5 @@
-﻿namespace Hechinger.FSK.Application.Features
+﻿
+namespace Hechinger.FSK.Application.Features
 {
     public class GetAllDefectsHandler : IRequestHandler<GetAllDefect, IEnumerable<DefectModel>>
     {
@@ -12,7 +13,27 @@
         public async Task<IEnumerable<DefectModel>> Handle(GetAllDefect request, CancellationToken cancellationToken)
         {
 
-            return this.cache.GetCachedDefects();
+            return await context.Defects
+                .Where(x => x.EntityStatus == EntityStatuses.Active)
+                .Select(x => new DefectModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Code = x.Code,
+                    TranslatedName = x.TranslatedName,
+                    DefectCategory = x.DefectCategory,
+                    DefectCategoryName = x.DefectCategory.GetDescription(),
+                    OperationId = x.OperationId,
+                    OperationCode = x.Operation.Code,
+                    OperationName = x.Operation.Name,
+
+                })
+                .FilterDefect(request.Parameters)
+                .OrderBy(request.Parameters.OrderBy, request.Parameters.IsAsc)
+                .Skip(request.Parameters.PageCount * (request.Parameters.Page - 1))
+                .Take(request.Parameters.PageCount)
+                .ToListAsync(cancellationToken);
+
         }
     }
 }

@@ -39,7 +39,7 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
 
   ngOnInit(): void {
     this.productDataService.getAll().subscribe(products => {
-      this.products = products;
+      this.products = products.body;
       this.formGroup = this.formBuilder.group({
         id: [this.operation && !this.data.isCopy ? this.operation.id : '0', [Validators.required]],
         name: [this.operation ? this.operation.name : '', [Validators.required]],

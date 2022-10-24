@@ -50,7 +50,7 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
     if (changes['cardForm'] && this.cardForm) {
      
       forkJoin([this.getAllOperation(), this.getAllShifts()]).subscribe(([operations, shifts]) => {
-        this.operations = operations;
+        this.operations = operations.body;
         this.shifts = shifts;
         if (this.items.length > 0) this.dataSource.data = this.items.controls;
         this.valueChanges();

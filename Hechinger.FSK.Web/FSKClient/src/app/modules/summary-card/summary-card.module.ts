@@ -7,6 +7,7 @@ import { SummaryCardEditorDialogComponent } from './summary-card-editor-dialog/s
 import { SummaryCardEditorComponent } from './summary-card-editor/summary-card-editor.component';
 import { SummaryCardRoutingModule } from './summary-card-routing.module';
 import { SummaryCardsComponent } from './summary-cards/summary-cards.component';
+import { SummaryCardPrintComponent } from './summary-card-print/summary-card-print.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { SummaryCardsComponent } from './summary-cards/summary-cards.component';
     SummaryCardsComponent,
     SummaryCardEditorComponent,
     AddSummaryCardComponent,
-    SummaryCardEditorDialogComponent
+    SummaryCardEditorDialogComponent,
+    SummaryCardPrintComponent
   ],
   imports: [
     CommonModule,

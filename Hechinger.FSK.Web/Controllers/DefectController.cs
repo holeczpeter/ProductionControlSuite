@@ -1,5 +1,7 @@
-﻿using Hechinger.FSK.Application.Common.Models;
+﻿using Hechinger.FSK.Application.Common;
+using Hechinger.FSK.Application.Common.Models;
 using Hechinger.FSK.Application.Features;
+using Newtonsoft.Json;
 
 namespace Hechinger.FSK.Web.Controllers
 {
@@ -32,9 +34,20 @@ namespace Hechinger.FSK.Web.Controllers
             return await this.mediator.Send(request, cancellationToken);
         }
         [HttpGet]
-        public async Task<IEnumerable<DefectModel>> GetAll(GetAllDefect request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAll([FromQuery]DefectRequestParameters request, CancellationToken cancellationToken)
         {
-            return await this.mediator.Send(request, cancellationToken);
+            var result = await this.mediator.Send(new GetAllDefect(request), cancellationToken);
+            var count = await this.mediator.Send(new GetDefectsCount(request), cancellationToken);
+            var paginationMetadata = new
+            {
+                totalCount = count,
+                pageSize = request.PageCount,
+                currentPage = request.Page,
+                totalPages = request.GetTotalPages(count)
+            };
+
+            HttpContext.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationMetadata));
+            return Ok(result);
         }
 
         [HttpGet]

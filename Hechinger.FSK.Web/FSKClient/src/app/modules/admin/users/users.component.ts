@@ -10,7 +10,7 @@ import { TableColumn } from '../../../models/table-column';
 import { AccountService } from '../../../services/account.service';
 import { UserDataService } from '../../../services/data/user-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
-import { SortService } from '../../../services/sort/sort.service';
+import { CompareService } from '../../../services/sort/sort.service';
 import { TableFilterService } from '../../../services/table/table-filter.service';
 import { UserEditorDialogComponent } from './user-editor-dialog/user-editor-dialog.component';
 
@@ -67,7 +67,7 @@ export class UsersComponent implements OnInit {
     private readonly dialog: MatDialog,
     private readonly snackBar: SnackbarService,
     public translate: TranslateService,
-    public sortService: SortService,
+    public sortService: CompareService,
     public tableFilterService: TableFilterService) { }
 
   ngOnInit(): void {

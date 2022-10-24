@@ -12,3 +12,4 @@ global using System.ComponentModel.DataAnnotations;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using Hechinger.FSK.Core.Helpers;
+global using Hechinger.FSK.Application.Common;

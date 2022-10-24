@@ -50,11 +50,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="FSKClient\src\app\models\generated.tt">
+    <None Update="FSKClient\src\app\modules\account\generated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>generated.ts</LastGenOutput>
     </None>
-    <None Update="FSKClient\src\app\models\generated.ts">
+    <None Update="FSKClient\src\app\modules\account\generated.ts">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>generated.tt</DependentUpon>

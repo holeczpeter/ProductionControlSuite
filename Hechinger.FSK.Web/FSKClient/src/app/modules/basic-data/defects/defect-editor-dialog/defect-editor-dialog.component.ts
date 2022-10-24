@@ -41,7 +41,7 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
 
   ngOnInit(): void {
     forkJoin([this.operationDataService.getAll(), this.defectDataService.getAllDefectCategories()]).subscribe(([operations, categories]) => {
-      this.operations = operations;
+      this.operations = operations.body;
       this.categories = categories;
       this.formGroup = this.formBuilder.group({
         id: [this.defect && !this.data.isCopy ? this.defect.id : '0', [Validators.required]],

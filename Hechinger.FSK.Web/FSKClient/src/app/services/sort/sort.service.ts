@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class SortService {
+export class CompareService {
 
   constructor() { }
   sortByName(items: Array<any>, key: string) {

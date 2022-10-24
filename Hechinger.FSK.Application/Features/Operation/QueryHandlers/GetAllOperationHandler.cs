@@ -11,8 +11,26 @@
         }
         public async Task<IEnumerable<OperationModel>> Handle(GetAllOperation request, CancellationToken cancellationToken)
         {
-            return this.cache.GetCachedOperations();
-            
+            return await this.context.Operations
+                .Where(x => x.EntityStatus == EntityStatuses.Active)
+                .Select(x => new OperationModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Code = x.Code,
+                    TranslatedName = x.TranslatedName,
+                    OperationTime = x.OperationTime,
+                    Norma = x.Norma,
+                    ProductId = x.ProductId,
+                    ProductName = x.Product.Name,
+                    ProductCode = x.Product.Code,
+                })
+                .FilterOperation(request.Parameters)
+                .OrderBy(request.Parameters.OrderBy, request.Parameters.IsAsc)
+                .Skip(request.Parameters.PageCount * (request.Parameters.Page - 1))
+                .Take(request.Parameters.PageCount)
+                .ToListAsync(cancellationToken);
+
         }
     }
 }
