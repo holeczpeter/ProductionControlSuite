@@ -13,6 +13,8 @@ namespace Hechinger.FSK.Application
         
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IAuthenticationManager), typeof(AuthenticationManager));
+            services.AddTransient(typeof(IOperationCache), typeof(OperationCache));
+            services.AddTransient(typeof(IDefectCahche), typeof(DefectCahche));
             services.AddTransient(typeof(IQualityService), typeof(QualityService));
             services.AddTransient(typeof(IImportService), typeof(ImportService));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));

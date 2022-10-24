@@ -28,7 +28,7 @@ builder.Host
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddWebApplicationServices(builder.Configuration);
-
+builder.Services.AddMemoryCache();
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
