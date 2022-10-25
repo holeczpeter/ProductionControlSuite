@@ -83,7 +83,7 @@
 <#+
     //Segéd metódusok
 
-    // TODO(BP): Nullable paramétereket még nem képes feldolgozni syntax különbség miatt
+   
     // Pl: C# -> public long? CategoryId {get;set;} | Ts -> categoryId?: number --> A neve után kéne tenni a ?-t mielőtt még kiértékeljük a property típusát.
     public string GetTypescriptName(string input){
         return Regex.Replace(input, "^.", x => x.Value.ToLowerInvariant());

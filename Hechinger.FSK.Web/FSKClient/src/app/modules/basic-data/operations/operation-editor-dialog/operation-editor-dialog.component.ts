@@ -2,10 +2,10 @@ import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
-import { take } from 'rxjs';
+import { debounceTime, forkJoin, take } from 'rxjs';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { OperationEditorModel } from '../../../../models/dialog-models/operation-editor-model';
-import { AddOperation, OperationModel, ProductModel, UpdateOperation } from '../../../../models/generated';
+import { AddOperation, OperationModel, ProductModel, SelectModel, UpdateOperation } from '../../../../models/generated';
 import { OperationDataService } from '../../../../services/data/operation-data.service';
 import { ProductDataService } from '../../../../services/data/product-data.service';
 import { LanguageService } from '../../../../services/language/language.service';
@@ -20,9 +20,9 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
   title!: string;
   operation!: OperationModel | null;
   formGroup: UntypedFormGroup;
-  products!: ProductModel[];
+  products!: SelectModel[];
   public filterCtrl: FormControl = new FormControl();
-  public filtered: ReplaySubject<ProductModel[]> = new ReplaySubject<ProductModel[]>(1);
+  public filtered: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
   protected _onDestroy = new Subject<void>();
   @ViewChild('singleSelect') singleSelect: MatSelect;
   constructor(private readonly dialogRef: MatDialogRef<OperationEditorDialogComponent>,
@@ -38,8 +38,11 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
   }
 
   ngOnInit(): void {
-    this.productDataService.getAll().subscribe(products => {
-      this.products = products.body;
+    let currentProductId = this.operation ? this.operation.productId : 0;
+    forkJoin([this.productDataService.get({ id: currentProductId }), this.productDataService.getSelectModel('')]).subscribe(([current, products]) => {
+      this.products = products;
+      if(current) this.products.splice(1, 0, { id: current.id, code: current.code, name: current.name, translatedName: current.translatedName });
+      
       this.formGroup = this.formBuilder.group({
         id: [this.operation && !this.data.isCopy ? this.operation.id : '0', [Validators.required]],
         name: [this.operation ? this.operation.name : '', [Validators.required]],
@@ -49,25 +52,14 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
         translatedName: [this.operation ? this.operation.translatedName : '', [Validators.required]],
         product: [this.operation ? this.products.find(ws => ws.id == this.operation!.productId) : null, [Validators.required]],
       });
+      this.filterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
+        debounceTime(500)).subscribe(filter => {
+          this.filter();
+        })
       this.filtered.next(this.products.slice());
-
-      this.filterCtrl.valueChanges
-        .pipe(takeUntil(this._onDestroy))
-        .subscribe(() => {
-          this.filterItems();
-        });
-
     });
   }
-  protected setInitialValue() {
-    this.filtered
-      .pipe(take(1), takeUntil(this._onDestroy))
-      .subscribe(() => {
-        if (this.singleSelect) this.singleSelect.compareWith = (a: ProductModel, b: ProductModel) => a && b && a.id === b.id;
-      });
-  }
-
-  protected filterItems() {
+  filter(): void {
     if (!this.products) return;
     let search = this.filterCtrl.value;
     if (!search) {
@@ -75,8 +67,12 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
       return;
     }
     else search = search.toLowerCase();
-    this.filtered.next(this.products.filter(product => product.name.toLowerCase().indexOf(search) > -1));
+    this.productDataService.getSelectModel(search).subscribe((result: any) => {
+      this.products = result;
+      this.filtered.next(this.products.slice());
+    });
   }
+  
   onSave() {
     this.formGroup.get('id')?.value == 0 ? this.add() : this.update();
   }
@@ -118,7 +114,7 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
     this.dialogRef.close(false);
   }
   ngAfterViewInit() {
-    this.setInitialValue();
+    
   }
 
   ngOnDestroy() {

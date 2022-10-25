@@ -54,7 +54,7 @@ namespace Hechinger.FSK.Web.Controllers
             return Ok(result);
         }
         [HttpGet]
-        public async Task<IEnumerable<SelectModel>> GetAllSelectModel(GetAllOperationSelect request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SelectModel>> GetSelectModel(GetOperationSelectModel request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
         }

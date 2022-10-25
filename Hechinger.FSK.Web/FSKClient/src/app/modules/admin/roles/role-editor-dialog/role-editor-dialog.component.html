@@ -52,7 +52,7 @@
       <mat-icon>playlist_add_check</mat-icon>
     </ng-template>
   </mat-stepper>
-  <div class="stepper-buttons">
+  <div [ngClass]="stepper.selectedIndex !== 0 ? 'stepper-buttons' : 'stepper-buttons-flex-end'">
     <ng-container *ngIf="stepper.selectedIndex != 0">
       <button mat-stroked-button
               color="blue"

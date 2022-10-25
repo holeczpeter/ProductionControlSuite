@@ -45,7 +45,7 @@
               <ngx-mat-select-search [formControl]="filterCtrl"></ngx-mat-select-search>
             </mat-option>
             <mat-option *ngFor="let option of filtered | async" [value]="option">
-              {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
+              {{option.code}} -  {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
             </mat-option>
           </mat-select>
           <mat-error *ngIf="formGroup.get('operation')?.hasError('required')">

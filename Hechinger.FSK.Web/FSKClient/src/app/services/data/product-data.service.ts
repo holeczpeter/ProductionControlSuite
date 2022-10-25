@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddProduct, DeleteProduct, ProductModel, Result, UpdateProduct } from '../../models/generated';
+import { AddProduct, DeleteProduct, GetProduct, ProductModel, Result, SelectModel, UpdateProduct } from '../../models/generated';
 import { DefectFilterService } from '../table/defect-filter.service';
 import { PaginationService } from '../table/pagination.service';
 import { SortService } from '../table/sort.service';
@@ -16,22 +16,33 @@ export class ProductDataService {
     private readonly sortService: SortService,
     private readonly filterService: DefectFilterService) { }
 
-  add(model: AddProduct): Observable<Result> {
-    return this.httpClient.post<Result>('/Product/Add', model)
+  add(request: AddProduct): Observable<Result> {
+    return this.httpClient.post<Result>('/Product/Add', request)
   }
 
-  update(model: UpdateProduct): Observable<Result> {
-    return this.httpClient.post<Result>('/Product/Update', model)
+  update(request: UpdateProduct): Observable<Result> {
+    return this.httpClient.post<Result>('/Product/Update', request)
   }
 
-  delete(model: DeleteProduct): Observable<Result> {
-    return this.httpClient.post<Result>('/Product/Delete', model)
+  delete(request: DeleteProduct): Observable<Result> {
+    return this.httpClient.post<Result>('/Product/Delete', request)
   }
 
-  get(): Observable<ProductModel> {
-    return this.httpClient.get<ProductModel>('/Product/Get');
+  get(request: GetProduct): Observable<ProductModel> {
+    return this.httpClient.get<ProductModel>('/Product/Get', {
+      params:
+      {
+        id: request.id,
+      }});
   }
-
+  getSelectModel(filter: string): Observable<Array<SelectModel>> {
+    return this.httpClient.get<Array<SelectModel>> ('/Product/GetSelectModel', {
+      params:
+      {
+        filter: filter,
+      }
+    });
+  }
   getAll(): Observable<any> {
     return this.httpClient.get<any>('/Product/GetAll', {
       params:

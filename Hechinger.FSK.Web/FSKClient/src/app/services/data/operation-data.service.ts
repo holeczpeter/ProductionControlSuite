@@ -16,16 +16,16 @@ export class OperationDataService {
     private readonly sortService: SortService,
     private readonly filterService: DefectFilterService) { }
 
-  add(model: AddOperation): Observable<Result> {
-    return this.httpClient.post<Result>('/Operation/Add', model)
+  add(request: AddOperation): Observable<Result> {
+    return this.httpClient.post<Result>('/Operation/Add', request)
   }
 
-  update(model: UpdateOperation): Observable<Result> {
-    return this.httpClient.post<Result>('/Operation/Update', model)
+  update(request: UpdateOperation): Observable<Result> {
+    return this.httpClient.post<Result>('/Operation/Update', request)
   }
 
-  delete(model: DeleteOperation): Observable<Result> {
-    return this.httpClient.post<Result>('/Operation/Delete', model)
+  delete(request: DeleteOperation): Observable<Result> {
+    return this.httpClient.post<Result>('/Operation/Delete', request)
   }
 
   get(request: GetOperation): Observable<OperationModel> {
@@ -59,7 +59,12 @@ export class OperationDataService {
       }, observe: 'response'
     });
   }
-  getAllSelect(): Observable<Array<SelectModel>> {
-    return this.httpClient.get<Array<SelectModel>>('/Operation/GetAllSelectModel');
+  getSelectModel(filter: string): Observable<Array<SelectModel>> {
+    return this.httpClient.get<Array<SelectModel>>('/Operation/GetSelectModel', {
+      params:
+      {
+        filter: filter,
+      }
+    });
   }
 }

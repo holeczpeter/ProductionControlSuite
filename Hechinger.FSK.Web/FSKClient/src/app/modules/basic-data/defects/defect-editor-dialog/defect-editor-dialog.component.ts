@@ -2,10 +2,10 @@ import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
-import { forkJoin, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
+import { debounceTime, forkJoin, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
 import { DefectEditorModel } from '../../../../models/dialog-models/defect-editor-model';
 import { OperationEditorModel } from '../../../../models/dialog-models/operation-editor-model';
-import { AddDefect, AddOperation, DefectModel, EnumModel, OperationModel, ProductModel, UpdateDefect, UpdateOperation } from '../../../../models/generated';
+import { AddDefect, AddOperation, DefectModel, EnumModel, OperationModel, ProductModel, SelectModel, UpdateDefect, UpdateOperation } from '../../../../models/generated';
 import { DefectDataService } from '../../../../services/data/defect-data.service';
 import { OperationDataService } from '../../../../services/data/operation-data.service';
 import { ProductDataService } from '../../../../services/data/product-data.service';
@@ -17,14 +17,14 @@ import { SnackbarService } from '../../../../services/snackbar/snackbar.service'
   templateUrl: './defect-editor-dialog.component.html',
   styleUrls: ['./defect-editor-dialog.component.scss']
 })
-export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDestroy{
+export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDestroy {
   title!: string;
   defect!: DefectModel | null;
   formGroup: UntypedFormGroup;
-  operations!: OperationModel[];
+  operations!: SelectModel[];
   categories!: EnumModel[];
   public filterCtrl: FormControl = new FormControl();
-  public filtered: ReplaySubject<OperationModel[]> = new ReplaySubject<OperationModel[]>(1);
+  public filtered: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
   protected _onDestroy = new Subject<void>();
   @ViewChild('singleSelect') singleSelect: MatSelect;
   constructor(private readonly dialogRef: MatDialogRef<DefectEditorDialogComponent>,
@@ -36,12 +36,16 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
     public languageService: LanguageService) {
     this.defect = data ? data.defectModel : null;
     this.title = this.defect ? "defects.edit" : "defects.add";
-    
+
   }
 
   ngOnInit(): void {
-    forkJoin([this.operationDataService.getAll(), this.defectDataService.getAllDefectCategories()]).subscribe(([operations, categories]) => {
-      this.operations = operations.body;
+    let currentOperationId = this.defect ? this.defect.operationId : 0;
+    forkJoin([this.operationDataService.get({ id: currentOperationId }),
+    this.operationDataService.getSelectModel(''),
+    this.defectDataService.getAllDefectCategories()]).subscribe(([current, operations, categories]) => {
+      this.operations = operations;
+      if (current) this.operations.splice(1, 0, { id: current.id, code: current.code, name: current.name, translatedName: current.translatedName });
       this.categories = categories;
       this.formGroup = this.formBuilder.group({
         id: [this.defect && !this.data.isCopy ? this.defect.id : '0', [Validators.required]],
@@ -51,25 +55,17 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
         defectCategory: [this.defect ? this.defect.defectCategory : '', [Validators.required]],
         operation: [this.defect ? this.operations.find(ws => ws.id == this.defect!.operationId) : null, [Validators.required]],
       });
-
+      this.filterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
+        debounceTime(500)).subscribe(filter => {
+          this.filter();
+        });
+      this.filtered.next(this.operations.slice());
       this.filtered.next(this.operations.slice());
 
-      this.filterCtrl.valueChanges
-        .pipe(takeUntil(this._onDestroy))
-        .subscribe(() => {
-          this.filterItems();
-        });
+
     })
   }
-  protected setInitialValue() {
-    this.filtered
-      .pipe(take(1), takeUntil(this._onDestroy))
-      .subscribe(() => {
-        if (this.singleSelect) this.singleSelect.compareWith = (a: ProductModel, b: ProductModel) => a && b && a.id === b.id;
-      });
-  }
-
-  protected filterItems() {
+  filter(): void {
     if (!this.operations) return;
     let search = this.filterCtrl.value;
     if (!search) {
@@ -77,7 +73,10 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
       return;
     }
     else search = search.toLowerCase();
-    this.filtered.next(this.operations.filter(operation => operation.name.toLowerCase().indexOf(search) > -1));
+    this.operationDataService.getSelectModel(search).subscribe((result: any) => {
+      this.operations = result;
+      this.filtered.next(this.operations.slice());
+    });
   }
   onSave() {
     this.formGroup.get('id')?.value == 0 ? this.add() : this.update();
@@ -118,7 +117,7 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
     this.dialogRef.close(false);
   }
   ngAfterViewInit() {
-    this.setInitialValue();
+
   }
 
   ngOnDestroy() {

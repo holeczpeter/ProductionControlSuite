@@ -2,8 +2,8 @@ import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, Input, O
 import { AbstractControl, FormArray, FormControl, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
-import { forkJoin, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
-import { DefectModel, GetDefectsByOperation, OperationModel, SelectModel, ShiftModel } from '../../../models/generated';
+import { debounceTime, forkJoin, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
+import { DefectModel, GetDefectsByOperation, GetOperation, OperationModel, SelectModel, ShiftModel } from '../../../models/generated';
 import { DefectDataService } from '../../../services/data/defect-data.service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
 import { ShiftDataService } from '../../../services/data/shift-data.service';
@@ -48,30 +48,22 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
   ngOnChanges(changes: SimpleChanges): void {
     this.dataSource = new MatTableDataSource<AbstractControl>();
     if (changes['cardForm'] && this.cardForm) {
-     
-      forkJoin([this.getAllOperation(), this.getAllShifts()]).subscribe(([operations, shifts]) => {
-        this.operations = operations.body;
+      let currentOperationId = this.cardForm && this.cardForm.get('operation') && this.cardForm.get('operation')!.value != null && this.cardForm.get('operation')?.value.id ? this.cardForm.get('operation')?.value.id : 0;
+      forkJoin([this.getCurrentOperation({ id: currentOperationId}), this.getOperationSelectModel(''), this.getAllShifts()]).subscribe(([currentOperation,operations, shifts]) => {
+        this.operations = operations;
+        if (currentOperation) this.operations.splice(0, 0, { id: currentOperation.id, code: currentOperation.code, name: currentOperation.name, translatedName: currentOperation.translatedName });
         this.shifts = shifts;
         if (this.items.length > 0) this.dataSource.data = this.items.controls;
         this.valueChanges();
+        this.filterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
+          debounceTime(500)).subscribe(filter => {
+            this.filter();
+          })
         this.filtered.next(this.operations.slice());
-        this.filterCtrl.valueChanges
-          .pipe(takeUntil(this._onDestroy))
-          .subscribe(() => {
-            this.filterItems();
-          });
       })
     }
   }
-  protected setInitialValue() {
-    this.filtered
-      .pipe(take(1), takeUntil(this._onDestroy))
-      .subscribe(() => {
-        if (this.singleSelect) this.singleSelect.compareWith = (a: SelectModel, b: SelectModel) => a && b && a.id === b.id;
-      });
-  }
-
-  protected filterItems() {
+  filter(): void {
     if (!this.operations) return;
     let search = this.filterCtrl.value;
     if (!search) {
@@ -79,8 +71,10 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
       return;
     }
     else search = search.toLowerCase();
-
-    this.filtered.next(this.operations.filter(operation => operation.name.toLowerCase().indexOf(search) > -1));
+    this.getOperationSelectModel(search).subscribe((result: any) => {
+      this.operations = result;
+      this.filtered.next(this.operations.slice());
+    });
   }
   valueChanges(): void {
     this.cardForm.get("operation")!
@@ -121,8 +115,11 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
   getSummaryCard() {
     return this.summaryCardDataService.get(this.cardForm.get('id')?.value);
   }
-  getAllOperation() {
-    return this.operationDataService.getAll();
+  getCurrentOperation(request: GetOperation) {
+    return this.operationDataService.get(request);
+  }
+  getOperationSelectModel(filter:string) {
+    return this.operationDataService.getSelectModel(filter);
   }
   getAllShifts() {
     return this.shiftsDataService.getAll();
@@ -134,7 +131,7 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
     this.changeDetectorRef.detectChanges();
   }
   ngAfterViewInit() {
-    this.setInitialValue();
+   
   }
   ngOnDestroy(): void {
     this.destroy$.next(null);
