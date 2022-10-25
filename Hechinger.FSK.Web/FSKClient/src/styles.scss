@@ -33,6 +33,8 @@ $theme: mat.define-light-theme($primary, $accent);
 @import "./app/styles/button.scss";
 @import "./app/styles/overlay.scss";
 @import "./app/styles/snackbar.scss";
+@import "./app/styles/table.scss";
+@import "./app/styles/form-field.scss";
 .primary-light {
   background-color: mat.get-color-from-palette($blue-palette, 100);
   color: mat-contrast($blue-palette, 100);
