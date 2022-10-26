@@ -5,7 +5,7 @@ import { MatSelect } from '@angular/material/select';
 import { debounceTime, forkJoin, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
 import { DefectEditorModel } from '../../../../models/dialog-models/defect-editor-model';
 import { OperationEditorModel } from '../../../../models/dialog-models/operation-editor-model';
-import { AddDefect, AddOperation, DefectModel, EnumModel, OperationModel, ProductModel, SelectModel, UpdateDefect, UpdateOperation } from '../../../../models/generated';
+import { AddDefect, AddOperation, DefectModel, EnumModel, OperationModel, ProductModel, SelectModel, UpdateDefect, UpdateOperation } from '../../../../models/generated/generated';
 import { DefectDataService } from '../../../../services/data/defect-data.service';
 import { OperationDataService } from '../../../../services/data/operation-data.service';
 import { ProductDataService } from '../../../../services/data/product-data.service';

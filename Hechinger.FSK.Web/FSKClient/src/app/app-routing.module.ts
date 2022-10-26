@@ -39,7 +39,7 @@ const routes: Routes = [
       },
       {
         path: 'report',
-        loadChildren: () => import('./modules/quality-assurance/quality-assurance.module').then(module => module.QualityAssuranceModule),
+        loadChildren: () => import('./modules/quality/quality.module').then(module => module.QualityModule),
         canLoad: [AuthGuard],
         canActivateChild: [AuthGuard],
       },

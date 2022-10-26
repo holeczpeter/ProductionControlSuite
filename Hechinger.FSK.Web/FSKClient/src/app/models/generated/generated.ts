@@ -28,6 +28,12 @@ export interface Result {
   entities: any,
   errors: Array<string>,
 }
+export interface SelectModel {
+  id: number,
+  name: string,
+  translatedName: string,
+  code: string,
+}
 export interface ChangePassword {
   code: string,
   oldPassword: string,
@@ -106,6 +112,19 @@ export interface DefectModel {
   defectCategoryName: string,
 }
 export interface GetAllDefect {
+  parameters: DefectRequestParameters,
+}
+export interface DefectRequestParameters {
+  operationName: string,
+  operationCode: string,
+  defectCategoryName: string,
+  code: string,
+  name: string,
+  translatedName: string,
+  orderBy: string,
+  isAsc: boolean,
+  page: number,
+  pageCount: number,
 }
 export interface GetAllDefectCategories {
 }
@@ -114,6 +133,18 @@ export interface GetDefect {
 }
 export interface GetDefectsByOperation {
   operationId: number,
+}
+export interface GetDefectsCount {
+  parameters: RequestParameters,
+}
+export interface RequestParameters {
+  code: string,
+  name: string,
+  translatedName: string,
+  orderBy: string,
+  isAsc: boolean,
+  page: number,
+  pageCount: number,
 }
 export interface LanguageModel {
   id: number,
@@ -164,21 +195,31 @@ export interface OperationModel {
   productName: string,
   productCode: string,
 }
-export interface SelectModel {
-  id: number,
+export interface GetAllOperation {
+  parameters: OperationRequestParameters,
+}
+export interface OperationRequestParameters {
+  productName: string,
+  productCode: string,
+  code: string,
   name: string,
   translatedName: string,
-  code: string,
-}
-export interface GetAllOperation {
-}
-export interface GetAllOperationSimple {
+  orderBy: string,
+  isAsc: boolean,
+  page: number,
+  pageCount: number,
 }
 export interface GetOperation {
   id: number,
 }
 export interface GetOperationsByProduct {
   productId: number,
+}
+export interface GetOperationsCount {
+  parameters: RequestParameters,
+}
+export interface GetOperationSelectModel {
+  filter: string,
 }
 export interface AddProduct {
   name: string,
@@ -206,9 +247,36 @@ export interface ProductModel {
   operations: Array<OperationModel>,
 }
 export interface GetAllProducts {
+  parameters: ProductRequestParameters,
+}
+export interface ProductRequestParameters {
+  workshopName: string,
+  code: string,
+  name: string,
+  translatedName: string,
+  orderBy: string,
+  isAsc: boolean,
+  page: number,
+  pageCount: number,
 }
 export interface GetProduct {
   id: number,
+}
+export interface GetProductsCount {
+  parameters: RequestParameters,
+}
+export interface GetProductSelectModel {
+  filter: string,
+}
+export interface MonthlyQualityItem {
+  year: number,
+  month: number,
+  value: number,
+}
+export interface MonthlyQualityModel {
+  category: DefectCategories,
+  categoryName: string,
+  items: Array<MonthlyQualityItem>,
 }
 export interface QualityAssuranceProductModel {
   productId: number,
@@ -236,6 +304,10 @@ export interface QualityAssuranceModel {
   date: Date,
   month: number,
   quantity: number,
+}
+export interface GetMonthlyQualityHistory {
+  productId: number,
+  year: number,
 }
 export interface GetQualityAssurance {
   productId: number,
@@ -405,9 +477,30 @@ export interface SummaryCardModel {
   quantity: number,
 }
 export interface GetAllSummaryCards {
+  parameters: SummaryCardRequestParameters,
+}
+export interface SummaryCardRequestParameters {
+  date: string,
+  created: string,
+  operationCode: string,
+  operationName: string,
+  userName: string,
+  shiftName: string,
+  quantity: string,
+  workerName: string,
+  code: string,
+  name: string,
+  translatedName: string,
+  orderBy: string,
+  isAsc: boolean,
+  page: number,
+  pageCount: number,
 }
 export interface GetSummaryCard {
   id: number,
+}
+export interface GetSummaryCardsCount {
+  parameters: SummaryCardRequestParameters,
 }
 export interface AddUser {
   id: number,

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AddWorkshop, UpdateWorkshop, WorkshopModel } from '../../../../models/generated';
+import { AddWorkshop, UpdateWorkshop, WorkshopModel } from '../../../../models/generated/generated';
 import { WorkshopDataService } from '../../../../services/data/workshop-data.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
 

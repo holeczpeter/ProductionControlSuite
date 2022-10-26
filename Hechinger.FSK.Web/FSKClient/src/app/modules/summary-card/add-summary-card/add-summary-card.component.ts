@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { AddSummaryCard, AddSummaryCardItem } from '../../../models/generated';
+import { AddSummaryCard, AddSummaryCardItem } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { SummaryCardDataService } from '../../../services/data/summary-card-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';

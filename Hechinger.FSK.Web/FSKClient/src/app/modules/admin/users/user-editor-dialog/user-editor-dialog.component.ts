@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { forkJoin } from 'rxjs';
-import { AddUser, LanguageModel, RoleModel, UpdateUser, UserModel } from '../../../../models/generated';
+import { AddUser, LanguageModel, RoleModel, UpdateUser, UserModel } from '../../../../models/generated/generated';
 import { LanguageDataService } from '../../../../services/data/language-data.service';
 import { RoleDataService } from '../../../../services/data/role-data.service';
 import { UserDataService } from '../../../../services/data/user-data.service';

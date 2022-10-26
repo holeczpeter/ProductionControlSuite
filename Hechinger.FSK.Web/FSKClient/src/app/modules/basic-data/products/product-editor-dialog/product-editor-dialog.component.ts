@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { map, Observable, ReplaySubject, startWith, Subject, take, takeUntil } from 'rxjs';
 import { ProductEditorModel } from '../../../../models/dialog-models/product-editor-model';
-import { AddProduct, ProductModel, UpdateProduct, WorkshopModel } from '../../../../models/generated';
+import { AddProduct, ProductModel, UpdateProduct, WorkshopModel } from '../../../../models/generated/generated';
 import { ProductDataService } from '../../../../services/data/product-data.service';
 import { WorkshopDataService } from '../../../../services/data/workshop-data.service';
 import { LanguageService } from '../../../../services/language/language.service';

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddWorkshop, DeleteWorkshop, Result, UpdateWorkshop, WorkshopModel } from '../../models/generated';
+import { AddWorkshop, DeleteWorkshop, Result, UpdateWorkshop, WorkshopModel } from '../../models/generated/generated';
 
 @Injectable({
   providedIn: 'root'

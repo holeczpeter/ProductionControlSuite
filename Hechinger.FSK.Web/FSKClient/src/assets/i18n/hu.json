@@ -46,6 +46,9 @@
   "quantity": "Darabszám",
   "comment": "Megjegyzés",
   "date": "Dátum",
+  "year": "Év",
+  "month": "Hónap",
+  "week": "Hét",
   "worker": "Dolgozó",
   "los": "Los",
   "summarycard": "Hibagyűjtő lap",
@@ -54,6 +57,7 @@
   "statusName": "Státusz",
   "fullName": "Név",
   "isDefault": "Alapértelmezett",
+  "avarage": "Átlag",
   "workshops": {
     "title": "Műhelyek",
     "add": "Új műhely hozzáadása",
@@ -92,5 +96,8 @@
     "title": "Felhasználók",
     "add": "Új felhasználó hozzáadása",
     "edit": "Felhasználó szerkesztése"
+  },
+  "qualityhistorymonthly": {
+    "title": "Éves összegzés"
   }
 }

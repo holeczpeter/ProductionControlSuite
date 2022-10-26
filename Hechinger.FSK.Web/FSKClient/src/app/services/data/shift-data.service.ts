@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddShift, DeleteShift, Result, ShiftModel, UpdateShift } from '../../models/generated';
+import { AddShift, DeleteShift, Result, ShiftModel, UpdateShift } from '../../models/generated/generated';
 
 @Injectable({
   providedIn: 'root'

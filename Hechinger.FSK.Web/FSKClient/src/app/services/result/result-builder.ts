@@ -1,4 +1,4 @@
-import { Result } from "../../models/generated";
+import { Result } from "../../models/generated/generated";
 
 export class ResultBuilder {
   private readonly result: Result;

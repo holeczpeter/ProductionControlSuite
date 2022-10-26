@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MenuItemModel } from '../../models/generated';
+import { MenuItemModel } from '../../models/generated/generated';
 import { TreeItem } from '../../models/tree-item';
 
 @Injectable({

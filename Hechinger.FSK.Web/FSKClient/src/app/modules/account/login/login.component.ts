@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { LoginModel, LoginResults } from '../../../models/generated';
+import { LoginModel, LoginResults } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { ResultBuilder } from '../../../services/result/result-builder';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';

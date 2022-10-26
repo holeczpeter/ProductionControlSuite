@@ -1,4 +1,4 @@
-import { DefectModel } from "../generated";
+import { DefectModel } from "../generated/generated";
 
 export interface DefectEditorModel {
   defectModel: DefectModel,

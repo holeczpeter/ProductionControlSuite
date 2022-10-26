@@ -47,6 +47,9 @@
   "quantity": "Stückzahl",
   "comment": "Note",
   "date": "Daten",
+  "year": "Jahr",
+  "month": "Monat",
+  "week": "KW",
   "worker": "Arbeiter",
   "los": "Los",
   "summarycard": "Fehlersammel Karte",
@@ -55,6 +58,7 @@
   "statusName": "Status",
   "fullName": "Name",
   "isDefault": "Default",
+  "avarage": "Durchsnitt",
   "workshops": {
     "title": "Werkstätte",
     "add": "Neue hinzufügen",
@@ -94,6 +98,9 @@
     "title": "Benutzer",
     "add": "Neue Benutzer hinzufügen",
     "edit": "Benutzer szerkesztése"
+  },
+  "qualityhistorymonthly": {
+    "title": "Qualitätsverlauf monatlich"
   }
 }
 

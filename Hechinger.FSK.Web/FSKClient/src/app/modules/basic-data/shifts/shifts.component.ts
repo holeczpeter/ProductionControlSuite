@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
-import { DeleteWorkshop, ShiftModel, WorkshopModel } from '../../../models/generated';
+import { DeleteWorkshop, ShiftModel, WorkshopModel } from '../../../models/generated/generated';
 import { TableColumn } from '../../../models/table-column';
 import { AccountService } from '../../../services/account.service';
 import { ShiftDataService } from '../../../services/data/shift-data.service';

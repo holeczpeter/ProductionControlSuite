@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { forkJoin, map, Observable, startWith } from 'rxjs';
-import { GetUsersByRole, GetUsersExceptByRole, RoleUserItem } from '../../../../models/generated';
+import { GetUsersByRole, GetUsersExceptByRole, RoleUserItem } from '../../../../models/generated/generated';
 import { RoleDataService } from '../../../../services/data/role-data.service';
 import { UserDataService } from '../../../../services/data/user-data.service';
 

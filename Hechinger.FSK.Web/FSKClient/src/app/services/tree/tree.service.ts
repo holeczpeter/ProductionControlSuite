@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MenuItemModel, MenuTypes } from '../../models/generated';
+import { MenuItemModel, MenuTypes } from '../../models/generated/generated';
 import { TreeItem } from '../../models/tree-item';
 
 @Injectable({

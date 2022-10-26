@@ -23,7 +23,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     { 6, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu, "Nyomtatás", "Nyomtatás","Drucke", "print", 3, 3, "/defect-card/print"},
 
                     { 7, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.Module, "Kimutatások", "Kimutatások","Meldung", "", 3, 0, "/report"},
-                    { 8, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu,"Hibaösszesítő", "Hibaösszesítő","Qualitätssicherung", "bar_chart", 1, 7, "/report/quality-assurance"},
+                    { 8, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu,"Éves összegzés", "Éves összegzés","Qualitätsverlauf monatlich", "bar_chart", 1, 7, "/report/quality-history-monthly"},
                     { 9, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu,"Selejtköltség", "Selejtköltség","Schrott kostet", "trending_up", 2, 7, "/report/crap-cost"},
 
                     { 10, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.Module, "Törzsadatok", "Törzsadatok","Stammdaten", "", 4, 0, "/basic-data"},

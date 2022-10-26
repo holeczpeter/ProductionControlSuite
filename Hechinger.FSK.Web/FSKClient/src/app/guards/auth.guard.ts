@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanDeactivate, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { LoginResults } from '../models/generated';
+import { LoginResults } from '../models/generated/generated';
 import { AccountService } from '../services/account.service';
 
 @Injectable({

@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
-import { DeleteUser, UserModel } from '../../../models/generated';
+import { DeleteUser, UserModel } from '../../../models/generated/generated';
 import { TableColumn } from '../../../models/table-column';
 import { AccountService } from '../../../services/account.service';
 import { UserDataService } from '../../../services/data/user-data.service';

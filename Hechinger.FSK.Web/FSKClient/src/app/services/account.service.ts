@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
-import { ChangePassword, ForgotPassword, GetAccessMenu, LoginModel, LoginResults, MenuItemModel, Result, TokenRequestModel, UserDataModel } from '../models/generated';
+import { ChangePassword, ForgotPassword, GetAccessMenu, LoginModel, LoginResults, MenuItemModel, Result, TokenRequestModel, UserDataModel } from '../models/generated/generated';
 import { TreeItem } from '../models/tree-item';
 import { ForgotPasswordComponent } from '../modules/account/forgot-password/forgot-password.component';
 import { TreeService } from './tree/tree.service';

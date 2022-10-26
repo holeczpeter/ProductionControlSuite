@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
-import { GetUser, GetUserSettings, LanguageModel } from '../../../models/generated';
+import { GetUser, GetUserSettings, LanguageModel } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { LanguageDataService } from '../../../services/data/language-data.service';
 import { UserDataService } from '../../../services/data/user-data.service';

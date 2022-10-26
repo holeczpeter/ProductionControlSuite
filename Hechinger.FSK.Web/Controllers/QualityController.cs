@@ -2,11 +2,11 @@
 
 namespace Hechinger.FSK.Web.Controllers
 {
-    public class QualityAssuranceController : ControllerBase
+    public class QualityController : ControllerBase
     {
         private readonly IMediator mediator;
         private readonly IImportService importService;
-        public QualityAssuranceController(IMediator mediator, IImportService importService) 
+        public QualityController(IMediator mediator, IImportService importService) 
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             this.importService = importService ?? throw new ArgumentNullException(nameof(importService));
@@ -17,7 +17,11 @@ namespace Hechinger.FSK.Web.Controllers
         {
             return await this.mediator.Send(request, cancellationToken);
         }
-
+        [HttpGet]
+        public async Task<IEnumerable<MonthlyQualityModel>> GetMonthlyQualityHistory(GetMonthlyQualityHistory request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
         [HttpPost]
         public async Task<bool> Import(CancellationToken cancellationToken)
         {

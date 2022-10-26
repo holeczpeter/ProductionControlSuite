@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { DeleteProduct, DeleteWorkshop, ProductModel, WorkshopModel } from '../../../models/generated';
+import { DeleteProduct, DeleteWorkshop, ProductModel, WorkshopModel } from '../../../models/generated/generated';
 import { WorkshopDataService } from '../../../services/data/workshop-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { ProductEditorDialogComponent } from './product-editor-dialog/product-editor-dialog.component';

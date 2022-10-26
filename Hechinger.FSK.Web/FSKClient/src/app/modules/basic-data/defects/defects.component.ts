@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime, map } from 'rxjs';
 import { DefectEditorModel } from '../../../models/dialog-models/defect-editor-model';
-import { DefectModel, DeleteDefect } from '../../../models/generated';
+import { DefectModel, DeleteDefect } from '../../../models/generated/generated';
 import { TableColumn } from '../../../models/table-column';
 import { AccountService } from '../../../services/account.service';
 import { DefectDataService } from '../../../services/data/defect-data.service';

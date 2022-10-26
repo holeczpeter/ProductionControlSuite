@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
-import { MenuItemModel } from '../../models/generated';
+import { MenuItemModel } from '../../models/generated/generated';
 import { SpinnerData } from '../../models/spinner-data';
 import { TreeItem } from '../../models/tree-item';
 import { NavigationService } from '../../services/navigation/navigation.service';

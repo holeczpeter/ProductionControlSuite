@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { concatMap, forkJoin, map } from 'rxjs';
-import { SummaryCardDetailModel, SummaryCardItemModel, UpdateSummaryCard, UpdateSummaryCardItem } from '../../../models/generated';
+import { SummaryCardDetailModel, SummaryCardItemModel, UpdateSummaryCard, UpdateSummaryCardItem } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
 import { SummaryCardDataService } from '../../../services/data/summary-card-data.service';

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddSummaryCard, OperationModel, Result, SummaryCardDetailModel, SummaryCardModel, UpdateSummaryCard } from '../../models/generated';
+import { AddSummaryCard, OperationModel, Result, SummaryCardDetailModel, SummaryCardModel, UpdateSummaryCard } from '../../models/generated/generated';
 import { DefectFilterService } from '../table/defect-filter.service';
 import { PaginationService } from '../table/pagination.service';
 import { SortService } from '../table/sort.service';

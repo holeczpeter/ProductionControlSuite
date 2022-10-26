@@ -6,7 +6,7 @@
                              (change)="selectionChanged(group.value)">
       <mat-button-toggle *ngFor="let option of intervalOptions"
                          [value]="option.value">
-        {{option.name}}
+        {{ option.name | translate }}
       </mat-button-toggle>
     </mat-button-toggle-group>
   </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { MenuItemModel, MenuTypes } from '../../models/generated';
+import { MenuItemModel, MenuTypes } from '../../models/generated/generated';
 import { TreeItem } from '../../models/tree-item';
 import { AccountService } from '../../services/account.service';
 import { LanguageService } from '../../services/language/language.service';

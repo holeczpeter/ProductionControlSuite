@@ -5,7 +5,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
 import { forkJoin } from 'rxjs';
-import { AddRole, GetRole, RoleDetailModel, RoleMenuItem, RoleModel, RoleUserItem, UpdateRole } from '../../../../models/generated';
+import { AddRole, GetRole, RoleDetailModel, RoleMenuItem, RoleModel, RoleUserItem, UpdateRole } from '../../../../models/generated/generated';
 import { TreeItemFlatNode } from '../../../../models/tree-item-flat-node';
 import { RoleDataService } from '../../../../services/data/role-data.service';
 import { UserDataService } from '../../../../services/data/user-data.service';

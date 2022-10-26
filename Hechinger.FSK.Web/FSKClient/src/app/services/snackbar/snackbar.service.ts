@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { Result } from '../../models/generated';
+import { Result } from '../../models/generated/generated';
 
 
 @Injectable({

@@ -12,7 +12,6 @@
     <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="FSKClient\src\app\modules\quality-assurance\quality-assurance-routing.module.ts" />
     <None Remove="FSKClient\src\app\validators\custom-validator.ts" />
     <None Remove="FSKClient\src\app\validators\password-equality-validator.ts" />
   </ItemGroup>
@@ -50,6 +49,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="FSKClient\src\app\models\generated\generated.ts">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>generated.tt</DependentUpon>
+    </None>
     <None Update="FSKClient\src\app\modules\account\generated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>generated.ts</LastGenOutput>
@@ -92,7 +96,6 @@
     <Folder Include="FSKClient\src\app\services\navigation\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="FSKClient\src\app\modules\quality-assurance\quality-assurance-routing.module.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\validators\custom-validator.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\validators\password-equality-validator.ts" />
   </ItemGroup>

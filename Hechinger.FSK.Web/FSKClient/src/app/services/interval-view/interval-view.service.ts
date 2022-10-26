@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { differenceInCalendarDays, endOfMonth, endOfWeek, endOfYear, getWeek, startOfMonth, startOfWeek, startOfYear } from 'date-fns';
-import { Subject } from 'rxjs';
-import { IntervalModel, Views } from '../../models/generated';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { IntervalModel, IntervalOption, Views } from '../../models/generated/generated';
 import { DateService } from '../date.service';
 
 @Injectable({
@@ -12,12 +13,28 @@ export class IntervalViewService {
   currentDate = new Date();
   startDate = startOfMonth(this.currentDate);
   endDate = endOfMonth(this.currentDate);
+
   private subject = new Subject<IntervalModel>();
   public getCurrentIntervalModel() {
     return this.subject.asObservable();
   }
 
-  constructor(private dateService: DateService) {
+  private options = new BehaviorSubject(this.setOptions(this.translateService.currentLang));
+
+  setOptions(lang: string) {
+    return  [
+      { name: lang == 'hu' ? 'Év' : 'Jahre', value: Views.Year, isDefault: false },
+      { name: lang == 'hu' ? 'Hónap' : 'Monat', value: Views.Month, isDefault: true },
+      { name: lang == 'hu' ? 'Hét' : 'Woche', value: Views.Week, isDefault: false },
+    ];
+  }
+  public getOptions() {
+    return this.options.asObservable();
+  }
+  constructor(private dateService: DateService, private readonly translateService: TranslateService) {
+    this.translateService.onLangChange.subscribe(lang => {
+      this.setOptions(lang.lang);
+    });
   }
 
   setInitial(view: Views) {

@@ -1,7 +1,7 @@
 import { Component, DoCheck, Input, IterableDiffer, IterableDiffers, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { addDays, addMonths, addYears, subDays, subMonths, subYears } from 'date-fns';
 import { distinctUntilChanged, Subscription } from 'rxjs';
-import { IntervalModel, IntervalOption, Views } from '../../models/generated';
+import { IntervalModel, IntervalOption, Views } from '../../models/generated/generated';
 import { DateService } from '../../services/date.service';
 import { IntervalViewService } from '../../services/interval-view/interval-view.service';
 @Component({

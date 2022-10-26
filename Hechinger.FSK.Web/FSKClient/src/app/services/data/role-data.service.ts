@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddRole, DeleteRole, GetMenuByRole, GetRole, GetUsersByRole, GetUsersExceptByRole, Result, RoleDetailModel, RoleMenuItem, RoleModel, RoleUserItem, SetDefaultRole, UpdateRole } from '../../models/generated';
+import { AddRole, DeleteRole, GetMenuByRole, GetRole, GetUsersByRole, GetUsersExceptByRole, Result, RoleDetailModel, RoleMenuItem, RoleModel, RoleUserItem, SetDefaultRole, UpdateRole } from '../../models/generated/generated';
 import { TreeItem } from '../../models/tree-item';
 
 

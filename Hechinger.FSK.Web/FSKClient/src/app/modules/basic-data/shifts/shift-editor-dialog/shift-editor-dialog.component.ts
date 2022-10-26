@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AddShift, ShiftModel, UpdateShift } from '../../../../models/generated';
+import { AddShift, ShiftModel, UpdateShift } from '../../../../models/generated/generated';
 import { ShiftDataService } from '../../../../services/data/shift-data.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
 

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddDefect, DefectModel, DeleteDefect, EnumModel, GetDefectsByOperation, Result, UpdateDefect } from '../../models/generated';
+import { AddDefect, DefectModel, DeleteDefect, EnumModel, GetDefectsByOperation, Result, UpdateDefect } from '../../models/generated/generated';
 import { DefectFilterService } from '../table/defect-filter.service';
 import { PaginationService } from '../table/pagination.service';
 import { SortService } from '../table/sort.service';

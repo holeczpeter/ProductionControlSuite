@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
-import { DeleteRole, RoleModel, SetDefaultRole, UserModel } from '../../../models/generated';
+import { DeleteRole, RoleModel, SetDefaultRole, UserModel } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { RoleDataService } from '../../../services/data/role-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';

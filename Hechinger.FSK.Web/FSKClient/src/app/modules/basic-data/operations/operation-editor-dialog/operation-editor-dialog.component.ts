@@ -5,7 +5,7 @@ import { MatSelect } from '@angular/material/select';
 import { debounceTime, forkJoin, take } from 'rxjs';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { OperationEditorModel } from '../../../../models/dialog-models/operation-editor-model';
-import { AddOperation, OperationModel, ProductModel, SelectModel, UpdateOperation } from '../../../../models/generated';
+import { AddOperation, OperationModel, ProductModel, SelectModel, UpdateOperation } from '../../../../models/generated/generated';
 import { OperationDataService } from '../../../../services/data/operation-data.service';
 import { ProductDataService } from '../../../../services/data/product-data.service';
 import { LanguageService } from '../../../../services/language/language.service';

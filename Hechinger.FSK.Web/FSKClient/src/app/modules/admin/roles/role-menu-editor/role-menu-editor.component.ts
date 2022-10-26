@@ -3,7 +3,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { GetMenuByRole, RoleMenuItem } from '../../../../models/generated';
+import { GetMenuByRole, RoleMenuItem } from '../../../../models/generated/generated';
 import { TreeItem } from '../../../../models/tree-item';
 import { TreeItemFlatNode } from '../../../../models/tree-item-flat-node';
 import { RoleDataService } from '../../../../services/data/role-data.service';

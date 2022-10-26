@@ -1,4 +1,4 @@
-import { OperationModel } from "../generated";
+import { OperationModel } from "../generated/generated";
 
 export interface OperationEditorModel {
   operationModel: OperationModel,

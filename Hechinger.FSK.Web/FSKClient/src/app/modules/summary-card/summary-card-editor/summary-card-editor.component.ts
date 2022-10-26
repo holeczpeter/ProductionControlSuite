@@ -3,7 +3,7 @@ import { AbstractControl, FormArray, FormControl, UntypedFormBuilder, UntypedFor
 import { MatSelect } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, forkJoin, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
-import { DefectModel, GetDefectsByOperation, GetOperation, OperationModel, SelectModel, ShiftModel } from '../../../models/generated';
+import { DefectModel, GetDefectsByOperation, GetOperation, OperationModel, SelectModel, ShiftModel } from '../../../models/generated/generated';
 import { DefectDataService } from '../../../services/data/defect-data.service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
 import { ShiftDataService } from '../../../services/data/shift-data.service';

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddProduct, DeleteProduct, GetProduct, ProductModel, Result, SelectModel, UpdateProduct } from '../../models/generated';
+import { AddProduct, DeleteProduct, GetProduct, ProductModel, Result, SelectModel, UpdateProduct } from '../../models/generated/generated';
 import { DefectFilterService } from '../table/defect-filter.service';
 import { PaginationService } from '../table/pagination.service';
 import { SortService } from '../table/sort.service';

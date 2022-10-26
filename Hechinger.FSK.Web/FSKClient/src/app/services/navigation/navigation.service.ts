@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MenuItemModel, MenuTypes } from '../../models/generated';
+import { MenuItemModel, MenuTypes } from '../../models/generated/generated';
 import { TreeItem } from '../../models/tree-item';
 import { AccountService } from '../account.service';
 import { MenuDataService } from '../data/menu-data.service';

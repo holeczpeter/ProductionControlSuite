@@ -51,6 +51,10 @@ import { HttpCancelService } from '../services/http-cancel.service';
 import { AuthInterceptor } from '../services/interceptors/auth.interceptor';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { IntervalViewComponent } from './interval-view/interval-view.component';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { EnumPipe } from '../pipes/enum.pipe';
+import { QualityHistoryMonthyChartComponent } from '../modules/quality/quality-history-monthly/quality-history-monthy-chart/quality-history-monthy-chart.component';
+
 @NgModule({
   declarations: [
     TitleComponent,
@@ -58,7 +62,7 @@ import { IntervalViewComponent } from './interval-view/interval-view.component';
     OverlayLoadingDirective,
     LoaderComponent,
     IntervalViewComponent,
-    
+    EnumPipe
   ],
   imports: [
     CommonModule,
@@ -105,7 +109,10 @@ import { IntervalViewComponent } from './interval-view/interval-view.component';
     TranslateModule,
     NgxMaskModule.forRoot(),
     NgChartsModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'),
+    }),
   ],
   exports: [
     MatToolbarModule,
@@ -154,7 +161,9 @@ import { IntervalViewComponent } from './interval-view/interval-view.component';
     DialogHeaderComponent,
     OverlayLoadingDirective,
     NgxMatSelectSearchModule,
-    IntervalViewComponent
+    IntervalViewComponent,
+    NgxEchartsModule,
+    EnumPipe
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },
