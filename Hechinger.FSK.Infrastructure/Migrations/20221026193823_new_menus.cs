@@ -25,8 +25,8 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     { 6, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu, "Nyomtatás", "Nyomtatás","Drucke", "print", 3, 3, "/defect-card/print"},
 
                     { 7, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.Module, "Kimutatások", "Kimutatások","Meldung", "", 3, 0, "/report"},
-                    { 8, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu, "Darabszám jelentés", "Darabszám jelentés","Stückzahlmeldung", "", 1, 7, "/report/quantity-report"},
-                    { 9, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu, "Hibaösszesítő", "Hibaösszesítő","Qualitätsmeldung", "", 2, 7, "/report/quality-report"},
+                    { 8, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu, "Darabszám jelentés", "Darabszám jelentés","Stückzahlmeldung", "summarize", 1, 7, "/report/quantity-report"},
+                    { 9, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu, "Hibaösszesítő", "Hibaösszesítő","Qualitätsmeldung", "query_stats", 2, 7, "/report/quality-report"},
                     { 10, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu,"Éves összegzés", "Éves összegzés","Qualitätsverlauf monatlich", "bar_chart", 3, 7, "/report/quality-history-monthly"},
                     { 11, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.SubMenu,"Selejtköltség", "Selejtköltség","Schrott kostet", "trending_up", 4, 7, "/report/crap-cost"},
                     { 12, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,  (int)MenuTypes.MainMenu,"Dolgozók", "Dolgozók","Arbeiter", "person_search", 5, 7, "/report/worker"},
