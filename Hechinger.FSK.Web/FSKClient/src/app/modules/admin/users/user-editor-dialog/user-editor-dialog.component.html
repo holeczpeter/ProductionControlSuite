@@ -1,63 +1,70 @@
 <dialog-header [title]="title" (cancel)="onCancel()"></dialog-header>
 <mat-dialog-content>
-  <form [formGroup]="formGroup">
-    <div class="row pt-2">
-      <mat-form-field class="col">
-        <input matInput [formControlName]="'lastName'" [placeholder]="'lastName' | translate" required />
-        <mat-error class="col" *ngIf="formGroup.get('lastName')?.hasError('required')">
-          {{'lastName'| translate}} {{'required' | translate}}
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="row pt-2">
-      <mat-form-field class="col">
-        <input matInput [formControlName]="'firstName'" [placeholder]="'firstName' | translate" required />
-        <mat-error class="col" *ngIf="formGroup.get('firstName')?.hasError('required')">
-          {{'firstName'| translate}} {{'required' | translate}}
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="row pt-2">
-      <mat-form-field class="col">
-        <input matInput [formControlName]="'code'" [placeholder]="'code' | translate" required />
-        <mat-error class="col" *ngIf="formGroup.get('code')?.hasError('required')">
-          {{'code'| translate}} {{'required' | translate}}
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="row pt-2">
-      <mat-form-field class="col">
-        <input matInput [formControlName]="'password'" [placeholder]="'password' | translate" />
-        <mat-error class="col" *ngIf="formGroup.get('password')?.hasError('required')">
-          {{'password'| translate}} {{'required' | translate}}
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="row pt-2">
-      <mat-form-field class="col">
-        <mat-select [formControlName]="'roleId'" [placeholder]="'roleName' | translate" required>
-          <mat-option *ngFor="let option of roles" [value]="option.id">
-            {{ option.name }}
-          </mat-option>
-        </mat-select>
-        <mat-error class="col" *ngIf="formGroup.get('roleId')?.hasError('required')">
-          {{'roleName'| translate}} {{'required' | translate}}
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="row pt-2">
-      <mat-form-field class="col">
-        <mat-select [formControlName]="'languageId'" [placeholder]="'language' | translate" required>
-          <mat-option *ngFor="let option of languages" [value]="option.id">
-            {{ option.name }}
-          </mat-option>
-        </mat-select>
-        <mat-error class="col" *ngIf="formGroup.get('languageId')?.hasError('required')">
-          {{'language'| translate}} {{'required' | translate}}
-        </mat-error>
-      </mat-form-field>
-    </div>
-  </form>
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab [label]="'users.title' | translate">
+      <div class="container-editor">
+        <form [formGroup]="formGroup">
+          <div class="row pt-2">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'lastName'" [placeholder]="'lastName' | translate" required />
+              <mat-error class="col" *ngIf="formGroup.get('lastName')?.hasError('required')">
+                {{'lastName'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row pt-2">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'firstName'" [placeholder]="'firstName' | translate" required />
+              <mat-error class="col" *ngIf="formGroup.get('firstName')?.hasError('required')">
+                {{'firstName'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row pt-2">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'code'" [placeholder]="'code' | translate" required />
+              <mat-error class="col" *ngIf="formGroup.get('code')?.hasError('required')">
+                {{'code'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row pt-2">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'password'" [placeholder]="'password' | translate" />
+              <mat-error class="col" *ngIf="formGroup.get('password')?.hasError('required')">
+                {{'password'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row pt-2">
+            <mat-form-field class="col">
+              <mat-select [formControlName]="'roleId'" [placeholder]="'roleName' | translate" required>
+                <mat-option *ngFor="let option of roles" [value]="option.id">
+                  {{ option.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error class="col" *ngIf="formGroup.get('roleId')?.hasError('required')">
+                {{'roleName'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row pt-2">
+            <mat-form-field class="col">
+              <mat-select [formControlName]="'languageId'" [placeholder]="'language' | translate" required>
+                <mat-option *ngFor="let option of languages" [value]="option.id">
+                  {{ option.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error class="col" *ngIf="formGroup.get('languageId')?.hasError('required')">
+                {{'language'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </form>
+        </div>
+    </mat-tab>
+    <mat-tab  [label]="'workshops.title' | translate"><app-user-workshop-editor [userId]="id" (resfresh)="refreshWorkshops($event)"></app-user-workshop-editor></mat-tab>
+  </mat-tab-group>
 </mat-dialog-content>
 <div mat-dialog-actions>
   <button mat-raised-button cdkFocusInitial color="blue" (click)="onSave()" [disabled]="!formGroup.valid">{{'save'| translate}} </button>

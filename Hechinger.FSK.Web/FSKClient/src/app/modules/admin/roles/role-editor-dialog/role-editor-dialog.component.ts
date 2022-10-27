@@ -22,7 +22,7 @@ import { SnackbarService } from '../../../../services/snackbar/snackbar.service'
 })
 export class RoleEditorDialogComponent implements OnInit, AfterViewInit{
   title!: string;
-  id: number = -1;
+  id: number = 0;
   role!: RoleDetailModel;
   formGroup!: UntypedFormGroup;
   accessMenu!: Array<RoleMenuItem>

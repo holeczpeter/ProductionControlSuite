@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddUser, DeleteUser, GetUser, Result, UpdateUser, UpdateUserSettings, UserModel } from '../../models/generated/generated';
+import { AddUser, DeleteUser, GetUser, GetUsersByRole, GetWorkshopsByUser, GetWorkshopsExceptByUser, Result, UpdateUser, UserModel, WorkshopUserItem } from '../../models/generated/generated';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +28,12 @@ export class UserDataService {
   getAll(): Observable<Array<UserModel>> {
     return this.httpClient.get<Array<UserModel>>('/User/GetAll');
   }
- 
+  getWorkshopsByUser(request: GetWorkshopsByUser): Observable<Array<WorkshopUserItem>> {
+    return this.httpClient.get<Array<WorkshopUserItem>>('/User/getWorkshopsByUser', { params: { 'userId': request.userId } });
+  }
+
+  getWorkshopsExceptByUser(request: GetWorkshopsExceptByUser): Observable<Array<WorkshopUserItem>> {
+    return this.httpClient.get<Array<WorkshopUserItem>>('/User/GetWorkshopsExceptByUser', { params: { 'userId': request.userId } });
+  }
  
 }

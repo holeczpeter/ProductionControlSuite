@@ -9,6 +9,7 @@ import { UserEditorDialogComponent } from './users/user-editor-dialog/user-edito
 import { RoleEditorDialogComponent } from './roles/role-editor-dialog/role-editor-dialog.component';
 import { RoleMenuEditorComponent } from './roles/role-menu-editor/role-menu-editor.component';
 import { RoleUserEditorComponent } from './roles/role-user-editor/role-user-editor.component';
+import { UserWorkshopEditorComponent } from './users/user-editor-dialog/user-workshop-editor/user-workshop-editor.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { RoleUserEditorComponent } from './roles/role-user-editor/role-user-edit
     UserEditorDialogComponent,
     RoleEditorDialogComponent,
     RoleMenuEditorComponent,
-    RoleUserEditorComponent
+    RoleUserEditorComponent,
+    UserWorkshopEditorComponent
   ],
   imports: [
     CommonModule,

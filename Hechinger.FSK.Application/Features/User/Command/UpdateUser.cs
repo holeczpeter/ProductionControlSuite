@@ -16,5 +16,7 @@
         public int LanguageId { get; set; }
       
         public string Password { get; set; }
+
+        public IEnumerable<WorkshopUserItem> Workshops { get; set; }
     }
 }

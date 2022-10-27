@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { forkJoin, map, Observable, startWith } from 'rxjs';
 import { GetUsersByRole, GetUsersExceptByRole, RoleUserItem } from '../../../../models/generated/generated';
+import { AccountService } from '../../../../services/account.service';
 import { RoleDataService } from '../../../../services/data/role-data.service';
 import { UserDataService } from '../../../../services/data/user-data.service';
 
@@ -19,7 +20,7 @@ export class RoleUserEditorComponent implements OnInit, OnChanges {
   @Input() roleId!: number;
   @Output() resfresh = new EventEmitter<Array<RoleUserItem>>();
   dataSource!: MatTableDataSource<AbstractControl>;
-  pageSize = 25;
+  pageSize = this.accountService.getPageSize();
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -35,7 +36,9 @@ export class RoleUserEditorComponent implements OnInit, OnChanges {
   }
 
   constructor(private readonly formBuilder: UntypedFormBuilder,
-    private readonly roleDataService: RoleDataService) { }
+    private readonly roleDataService: RoleDataService,
+    private readonly accountService: AccountService) {
+  }
 
   ngOnInit(): void {
   }

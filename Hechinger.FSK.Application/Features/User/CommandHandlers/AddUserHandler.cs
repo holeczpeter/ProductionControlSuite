@@ -30,6 +30,22 @@ namespace Hechinger.FSK.Application.Features
             };
             await this.context.AddAsync(user);
 
+            //Workshops
+            var currentRelation = await this.context.WorkShopUsers.Where(x => x.UserId == user.Id).ToListAsync();
+            var removedIds = currentRelation.Select(x => x.WorkShopId).Except(request.Workshops.Select(x => x.Id));
+            var removedRelations = currentRelation.Where(x => removedIds.Contains(x.WorkShopId));
+            this.context.RemoveRange(removedRelations);
+            
+            var addedWorkshops = await this.context.WorkShops.Where(x => request.Workshops.Select(w => w.Id).Contains(x.Id)).ToListAsync();
+            foreach (var item in addedWorkshops)
+            {
+                var newRelation = new WorkShopUser()
+                {
+                    User = user,
+                    WorkShop = item,
+                };
+                await this.context.AddAsync(newRelation);
+            }
             await this.context.SaveChangesAsync(cancellationToken);
 
             result.Message = "A felhasználó sikeresen létrehozva";

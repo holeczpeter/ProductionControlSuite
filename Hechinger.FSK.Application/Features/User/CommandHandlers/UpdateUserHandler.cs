@@ -36,7 +36,23 @@ namespace Hechinger.FSK.Application.Features
                     current.IsTemporary = true;
                     current.ChangePass = DateTime.Now;
                 }
+                //Workshops
+                var currentRelation = await this.context.WorkShopUsers.Where(x => x.UserId == current.Id).ToListAsync();
+                var removedIds = currentRelation.Select(x => x.WorkShopId).Except(request.Workshops.Select(x => x.Id));
+                var removedRelations = currentRelation.Where(x => removedIds.Contains(x.WorkShopId));
+                this.context.RemoveRange(removedRelations);
 
+                var requestWorkshops = await this.context.WorkShops.Where(x => request.Workshops.Select(w => w.Id).Contains(x.Id)).ToListAsync();
+                var addedRelation = requestWorkshops.Select(x => x.Id).Except(currentRelation.Select(x => x.WorkShopId));
+                foreach (var item in addedRelation)
+                {
+                    var newRelation = new WorkShopUser()
+                    {
+                        User = current,
+                        WorkShopId = item,
+                    };
+                    await this.context.AddAsync(newRelation);
+                }
 
                 await context.SaveChangesAsync(cancellationToken);
 

@@ -510,6 +510,12 @@ export interface AddUser {
   roleId: number,
   languageId: number,
   password: string,
+  workshops: Array<WorkshopUserItem>,
+}
+export interface WorkshopUserItem {
+  id: number,
+  name: string,
+  code: string,
 }
 export interface DeleteUser {
   id: number,
@@ -522,6 +528,7 @@ export interface UpdateUser {
   roleId: number,
   languageId: number,
   password: string,
+  workshops: Array<WorkshopUserItem>,
 }
 export interface UserModel {
   id: number,
@@ -575,6 +582,12 @@ export interface GetAllWorkshops {
 }
 export interface GetWorkshop {
   id: number,
+}
+export interface GetWorkshopsByUser {
+  userId: number,
+}
+export interface GetWorkshopsExceptByUser {
+  userId: number,
 }
 export enum Views {
   Week = 1,
