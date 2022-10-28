@@ -1,4 +1,5 @@
-﻿using Hechinger.FSK.Application.Features;
+﻿using Hechinger.FSK.Application;
+using Hechinger.FSK.Application.Features;
 
 namespace Hechinger.FSK.Web.Controllers
 {
@@ -19,6 +20,16 @@ namespace Hechinger.FSK.Web.Controllers
         }
         [HttpGet]
         public async Task<IEnumerable<MonthlyQualityModel>> GetMonthlyQualityHistory(GetMonthlyQualityHistory request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+        [HttpGet]
+        public async Task<IEnumerable<WorkerCompare>> GetWorkerCompare(GetWorkerCompare request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+        [HttpGet]
+        public async Task<IEnumerable<WorkerCompare>> GetDefectCompareByUser(GetDefectCompareByUser request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
         }

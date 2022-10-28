@@ -58,6 +58,8 @@
   "fullName": "Név",
   "isDefault": "Alapértelmezett",
   "avarage": "Átlag",
+  "startDate": "Időszak kezdete",
+  "endDate": "Időszak vége",
   "workshops": {
     "title": "Műhelyek",
     "add": "Új műhely hozzáadása",
@@ -99,5 +101,8 @@
   },
   "qualityhistorymonthly": {
     "title": "Éves összegzés"
+  },
+  "workercompare": {
+    "title": "Dolgozók összehasonlítása"
   }
 }

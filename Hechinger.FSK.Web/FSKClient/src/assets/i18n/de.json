@@ -59,6 +59,8 @@
   "fullName": "Name",
   "isDefault": "Default",
   "avarage": "Durchsnitt",
+  "startDate": "Startdatum",
+  "endDate": "Enddatum",
   "workshops": {
     "title": "Werkstätte",
     "add": "Neue hinzufügen",
@@ -101,6 +103,9 @@
   },
   "qualityhistorymonthly": {
     "title": "Qualitätsverlauf monatlich"
+  },
+  "workercompare": {
+    "title": "Arbeiter fehlers meldung"
   }
 }
 

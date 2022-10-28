@@ -60,5 +60,10 @@ namespace Hechinger.FSK.Web.Controllers
         {
             return await this.mediator.Send(request, cancellationToken);
         }
+        [HttpGet]
+        public async Task<IEnumerable<SelectModel>> GetSelectModel(GetDefectSelectModel request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
     }
 }

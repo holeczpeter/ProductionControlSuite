@@ -548,6 +548,12 @@ export interface GetAllUsers {
 export interface GetUser {
   id: number,
 }
+export interface GetWorkshopsByUser {
+  userId: number,
+}
+export interface GetWorkshopsExceptByUser {
+  userId: number,
+}
 export interface UpdateUserSettings {
   id: number,
   languageId: number,
@@ -583,11 +589,16 @@ export interface GetAllWorkshops {
 export interface GetWorkshop {
   id: number,
 }
-export interface GetWorkshopsByUser {
-  userId: number,
+export interface GetWorkerCompare {
+  defectId: number,
+  startDate: Date,
+  endDate: Date,
 }
-export interface GetWorkshopsExceptByUser {
-  userId: number,
+export interface WorkerCompare {
+  workerCode: string,
+  quantity: number,
+  defectQuantity: number,
+  ppm: number,
 }
 export enum Views {
   Week = 1,
