@@ -27,6 +27,7 @@
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Mappings\" />
     <Folder Include="Features\Export\" />
+    <Folder Include="Features\Worker\" />
   </ItemGroup>
 
 </Project>

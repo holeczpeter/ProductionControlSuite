@@ -111,6 +111,9 @@ export interface DefectModel {
   operationCode: string,
   defectCategoryName: string,
 }
+export interface GetDefectSelectModel {
+  filter: string,
+}
 export interface GetAllDefect {
   parameters: DefectRequestParameters,
 }
@@ -268,6 +271,16 @@ export interface GetProductsCount {
 export interface GetProductSelectModel {
   filter: string,
 }
+export interface DefectCompareByUser {
+  defectCode: string,
+  defectName: string,
+  defectTranslatedName: string,
+  defectCategory: DefectCategories,
+  defectCategoryName: string,
+  quantity: number,
+  defectQuantity: number,
+  ppm: number,
+}
 export interface MonthlyQualityItem {
   year: number,
   month: number,
@@ -305,6 +318,18 @@ export interface QualityAssuranceModel {
   month: number,
   quantity: number,
 }
+export interface WorkerCompare {
+  workerCode: string,
+  quantity: number,
+  defectQuantity: number,
+  ppm: number,
+}
+export interface GetDefectCompareByUser {
+  workerCode: string,
+  operationId: number,
+  startDate: Date,
+  endDate: Date,
+}
 export interface GetMonthlyQualityHistory {
   productId: number,
   year: number,
@@ -314,6 +339,11 @@ export interface GetQualityAssurance {
   startDate: Date,
   endDate: Date,
   view: Views,
+}
+export interface GetWorkerCompare {
+  defectId: number,
+  startDate: Date,
+  endDate: Date,
 }
 export interface AddRole {
   name: string,
@@ -567,6 +597,11 @@ export interface UserSettingsModel {
 export interface GetUserSettings {
   id: number,
 }
+export interface WorkerModel {
+  workerCode: string,
+}
+export interface GetAllWorker {
+}
 export interface AddWorkshop {
   name: string,
   translatedName: string,
@@ -589,16 +624,8 @@ export interface GetAllWorkshops {
 export interface GetWorkshop {
   id: number,
 }
-export interface GetWorkerCompare {
-  defectId: number,
-  startDate: Date,
-  endDate: Date,
-}
-export interface WorkerCompare {
-  workerCode: string,
-  quantity: number,
-  defectQuantity: number,
-  ppm: number,
+export interface GetWorkersByFilter {
+  filter: string,
 }
 export enum Views {
   Week = 1,

@@ -1,1 +1,121 @@
-<p>worker-defect-statistics works!</p>
+<div class="container-fluid">
+  <div class="flex-title">
+    <app-title class="flex-title-item" [title]="title"></app-title>
+  </div>
+  <form [formGroup]="formGroup" *ngIf="formGroup">
+    <div class="row pt-2">
+      <mat-form-field class="col">
+        <mat-select [formControlName]="'product'" [placeholder]="'productName' | translate" #productSelect required panelClass="myPanelClass">
+          <mat-option>
+            <ngx-mat-select-search [formControl]="productFilterCtrl"></ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let option of filteredProducts | async" [value]="option">
+            {{option.code}} - {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('product')?.hasError('required')">
+          {{'productName'| translate}} {{'required' | translate}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col">
+        <mat-select [formControlName]="'operation'" [placeholder]="'operationName' | translate" required>
+          <mat-option *ngFor="let option of operations" [value]="option">
+            {{option.code}} - {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
+          </mat-option>
+        </mat-select>
+        <mat-error class="col" *ngIf="formGroup.get('operation')?.hasError('required')">
+          {{'operationName'| translate}} {{'required' | translate}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col">
+        <mat-select [formControlName]="'worker'" [placeholder]="'workerCode' | translate" #productSelect required>
+          <mat-option>
+            <ngx-mat-select-search [formControl]="workerFilterCtrl"></ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let option of filteredWorkers | async" [value]="option">
+            {{option.workerCode}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('product')?.hasError('required')">
+          {{'workerCode'| translate}} {{'required' | translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row pt-2">
+      <mat-form-field class="col">
+        <mat-label>{{'startDate' | translate}}</mat-label>
+        <input matInput
+               [formControlName]="'startDate'"
+               [matDatepicker]="startDate">
+        <mat-datepicker-toggle matSuffix
+                               [for]="startDate">
+        </mat-datepicker-toggle>
+        <mat-datepicker #startDate>
+        </mat-datepicker>
+
+        <mat-error *ngIf="formGroup.get('endDate')?.value < formGroup.get('starDate')?.value">
+          A kezdő dátum nem lehet nagyobb, mint a vég dátum!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col">
+        <mat-label>{{'endDate' | translate}}</mat-label>
+        <input matInput
+               [formControlName]="'endDate'"
+               [matDatepicker]="endDate">
+        <mat-datepicker-toggle matSuffix
+                               [for]="endDate">
+        </mat-datepicker-toggle>
+        <mat-datepicker #endDate>
+        </mat-datepicker>
+        <mat-error *ngIf="formGroup.get('endDate')?.value < formGroup.get('starDate')?.value">
+          A kezdő dátum nem lehet nagyobb, mint a vég dátum!
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+  </form>
+  <div>
+    <button mat-flat-button (click)="onRequest()" color="primary"> Lekérdezés </button>
+  </div>
+  <div>
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="defectCode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'code' | translate }}</th>
+        <td mat-cell *matCellDef="let element"> {{element.defectCode}} </td>
+      </ng-container>
+      <ng-container matColumnDef="defectName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'name' | translate }}</th>
+        <td mat-cell *matCellDef="let element"> {{element.defectName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="defectTranslatedName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'translatedName' | translate }}</th>
+        <td mat-cell *matCellDef="let element"> {{element.defectTranslatedName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="defectCategoryName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'categoryName' | translate }}</th>
+        <td mat-cell *matCellDef="let element"> {{element.defectCategoryName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef class="th-align-right" mat-sort-header>{{ 'quantity' | translate }}</th>
+        <td mat-cell *matCellDef="let element" align="right"> {{element.quantity}} </td>
+      </ng-container>
+      <ng-container matColumnDef="defectQuantity">
+        <th mat-header-cell *matHeaderCellDef class="th-align-right" mat-sort-header> {{ 'fehler' | translate }} {{ 'quantity' | translate }}</th>
+        <td mat-cell *matCellDef="let element" align="right"> {{element.defectQuantity}} </td>
+      </ng-container>
+      <ng-container matColumnDef="ppm">
+        <th mat-header-cell *matHeaderCellDef class="th-align-right" mat-sort-header>PPM</th>
+        <td mat-cell *matCellDef="let element" align="right"> {{element.ppm}} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnNames;"></tr>
+
+    </table>
+    <mat-paginator [pageSize]="pageSize"
+                   [pageSizeOptions]="pageSizeOptions"
+                   showFirstLastButtons></mat-paginator>
+  </div>
+
+
+</div>
+

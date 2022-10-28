@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GetMonthlyQualityHistory, GetWorkerCompare, MonthlyQualityModel, WorkerCompare } from '../../models/generated/generated';
+import { DefectCompareByUser, GetDefectCompareByUser, GetMonthlyQualityHistory, GetWorkerCompare, MonthlyQualityModel, WorkerCompare } from '../../models/generated/generated';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +14,12 @@ export class QualityDataService {
     return this.httpClient.get<Array<MonthlyQualityModel>>('/Quality/GetMonthlyQualityHistory', { params: { productId : request.productId, year : request.year } });
   }
 
-  getDefectCompareByUser(request: GetWorkerCompare): Observable<Array<WorkerCompare>> {
-    return this.httpClient.get<Array<WorkerCompare>>('/Quality/GetDefectCompareByUser', {
+  getDefectCompareByUser(request: GetDefectCompareByUser): Observable<Array<DefectCompareByUser>> {
+    return this.httpClient.get<Array<DefectCompareByUser>>('/Quality/GetDefectCompareByUser', {
       params:
       {
-        'defectId': request.defectId,
+        'workerCode': request.workerCode,
+        'operationId': request.operationId,
         'startDate': request.startDate.toDateString(),
         'endDate': request.endDate.toDateString()
       }
