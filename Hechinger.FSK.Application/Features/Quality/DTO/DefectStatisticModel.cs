@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class DefectCompareByUser : BaseModel
+    public class DefectStatisticModel : BaseModel
     {
         public string DefectCode { get; set; }
         public string DefectName { get; set; }

@@ -39,7 +39,7 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
 
   ngOnInit(): void {
     let currentProductId = this.operation ? this.operation.productId : 0;
-    forkJoin([this.productDataService.get({ id: currentProductId }), this.productDataService.getSelectModel('')]).subscribe(([current, products]) => {
+    forkJoin([this.productDataService.get({ id: currentProductId }), this.productDataService.getByFilter('')]).subscribe(([current, products]) => {
       this.products = products;
       if(current) this.products.splice(1, 0, { id: current.id, code: current.code, name: current.name, translatedName: current.translatedName });
       
@@ -67,7 +67,7 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
       return;
     }
     else search = search.toLowerCase();
-    this.productDataService.getSelectModel(search).subscribe((result: any) => {
+    this.productDataService.getByFilter(search).subscribe((result: any) => {
       this.products = result;
       this.filtered.next(this.products.slice());
     });

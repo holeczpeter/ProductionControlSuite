@@ -1,15 +1,15 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetDefectCompareByUserHandler : IRequestHandler<GetDefectCompareByUser, IEnumerable<DefectCompareByUser>>
+    public class GetDefectStatisticsByUserHandler : IRequestHandler<GetDefectStatisticsByUser, IEnumerable<DefectStatisticModel>>
     {
         private readonly FSKDbContext context;
         private readonly IQualityService qualityService;
-        public GetDefectCompareByUserHandler(FSKDbContext context, IQualityService qualityService)
+        public GetDefectStatisticsByUserHandler(FSKDbContext context, IQualityService qualityService)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
             this.qualityService = qualityService ?? throw new ArgumentNullException(nameof(qualityService));
         }
-        public async Task<IEnumerable<DefectCompareByUser>> Handle(GetDefectCompareByUser request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<DefectStatisticModel>> Handle(GetDefectStatisticsByUser request, CancellationToken cancellationToken)
         {
 
             var items = await (from c in this.context.SummaryCards
@@ -29,7 +29,7 @@
                                    Quantity = c.Quantity,
                                    DefectQuantity = i.Quantity
                                }).ToListAsync(cancellationToken);
-            var result = items.GroupBy(item => new { DefectId = item.DefectId }).Select(x => new DefectCompareByUser()
+            var result = items.GroupBy(item => new { DefectId = item.DefectId }).Select(x => new DefectStatisticModel()
             {
                 
                 DefectCode = x.FirstOrDefault().DefectCode,

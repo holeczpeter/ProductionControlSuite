@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DefectCompareByUser, GetDefectCompareByUser, GetMonthlyQualityHistory, GetWorkerCompare, MonthlyQualityModel, WorkerCompare } from '../../models/generated/generated';
+import { DefectStatisticModel, GetDefectStatisticsByUser, GetMonthlyQualityHistory, GetWorkerStatisticsByDefect, MonthlyQualityModel, WorkerStatisticModel } from '../../models/generated/generated';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +14,8 @@ export class QualityDataService {
     return this.httpClient.get<Array<MonthlyQualityModel>>('/Quality/GetMonthlyQualityHistory', { params: { productId : request.productId, year : request.year } });
   }
 
-  getDefectCompareByUser(request: GetDefectCompareByUser): Observable<Array<DefectCompareByUser>> {
-    return this.httpClient.get<Array<DefectCompareByUser>>('/Quality/GetDefectCompareByUser', {
+  getDefectStatisticsByUser(request: GetDefectStatisticsByUser): Observable<Array<DefectStatisticModel>> {
+    return this.httpClient.get<Array<DefectStatisticModel>>('/Quality/GetDefectStatisticsByUser', {
       params:
       {
         'workerCode': request.workerCode,
@@ -26,8 +26,8 @@ export class QualityDataService {
     });
   }
 
-  getWorkerCompare(request: GetWorkerCompare): Observable<Array<WorkerCompare>> {
-    return this.httpClient.get<Array<WorkerCompare>>('/Quality/GetWorkerCompare', {
+  getWorkerStatisticsByDefect(request: GetWorkerStatisticsByDefect): Observable<Array<WorkerStatisticModel>> {
+    return this.httpClient.get<Array<WorkerStatisticModel>>('/Quality/GetWorkerStatisticsByDefect', {
       params:
       {
         'defectId': request.defectId,

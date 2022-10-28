@@ -42,7 +42,14 @@ export class OperationDataService {
       }
     });
   }
-
+  getByFilter(filter: string): Observable<Array<SelectModel>> {
+    return this.httpClient.get<Array<SelectModel>>('/Operation/GetByFilter', {
+      params:
+      {
+        filter: filter,
+      }
+    });
+  }
   getAll(): Observable<any> {
     return this.httpClient.get<any>('/Operation/GetAll',{
       params:
@@ -59,12 +66,5 @@ export class OperationDataService {
       }, observe: 'response'
     });
   }
-  getSelectModel(filter: string): Observable<Array<SelectModel>> {
-    return this.httpClient.get<Array<SelectModel>>('/Operation/GetSelectModel', {
-      params:
-      {
-        filter: filter,
-      }
-    });
-  }
+ 
 }

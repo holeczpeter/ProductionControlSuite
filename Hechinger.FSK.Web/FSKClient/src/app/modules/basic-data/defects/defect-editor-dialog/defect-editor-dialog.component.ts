@@ -42,7 +42,7 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
   ngOnInit(): void {
     let currentOperationId = this.defect ? this.defect.operationId : 0;
     forkJoin([this.operationDataService.get({ id: currentOperationId }),
-    this.operationDataService.getSelectModel(''),
+    this.operationDataService.getByFilter(''),
     this.defectDataService.getAllDefectCategories()]).subscribe(([current, operations, categories]) => {
       this.operations = operations;
       if (current) this.operations.splice(1, 0, { id: current.id, code: current.code, name: current.name, translatedName: current.translatedName });
@@ -73,7 +73,7 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
       return;
     }
     else search = search.toLowerCase();
-    this.operationDataService.getSelectModel(search).subscribe((result: any) => {
+    this.operationDataService.getByFilter(search).subscribe((result: any) => {
       this.operations = result;
       this.filtered.next(this.operations.slice());
     });

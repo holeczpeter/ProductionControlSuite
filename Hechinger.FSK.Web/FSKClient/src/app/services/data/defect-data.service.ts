@@ -38,7 +38,14 @@ export class DefectDataService {
       }
     });
   }
-
+  getByFilter(filter: string): Observable<Array<SelectModel>> {
+    return this.httpClient.get<Array<SelectModel>>('/Defect/GetByFilter', {
+      params:
+      {
+        filter: filter,
+      }
+    });
+  }
   getAll(): Observable<any> {
     return this.httpClient.get<any>('/Defect/GetAll',{
       params:
@@ -59,12 +66,5 @@ export class DefectDataService {
   getAllDefectCategories(): Observable<Array<EnumModel>> {
     return this.httpClient.get<Array<EnumModel>>('/Defect/GetAllDefectCategories');
   }
-  getSelectModel(filter: string): Observable<Array<SelectModel>> {
-    return this.httpClient.get<Array<SelectModel>>('/Defect/GetSelectModel', {
-      params:
-      {
-        filter: filter,
-      }
-    });
-  }
+  
 }

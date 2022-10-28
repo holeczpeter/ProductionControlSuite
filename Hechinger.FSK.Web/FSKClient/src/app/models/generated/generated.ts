@@ -111,9 +111,6 @@ export interface DefectModel {
   operationCode: string,
   defectCategoryName: string,
 }
-export interface GetDefectSelectModel {
-  filter: string,
-}
 export interface GetAllDefect {
   parameters: DefectRequestParameters,
 }
@@ -133,6 +130,9 @@ export interface GetAllDefectCategories {
 }
 export interface GetDefect {
   id: number,
+}
+export interface GetDefectByFilter {
+  filter: string,
 }
 export interface GetDefectsByOperation {
   operationId: number,
@@ -215,14 +215,14 @@ export interface OperationRequestParameters {
 export interface GetOperation {
   id: number,
 }
+export interface GetOperationByFilter {
+  filter: string,
+}
 export interface GetOperationsByProduct {
   productId: number,
 }
 export interface GetOperationsCount {
   parameters: RequestParameters,
-}
-export interface GetOperationSelectModel {
-  filter: string,
 }
 export interface AddProduct {
   name: string,
@@ -265,13 +265,13 @@ export interface ProductRequestParameters {
 export interface GetProduct {
   id: number,
 }
+export interface GetProductByFilter {
+  filter: string,
+}
 export interface GetProductsCount {
   parameters: RequestParameters,
 }
-export interface GetProductSelectModel {
-  filter: string,
-}
-export interface DefectCompareByUser {
+export interface DefectStatisticModel {
   defectCode: string,
   defectName: string,
   defectTranslatedName: string,
@@ -318,13 +318,13 @@ export interface QualityAssuranceModel {
   month: number,
   quantity: number,
 }
-export interface WorkerCompare {
+export interface WorkerStatisticModel {
   workerCode: string,
   quantity: number,
   defectQuantity: number,
   ppm: number,
 }
-export interface GetDefectCompareByUser {
+export interface GetDefectStatisticsByUser {
   workerCode: string,
   operationId: number,
   startDate: Date,
@@ -340,7 +340,7 @@ export interface GetQualityAssurance {
   endDate: Date,
   view: Views,
 }
-export interface GetWorkerCompare {
+export interface GetWorkerStatisticsByDefect {
   defectId: number,
   startDate: Date,
   endDate: Date,
@@ -602,6 +602,9 @@ export interface WorkerModel {
 }
 export interface GetAllWorker {
 }
+export interface GetWorkersByFilter {
+  filter: string,
+}
 export interface AddWorkshop {
   name: string,
   translatedName: string,
@@ -623,9 +626,6 @@ export interface GetAllWorkshops {
 }
 export interface GetWorkshop {
   id: number,
-}
-export interface GetWorkersByFilter {
-  filter: string,
 }
 export enum Views {
   Week = 1,

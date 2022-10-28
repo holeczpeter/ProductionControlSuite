@@ -1,20 +1,19 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSelect } from '@angular/material/select';
-import { debounceTime, forkJoin, Subject, takeUntil } from 'rxjs';
-import { ReplaySubject } from 'rxjs';
-import { DefectCompareByUser, GetDefectCompareByUser, GetDefectsByOperation, GetOperationsByProduct, SelectModel, WorkerModel } from '../../../models/generated/generated';
-import { WorkerDataService } from '../../../services/data/worker-data.service';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { debounceTime, forkJoin, ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { DefectStatisticModel, GetDefectsByOperation, GetDefectStatisticsByUser, GetOperationsByProduct, SelectModel, WorkerModel } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { DefectDataService } from '../../../services/data/defect-data.service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
 import { ProductDataService } from '../../../services/data/product-data.service';
 import { QualityDataService } from '../../../services/data/quality-data.service';
+import { WorkerDataService } from '../../../services/data/worker-data.service';
 import { LanguageService } from '../../../services/language/language.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 @Component({
   selector: 'app-worker-defect-statistics',
   templateUrl: './worker-defect-statistics.component.html',
@@ -32,8 +31,8 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
   operations!: SelectModel[];
   defects!: SelectModel[];
   protected _onDestroy = new Subject<void>();
-  items: Array<DefectCompareByUser>;
-  dataSource: MatTableDataSource<DefectCompareByUser>;
+  items: Array<DefectStatisticModel>;
+  dataSource: MatTableDataSource<DefectStatisticModel>;
 
   
   public workerFilterCtrl: FormControl = new FormControl();
@@ -57,7 +56,7 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
     private readonly accountService: AccountService) { }
 
   ngOnInit(): void {
-    forkJoin([this.workerDataService.getAll(), this.productDataService.getSelectModel('')]).subscribe(([workers, products]) => {
+    forkJoin([this.workerDataService.getAll(), this.productDataService.getByFilter('')]).subscribe(([workers, products]) => {
       this.products = products;
       this.workers = workers;
       this.formGroup = this.formBuilder.group({
@@ -110,7 +109,7 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
       return;
     }
     else search = search.toLowerCase();
-    this.productDataService.getSelectModel(search).subscribe((result: any) => {
+    this.productDataService.getByFilter(search).subscribe((result: any) => {
       this.products = result;
       this.filteredProducts.next(this.products.slice());
     });
@@ -130,14 +129,14 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
   }
   onRequest() {
 
-    let request: GetDefectCompareByUser = {
+    let request: GetDefectStatisticsByUser = {
       workerCode: this.formGroup.get('worker')?.value.workerCode,
       startDate: new Date(this.formGroup.get('startDate')?.value),
       endDate: new Date(this.formGroup.get('endDate')?.value),
       operationId: this.formGroup.get('operation')?.value.id,
     };
     console.log(request)
-    this.qualityDataService.getDefectCompareByUser(request).subscribe(results => {
+    this.qualityDataService.getDefectStatisticsByUser(request).subscribe(results => {
       this.items = results;
       this.dataSource = new MatTableDataSource(results);
       this.dataSource.sort = this.sort;

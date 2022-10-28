@@ -2,7 +2,7 @@
 
 namespace Hechinger.FSK.Application.Features
 {
-    public class GetProductSelectModel : IRequest<IEnumerable<SelectModel>>
+    public class GetProductByFilter : IRequest<IEnumerable<SelectModel>>
     {
         public string Filter { get; set; }
     }

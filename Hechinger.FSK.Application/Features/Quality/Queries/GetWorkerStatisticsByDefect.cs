@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetWorkerCompare : IRequest<IEnumerable<WorkerCompare>>
+    public class GetWorkerStatisticsByDefect : IRequest<IEnumerable<WorkerStatisticModel>>
     {
        
         public int DefectId { get; set; }
@@ -9,14 +9,14 @@
 
         public DateTime EndDate { get; set; }
 
-        public GetWorkerCompare( int defectId, DateTime startDate, DateTime endDate)
+        public GetWorkerStatisticsByDefect( int defectId, DateTime startDate, DateTime endDate)
         {
            
             DefectId = defectId;
             StartDate = startDate;
             EndDate = endDate;
         }
-        public GetWorkerCompare()
+        public GetWorkerStatisticsByDefect()
         {
 
         }

@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Hechinger.FSK.Application.Features
 {
-    public class GetProductSelectModelHandler : IRequestHandler<GetProductSelectModel, IEnumerable<SelectModel>>
+    public class GetProductByFilterHandler : IRequestHandler<GetProductByFilter, IEnumerable<SelectModel>>
     {
         private readonly FSKDbContext context;
-        public GetProductSelectModelHandler(FSKDbContext context)
+        public GetProductByFilterHandler(FSKDbContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
-        public async Task<IEnumerable<SelectModel>> Handle(GetProductSelectModel request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SelectModel>> Handle(GetProductByFilter request, CancellationToken cancellationToken)
         {
             return await context.Products
                 .Where(x => x.EntityStatus == EntityStatuses.Active)

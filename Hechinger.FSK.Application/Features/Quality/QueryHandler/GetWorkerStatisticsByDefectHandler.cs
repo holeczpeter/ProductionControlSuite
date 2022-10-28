@@ -1,15 +1,15 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetWorkerCompareHandler : IRequestHandler<GetWorkerCompare, IEnumerable<WorkerCompare>>
+    public class GetWorkerStatisticsByDefectHandler : IRequestHandler<GetWorkerStatisticsByDefect, IEnumerable<WorkerStatisticModel>>
     {
         private readonly FSKDbContext context;
         private readonly IQualityService qualityService;
-        public GetWorkerCompareHandler(FSKDbContext context, IQualityService qualityService)
+        public GetWorkerStatisticsByDefectHandler(FSKDbContext context, IQualityService qualityService)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
             this.qualityService = qualityService ?? throw new ArgumentNullException(nameof(qualityService));
         }
-        public async Task<IEnumerable<WorkerCompare>> Handle(GetWorkerCompare request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<WorkerStatisticModel>> Handle(GetWorkerStatisticsByDefect request, CancellationToken cancellationToken)
         {
            
             var items = await (from c in this.context.SummaryCards
@@ -23,7 +23,7 @@
                                    Quantity = c.Quantity,
                                    DefectQuantity = i.Quantity
                                }).ToListAsync(cancellationToken);
-            var result = items.GroupBy(item => new { WorkerCode = item.WorkerCode }).Select(x => new WorkerCompare()
+            var result = items.GroupBy(item => new { WorkerCode = item.WorkerCode }).Select(x => new WorkerStatisticModel()
             {
                 WorkerCode = x.Key.WorkerCode,
                 Quantity = x.Sum(x=>x.Quantity),

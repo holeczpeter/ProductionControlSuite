@@ -6,7 +6,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { GetDefectsByOperation, GetOperationsByProduct, GetWorkerCompare, SelectModel, WorkerCompare } from '../../../models/generated/generated';
+import { GetDefectsByOperation, GetOperationsByProduct, GetWorkerStatisticsByDefect, SelectModel, WorkerStatisticModel } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { DefectDataService } from '../../../services/data/defect-data.service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
@@ -32,8 +32,8 @@ export class WorkerCompareStatisticsComponent implements OnInit, OnDestroy {
   operations!: SelectModel[];
   defects!: SelectModel[];
   protected _onDestroy = new Subject<void>();
-  workerCompareItems: Array<WorkerCompare>;
-  dataSource: MatTableDataSource<WorkerCompare>;
+  items: Array<WorkerStatisticModel>;
+  dataSource: MatTableDataSource<WorkerStatisticModel>;
   columnNames: Array<string> = ['workerCode', 'quantity', 'defectQuantity', 'ppm'];
   pageSize = this.accountService.getPageSize();
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
@@ -49,7 +49,7 @@ export class WorkerCompareStatisticsComponent implements OnInit, OnDestroy {
     private readonly accountService: AccountService) { }
 
   ngOnInit(): void {
-    this.productDataService.getSelectModel('').subscribe(products => {
+    this.productDataService.getByFilter('').subscribe(products => {
       this.products = products;
       this.formGroup = this.formBuilder.group({
         startDate: [new Date(new Date().getFullYear(),0,1), [Validators.required]],
@@ -68,20 +68,20 @@ export class WorkerCompareStatisticsComponent implements OnInit, OnDestroy {
   }
   valueChanges() {
     this.formGroup.get('product')?.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(x => {
-      this.getOperations();
+      this.getOperationsByProduct();
     });
     this.formGroup.get('operation')?.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(x => {
-      this.getDefects();
+      this.getDefectsByOperation();
     });
   }
-  getDefects() {
+  getDefectsByOperation() {
     let request: GetDefectsByOperation = { operationId: this.formGroup.get('operation')?.value.id };
     this.defectDataService.getByOperation(request).subscribe(defects => {
       this.defects = defects;
     });
 
   }
-  getOperations() {
+  getOperationsByProduct() {
     let request: GetOperationsByProduct = { productId: this.formGroup.get('product')?.value.id };
     this.operatonDataService.getByProduct(request).subscribe(operations => {
       this.operations = operations;
@@ -96,7 +96,7 @@ export class WorkerCompareStatisticsComponent implements OnInit, OnDestroy {
       return;
     }
     else search = search.toLowerCase();
-    this.productDataService.getSelectModel(search).subscribe((result: any) => {
+    this.productDataService.getByFilter(search).subscribe((result: any) => {
       this.products = result;
       this.filteredProducts.next(this.products.slice());
     });
@@ -105,14 +105,14 @@ export class WorkerCompareStatisticsComponent implements OnInit, OnDestroy {
  
   onRequest() {
    
-    let request: GetWorkerCompare = {
+    let request: GetWorkerStatisticsByDefect = {
       defectId: this.formGroup.get('defect')?.value.id,
       startDate: new Date(this.formGroup.get('startDate')?.value),
       endDate: new Date(this.formGroup.get('endDate')?.value),
     };
     console.log(request)
-    this.qualityDataService.getWorkerCompare(request).subscribe(results => {
-      this.workerCompareItems = results;
+    this.qualityDataService.getWorkerStatisticsByDefect(request).subscribe(results => {
+      this.items = results;
       this.dataSource = new MatTableDataSource(results);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;

@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetDefectCompareByUser : IRequest<IEnumerable<DefectCompareByUser>>
+    public class GetDefectStatisticsByUser : IRequest<IEnumerable<DefectStatisticModel>>
     {
 
         public string WorkerCode { get; set; }
@@ -10,7 +10,7 @@
 
         public DateTime EndDate { get; set; }
 
-        public GetDefectCompareByUser(string workerCode,  int operationId, DateTime startDate, DateTime endDate)
+        public GetDefectStatisticsByUser(string workerCode,  int operationId, DateTime startDate, DateTime endDate)
         {
 
             WorkerCode = workerCode;
@@ -18,7 +18,7 @@
             StartDate = startDate;
             EndDate = endDate;
         }
-        public GetDefectCompareByUser()
+        public GetDefectStatisticsByUser()
         {
 
         }

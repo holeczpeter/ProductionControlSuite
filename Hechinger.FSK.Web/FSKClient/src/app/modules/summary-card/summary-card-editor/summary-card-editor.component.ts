@@ -119,7 +119,7 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
     return this.operationDataService.get(request);
   }
   getOperationSelectModel(filter:string) {
-    return this.operationDataService.getSelectModel(filter);
+    return this.operationDataService.getByFilter(filter);
   }
   getAllShifts() {
     return this.shiftsDataService.getAll();

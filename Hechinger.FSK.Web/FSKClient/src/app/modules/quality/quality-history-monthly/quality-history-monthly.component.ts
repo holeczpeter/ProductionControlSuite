@@ -64,7 +64,7 @@ export class QualityHistoryMonthlyComponent implements  OnInit, OnDestroy {
         if (this.formGroup && this.formGroup.get('product')?.value) this.initalize();
       });
     this.intervalPanelService.setViews(this.selectedView, this.currentDate);
-    this.productDataService.getSelectModel('').subscribe(products => {
+    this.productDataService.getByFilter('').subscribe(products => {
       this.products = products;
       this.formGroup = this.formBuilder.group({
         product: [null],
@@ -100,7 +100,7 @@ export class QualityHistoryMonthlyComponent implements  OnInit, OnDestroy {
       return;
     }
     else search = search.toLowerCase();
-    this.productDataService.getSelectModel(search).subscribe((result: any) => {
+    this.productDataService.getByFilter(search).subscribe((result: any) => {
       this.products = result;
       this.filtered.next(this.products.slice());
     });

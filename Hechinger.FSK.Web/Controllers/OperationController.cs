@@ -38,6 +38,11 @@ namespace Hechinger.FSK.Web.Controllers
             return await this.mediator.Send(request, cancellationToken);
         }
         [HttpGet]
+        public async Task<IEnumerable<SelectModel>> GetByFilter(GetOperationByFilter request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+        [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] OperationRequestParameters request, CancellationToken cancellationToken)
         {
             var result = await this.mediator.Send(new GetAllOperation(request), cancellationToken);
@@ -53,10 +58,6 @@ namespace Hechinger.FSK.Web.Controllers
             HttpContext.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationMetadata));
             return Ok(result);
         }
-        [HttpGet]
-        public async Task<IEnumerable<SelectModel>> GetSelectModel(GetOperationSelectModel request, CancellationToken cancellationToken)
-        {
-            return await this.mediator.Send(request, cancellationToken);
-        }
+        
     }
 }

@@ -11,6 +11,8 @@ import { WorkerCompareStatisticsComponent } from './worker-compare-statistics/wo
 import { WorkerDefectStatisticsComponent } from './worker-defect-statistics/worker-defect-statistics.component';
 import { QuantityReportComponent } from './quantity-report/quantity-report.component';
 import { QualityReportComponent } from './quality-report/quality-report.component';
+import { WorkerCompareStatisticsChartComponent } from './worker-compare-statistics/worker-compare-statistics-chart/worker-compare-statistics-chart.component';
+import { WorkerDefectStatisticsChartComponent } from './worker-defect-statistics/worker-defect-statistics-chart/worker-defect-statistics-chart.component';
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import { QualityReportComponent } from './quality-report/quality-report.componen
     WorkerDefectStatisticsComponent,
     QuantityReportComponent,
     QualityReportComponent,
+    WorkerCompareStatisticsChartComponent,
+    WorkerDefectStatisticsChartComponent,
   ],
   imports: [
     CommonModule,

@@ -35,8 +35,8 @@ export class ProductDataService {
         id: request.id,
       }});
   }
-  getSelectModel(filter: string): Observable<Array<SelectModel>> {
-    return this.httpClient.get<Array<SelectModel>> ('/Product/GetSelectModel', {
+  getByFilter(filter: string): Observable<Array<SelectModel>> {
+    return this.httpClient.get<Array<SelectModel>> ('/Product/GetByFilter', {
       params:
       {
         filter: filter,

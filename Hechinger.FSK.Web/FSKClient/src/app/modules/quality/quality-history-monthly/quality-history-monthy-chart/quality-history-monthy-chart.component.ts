@@ -39,21 +39,37 @@ export class QualityHistoryMonthyChartComponent implements OnInit, OnChanges {
         else data1.push(0);
         let color = this.getColor(this.data.category);
         this.options = {
+          title: {
+            text: this.data.categoryName,
+            left: 'center',
+            top: 20,
+            color: '#ccc',
+          },
           tooltip: {
             trigger: 'axis',
             axisPointer: {
               type: 'shadow',
             }
           },
-          xAxis: {
-            data: xAxisData
+          legend: {
+            x: 'center',
+            y: 'right',
+            data: [this.data.categoryName]
           },
-          yAxis: {},
+          xAxis: {
+            data: xAxisData,
+            axisTick: {
+              alignWithLabel: true
+            }
+          },
+          yAxis: {
+            type: 'value'
+          },
           series: [
             {
               name: this.data.categoryName,
               type: 'bar',
-              barCategoryGap: '10%',
+              barCategoryGap: '60%',
               data: data1,
               color: color,
               animation: true,

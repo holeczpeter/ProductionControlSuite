@@ -1,15 +1,15 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetAllOperationSelectHandler : IRequestHandler<GetOperationSelectModel, IEnumerable<SelectModel>>
+    public class GetAllOperationByFilterHandler : IRequestHandler<GetOperationByFilter, IEnumerable<SelectModel>>
     {
         private readonly FSKDbContext context;
-        public GetAllOperationSelectHandler(FSKDbContext context)
+        public GetAllOperationByFilterHandler(FSKDbContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
 
-        public async Task<IEnumerable<SelectModel>> Handle(GetOperationSelectModel request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SelectModel>> Handle(GetOperationByFilter request, CancellationToken cancellationToken)
         {
             return await context.Operations
                 .Where(x => x.EntityStatus == EntityStatuses.Active)

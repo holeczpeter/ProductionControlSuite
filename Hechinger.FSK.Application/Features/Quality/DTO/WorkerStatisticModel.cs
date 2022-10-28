@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class WorkerCompare : BaseModel
+    public class WorkerStatisticModel : BaseModel
     {
         public string WorkerCode { get; set; }
         public int Quantity { get; set; }

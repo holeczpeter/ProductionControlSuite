@@ -24,12 +24,12 @@ namespace Hechinger.FSK.Web.Controllers
             return await this.mediator.Send(request, cancellationToken);
         }
         [HttpGet]
-        public async Task<IEnumerable<WorkerCompare>> GetWorkerCompare(GetWorkerCompare request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<WorkerStatisticModel>> GetWorkerStatisticsByDefect(GetWorkerStatisticsByDefect request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
         }
         [HttpGet]
-        public async Task<IEnumerable<DefectCompareByUser>> GetDefectCompareByUser(GetDefectCompareByUser request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<DefectStatisticModel>> GetDefectStatisticsByUser(GetDefectStatisticsByUser request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
         }

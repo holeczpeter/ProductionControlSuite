@@ -1,15 +1,15 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    internal class GetDefectSelectHandler : IRequestHandler<GetDefectSelectModel, IEnumerable<SelectModel>>
+    internal class GetDefectByFilterHandler : IRequestHandler<GetDefectByFilter, IEnumerable<SelectModel>>
     {
         private readonly FSKDbContext context;
-        public GetDefectSelectHandler(FSKDbContext context)
+        public GetDefectByFilterHandler(FSKDbContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
 
-        public async Task<IEnumerable<SelectModel>> Handle(GetDefectSelectModel request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SelectModel>> Handle(GetDefectByFilter request, CancellationToken cancellationToken)
         {
             return await context.Defects
                 .Where(x => x.EntityStatus == EntityStatuses.Active)

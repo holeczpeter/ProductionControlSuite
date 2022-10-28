@@ -38,7 +38,7 @@
         </mat-error>
       </mat-form-field>
     </div>
-    
+
     <div class="row pt-2">
       <mat-form-field class="col">
         <mat-label>{{'startDate' | translate}}</mat-label>
@@ -70,7 +70,7 @@
         </mat-error>
       </mat-form-field>
     </div>
-   
+
   </form>
   <div>
     <button mat-flat-button (click)="onRequest()" color="primary"> Lekérdezés </button>
@@ -101,6 +101,6 @@
                    [pageSizeOptions]="pageSizeOptions"
                    showFirstLastButtons></mat-paginator>
   </div>
+  <app-worker-compare-statistics-chart [items]="items"></app-worker-compare-statistics-chart>
 
-
-  </div>
+</div>
