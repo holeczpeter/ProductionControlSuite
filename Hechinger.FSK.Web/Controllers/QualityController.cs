@@ -29,7 +29,7 @@ namespace Hechinger.FSK.Web.Controllers
             return await this.mediator.Send(request, cancellationToken);
         }
         [HttpGet]
-        public async Task<IEnumerable<WorkerCompare>> GetDefectCompareByUser(GetDefectCompareByUser request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<DefectCompareByUser>> GetDefectCompareByUser(GetDefectCompareByUser request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
         }
