@@ -143,6 +143,7 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
       this.dataSource.paginator = this.paginator;
     });
   }
+  
   ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();

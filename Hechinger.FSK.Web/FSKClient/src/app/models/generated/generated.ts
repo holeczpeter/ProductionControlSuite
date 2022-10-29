@@ -318,6 +318,39 @@ export interface QualityAssuranceModel {
   month: number,
   quantity: number,
 }
+export interface QuantityProductReportModel {
+  productId: number,
+  productName: string,
+  productTranslatedName: string,
+  operations: Array<QuantityOperationReportModel>,
+}
+export interface QuantityOperationReportModel {
+  operationId: number,
+  operationName: string,
+  operationTranslatedName: string,
+  defects: Array<QuantityDefectReportModel>,
+}
+export interface QuantityDefectReportModel {
+  defectId: number,
+  defectName: string,
+  defectTranslatedName: string,
+  days: Array<QuantityDayReportModel>,
+}
+export interface QuantityDayReportModel {
+  id: number,
+  year: number,
+  month: number,
+  date: Date,
+  quantity: number,
+  shifts: Array<QuantityShiftReportModel>,
+}
+export interface QuantityShiftReportModel {
+  id: number,
+  shiftId: number,
+  quantity: number,
+  defectQuantity: number,
+  pPM: number,
+}
 export interface WorkerStatisticModel {
   workerCode: string,
   quantity: number,
@@ -339,6 +372,11 @@ export interface GetQualityAssurance {
   startDate: Date,
   endDate: Date,
   view: Views,
+}
+export interface GetQuantityReport {
+  productId: number,
+  startDate: Date,
+  endDate: Date,
 }
 export interface GetWorkerStatisticsByDefect {
   defectId: number,

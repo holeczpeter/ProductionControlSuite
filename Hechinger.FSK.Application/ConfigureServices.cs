@@ -15,6 +15,7 @@ namespace Hechinger.FSK.Application
             services.AddTransient(typeof(IAuthenticationManager), typeof(AuthenticationManager));
             services.AddTransient(typeof(IOperationCache), typeof(OperationCache));
             services.AddTransient(typeof(IDefectCahche), typeof(DefectCahche));
+            services.AddTransient(typeof(IQuantityService), typeof(QuantityService));
             services.AddTransient(typeof(IQualityService), typeof(QualityService));
             services.AddTransient(typeof(IImportService), typeof(ImportService));
             services.AddTransient(typeof(IPermissionService), typeof(PermissionService));

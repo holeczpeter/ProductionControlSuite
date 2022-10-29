@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DefectStatisticModel, GetDefectStatisticsByUser, GetMonthlyQualityHistory, GetWorkerStatisticsByDefect, MonthlyQualityModel, WorkerStatisticModel } from '../../models/generated/generated';
+import { DefectStatisticModel, GetDefectStatisticsByUser, GetMonthlyQualityHistory, GetQuantityReport, GetWorkerStatisticsByDefect, MonthlyQualityModel, QuantityProductReportModel, WorkerStatisticModel } from '../../models/generated/generated';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +9,9 @@ import { DefectStatisticModel, GetDefectStatisticsByUser, GetMonthlyQualityHisto
 export class QualityDataService {
   constructor(private readonly httpClient: HttpClient) { }
 
- 
+
   getMonthlyQualityHistory(request: GetMonthlyQualityHistory): Observable<Array<MonthlyQualityModel>> {
-    return this.httpClient.get<Array<MonthlyQualityModel>>('/Quality/GetMonthlyQualityHistory', { params: { productId : request.productId, year : request.year } });
+    return this.httpClient.get<Array<MonthlyQualityModel>>('/Quality/GetMonthlyQualityHistory', { params: { productId: request.productId, year: request.year } });
   }
 
   getDefectStatisticsByUser(request: GetDefectStatisticsByUser): Observable<Array<DefectStatisticModel>> {
@@ -36,7 +36,16 @@ export class QualityDataService {
       }
     });
   }
-
+  getQuantityReport(request: GetQuantityReport): Observable<QuantityProductReportModel> {
+    return this.httpClient.get<QuantityProductReportModel>('/Quality/GetQuantityReport', {
+      params:
+      {
+        'productId': request.productId,
+        'startDate': request.startDate.toDateString(),
+        'endDate': request.endDate.toDateString()
+      }
+    });
+  }
   import(): Observable<boolean> {
     return this.httpClient.post<boolean>('/Quality/import', null)
   }

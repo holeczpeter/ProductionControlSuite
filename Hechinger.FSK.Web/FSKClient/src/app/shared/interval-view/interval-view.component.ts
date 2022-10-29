@@ -49,7 +49,8 @@ export class IntervalViewComponent implements OnInit, OnChanges, DoCheck, OnDest
   ngOnChanges(changes: SimpleChanges): void {
 
   }
-  public selectionChanged(event:any): void {
+  public selectionChanged(event: any): void {
+    console.log(event)
     this.intervalViewService.setViews(event, this.currentDate);
   }
   public nextYear(): void {

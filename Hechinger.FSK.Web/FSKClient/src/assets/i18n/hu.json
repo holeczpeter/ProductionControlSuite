@@ -104,5 +104,8 @@
   },
   "workercompare": {
     "title": "Dolgozók összehasonlítása"
+  },
+  "qualityreport": {
+    "title": "Darabszám jelentés"
   }
 }
