@@ -60,6 +60,7 @@
   "avarage": "Átlag",
   "startDate": "Időszak kezdete",
   "endDate": "Időszak vége",
+  "sum": "Összesen",
   "workshops": {
     "title": "Műhelyek",
     "add": "Új műhely hozzáadása",

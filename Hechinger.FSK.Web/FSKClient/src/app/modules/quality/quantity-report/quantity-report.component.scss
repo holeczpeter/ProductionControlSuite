@@ -1,5 +1,8 @@
 
-
+.example-container {
+  height: 60vh;
+  overflow: auto;
+}
 $table-cell-border: 1px solid #CCC;
 
 table {

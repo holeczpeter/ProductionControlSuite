@@ -53,14 +53,16 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
   title = "qualityreport.title";
   categories = Object.values(DefectCategories).filter((v) => !isNaN(Number(v)));
   displayedHeaders = {
-    days : new Array<string>(),
-    shifts: new Array<string>(),
+    days: new Array<TableHeader>(),
+    shifts: new Array<TableHeader>(),
     columnIds: new Array<string>(),
     sumIds: new Array<string>(),
     daysQuantity: new Array<string>(),
     shiftsQuantity: new Array<string>(),
   };
   shifts:ShiftModel[];
+    dayColumnNames: string[];
+    shiftColumnNames: string[];
   constructor(private readonly qualityDataService: QualityDataService,
     private readonly productDataService: ProductDataService,
     public languageService: LanguageService,
@@ -121,8 +123,8 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
     this.dataSource = new MatTableDataSource();
     let rows = new Array<QuantityRow>();
     this.displayedHeaders = {
-      days: new Array<string>(),
-      shifts: new Array<string>(),
+      days: new Array<TableHeader>(),
+      shifts: new Array<TableHeader>(),
       columnIds: new Array<string>(),
       sumIds: new Array<string>(),
       daysQuantity: new Array<string>(),
@@ -131,17 +133,20 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
     if (this.data) {
       for (let i = 0; i <= this.currentInterval.differenceInCalendarDays; i++) {
         let currentDate = addDays(this.currentInterval.startDate, i);
-        this.displayedHeaders.days.push(currentDate.toString());
+        this.displayedHeaders.days.push({ id: currentDate.toString(), value: this.getSumQuantityByDay(currentDate.toString()) });
+        
         this.displayedHeaders.daysQuantity.push(currentDate.toString()+"_sum");
         for (var j = 0; j < this.shifts.length; j++) {
-          this.displayedHeaders.shifts.push(currentDate.toString() + "_" + this.shifts[j].id);
+          this.displayedHeaders.shifts.push({ id: currentDate.toString() + "_" + this.shifts[j].id, value: this.getSumQuantityByShift(currentDate, this.shifts[j].id) });
           this.displayedHeaders.shiftsQuantity.push(currentDate.toString() + "_" + this.shifts[j].id + "_sum");
         }
       }
+      this.dayColumnNames = this.displayedHeaders.days.map(x => x.id);
+      this.shiftColumnNames = this.displayedHeaders.shifts.map(x => x.id);
       this.data.operations[0].defects.forEach(defect => {
         const row = new QuantityRow();
         row['defect'] = { id: defect.defectId, name: defect.defectName, translatedName: defect.defectTranslatedName };
-       
+
         for (let i = 0; i <= this.currentInterval.differenceInCalendarDays; i++) {
           let currentDate = addDays(this.currentInterval.startDate, i);
           let currentDateObject = defect.days.find(day => format('yyyy-MM-dd', new Date(day.date)).trim() == format('yyyy-MM-dd', currentDate).trim());
@@ -181,13 +186,11 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
     if (current) return current.quantity;
     else return 0;
   }
-  getSumQuantityByShift(item: string) {
-    const myArray = item.split("_");
-    let date = myArray[0];
-    let shift = myArray[1];
+  getSumQuantityByShift(date: Date,shiftId:number) {
+    
     let current = this.data.operations[0].defects.flatMap(x => { return x.days }).find(day => format('yyyy-MM-dd', new Date(day.date)).trim() == format('yyyy-MM-dd', new Date(date)).trim());
     if (current) {
-      let currentShift = current.shifts.find(s => s.id.toString() == shift);
+      let currentShift = current.shifts.find(s => s.id == shiftId);
       if (currentShift) return currentShift.quantity;
       else return 0;
     }
