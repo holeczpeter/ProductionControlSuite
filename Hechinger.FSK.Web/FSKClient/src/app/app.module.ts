@@ -11,6 +11,10 @@ import { SharedModule } from './shared/shared.module';
 import { TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LayoutComponent } from './layout/layout/layout.component';
+import { DateWithNamePipe } from './pipes/date-with-name.pipe';
+import { ShiftNamePipe } from './pipes/shift-name.pipe';
+import { CategoryPipe } from './pipes/category.pipe';
+import { SumCategoryPipe } from './pipes/sum-category.pipe';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -26,7 +30,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SidebarComponent,
     FooterComponent,
     LayoutComponent,
-    
   ],
   imports: [
     BrowserModule,

@@ -1,8 +1,8 @@
 
-import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { CdkTableModule } from '@angular/cdk/table';
+import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,7 +13,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import { DateAdapter, MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -38,31 +38,39 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
-import { TitleComponent } from './title/title.component';
-import { DialogHeaderComponent } from './dialog-header/dialog-header.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxMaskModule } from 'ngx-mask';
 import { NgChartsModule } from 'ng2-charts';
-import { LoaderComponent } from './loader/loader.component';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { NgxMaskModule } from 'ngx-mask';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { OverlayLoadingDirective } from '../directives/overlay-loading.directive';
-import { SnackbarService } from '../services/snackbar/snackbar.service';
-import { SpinnerInterceptor } from '../services/interceptors/spinner.interceptor';
+import { CategoryPipe } from '../pipes/category.pipe';
+import { DateWithNamePipe } from '../pipes/date-with-name.pipe';
+import { EnumPipe } from '../pipes/enum.pipe';
+import { ShiftNamePipe } from '../pipes/shift-name.pipe';
+import { SumCategoryPipe } from '../pipes/sum-category.pipe';
 import { HttpCancelService } from '../services/http-cancel.service';
 import { AuthInterceptor } from '../services/interceptors/auth.interceptor';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { SpinnerInterceptor } from '../services/interceptors/spinner.interceptor';
+import { SnackbarService } from '../services/snackbar/snackbar.service';
+import { DialogHeaderComponent } from './dialog-header/dialog-header.component';
 import { IntervalViewComponent } from './interval-view/interval-view.component';
-import { NgxEchartsModule } from 'ngx-echarts';
-import { EnumPipe } from '../pipes/enum.pipe';
-import { QualityHistoryMonthyChartComponent } from '../modules/quality/quality-history-monthly/quality-history-monthy-chart/quality-history-monthy-chart.component';
+import { LoaderComponent } from './loader/loader.component';
+import { TitleComponent } from './title/title.component';
 
 @NgModule({
   declarations: [
+    
     TitleComponent,
     DialogHeaderComponent,
     OverlayLoadingDirective,
     LoaderComponent,
     IntervalViewComponent,
-    EnumPipe
+    EnumPipe,
+    ShiftNamePipe,
+    CategoryPipe,
+    DateWithNamePipe,
+    SumCategoryPipe
   ],
   imports: [
     CommonModule,
@@ -115,9 +123,9 @@ import { QualityHistoryMonthyChartComponent } from '../modules/quality/quality-h
     }),
   ],
   exports: [
+    CommonModule,
     MatToolbarModule,
     MatSidenavModule,
-    CommonModule,
     ReactiveFormsModule,
     MatInputModule,
     MatSliderModule,
@@ -163,7 +171,11 @@ import { QualityHistoryMonthyChartComponent } from '../modules/quality/quality-h
     NgxMatSelectSearchModule,
     IntervalViewComponent,
     NgxEchartsModule,
-    EnumPipe
+    EnumPipe,
+    ShiftNamePipe,
+    CategoryPipe,
+    DateWithNamePipe,
+    SumCategoryPipe
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },

@@ -335,6 +335,7 @@ export interface QuantityDefectReportModel {
   defectName: string,
   defectTranslatedName: string,
   days: Array<QuantityDayReportModel>,
+  defectCategory: DefectCategories,
 }
 export interface QuantityDayReportModel {
   id: number,

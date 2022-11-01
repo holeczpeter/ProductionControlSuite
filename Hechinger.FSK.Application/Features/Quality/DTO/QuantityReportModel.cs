@@ -23,6 +23,7 @@
         public string DefectTranslatedName { get; set; }
 
         public IEnumerable<QuantityDayReportModel> Days { get; set; }
+        public DefectCategories DefectCategory { get; set; }
     }
     public class QuantityDayReportModel : BaseModel
     {

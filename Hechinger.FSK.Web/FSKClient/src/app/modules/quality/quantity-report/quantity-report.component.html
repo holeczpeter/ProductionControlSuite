@@ -21,5 +21,131 @@
     </div>
   </form>
   <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
+  <div class="example-container" #tableDataView>
+    <table *ngIf="dataSource.data && dataSource.data.length > 0; else noData"
+           mat-table
+           [dataSource]="dataSource">
+      <ng-container matColumnDef="header-date-row-start">
+        <th mat-header-cell *matHeaderCellDef class="th-align-right" sticky>
+          Dátum
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="header-date-quantity-row-start">
+        <th mat-header-cell *matHeaderCellDef class="th-align-right" sticky>
+          Gyártott mennyiség
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="header-shift-row-start">
+        <th mat-header-cell *matHeaderCellDef class="th-align-right" sticky>
+          Műszak
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="header-shift-quantity-row-start">
+        <th mat-header-cell *matHeaderCellDef class="th-align-right" sticky>
+          Gyártott mennyiség
+        </th>
+      </ng-container>
+      <ng-container *ngFor="let key of displayedHeaders.columnIds; let i = index">
+        <ng-container [ngSwitch]="key">
+          <ng-container *ngSwitchCase="'defect'" [ngTemplateOutlet]="defecttemplate" [ngTemplateOutletContext]="{ $implicit: key }"></ng-container>
+          <ng-container *ngSwitchDefault [ngTemplateOutlet]="defaultTemplate" [ngTemplateOutletContext]="{ $implicit: key }"></ng-container>
+        </ng-container>
 
+        <ng-template #defecttemplate let key>
+          <ng-container [matColumnDef]="key">
+            <th mat-header-cell *matHeaderCellDef class="defect-header" sticky>
+              Hiba megnevezés
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{(languageService.getCurrentLanguage() | async) == 'hu' ?  element[key].name  :  element[key].translatedName }}
+            </td>
+          </ng-container>
+        </ng-template>
+        <ng-template #defaultTemplate let key>
+          <ng-container [matColumnDef]="key">
+            <th mat-header-cell *matHeaderCellDef class="category-header th-align-center"
+                [style.--background-color]="getCategory(displayedHeaders.columnIds[i])">
+              {{ displayedHeaders.columnIds[i] | category }}
+            </th>
+            <td mat-cell *matCellDef="let element" align="center">
+              {{ element[key].value }}
+            </td>
+          </ng-container>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngFor="let key of displayedHeaders.sumIds; let i = index">
+        <ng-container [matColumnDef]="key">
+          <th mat-header-cell *matHeaderCellDef class="category-header th-align-center"
+              [style.--background-color]="getCategory(displayedHeaders.columnIds[i])">
+            {{ displayedHeaders.sumIds[i]  | sumCategory }}
+          </th>
+          <td mat-cell *matCellDef="let element" align="center">
+            {{ element[key] }}
+          </td>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngFor="let key of displayedHeaders.days; let i = index">
+        <ng-container [matColumnDef]="key">
+          <th mat-header-cell *matHeaderCellDef [attr.colspan]="getColSpan()" class="th-align-center">
+            {{(languageService.getCurrentLanguage() | async) == 'hu' ? ( displayedHeaders.days[i] | dateWithName:'hu') : ( displayedHeaders.days[i] | dateWithName:'de')}} <br />
+            {{(languageService.getCurrentLanguage() | async) == 'hu' ? ( displayedHeaders.days[i] | date:'YYYY.MM.dd') : ( displayedHeaders.days[i] | date:'dd.MM.YYYY')}} <br />
+          </th>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngFor="let key of displayedHeaders.daysQuantity; let i = index">
+        <ng-container [matColumnDef]="key">
+          <th mat-header-cell *matHeaderCellDef [attr.colspan]="getColSpan()" class="th-align-center">
+            {{getSumQuantityByDay(displayedHeaders.days[i])}}
+          </th>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngFor="let key of displayedHeaders.shifts; let i = index">
+        <ng-container [matColumnDef]="key">
+          <th mat-header-cell *matHeaderCellDef [attr.colspan]="3" class="th-align-center">
+            {{(languageService.getCurrentLanguage() | async) == 'hu' ? ( displayedHeaders.shifts[i] | shiftName: 'hu': shifts) : ( displayedHeaders.shifts[i] | shiftName: 'de':shifts)}}
+
+          </th>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngFor="let key of displayedHeaders.shiftsQuantity; let i = index">
+        <ng-container [matColumnDef]="key">
+          <th mat-header-cell *matHeaderCellDef [attr.colspan]="3" class="th-align-center">
+            {{getSumQuantityByShift(displayedHeaders.shifts[i])}}
+          </th>
+        </ng-container>
+      </ng-container>
+      <ng-container matColumnDef="header-row-empty-end">
+        <th mat-header-cell *matHeaderCellDef class="th-align-center" [attr.colspan]="3">
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="header-row-sum-all-end">
+        <th mat-header-cell *matHeaderCellDef class="th-align-center" [attr.colspan]="3">
+          {{getSumQuantity()}}
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="header-row-sum-end">
+        <th mat-header-cell *matHeaderCellDef class="th-align-center" [attr.colspan]="3">
+          Összesen
+        </th>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="['header-date-row-start'].concat(displayedHeaders.days).concat(['header-row-sum-end']); sticky: true"></tr>
+      <tr mat-header-row *matHeaderRowDef="['header-date-quantity-row-start'].concat(displayedHeaders.daysQuantity).concat(['header-row-empty-end']); sticky: true" class="data-row"></tr>
+      <tr mat-header-row *matHeaderRowDef="['header-shift-row-start'].concat(displayedHeaders.shifts).concat(['header-row-empty-end']); sticky: true"></tr>
+      <tr mat-header-row *matHeaderRowDef="['header-shift-quantity-row-start'].concat(displayedHeaders.shiftsQuantity).concat(['header-row-sum-all-end']); sticky: true" class="data-row"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedHeaders.columnIds.concat(displayedHeaders.sumIds); sticky: true" class="data-row"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedHeaders.columnIds.concat(displayedHeaders.sumIds);"></tr>
+    </table>
+    <mat-paginator [pageSize]="pageSize"
+                   [pageSizeOptions]="pageSizeOptions"
+                   showFirstLastButtons class="mat-paginator-sticky"></mat-paginator>
+    <ng-template #noData>
+      <div class="container-fluid pt-3 pb-3">
+        <div class="row justify-content-center align-content-center">
+          <div>
+            Nincs megjelenítendő adat
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
 </div>

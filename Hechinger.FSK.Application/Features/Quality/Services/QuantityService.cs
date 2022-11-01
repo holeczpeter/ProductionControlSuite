@@ -29,6 +29,7 @@
                             DefectId = d.Id,
                             DefectName = d.Name,
                             DefectTranslatedName = d.TranslatedName,
+                            DefectCategory = d.DefectCategory,
                             Days = d.SummaryCardItems.Where(sc=> sc.SummaryCard.Date.Date >= start.Date && sc.SummaryCard.Date.Date <= end.Date).GroupBy(sc=>sc.SummaryCard.Date).Select(sc => new  QuantityDayReportModel()
                             {
                                 

@@ -1,14 +1,26 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSelect } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
+import { addDays } from 'date-fns';
+import format from 'date-fns/fp/format';
 import { debounceTime, distinctUntilChanged, ReplaySubject, Subject, Subscription, takeUntil } from 'rxjs';
-import { GetQuantityReport, IntervalModel, IntervalOption, QuantityProductReportModel, SelectModel, Views } from '../../../models/generated/generated';
+import { DefectCategories, GetQuantityReport, IntervalModel, IntervalOption, QuantityDefectReportModel, QuantityProductReportModel, QuantityShiftReportModel, SelectModel, ShiftModel, Views } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { ProductDataService } from '../../../services/data/product-data.service';
 import { QualityDataService } from '../../../services/data/quality-data.service';
+import { ShiftDataService } from '../../../services/data/shift-data.service';
 import { IntervalViewService } from '../../../services/interval-view/interval-view.service';
 import { LanguageService } from '../../../services/language/language.service';
+class QuantityRow {
+  [key: string]: any
+}
+class TableHeader {
+  id: string;
+  value: any;
+}
+
 
 @Component({
   selector: 'app-quantity-report',
@@ -23,9 +35,11 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
   public filteredProducts: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
   @ViewChild('productSelect') productSelect: MatSelect;
   protected _onDestroy = new Subject<void>();
-  dataSource: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
   columnNames: Array<string> = ['defectCode', 'defectName', 'defectTranslatedName', 'defectCategoryName', 'quantity', 'defectQuantity', 'ppm'];
-
+  pageSize = this.accountService.getPageSize();
+  pageSizeOptions: number[] = [5, 10, 25, 50, 100];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   intervalOptions: Array<IntervalOption> = [
     { name: 'week', value: Views.Week, isDefault: true },
     { name: 'month', value: Views.Month, isDefault: false },
@@ -37,16 +51,29 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
   intervalSubscription: Subscription;
   monthDataSubscription: Subscription;
   title = "qualityreport.title";
+  categories = Object.values(DefectCategories).filter((v) => !isNaN(Number(v)));
+  displayedHeaders = {
+    days : new Array<string>(),
+    shifts: new Array<string>(),
+    columnIds: new Array<string>(),
+    sumIds: new Array<string>(),
+    daysQuantity: new Array<string>(),
+    shiftsQuantity: new Array<string>(),
+  };
+  shifts:ShiftModel[];
   constructor(private readonly qualityDataService: QualityDataService,
     private readonly productDataService: ProductDataService,
     public languageService: LanguageService,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly accountService: AccountService,
+    private readonly shiftDataServie: ShiftDataService,
     private intervalPanelService: IntervalViewService) {
   }
 
   ngOnInit(): void {
-
+    this.shiftDataServie.getAll().subscribe(shifts => {
+      this.shifts = shifts;
+    });
     this.selectedView = this.intervalOptions.find(x => x.isDefault)!.value;
     if (this.monthDataSubscription) this.monthDataSubscription.unsubscribe();
     if (this.intervalSubscription) this.intervalSubscription.unsubscribe();
@@ -89,10 +116,82 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
       });
     };
   }
+
   createDataSource() {
+    this.dataSource = new MatTableDataSource();
+    let rows = new Array<QuantityRow>();
+    this.displayedHeaders = {
+      days: new Array<string>(),
+      shifts: new Array<string>(),
+      columnIds: new Array<string>(),
+      sumIds: new Array<string>(),
+      daysQuantity: new Array<string>(),
+      shiftsQuantity: new Array<string>(),
+    };
     if (this.data) {
-      console.log(this.data)
+      for (let i = 0; i <= this.currentInterval.differenceInCalendarDays; i++) {
+        let currentDate = addDays(this.currentInterval.startDate, i);
+        this.displayedHeaders.days.push(currentDate.toString());
+        this.displayedHeaders.daysQuantity.push(currentDate.toString()+"_sum");
+        for (var j = 0; j < this.shifts.length; j++) {
+          this.displayedHeaders.shifts.push(currentDate.toString() + "_" + this.shifts[j].id);
+          this.displayedHeaders.shiftsQuantity.push(currentDate.toString() + "_" + this.shifts[j].id + "_sum");
+        }
+      }
+      this.data.operations[0].defects.forEach(defect => {
+        const row = new QuantityRow();
+        row['defect'] = { id: defect.defectId, name: defect.defectName, translatedName: defect.defectTranslatedName };
+       
+        for (let i = 0; i <= this.currentInterval.differenceInCalendarDays; i++) {
+          let currentDate = addDays(this.currentInterval.startDate, i);
+          let currentDateObject = defect.days.find(day => format('yyyy-MM-dd', new Date(day.date)).trim() == format('yyyy-MM-dd', currentDate).trim());
+          for (var j = 0; j < this.shifts.length; j++) {
+            let currentShiftObject = currentDateObject ? currentDateObject.shifts.find(s => s.shiftId == this.shifts[j].id) : null;
+            this.categories.forEach(c => {
+              let currentValue = defect.defectCategory === c && currentShiftObject ? currentShiftObject?.defectQuantity : '';
+              row[currentDate.toString() + "_" + this.shifts[j].id + "_" + c] =
+                { date: currentDate, shift: this.shifts[j].id, category: c, value: currentValue };
+            });
+          }
+        }
+        let allShift = this.getAllShifts(defect);
+        this.categories.forEach(c => {
+          let currentValue = defect.defectCategory === c  ? allShift.map(x => x.defectQuantity).reduce((a, b) => a + b, 0) : 0;
+          row[c + "_" + 'sum'] = currentValue;
+        });
+        rows.push(row);
+      })
     }
+    this.displayedHeaders.columnIds = [...Object.keys(rows[0]).filter(x => !x.includes('sum'))];
+    this.displayedHeaders.sumIds = [...Object.keys(rows[0]).filter(x => x.includes('sum'))];
+    this.dataSource = new MatTableDataSource(rows);
+    this.dataSource.paginator = this.paginator;
+  }
+  getAllShifts(cell: QuantityDefectReportModel): Array<QuantityShiftReportModel> {
+    return cell.days
+      .flatMap(x => { return x.shifts });
+  }
+  getSumQuantity() {
+    let current = this.data.operations[0].defects.flatMap(x => { return x.days }).flatMap(day => { return day.shifts } );
+    if (current) return current.map(x => x.defectQuantity).reduce((a, b) => a + b, 0);
+    else return 0;
+  }
+  getSumQuantityByDay(item: string) {
+    let current = this.data.operations[0].defects.flatMap(x => { return x.days }).find(day => format('yyyy-MM-dd', new Date(day.date)).trim() == format('yyyy-MM-dd', new Date(item)).trim());
+    if (current) return current.quantity;
+    else return 0;
+  }
+  getSumQuantityByShift(item: string) {
+    const myArray = item.split("_");
+    let date = myArray[0];
+    let shift = myArray[1];
+    let current = this.data.operations[0].defects.flatMap(x => { return x.days }).find(day => format('yyyy-MM-dd', new Date(day.date)).trim() == format('yyyy-MM-dd', new Date(date)).trim());
+    if (current) {
+      let currentShift = current.shifts.find(s => s.id.toString() == shift);
+      if (currentShift) return currentShift.quantity;
+      else return 0;
+    }
+    else return 0;
   }
   filterProduct(): void {
     if (!this.products) return;
@@ -106,6 +205,23 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
       this.products = result;
       this.filteredProducts.next(this.products.slice());
     });
+  }
+  getShiftName(header:string) {
+    const myArray = header.split("_");
+    return this.shifts.find(x => x.id.toString() == myArray[1])?.name;
+  }
+  getColSpan() {
+   return  this.shifts.length * 3;
+  }
+  getCategory(categoryId: string) {
+    const myArray = categoryId.split("_");
+    switch (myArray[2]) {
+      case '0': return "#FFCA39";
+      case '1': return "#F35B5A";
+      case '2': return "#379DDA";
+      default:
+        return "#F35B5A";
+    }
   }
   ngOnDestroy() {
     this._onDestroy.next();

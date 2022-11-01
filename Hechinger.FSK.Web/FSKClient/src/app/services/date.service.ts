@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { MonthExtension } from '../models/generated/generated';
+import { LanguageService } from './language/language.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,22 +33,23 @@ export class DateService {
 
   setDays(lang: string) {
     return lang == 'hu' ? [
-      "Vasárnap",
       "Hétfő",
       "Kedd",
       "Szerda",
       "Csütörtök",
       "Péntek",
       "Szombat",
+      "Vasárnap"
 
     ] : [
-      "Sonntag",
+      
       "Montag",
       "Dienstag",
       "Mittwoch",
       "Donnerstag",
       "Freitag",
-      "Samstag",
+        "Samstag",
+        "Sonntag",
     ]
   }
   dayCodes = [
@@ -76,7 +79,7 @@ export class DateService {
       { name: lang == 'hu' ? "December" : 'Dezember', value: 12, stringValue: "12" }
     );
   }
-  constructor(private readonly translateService: TranslateService) {
+  constructor(private readonly translateService: TranslateService, private readonly languageService: LanguageService) {
     this.translateService.onLangChange.subscribe(lang => {
       this.monthExtensions.next([...this.setMonthsExtension(lang.lang)])
     });
@@ -84,7 +87,7 @@ export class DateService {
   getMonthName(monthId: number): string {
     return this.months[monthId];
   }
-
+  
 
   getDayCode(day: Date): string {
     var result = this.dayCodes[day.getDay()];
