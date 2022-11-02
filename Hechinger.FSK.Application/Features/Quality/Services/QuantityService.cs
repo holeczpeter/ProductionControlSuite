@@ -18,17 +18,17 @@
                 { 
                     ProductId= p.Id,
                     ProductName = p.Name,
-                    ProductTranslatedName = p.TranslatedName,
+                    ProductTranslatedName = !String.IsNullOrEmpty(p.TranslatedName) ? p.TranslatedName : p.Name,
                     Operations = p.Operations.Select(op => new QuantityOperationReportModel()
                     {
                         OperationId = op.Id,
                         OperationName = op.Name,
-                        OperationTranslatedName = op.TranslatedName,
+                        OperationTranslatedName = !String.IsNullOrEmpty(op.TranslatedName) ? op.TranslatedName : op.Name,
                         Defects = op.Defects.Select(d => new QuantityDefectReportModel()
                         {
                             DefectId = d.Id,
                             DefectName = d.Name,
-                            DefectTranslatedName = d.TranslatedName,
+                            DefectTranslatedName = !String.IsNullOrEmpty(d.TranslatedName) ? d.TranslatedName : d.Name,
                             DefectCategory = d.DefectCategory,
                             Days = d.SummaryCardItems.Where(sc=> sc.SummaryCard.Date.Date >= start.Date && sc.SummaryCard.Date.Date <= end.Date).GroupBy(sc=>sc.SummaryCard.Date).Select(sc => new  QuantityDayReportModel()
                             {

@@ -132,7 +132,10 @@
       <tr mat-header-row *matHeaderRowDef="displayedHeaders.columnIds.concat(displayedHeaders.sumIds); sticky: true" class="data-row"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedHeaders.columnIds.concat(displayedHeaders.sumIds);"></tr>
       <ng-container matColumnDef="groupHeader">
-        <td colspan="999" mat-cell *matCellDef="let groupBy"><strong>{{groupBy.initial.operationName}} {{groupBy.initial.operationId}}</strong></td>
+        <td colspan="999" mat-cell *matCellDef="let groupBy"><strong>
+  {{(languageService.getCurrentLanguage() | async) == 'hu' ? (groupBy.initial.operationName) : (groupBy.initial.operationTranslatedName)}} - {{groupBy.initial.operationId}}
+  
+</strong></td>
       </ng-container>
 
       <tr mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup"> </tr>

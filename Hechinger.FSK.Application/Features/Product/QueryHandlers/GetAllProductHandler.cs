@@ -16,7 +16,7 @@
                     Id = x.Id,
                     Name = x.Name,
                     Code = x.Code,
-                    TranslatedName = x.TranslatedName,
+                    TranslatedName = !String.IsNullOrEmpty(x.TranslatedName) ? x.TranslatedName : x.Name,
                     WorkshopId = x.WorkShop.Id,
                     WorkshopName = x.WorkShop.Name,
 
