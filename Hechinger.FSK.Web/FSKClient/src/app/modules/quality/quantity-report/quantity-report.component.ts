@@ -6,25 +6,33 @@ import { MatTableDataSource } from '@angular/material/table';
 import { addDays } from 'date-fns';
 import format from 'date-fns/fp/format';
 import { debounceTime, distinctUntilChanged, ReplaySubject, Subject, Subscription, takeUntil } from 'rxjs';
-import { DefectCategories, GetQuantityReport, IntervalModel, IntervalOption, QuantityDefectReportModel, QuantityProductReportModel, QuantityShiftReportModel, SelectModel, ShiftModel, Views } from '../../../models/generated/generated';
+import { DefectCategories, GetQuantityReport, IntervalModel, IntervalOption, OperationModel, QuantityDefectReportModel, QuantityProductReportModel, QuantityShiftReportModel, SelectModel, ShiftModel, Views } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { ProductDataService } from '../../../services/data/product-data.service';
 import { QualityDataService } from '../../../services/data/quality-data.service';
 import { ShiftDataService } from '../../../services/data/shift-data.service';
 import { IntervalViewService } from '../../../services/interval-view/interval-view.service';
 import { LanguageService } from '../../../services/language/language.service';
-class QuantityRow {
+
+class TableColumn {
   [key: string]: any
 }
 class TableHeader {
   id: string;
   value: any;
 }
-export interface GroupBy {
-  initial: string;
-  isGroupBy: boolean;
+export interface ShiftQuantityRow {
+  text: string;
+  isShift: boolean;
 }
-
+export interface DayQuantityRow {
+  text: string;
+  isDay: boolean;
+}
+export interface OperationRow {
+  element: SelectModel;
+  isOperation: boolean;
+}
 @Component({
   selector: 'app-quantity-report',
   templateUrl: './quantity-report.component.html',
@@ -125,7 +133,7 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
 
   createDataSource() {
     this.dataSource = new MatTableDataSource();
-    let rows = new Array<QuantityRow | GroupBy>();
+    let rows = new Array<TableColumn | ShiftQuantityRow | DayQuantityRow | OperationRow>();
     this.displayedHeaders = {
       days: new Array<TableHeader>(),
       shifts: new Array<TableHeader>(),
@@ -137,7 +145,8 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
     if (this.data) {
       for (let i = 0; i <= this.currentInterval.differenceInCalendarDays; i++) {
         let currentDate = addDays(this.currentInterval.startDate, i);
-        this.displayedHeaders.days.push({ id: currentDate.toString(), value: this.getSumQuantityByDay(currentDate.toString()) });
+        let quantity = (format('yyyy-MM-dd', new Date()).trim() == format('yyyy-MM-dd', currentDate).trim()) ? 20 : this.getSumQuantityByDay(currentDate.toString());
+        this.displayedHeaders.days.push({ id: currentDate.toString(), value: quantity});
         
         this.displayedHeaders.daysQuantity.push(currentDate.toString()+"_sum");
         for (var j = 0; j < this.shifts.length; j++) {
@@ -149,11 +158,16 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
       this.shiftColumnNames = this.displayedHeaders.shifts.map(x => x.id);
     
       this.data.operations.forEach(operation => {
-       
-        const groupRow = { initial: operation, isGroupBy: true };
-        rows.push(groupRow);
+        const operationRow = {
+          element: { code: operation.operationId, name: operation.operationName, translatedName: operation.operationTranslatedName }, isOperation: true
+        };
+        const dayQuantityRow = { text: 'quantity' , isDay: true };
+        const shiftQuantityRow = { text: 'quantity', isShift: true };
+        rows.push(operationRow);
+        rows.push(dayQuantityRow);
+        rows.push(shiftQuantityRow);
         operation.defects.forEach(defect => {
-          const row = new QuantityRow();
+          const row = new TableColumn();
           row['defect'] = { id: defect.defectId, name: defect.defectName, translatedName: defect.defectTranslatedName };
           for (let i = 0; i <= this.currentInterval.differenceInCalendarDays; i++) {
             let currentDate = addDays(this.currentInterval.startDate, i);
@@ -179,8 +193,8 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
       });
       
     }
-    this.displayedHeaders.columnIds = [...Object.keys(rows[1]).filter(x => !x.includes('sum') && !x.includes('initial') && !x.includes('isGroupBy'))];
-    this.displayedHeaders.sumIds = [...Object.keys(rows[1]).filter(x => x.includes('sum'))];
+    this.displayedHeaders.columnIds = [...Object.keys(rows[3]).filter(x => !x.includes('sum') && !x.includes('initial') && !x.includes('isGroupBy'))];
+    this.displayedHeaders.sumIds = [...Object.keys(rows[3]).filter(x => x.includes('sum'))];
   
     this.dataSource = new MatTableDataSource(rows);
     this.dataSource.paginator = this.paginator;
@@ -227,11 +241,23 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
     const myArray = header.split("_");
     return this.shifts.find(x => x.id.toString() == myArray[1])?.name;
   }
-  getColSpan() {
+  getColSpanAfterOperation() {
+    return ((this.currentInterval.differenceInCalendarDays +1) * this.shifts.length * 3) + 3;
+  }
+  getColSpanShift() {
+    return this.shifts.length;
+  }
+  getColSpanDay() {
    return  this.shifts.length * 3;
   }
-  isGroup(index: number, item: any): boolean {
-    return item.isGroupBy;
+  isShift(index: number, item: any): boolean {
+    return item.isShift;
+  }
+  isDay(index: number, item: any): boolean {
+    return item.isDay;
+  }
+  isOperation(index: number, item: any): boolean {
+    return item.isOperation;
   }
   getCategory(categoryId: string) {
     const myArray = categoryId.split("_");

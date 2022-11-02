@@ -7,6 +7,7 @@
         public string ProductTranslatedName { get; set; }
 
         public IEnumerable<QuantityOperationReportModel> Operations { get; set; }
+        public string ProductCode { get; set; }
     }
     public class QuantityOperationReportModel : BaseModel
     {
@@ -15,6 +16,7 @@
         public string OperationTranslatedName { get; set; }
 
         public IEnumerable<QuantityDefectReportModel> Defects { get; set; }
+        public string OperationCode { get;  set; }
     }
     public class QuantityDefectReportModel : BaseModel
     {
@@ -24,6 +26,7 @@
 
         public IEnumerable<QuantityDayReportModel> Days { get; set; }
         public DefectCategories DefectCategory { get; set; }
+        public string DefectCode { get;  set; }
     }
     public class QuantityDayReportModel : BaseModel
     {
