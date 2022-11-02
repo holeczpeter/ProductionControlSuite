@@ -44,7 +44,7 @@
       </ng-container>
       <ng-container *ngFor="let key of displayedHeaders.columnIds; let i = index">
         <ng-container [ngSwitch]="key">
-          
+
           <ng-container *ngSwitchCase="'defect'" [ngTemplateOutlet]="defecttemplate" [ngTemplateOutletContext]="{ $implicit: key }"></ng-container>
           <ng-container *ngSwitchDefault [ngTemplateOutlet]="defaultTemplate" [ngTemplateOutletContext]="{ $implicit: key }"></ng-container>
         </ng-container>
@@ -132,18 +132,14 @@
       <tr mat-header-row *matHeaderRowDef="displayedHeaders.columnIds.concat(displayedHeaders.sumIds); sticky: true" class="data-row"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedHeaders.columnIds.concat(displayedHeaders.sumIds);"></tr>
       <ng-container matColumnDef="groupHeader">
-        <td colspan="999" mat-cell *matCellDef="let groupBy"><strong>
-  {{(languageService.getCurrentLanguage() | async) == 'hu' ? (groupBy.initial.operationName) : (groupBy.initial.operationTranslatedName)}} - {{groupBy.initial.operationId}}
-  
-</strong></td>
+        <td colspan="999" mat-cell *matCellDef="let groupBy">
+          <strong>
+            {{(languageService.getCurrentLanguage() | async) == 'hu' ? (groupBy.initial.operationName) : (groupBy.initial.operationTranslatedName)}} - {{groupBy.initial.operationId}}
+          </strong>
+        </td>
       </ng-container>
-
       <tr mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup"> </tr>
-
     </table>
-    <!--<mat-paginator [pageSize]="pageSize"
-                   [pageSizeOptions]="pageSizeOptions"
-                   showFirstLastButtons class="mat-paginator-sticky"></mat-paginator>-->
     <ng-template #noData>
       <div class="container-fluid pt-3 pb-3">
         <div class="row justify-content-center align-content-center">
