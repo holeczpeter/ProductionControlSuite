@@ -47,10 +47,7 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
   @ViewChild('productSelect') productSelect: MatSelect;
   protected _onDestroy = new Subject<void>();
   dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
-  columnNames: Array<string> = ['defectCode', 'defectName', 'defectTranslatedName', 'defectCategoryName', 'quantity', 'defectQuantity', 'ppm'];
-  pageSize = this.accountService.getPageSize();
-  pageSizeOptions: number[] = [5, 10, 25, 50, 100];
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  
   intervalOptions: Array<IntervalOption> = [
     { name: 'day', value: Views.Day, isDefault: false },
     { name: 'week', value: Views.Week, isDefault: true },
@@ -125,8 +122,9 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
         endDate: this.currentInterval.endDate,
       }
       this.qualityDataService.getQuantityReport(request).subscribe(x => {
+        console.log(x)
         this.data = x;
-        this.createDataSource();
+        //this.createDataSource();
       });
     };
   }
@@ -156,7 +154,12 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
       }
       this.dayColumnNames = this.displayedHeaders.days.map(x => x.id);
       this.shiftColumnNames = this.displayedHeaders.shifts.map(x => x.id);
-    
+      for (let i = 0; i <= this.currentInterval.differenceInCalendarDays; i++) {
+        let currentDate = addDays(this.currentInterval.startDate, i);
+
+      }
+
+
       this.data.operations.forEach(operation => {
         const operationRow = {
           element: { code: operation.operationId, name: operation.operationName, translatedName: operation.operationTranslatedName }, isOperation: true
@@ -197,7 +200,6 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
     this.displayedHeaders.sumIds = [...Object.keys(rows[3]).filter(x => x.includes('sum'))];
   
     this.dataSource = new MatTableDataSource(rows);
-    this.dataSource.paginator = this.paginator;
    
   }
   getAllShifts(cell: QuantityDefectReportModel): Array<QuantityShiftReportModel> {
