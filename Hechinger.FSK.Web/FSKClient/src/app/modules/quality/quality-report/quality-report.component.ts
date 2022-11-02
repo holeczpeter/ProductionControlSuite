@@ -91,7 +91,6 @@ export class QualityReportComponent implements OnInit, OnDestroy  {
   }
   createDataSource() {
     if (this.data) {
-      console.log(this.data)
     }
   }
   filterProduct(): void {

@@ -4,6 +4,7 @@ import { distinctUntilChanged, Subscription } from 'rxjs';
 import { IntervalModel, IntervalOption, Views } from '../../models/generated/generated';
 import { DateService } from '../../services/date.service';
 import { IntervalViewService } from '../../services/interval-view/interval-view.service';
+import { LanguageService } from '../../services/language/language.service';
 @Component({
   selector: 'app-interval-view',
   templateUrl: './interval-view.component.html',
@@ -25,7 +26,8 @@ export class IntervalViewComponent implements OnInit, OnChanges, DoCheck, OnDest
 
   constructor(public dateService: DateService,
     public intervalViewService: IntervalViewService,
-    private differs: IterableDiffers) {
+    private differs: IterableDiffers,
+    public languageService: LanguageService) {
     this._differ = this.differs.find([]).create();
     if (this.subscription) this.subscription.unsubscribe();
     this.subscription = this.intervalViewService.getCurrentIntervalModel()
@@ -50,7 +52,6 @@ export class IntervalViewComponent implements OnInit, OnChanges, DoCheck, OnDest
 
   }
   public selectionChanged(event: any): void {
-    console.log(event)
     this.intervalViewService.setViews(event, this.currentDate);
   }
   public nextYear(): void {
@@ -82,7 +83,15 @@ export class IntervalViewComponent implements OnInit, OnChanges, DoCheck, OnDest
     this.currentDate = subDays(this.currentDate, 7);
     this.intervalViewService.setViews(Views.Week, this.currentDate);
   }
- 
+  public nextDay(): void {
+    this.currentDate = addDays(this.currentDate, 1);
+    this.intervalViewService.setViews(Views.Day, this.currentDate);
+  }
+
+  public previousDay(): void {
+    this.currentDate = subDays(this.currentDate, 1);
+    this.intervalViewService.setViews(Views.Day, this.currentDate);
+  }
   
   ngOnDestroy(): void {
     if (this.subscription) this.subscription.unsubscribe();

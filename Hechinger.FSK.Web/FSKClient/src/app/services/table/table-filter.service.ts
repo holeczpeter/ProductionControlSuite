@@ -41,10 +41,6 @@ export class TableFilterService {
           let expression = new Array<boolean>();
           let map = new Map(Object.entries(item));
           Object.keys(formGroup.controls).filter(f => f != 'textSearchSetting').forEach(key => {
-            console.log(key);
-            console.log(map.get(key))
-            console.log(filters[key])
-           
             expression.push(filters[key] === '' || filters[key] === null ? true : map.get(key) !== null ? map.get(key).toString().toUpperCase().startsWith(filters[key].toString().toUpperCase()) : false);
           });
           if (expression.every((item) => item === true)) return true;

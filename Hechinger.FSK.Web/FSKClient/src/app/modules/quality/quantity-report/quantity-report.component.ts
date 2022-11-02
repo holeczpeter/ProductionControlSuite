@@ -20,7 +20,10 @@ class TableHeader {
   id: string;
   value: any;
 }
-
+export interface GroupBy {
+  initial: string;
+  isGroupBy: boolean;
+}
 
 @Component({
   selector: 'app-quantity-report',
@@ -41,6 +44,7 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   intervalOptions: Array<IntervalOption> = [
+    { name: 'day', value: Views.Day, isDefault: false },
     { name: 'week', value: Views.Week, isDefault: true },
     { name: 'month', value: Views.Month, isDefault: false },
     { name: 'year', value: Views.Year, isDefault: false },
@@ -121,7 +125,7 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
 
   createDataSource() {
     this.dataSource = new MatTableDataSource();
-    let rows = new Array<QuantityRow>();
+    let rows = new Array<QuantityRow | GroupBy>();
     this.displayedHeaders = {
       days: new Array<TableHeader>(),
       shifts: new Array<TableHeader>(),
@@ -143,34 +147,44 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
       }
       this.dayColumnNames = this.displayedHeaders.days.map(x => x.id);
       this.shiftColumnNames = this.displayedHeaders.shifts.map(x => x.id);
-      this.data.operations[0].defects.forEach(defect => {
-        const row = new QuantityRow();
-        row['defect'] = { id: defect.defectId, name: defect.defectName, translatedName: defect.defectTranslatedName };
-
-        for (let i = 0; i <= this.currentInterval.differenceInCalendarDays; i++) {
-          let currentDate = addDays(this.currentInterval.startDate, i);
-          let currentDateObject = defect.days.find(day => format('yyyy-MM-dd', new Date(day.date)).trim() == format('yyyy-MM-dd', currentDate).trim());
-          for (var j = 0; j < this.shifts.length; j++) {
-            let currentShiftObject = currentDateObject ? currentDateObject.shifts.find(s => s.shiftId == this.shifts[j].id) : null;
-            this.categories.forEach(c => {
-              let currentValue = defect.defectCategory === c && currentShiftObject ? currentShiftObject?.defectQuantity : '';
-              row[currentDate.toString() + "_" + this.shifts[j].id + "_" + c] =
-                { date: currentDate, shift: this.shifts[j].id, category: c, value: currentValue };
-            });
+    
+      this.data.operations.forEach(operation => {
+       
+        const groupRow = { initial: operation, isGroupBy: true };
+        rows.push(groupRow);
+        operation.defects.forEach(defect => {
+          const row = new QuantityRow();
+          row['defect'] = { id: defect.defectId, name: defect.defectName, translatedName: defect.defectTranslatedName };
+          for (let i = 0; i <= this.currentInterval.differenceInCalendarDays; i++) {
+            let currentDate = addDays(this.currentInterval.startDate, i);
+            let currentDateObject = defect.days.find(day => format('yyyy-MM-dd', new Date(day.date)).trim() == format('yyyy-MM-dd', currentDate).trim());
+            for (var j = 0; j < this.shifts.length; j++) {
+              let currentShiftObject = currentDateObject ? currentDateObject.shifts.find(s => s.shiftId == this.shifts[j].id) : null;
+              this.categories.forEach(c => {
+                let currentValue = defect.defectCategory === c && currentShiftObject ? currentShiftObject?.defectQuantity : '';
+                row[currentDate.toString() + "_" + this.shifts[j].id + "_" + c] =
+                  { date: currentDate, shift: this.shifts[j].id, category: c, value: currentValue };
+              });
+            }
           }
-        }
-        let allShift = this.getAllShifts(defect);
-        this.categories.forEach(c => {
-          let currentValue = defect.defectCategory === c  ? allShift.map(x => x.defectQuantity).reduce((a, b) => a + b, 0) : 0;
-          row[c + "_" + 'sum'] = currentValue;
+          let allShift = this.getAllShifts(defect);
+          this.categories.forEach(c => {
+            let currentValue = defect.defectCategory === c ? allShift.map(x => x.defectQuantity).reduce((a, b) => a + b, 0) : 0;
+            row[c + "_" + 'sum'] = currentValue;
+          });
+          rows.push(row);
+         
         });
-        rows.push(row);
-      })
+       
+      });
+      
     }
-    this.displayedHeaders.columnIds = [...Object.keys(rows[0]).filter(x => !x.includes('sum'))];
-    this.displayedHeaders.sumIds = [...Object.keys(rows[0]).filter(x => x.includes('sum'))];
+    this.displayedHeaders.columnIds = [...Object.keys(rows[1]).filter(x => !x.includes('sum') && !x.includes('initial') && !x.includes('isGroupBy'))];
+    this.displayedHeaders.sumIds = [...Object.keys(rows[1]).filter(x => x.includes('sum'))];
+  
     this.dataSource = new MatTableDataSource(rows);
     this.dataSource.paginator = this.paginator;
+   
   }
   getAllShifts(cell: QuantityDefectReportModel): Array<QuantityShiftReportModel> {
     return cell.days
@@ -215,6 +229,9 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
   }
   getColSpan() {
    return  this.shifts.length * 3;
+  }
+  isGroup(index: number, item: any): boolean {
+    return item.isGroupBy;
   }
   getCategory(categoryId: string) {
     const myArray = categoryId.split("_");

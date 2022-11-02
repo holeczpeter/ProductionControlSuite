@@ -47,7 +47,6 @@ export class UserWorkshopEditorComponent implements OnInit, OnChanges {
       let getUserExceptRole: GetWorkshopsExceptByUser = { userId: this.userId };
       forkJoin([this.userDataService.getWorkshopsByUser(getUserByRole),
         this.userDataService.getWorkshopsExceptByUser(getUserExceptRole)]).subscribe(([usersByRole, workshops]) => {
-          console.log(workshops)
         this.allWorkshops = workshops;
         this.formGroup = this.formBuilder.group({
           workshops: this.formBuilder.array(new Array<WorkshopUserItem>())

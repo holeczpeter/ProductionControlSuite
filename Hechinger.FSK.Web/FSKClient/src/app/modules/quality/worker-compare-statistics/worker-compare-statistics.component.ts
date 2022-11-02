@@ -110,7 +110,7 @@ export class WorkerCompareStatisticsComponent implements OnInit, OnDestroy {
       startDate: new Date(this.formGroup.get('startDate')?.value),
       endDate: new Date(this.formGroup.get('endDate')?.value),
     };
-    console.log(request)
+    
     this.qualityDataService.getWorkerStatisticsByDefect(request).subscribe(results => {
       this.items = results;
       this.dataSource = new MatTableDataSource(results);

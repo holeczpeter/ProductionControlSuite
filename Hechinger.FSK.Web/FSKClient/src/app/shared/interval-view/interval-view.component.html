@@ -24,6 +24,9 @@
   <ng-container *ngSwitchCase="views.Week">
     <ng-container *ngTemplateOutlet="Week"></ng-container>
   </ng-container>
+  <ng-container *ngSwitchCase="views.Day">
+    <ng-container *ngTemplateOutlet="Day"></ng-container>
+  </ng-container>
 </ng-container>
 <ng-template #Year>
   <div class="row pt-2">
@@ -77,4 +80,19 @@
     </button>
   </div>
 </ng-template>
-
+<ng-template #Day>
+  <div class="row pt-2">
+    <button type="button" class="col-auto" mat-icon-button color="grey" (click)="previousDay()">
+      <mat-icon mat-list-icon color="primary" matTooltip="Előző" class="navigate-icon">navigate_before</mat-icon>
+    </button>
+    <div class="col-auto ms-auto">
+      <h2>
+        {{(languageService.getCurrentLanguage() | async) == 'hu' ? ( intervalViewModel!.startDate | date:'YYYY.MM.dd') : (intervalViewModel!.startDate | date:'dd.MM.YYYY')}} <br />
+       
+      </h2>
+    </div>
+    <button type="button" class="col-auto ms-auto" mat-icon-button color="grey" (click)="nextDay()">
+      <mat-icon mat-list-icon color="primary" matTooltip="Következő" class="navigate-icon">navigate_next</mat-icon>
+    </button>
+  </div>
+</ng-template>

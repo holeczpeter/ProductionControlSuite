@@ -1,6 +1,3 @@
-<!--<div>
-  <button mat-flat-button (click)="getQualityData()" color="primary"> Darabszám lekérdezés </button>
-</div>-->
 <div class="container-fluid">
   <app-title class="flex-title-item" [title]="title"></app-title>
   <form [formGroup]="formGroup" *ngIf="formGroup">
@@ -26,33 +23,34 @@
            mat-table
            [dataSource]="dataSource">
       <ng-container matColumnDef="header-date-row-start" sticky>
-        <th mat-header-cell *matHeaderCellDef class="th-align-right" >
+        <th mat-header-cell *matHeaderCellDef class="th-align-right">
           {{ 'date' | translate}}
         </th>
       </ng-container>
       <ng-container matColumnDef="header-date-quantity-row-start" sticky>
-        <th mat-header-cell *matHeaderCellDef class="th-align-right" >
+        <th mat-header-cell *matHeaderCellDef class="th-align-right">
           {{ 'quantity' | translate}}
         </th>
       </ng-container>
       <ng-container matColumnDef="header-shift-row-start" sticky>
         <th mat-header-cell *matHeaderCellDef class="th-align-right">
-         {{ 'shiftName' | translate}}
+          {{ 'shiftName' | translate}}
         </th>
       </ng-container>
       <ng-container matColumnDef="header-shift-quantity-row-start" sticky>
-        <th mat-header-cell *matHeaderCellDef class="th-align-right" >
+        <th mat-header-cell *matHeaderCellDef class="th-align-right">
           {{ 'quantity' | translate}}
         </th>
       </ng-container>
       <ng-container *ngFor="let key of displayedHeaders.columnIds; let i = index">
         <ng-container [ngSwitch]="key">
+          
           <ng-container *ngSwitchCase="'defect'" [ngTemplateOutlet]="defecttemplate" [ngTemplateOutletContext]="{ $implicit: key }"></ng-container>
           <ng-container *ngSwitchDefault [ngTemplateOutlet]="defaultTemplate" [ngTemplateOutletContext]="{ $implicit: key }"></ng-container>
         </ng-container>
         <ng-template #defecttemplate let key>
           <ng-container [matColumnDef]="key" sticky>
-            <th mat-header-cell *matHeaderCellDef class="defect-header" >
+            <th mat-header-cell *matHeaderCellDef class="defect-header">
               {{ 'defectName' | translate }}
             </th>
             <td mat-cell *matCellDef="let element">
@@ -133,6 +131,12 @@
       <tr mat-header-row *matHeaderRowDef="['header-shift-quantity-row-start'].concat(displayedHeaders.shiftsQuantity).concat(['header-row-sum-all-end']); sticky: true" class="data-row"></tr>
       <tr mat-header-row *matHeaderRowDef="displayedHeaders.columnIds.concat(displayedHeaders.sumIds); sticky: true" class="data-row"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedHeaders.columnIds.concat(displayedHeaders.sumIds);"></tr>
+      <ng-container matColumnDef="groupHeader">
+        <td colspan="999" mat-cell *matCellDef="let groupBy"><strong>{{groupBy.initial.operationName}} {{groupBy.initial.operationId}}</strong></td>
+      </ng-container>
+
+      <tr mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup"> </tr>
+
     </table>
     <!--<mat-paginator [pageSize]="pageSize"
                    [pageSizeOptions]="pageSizeOptions"

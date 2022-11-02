@@ -25,7 +25,7 @@ export class DefectFilterService {
   }
   valueChanges() {
     this.form.valueChanges.subscribe(x => {
-      console.log(x)
+      
     });
   }
   

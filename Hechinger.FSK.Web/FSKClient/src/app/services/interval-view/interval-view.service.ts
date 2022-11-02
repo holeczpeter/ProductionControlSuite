@@ -22,7 +22,8 @@ export class IntervalViewService {
   private options = new BehaviorSubject(this.setOptions(this.translateService.currentLang));
 
   setOptions(lang: string) {
-    return  [
+    return [
+      { name: lang == 'hu' ? 'Nap' : 'Tag', value: Views.Day, isDefault: false },
       { name: lang == 'hu' ? 'Év' : 'Jahre', value: Views.Year, isDefault: false },
       { name: lang == 'hu' ? 'Hónap' : 'Monat', value: Views.Month, isDefault: true },
       { name: lang == 'hu' ? 'Hét' : 'Woche', value: Views.Week, isDefault: false },
@@ -44,7 +45,11 @@ export class IntervalViewService {
   private set(selectedView: Views, currentDate: Date): IntervalModel {
 
     switch (selectedView) {
-     
+      case Views.Day: {
+        this.startDate = currentDate;
+        this.endDate = currentDate;
+        break;
+      }
       case Views.Week: {
         this.startDate = startOfWeek(currentDate, { weekStartsOn: 1 });
         this.endDate = endOfWeek(currentDate, { weekStartsOn: 1 });
