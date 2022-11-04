@@ -13,6 +13,7 @@ import { OperationsComponent } from './operations/operations.component';
 import { OperationEditorDialogComponent } from './operations/operation-editor-dialog/operation-editor-dialog.component';
 import { DefectsComponent } from './defects/defects.component';
 import { DefectEditorDialogComponent } from './defects/defect-editor-dialog/defect-editor-dialog.component';
+import { ProductWizardEditorComponent } from './products/product-wizard-editor/product-wizard-editor.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { DefectEditorDialogComponent } from './defects/defect-editor-dialog/defe
     OperationsComponent,
     OperationEditorDialogComponent,
     DefectsComponent,
-    DefectEditorDialogComponent
+    DefectEditorDialogComponent,
+    ProductWizardEditorComponent
   ],
   imports: [
     CommonModule,

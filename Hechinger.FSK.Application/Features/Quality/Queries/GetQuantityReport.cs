@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetQuantityReport : IRequest<QuantityProductReportModel>
+    public class GetQuantityReport : IRequest<IEnumerable<QuantityOperationReportModel>>
     {
         public int ProductId { get; set; }
 

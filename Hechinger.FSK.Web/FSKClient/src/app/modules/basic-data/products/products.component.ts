@@ -20,6 +20,7 @@ import { TableExportService } from '../../../services/table/table-export.service
 import { SortService } from '../../../services/table/sort.service';
 import { PaginationService } from '../../../services/table/pagination.service';
 import { DefectFilterService } from '../../../services/table/defect-filter.service';
+import { ProductWizardEditorComponent } from './product-wizard-editor/product-wizard-editor.component';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -131,7 +132,7 @@ export class ProductsComponent implements OnInit, AfterViewInit{
       disableClose: true,
       autoFocus: false,
       data: null,
-      minWidth: '600px'
+      minWidth: '750px'
     });
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }
@@ -144,7 +145,29 @@ export class ProductsComponent implements OnInit, AfterViewInit{
       disableClose: true,
       autoFocus: false,
       data: productEditorModel,
-      minWidth: '600px'
+      minWidth: '750px'
+    });
+    dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
+  }
+  onAddContext() {
+    let dialogRef = this.dialog.open(ProductWizardEditorComponent, {
+      disableClose: true,
+      autoFocus: false,
+      data: null,
+      minWidth: '750px'
+    });
+    dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
+  }
+  onEditContext(data: ProductModel) {
+    let productEditorModel: ProductEditorModel = {
+      productModel: data,
+      isCopy: false
+    }
+    let dialogRef = this.dialog.open(ProductWizardEditorComponent, {
+      disableClose: true,
+      autoFocus: false,
+      data: productEditorModel,
+      minWidth: '750px'
     });
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }
@@ -157,7 +180,7 @@ export class ProductsComponent implements OnInit, AfterViewInit{
       disableClose: true,
       autoFocus: false,
       data: productEditorModel,
-      minWidth: '600px'
+      minWidth: '750px'
     });
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }

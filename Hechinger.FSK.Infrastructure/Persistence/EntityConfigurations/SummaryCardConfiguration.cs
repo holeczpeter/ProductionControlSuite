@@ -33,6 +33,9 @@ namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
              .HasConstraintName("FK_SHIFTSCARDS_CONNECTION")
              .OnDelete(DeleteBehavior.Restrict)
              .IsRequired();
+
+            //builder
+            //   .Ignore(e => e.DateOnly);
         }
     }
 }

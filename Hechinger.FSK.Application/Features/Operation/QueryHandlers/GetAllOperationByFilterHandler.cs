@@ -19,6 +19,7 @@
                     Name = x.Name,
                     Code = x.Code,
                     TranslatedName = !String.IsNullOrEmpty(x.TranslatedName) ? x.TranslatedName : x.Name,
+                   
                 })
                 .Where(x => x.Name.StartsWith(request.Filter) || x.Code.StartsWith(request.Filter) || string.IsNullOrEmpty(request.Filter))
                 .Take(25)

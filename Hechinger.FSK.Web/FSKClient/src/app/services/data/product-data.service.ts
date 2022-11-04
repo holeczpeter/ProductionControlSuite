@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddProduct, DeleteProduct, GetProduct, ProductModel, Result, SelectModel, UpdateProduct } from '../../models/generated/generated';
+import { AddProduct, AddProductContext, DeleteProduct, GetProduct, ProductModel, Result, SelectModel, UpdateProduct, UpdateProductContext } from '../../models/generated/generated';
 import { DefectFilterService } from '../table/defect-filter.service';
 import { PaginationService } from '../table/pagination.service';
 import { SortService } from '../table/sort.service';
@@ -23,7 +23,13 @@ export class ProductDataService {
   update(request: UpdateProduct): Observable<Result> {
     return this.httpClient.post<Result>('/Product/Update', request)
   }
+  addContext(request: AddProductContext): Observable<Result> {
+    return this.httpClient.post<Result>('/Product/Add', request)
+  }
 
+  updateContext(request: UpdateProductContext): Observable<Result> {
+    return this.httpClient.post<Result>('/Product/Update', request)
+  }
   delete(request: DeleteProduct): Observable<Result> {
     return this.httpClient.post<Result>('/Product/Delete', request)
   }

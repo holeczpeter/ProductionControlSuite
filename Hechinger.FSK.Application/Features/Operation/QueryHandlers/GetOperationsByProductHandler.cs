@@ -20,7 +20,7 @@
                 ProductId = x.ProductId,
                 ProductName = x.Product.Name,
                 ProductCode = x.Product.Code,
-
+                HasDefect = x.Defects.Any(),
             }).ToListAsync();
         }
     }

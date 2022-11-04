@@ -197,6 +197,7 @@ export interface OperationModel {
   productId: number,
   productName: string,
   productCode: string,
+  hasDefect: boolean,
 }
 export interface GetAllOperation {
   parameters: OperationRequestParameters,
@@ -318,38 +319,30 @@ export interface QualityAssuranceModel {
   month: number,
   quantity: number,
 }
-export interface QuantityProductReportModel {
-  productId: number,
-  productName: string,
-  productTranslatedName: string,
-  operations: Array<QuantityOperationReportModel>,
-}
 export interface QuantityOperationReportModel {
   operationId: number,
   operationName: string,
   operationTranslatedName: string,
+  operationCode: string,
+  quantity: number,
   defects: Array<QuantityDefectReportModel>,
+  days: Array<QuantityDayReportModel>,
 }
 export interface QuantityDefectReportModel {
   defectId: number,
+  defectCode: string,
   defectName: string,
   defectTranslatedName: string,
-  days: Array<QuantityDayReportModel>,
   defectCategory: DefectCategories,
+  pPM: number,
+  defectQuantity: number,
+  days: Array<QuantityDayReportModel>,
 }
 export interface QuantityDayReportModel {
-  id: number,
-  year: number,
-  month: number,
   date: Date,
-  quantity: number,
-  shifts: Array<QuantityShiftReportModel>,
-}
-export interface QuantityShiftReportModel {
-  id: number,
   shiftId: number,
-  quantity: number,
   defectQuantity: number,
+  quantity: number,
   pPM: number,
 }
 export interface WorkerStatisticModel {
@@ -665,6 +658,40 @@ export interface GetAllWorkshops {
 }
 export interface GetWorkshop {
   id: number,
+}
+export interface AddOperationContext {
+  name: string,
+  code: string,
+  translatedName: string,
+  productId: number,
+  operationTime: any,
+  norma: any,
+  defects: Array<AddDefect>,
+}
+export interface AddProductContext {
+  name: string,
+  code: string,
+  translatedName: string,
+  workshopId: number,
+  operations: Array<AddOperationContext>,
+}
+export interface UpdateOperationContext {
+  id: number,
+  name: string,
+  code: string,
+  translatedName: string,
+  productId: number,
+  operationTime: any,
+  norma: any,
+  defects: Array<UpdateDefect>,
+}
+export interface UpdateProductContext {
+  id: number,
+  name: string,
+  code: string,
+  translatedName: string,
+  workshopId: number,
+  operations: Array<UpdateOperationContext>,
 }
 export enum Views {
   Day = 0,

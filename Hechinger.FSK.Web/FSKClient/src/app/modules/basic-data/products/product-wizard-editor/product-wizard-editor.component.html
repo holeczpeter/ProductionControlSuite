@@ -1,0 +1,109 @@
+<dialog-header [title]="title" (cancel)="onCancel()"></dialog-header>
+<mat-dialog-content *ngIf="formGroup">
+  <mat-stepper orientation="horizontal" #mystepper class="product-stepper">
+    <mat-step state="perm_data_setting" label="{{'products.edit'| translate}}" errorMessage="{{'product'| translate}} {{'required' | translate}}">
+      <ng-template matStepContent>
+        <form [formGroup]="formGroup">
+          <div class="row pt-2">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'name'" [placeholder]="'name' | translate" required />
+              <mat-error class="col" *ngIf="formGroup.get('name')?.hasError('required')">
+                {{'name'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row pt-2">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'code'" [placeholder]="'code' | translate" required />
+              <mat-error class="col" *ngIf="formGroup.get('code')?.hasError('required')">
+                {{'code'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row pt-2">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'translatedName'" [placeholder]="'translatedName' | translate" required />
+              <mat-error class="col" *ngIf="formGroup.get('translatedName')?.hasError('required')">
+                {{'translatedName'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row pt-2">
+            <mat-form-field>
+              <mat-select [formControlName]="'workshop'" [placeholder]="'workshopName' | translate" #singleSelect required>
+                <mat-option>
+                  <ngx-mat-select-search [formControl]="filterCtrl"></ngx-mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let option of filtered | async" [value]="option">
+                  {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="formGroup.get('workshop')?.hasError('required')">
+                {{'workshopName'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </form>
+      </ng-template>
+    </mat-step>
+    <mat-step state="supervisor_account" label="{{'operations.title'| translate}}">
+      <app-operation-list-editor [formGroup]="formGroup"></app-operation-list-editor>
+    </mat-step>
+    <!--<mat-step state="playlist_add_check" label="{{'defects.title'| translate}}">
+      <mat-accordion>
+        <ng-container *ngFor="let operation of itemsFormArray.controls;">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{operation.value.name}}
+              </mat-panel-title>
+              <mat-panel-description>
+                {{operation.value.code}}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-defect-list-editor [formGroup]="operation"
+                                    ></app-defect-list-editor>
+          </mat-expansion-panel>
+        </ng-container>
+      </mat-accordion>
+    </mat-step>-->
+    <ng-template matStepperIcon="perm_data_setting">
+      <mat-icon>perm_data_setting</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="supervisor_account">
+      <mat-icon>supervisor_account</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="playlist_add_check">
+      <mat-icon>playlist_add_check</mat-icon>
+    </ng-template>
+  </mat-stepper>
+</mat-dialog-content>
+<div mat-dialog-actions *ngIf="stepper">
+  <ng-container *ngIf="stepper.selectedIndex != 0">
+    <button mat-stroked-button
+            color="blue"
+            (click)="goBack(stepper)"
+            [disabled]="stepper.selectedIndex === 0">
+      {{ 'back' | translate }}
+    </button>
+  </ng-container>
+  <ng-container *ngIf="stepper.selectedIndex != 2;else save">
+    <button mat-raised-button
+            color="blue"
+            (click)="goForward(stepper)"
+            [disabled]="formGroup && (!formGroup.valid || !operationsIsValid)">
+      {{ 'next' | translate}}
+    </button>
+  </ng-container>
+  <ng-template #save>
+    <button mat-raised-button cdkFocusInitial
+            color="blue"
+            (click)="onSave()"
+            [disabled]="formGroup && !formGroup.valid">
+      {{'save'| translate}}
+    </button>
+  </ng-template>
+</div>
+
+
+

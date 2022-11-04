@@ -1,0 +1,61 @@
+<form [formGroup]="formGroup" *ngIf="formGroup">
+  <div formArrayName="operations" *ngFor="let item of itemsFormArray.controls; let i = index">
+    <mat-card [formGroupName]="i" class="operation-card">
+      <div class="flex-operation">
+        <div class="form-div">
+          <div class="row">
+            <mat-form-field>
+              <input matInput [formControlName]="'name'" [placeholder]="'name' | translate" required/>
+              <mat-error class="col" *ngIf="itemsFormArray.controls[i].get('name')?.hasError('required')">
+                {{'name'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field>
+              <input matInput [formControlName]="'code'" [placeholder]="'code' | translate" required />
+              <mat-error class="col" *ngIf="itemsFormArray.controls[i].get('code')?.hasError('required')">
+                {{'code'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'translatedName'" [placeholder]="'translatedName' | translate" required />
+              <mat-error class="col" *ngIf="itemsFormArray.controls[i].get('translatedName')?.hasError('required')">
+                {{'translatedName'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <div class="flex-operation">
+              <mat-form-field>
+                <input matInput type="number" [formControlName]="'norma'" [placeholder]="'operations.norma' | translate" />
+              
+              </mat-form-field>
+              <mat-form-field class="col">
+                <input matInput type="number" [formControlName]="'operationTime'" [placeholder]="'operations.operationTime' | translate" />
+                
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button type="button"
+                  mat-icon-button
+                  color="primary"
+                  [disabled]="itemsFormArray.controls[i].get('hasDefect')?.value"
+                  (click)="removeOperation(i)">
+            <mat-icon mat-list-icon [color]="'primary'">delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div class="row justify-content-center">
+    <button mat-fab color="primary" (click)="addOperation(null)">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</form>

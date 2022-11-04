@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { addDays } from 'date-fns';
 import format from 'date-fns/fp/format';
 import { debounceTime, distinctUntilChanged, ReplaySubject, Subject, Subscription, takeUntil } from 'rxjs';
-import { DefectCategories, GetQuantityReport, IntervalModel, IntervalOption, OperationModel, QuantityDefectReportModel, QuantityProductReportModel, QuantityShiftReportModel, SelectModel, ShiftModel, Views } from '../../../models/generated/generated';
+import { DefectCategories, GetQuantityReport, IntervalModel, IntervalOption, OperationModel, QuantityDefectReportModel, QuantityOperationReportModel, SelectModel, ShiftModel, Views } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { ProductDataService } from '../../../services/data/product-data.service';
 import { QualityDataService } from '../../../services/data/quality-data.service';
@@ -17,29 +17,23 @@ import { LanguageService } from '../../../services/language/language.service';
 class TableColumn {
   [key: string]: any
 }
+class OperationGroupRow {
+  element: any;
+  isOperation: boolean;
+}
+
 class TableHeader {
   id: string;
   value: any;
 }
-export interface ShiftQuantityRow {
-  text: string;
-  isShift: boolean;
-}
-export interface DayQuantityRow {
-  text: string;
-  isDay: boolean;
-}
-export interface OperationRow {
-  element: SelectModel;
-  isOperation: boolean;
-}
+
 @Component({
   selector: 'app-quantity-report',
   templateUrl: './quantity-report.component.html',
   styleUrls: ['./quantity-report.component.scss']
 })
 export class QuantityReportComponent implements OnInit, OnDestroy {
-  data: QuantityProductReportModel;
+  data: Array<QuantityOperationReportModel>;
   formGroup: UntypedFormGroup;
   products!: SelectModel[]
   public productFilterCtrl: FormControl = new FormControl();
@@ -61,17 +55,15 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
   monthDataSubscription: Subscription;
   title = "qualityreport.title";
   categories = Object.values(DefectCategories).filter((v) => !isNaN(Number(v)));
-  displayedHeaders = {
-    days: new Array<TableHeader>(),
-    shifts: new Array<TableHeader>(),
-    columnIds: new Array<string>(),
-    sumIds: new Array<string>(),
-    daysQuantity: new Array<string>(),
-    shiftsQuantity: new Array<string>(),
-  };
-  shifts:ShiftModel[];
-    dayColumnNames: string[];
-    shiftColumnNames: string[];
+  shifts: ShiftModel[];
+  columnsToDisplay: string[];
+  displayedColumns: string[];
+  dayHeaders: TableHeader[];
+  shiftHeaders: TableHeader[];
+  shiftQuantityHeaders: TableHeader[];
+  dayColumns: string[];
+  shiftColumns: string[];
+    shiftQuantityColumns: string[];
   constructor(private readonly qualityDataService: QualityDataService,
     private readonly productDataService: ProductDataService,
     public languageService: LanguageService,
@@ -124,108 +116,81 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
       this.qualityDataService.getQuantityReport(request).subscribe(x => {
         console.log(x)
         this.data = x;
-        //this.createDataSource();
+        this.createDataSource();
       });
     };
   }
 
   createDataSource() {
     this.dataSource = new MatTableDataSource();
-    let rows = new Array<TableColumn | ShiftQuantityRow | DayQuantityRow | OperationRow>();
-    this.displayedHeaders = {
-      days: new Array<TableHeader>(),
-      shifts: new Array<TableHeader>(),
-      columnIds: new Array<string>(),
-      sumIds: new Array<string>(),
-      daysQuantity: new Array<string>(),
-      shiftsQuantity: new Array<string>(),
-    };
+    let rows = new Array<TableColumn>();
+    this.columnsToDisplay = new Array<string>();
+    this.displayedColumns = new Array<string>();
+    this.dayHeaders = new Array<TableHeader>();
+    this.shiftHeaders = new Array<TableHeader>();
+    this.shiftQuantityHeaders = new Array<TableHeader>();
+    this.dayColumns = new Array<string>();
+    this.shiftColumns = new Array<string>();
     if (this.data) {
-      for (let i = 0; i <= this.currentInterval.differenceInCalendarDays; i++) {
-        let currentDate = addDays(this.currentInterval.startDate, i);
-        let quantity = (format('yyyy-MM-dd', new Date()).trim() == format('yyyy-MM-dd', currentDate).trim()) ? 20 : this.getSumQuantityByDay(currentDate.toString());
-        this.displayedHeaders.days.push({ id: currentDate.toString(), value: quantity});
-        
-        this.displayedHeaders.daysQuantity.push(currentDate.toString()+"_sum");
-        for (var j = 0; j < this.shifts.length; j++) {
-          this.displayedHeaders.shifts.push({ id: currentDate.toString() + "_" + this.shifts[j].id, value: this.getSumQuantityByShift(currentDate, this.shifts[j].id) });
-          this.displayedHeaders.shiftsQuantity.push(currentDate.toString() + "_" + this.shifts[j].id + "_sum");
-        }
-      }
-      this.dayColumnNames = this.displayedHeaders.days.map(x => x.id);
-      this.shiftColumnNames = this.displayedHeaders.shifts.map(x => x.id);
-      for (let i = 0; i <= this.currentInterval.differenceInCalendarDays; i++) {
-        let currentDate = addDays(this.currentInterval.startDate, i);
 
-      }
+      console.log(this.data)
+      this.data.forEach((operation, opIndex) => {
+        let shiftSumRow = new TableColumn();
+        shiftSumRow['defect'] = { id:  operation.operationId, code: operation.operationCode, name: operation.operationName, translatedName: operation.operationTranslatedName };
 
-
-      this.data.operations.forEach(operation => {
-        const operationRow = {
-          element: { code: operation.operationId, name: operation.operationName, translatedName: operation.operationTranslatedName }, isOperation: true
-        };
-        const dayQuantityRow = { text: 'quantity' , isDay: true };
-        const shiftQuantityRow = { text: 'quantity', isShift: true };
+        const operationRow = new OperationGroupRow();
+        operationRow.element = { id: operation.operationId, code: operation.operationCode, name: operation.operationName, translatedName: operation.operationTranslatedName };
+        operationRow.isOperation = true;
         rows.push(operationRow);
-        rows.push(dayQuantityRow);
-        rows.push(shiftQuantityRow);
-        operation.defects.forEach(defect => {
+        operation.defects.forEach((defect, index) => {
+
           const row = new TableColumn();
-          row['defect'] = { id: defect.defectId, name: defect.defectName, translatedName: defect.defectTranslatedName };
+         
+          row['defect'] = { id: defect.defectId, code: operation.operationCode, name: defect.defectName, translatedName: defect.defectTranslatedName };
+         
           for (let i = 0; i <= this.currentInterval.differenceInCalendarDays; i++) {
+
             let currentDate = addDays(this.currentInterval.startDate, i);
-            let currentDateObject = defect.days.find(day => format('yyyy-MM-dd', new Date(day.date)).trim() == format('yyyy-MM-dd', currentDate).trim());
+            let currentDateObjects = defect.days.filter(day => format('yyyy-MM-dd', new Date(day.date)).trim() == format('yyyy-MM-dd', currentDate).trim());
+            if (opIndex == 0 && index == 0) this.dayHeaders.push({ id: currentDate.toString(), value: currentDate });
+
             for (var j = 0; j < this.shifts.length; j++) {
-              let currentShiftObject = currentDateObject ? currentDateObject.shifts.find(s => s.shiftId == this.shifts[j].id) : null;
-              this.categories.forEach(c => {
-                let currentValue = defect.defectCategory === c && currentShiftObject ? currentShiftObject?.defectQuantity : '';
-                row[currentDate.toString() + "_" + this.shifts[j].id + "_" + c] =
-                  { date: currentDate, shift: this.shifts[j].id, category: c, value: currentValue };
+
+              
+              if (opIndex == 0 && index == 0) {
+                this.shiftHeaders.push({ id: currentDate.toString() + "_" + this.shifts[j].id, value: { id: this.shifts[j].id, name: this.shifts[j].name, translatedName: this.shifts[j].translatedName } });
+              
+                let shiftQuantity = operation.days
+                  .find(day => format('yyyy-MM-dd', new Date(day.date)).trim() == format('yyyy-MM-dd', currentDate).trim() && day.shiftId == this.shifts[j].id)?.quantity;
+                  //.map(x => x.quantity);
+                  //.reduce((a, b) => a + b, 0);
+                this.shiftQuantityHeaders.push({ id: "q_" + currentDate.toString() + "_" + this.shifts[j].id, value: shiftQuantity });
+              } 
+              
+              this.categories.forEach((c, catIndex) => {
+
+                let currentDefectQuantity = currentDateObjects.find(x => x.shiftId == this.shifts[j].id);
+                let defectQuantity = c == defect.defectCategory &&  currentDefectQuantity ?currentDefectQuantity.defectQuantity: '';
+                row[currentDate.toString() + "_" + this.shifts[j].id + "_" + c] = { date: currentDate, shift: this.shifts[j].id, category: c, value: defectQuantity };
+
               });
             }
           }
-          let allShift = this.getAllShifts(defect);
-          this.categories.forEach(c => {
-            let currentValue = defect.defectCategory === c ? allShift.map(x => x.defectQuantity).reduce((a, b) => a + b, 0) : 0;
-            row[c + "_" + 'sum'] = currentValue;
-          });
-          rows.push(row);
          
+          rows.push(row);
         });
-       
       });
-      
+     
     }
-    this.displayedHeaders.columnIds = [...Object.keys(rows[3]).filter(x => !x.includes('sum') && !x.includes('initial') && !x.includes('isGroupBy'))];
-    this.displayedHeaders.sumIds = [...Object.keys(rows[3]).filter(x => x.includes('sum'))];
-  
+    this.shiftQuantityColumns = [...this.shiftQuantityHeaders.map(x => x.id)];
+    this.dayColumns = [...this.dayHeaders.map(x => x.id)];
+    this.shiftColumns = [...this.shiftHeaders.map(x => x.id)];
+    this.displayedColumns = [...Object.keys(rows[2])];
+    this.columnsToDisplay = [...Object.keys(rows[2])];
     this.dataSource = new MatTableDataSource(rows);
    
   }
-  getAllShifts(cell: QuantityDefectReportModel): Array<QuantityShiftReportModel> {
-    return cell.days
-      .flatMap(x => { return x.shifts });
-  }
-  getSumQuantity() {
-    let current = this.data.operations[0].defects.flatMap(x => { return x.days }).flatMap(day => { return day.shifts } );
-    if (current) return current.map(x => x.defectQuantity).reduce((a, b) => a + b, 0);
-    else return 0;
-  }
-  getSumQuantityByDay(item: string) {
-    let current = this.data.operations[0].defects.flatMap(x => { return x.days }).find(day => format('yyyy-MM-dd', new Date(day.date)).trim() == format('yyyy-MM-dd', new Date(item)).trim());
-    if (current) return current.quantity;
-    else return 0;
-  }
-  getSumQuantityByShift(date: Date,shiftId:number) {
-    
-    let current = this.data.operations[0].defects.flatMap(x => { return x.days }).find(day => format('yyyy-MM-dd', new Date(day.date)).trim() == format('yyyy-MM-dd', new Date(date)).trim());
-    if (current) {
-      let currentShift = current.shifts.find(s => s.id == shiftId);
-      if (currentShift) return currentShift.quantity;
-      else return 0;
-    }
-    else return 0;
-  }
+ 
   filterProduct(): void {
     if (!this.products) return;
     let search = this.productFilterCtrl.value;

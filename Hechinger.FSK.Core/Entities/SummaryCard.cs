@@ -5,6 +5,7 @@ namespace Hechinger.FSK.Core.Entities
     public class SummaryCard : Entity
     {
         public DateTime Date { get; set; }
+        //public DateOnly DateOnly => DateOnly.FromDateTime(Date);
         public virtual int UserId { get; set; }
         public virtual User User { get; set; }
         public virtual int ShiftId { get; set; }

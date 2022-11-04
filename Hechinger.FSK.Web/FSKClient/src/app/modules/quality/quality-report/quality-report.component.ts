@@ -3,7 +3,7 @@ import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@
 import { MatSelect } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, distinctUntilChanged, ReplaySubject, Subject, Subscription, takeUntil } from 'rxjs';
-import { GetQuantityReport, IntervalModel, IntervalOption, QuantityProductReportModel, SelectModel, Views } from '../../../models/generated/generated';
+import { GetQuantityReport, IntervalModel, IntervalOption, QuantityOperationReportModel, SelectModel, Views } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { ProductDataService } from '../../../services/data/product-data.service';
 import { QualityDataService } from '../../../services/data/quality-data.service';
@@ -16,7 +16,7 @@ import { LanguageService } from '../../../services/language/language.service';
   styleUrls: ['./quality-report.component.scss']
 })
 export class QualityReportComponent implements OnInit, OnDestroy  {
-  data: QuantityProductReportModel;
+  data: Array<QuantityOperationReportModel>;
   formGroup: UntypedFormGroup;
   products!: SelectModel[]
   public productFilterCtrl: FormControl = new FormControl();

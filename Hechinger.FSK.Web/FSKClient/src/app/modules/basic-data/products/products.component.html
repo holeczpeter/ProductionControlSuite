@@ -2,6 +2,7 @@
   <div class="flex-title">
     <app-title class="flex-title-item" [title]="title"></app-title>
     <button mat-flat-button (click)="onAdd()" color="primary"> {{'add' | translate}} </button>
+    <!--<button mat-flat-button (click)="onAddContext()" color="primary"> {{'add' | translate}} </button>-->
     <button mat-icon-button (click)="onExport()" color="primary"> <mat-icon>download</mat-icon> </button>
   </div>
   <table mat-table [dataSource]="dataSource"

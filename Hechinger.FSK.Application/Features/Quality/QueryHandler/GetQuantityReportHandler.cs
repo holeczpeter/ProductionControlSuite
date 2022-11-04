@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hechinger.FSK.Application.Features
 {
-    public class GetQuantityReportHandler : IRequestHandler<GetQuantityReport, QuantityProductReportModel>
+    public class GetQuantityReportHandler : IRequestHandler<GetQuantityReport, IEnumerable<QuantityOperationReportModel>>
     {
         private readonly FSKDbContext context;
         private readonly IQuantityService quantityService;
@@ -15,7 +15,7 @@ namespace Hechinger.FSK.Application.Features
             this.context = context ?? throw new ArgumentNullException(nameof(context));
             this.quantityService = quantityService ?? throw new ArgumentNullException(nameof(context));
         }
-        public async Task<QuantityProductReportModel> Handle(GetQuantityReport request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<QuantityOperationReportModel>> Handle(GetQuantityReport request, CancellationToken cancellationToken)
         {
 
             return await this.quantityService.Get(request.ProductId, request.StartDate, request.EndDate, cancellationToken);

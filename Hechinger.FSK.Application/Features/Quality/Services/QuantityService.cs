@@ -10,50 +10,49 @@
             this.qualityService = qualityService ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<QuantityProductReportModel> Get(int productId, DateTime start, DateTime end, CancellationToken cancellationToken)
+        public async Task<IEnumerable<QuantityOperationReportModel>> Get(int productId, DateTime start, DateTime end, CancellationToken cancellationToken)
         {
-            
-            var result = await this.context.Products.Where(p => p.Id == productId)
-                .Select(p=> new QuantityProductReportModel()
-                { 
-                    ProductId= p.Id,
-                    ProductCode = p.Code,
-                    ProductName = p.Name,
-                    ProductTranslatedName = !String.IsNullOrEmpty(p.TranslatedName) ? p.TranslatedName : p.Name,
-                    Operations = p.Operations.Select(op => new QuantityOperationReportModel()
-                    {
-                        OperationId = op.Id,
-                        OperationName = op.Name,
-                        OperationCode = op.Code,
-                        OperationTranslatedName = !String.IsNullOrEmpty(op.TranslatedName) ? op.TranslatedName : op.Name,
+            var operations = await this.context.Operations.Where(p => p.ProductId == productId).ToListAsync();
 
-                        Defects = op.Defects.Select(d => new QuantityDefectReportModel()
+
+            var result = await this.context.Operations.Where(p => p.ProductId == productId)
+                .Select(op => new QuantityOperationReportModel()
+                {
+                    OperationId = op.Id,
+                    OperationName = op.Name,
+                    OperationCode = op.Code,
+                    OperationTranslatedName = !String.IsNullOrEmpty(op.TranslatedName) ? op.TranslatedName : op.Name,
+                    Days = op.SummaryCards
+                        .Where(sc => sc.Date >= start && sc.Date <= end).AsEnumerable()
+                        .GroupBy(sc => new { Date = sc.Date.Date, Shift = sc.ShiftId })
+                        .Select(g => new QuantityDayReportModel()
                         {
-                            DefectId = d.Id,
-                            DefectName = d.Name,
-                            DefectCode = d.Code,
-                            DefectTranslatedName = !String.IsNullOrEmpty(d.TranslatedName) ? d.TranslatedName : d.Name,
-                            DefectCategory = d.DefectCategory,
-                            Days = d.SummaryCardItems.Where(sc=> sc.SummaryCard.Date.Date >= start.Date && sc.SummaryCard.Date.Date <= end.Date).GroupBy(sc=>sc.SummaryCard.Date).Select(sc => new  QuantityDayReportModel()
-                            {
-                                
-                                Date = sc.Key.Date,
-                                Year = sc.Key.Date.Year,
-                                Month = sc.Key.Date.Month,
-                                Quantity = sc.ToList().Select(x=>x.SummaryCard.Quantity).Sum(),
-                                Shifts = sc.GroupBy(x=> new { Date = x.SummaryCard.Date,Shift = x.SummaryCard.ShiftId }).Select(i => new QuantityShiftReportModel()
-                                {
-                                 
-                                    DefectQuantity = i.Select(x=>x.Quantity).Sum(),
-                                    Quantity = i.Select(x => x.SummaryCard.Quantity).Sum(),
-                                    ShiftId = i.Key.Shift,
-                                    PPM = this.qualityService.GetPPM(i.Select(x => x.SummaryCard.Quantity).Sum(), i.Select(x => x.Quantity).Sum()),
-                                })
-                            }).ToList(),
+                            Date = g.Key.Date,
+                            ShiftId = g.Key.Shift,
+                            DefectQuantity = g.SelectMany(i => i.SummaryCardItems).Select(i => i.Quantity).Sum(),
+                            Quantity = g.ToList().Select(x => x.Quantity).Sum(),
                         }).ToList(),
-                    }).ToList()
-                }).FirstOrDefaultAsync(cancellationToken);
-         
+                    Defects = op.Defects.Select(d => new QuantityDefectReportModel()
+                    {
+                        DefectId = d.Id,
+                        DefectName = d.Name,
+                        DefectCode = d.Code,
+                        DefectTranslatedName = !String.IsNullOrEmpty(d.TranslatedName) ? d.TranslatedName : d.Name,
+                        DefectCategory = d.DefectCategory,
+                        Days = d.SummaryCardItems.Where(sc => sc.SummaryCard.Date.Date >= start.Date && sc.SummaryCard.Date.Date <= end.Date).ToList()
+                        .GroupBy(sc => new { Date = sc.SummaryCard.Date.Date, Shift = sc.SummaryCard.ShiftId }).Select(sc => new QuantityDayReportModel()
+                        {
+
+                            Date = sc.Key.Date,
+                            ShiftId = sc.Key.Shift,
+                            DefectQuantity = sc.Select(x => x.Quantity).Sum(),
+                            Quantity = sc.Select(x => x.SummaryCard.Quantity).Sum(),
+                            PPM = this.qualityService.GetPPM(sc.Select(x => x.SummaryCard.Quantity).Sum(), sc.Select(x => x.Quantity).Sum()),
+
+                        }).ToList(),
+                    }).ToList(),
+                }).ToListAsync(cancellationToken);
+
             return result;
         }
     }

@@ -1,40 +1,42 @@
-import { AfterContentChecked, ChangeDetectorRef } from '@angular/core';
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormControl, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatStepper } from '@angular/material/stepper';
-import { forkJoin, map, Observable, ReplaySubject, startWith, Subject, take, takeUntil } from 'rxjs';
+import { forkJoin, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
 import { ProductEditorModel } from '../../../../models/dialog-models/product-editor-model';
-import { AddProduct, DefectModel, GetOperationsByProduct, OperationModel, ProductModel, UpdateProduct, WorkshopModel } from '../../../../models/generated/generated';
-import { OperationDataService } from '../../../../services/data/operation-data.service';
+import { AddOperationContext, AddProductContext, DefectModel, GetOperationsByProduct, OperationModel, ProductModel, UpdateOperation, UpdateOperationContext, UpdateProductContext, WorkshopModel } from '../../../../models/generated/generated';
 import { ProductDataService } from '../../../../services/data/product-data.service';
 import { WorkshopDataService } from '../../../../services/data/workshop-data.service';
 import { LanguageService } from '../../../../services/language/language.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
 
 @Component({
-  selector: 'app-product-editor-dialog',
-  templateUrl: './product-editor-dialog.component.html',
-  styleUrls: ['./product-editor-dialog.component.scss']
+  selector: 'app-product-wizard-editor',
+  templateUrl: './product-wizard-editor.component.html',
+  styleUrls: ['./product-wizard-editor.component.scss']
 })
-export class ProductEditorDialogComponent implements OnInit, AfterViewInit, OnDestroy, AfterContentChecked {
+export class ProductWizardEditorComponent implements OnInit, AfterViewInit, OnDestroy, AfterContentChecked {
   title!: string;
   product: ProductModel | null;
   productId: number;
   formGroup: UntypedFormGroup;
   workshops!: WorkshopModel[];
+  operations!: Array<UpdateOperationContext>
   public filterCtrl: FormControl = new FormControl();
   public filtered: ReplaySubject<WorkshopModel[]> = new ReplaySubject<WorkshopModel[]>(1);
   protected _onDestroy = new Subject<void>();
   @ViewChild('singleSelect') singleSelect: MatSelect;
-  
+
 
   @ViewChild('mystepper') stepper: MatStepper;
   totalStepsCount!: 3;
   operationsIsValid: boolean = true;
   operationId: number;
-  constructor(private readonly dialogRef: MatDialogRef<ProductEditorDialogComponent>,
+  get itemsFormArray(): FormArray {
+    return this.formGroup.get('operations') as FormArray;
+  }
+  constructor(private readonly dialogRef: MatDialogRef<ProductWizardEditorComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ProductEditorModel,
     private readonly productDataService: ProductDataService,
     private readonly workshopDataService: WorkshopDataService,
@@ -62,6 +64,7 @@ export class ProductEditorDialogComponent implements OnInit, AfterViewInit, OnDe
           code: [this.product ? this.product.code : '', [Validators.required]],
           translatedName: [this.product ? this.product.translatedName : '', [Validators.required]],
           workshop: [this.product ? this.workshops.find(ws => ws.id == this.product!.workshopId) : null, [Validators.required]],
+          operations: this.formBuilder.array([]),
         });
         this.filtered.next(this.workshops.slice());
         this.filterCtrl.valueChanges
@@ -92,34 +95,24 @@ export class ProductEditorDialogComponent implements OnInit, AfterViewInit, OnDe
   }
   
   
+  
+  goBack(stepper: MatStepper) {
+    this.stepper.previous();
+  }
+  goForward(stepper: MatStepper) {
+    this.stepper.next();
+  }
   onSave() {
-    this.formGroup.get('id')?.value == 0 ? this.add() : this.update();
-  }
-
-  add() {
-    let model: AddProduct = {
-      name: this.formGroup.get('name')?.value,
-      code: this.formGroup.get('code')?.value,
-      translatedName: this.formGroup.get('translatedName')?.value,
-      workshopId: this.formGroup.get('workshop')?.value.id,
-      
-    };
-    this.productDataService.add(model).subscribe(result => {
-      this.snackBar.open(result);
-      if (result.isSuccess) this.dialogRef.close(true);
-    });
-  }
-
-  update() {
-    let model: UpdateProduct = {
+    console.log(this.formGroup)
+    let model: UpdateProductContext = {
       id: this.formGroup.get('id')?.value,
       name: this.formGroup.get('name')?.value,
       code: this.formGroup.get('code')?.value,
       translatedName: this.formGroup.get('translatedName')?.value,
       workshopId: this.formGroup.get('workshop')?.value.id,
-      
+      operations: this.operations
     };
-    this.productDataService.update(model).subscribe(result => {
+    this.productDataService.updateContext(model).subscribe(result => {
       this.snackBar.open(result);
       if (result.isSuccess) this.dialogRef.close(true);
     });

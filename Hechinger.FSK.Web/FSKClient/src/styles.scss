@@ -219,3 +219,14 @@ h2.regular, h3.regular {
 table {
   width: 100%;
 }
+.stepper-buttons {
+  justify-content: space-between;
+  margin: 20px;
+  display: flex;
+}
+
+.stepper-buttons-flex-end {
+  justify-content: flex-end;
+  margin: 20px;
+  display: flex;
+}

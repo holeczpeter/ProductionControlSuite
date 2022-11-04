@@ -1,0 +1,15 @@
+.flex-operation {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.form-div {
+  flex-grow: 4;
+}
+
+.operation-card {
+  margin-bottom: 10px;
+}

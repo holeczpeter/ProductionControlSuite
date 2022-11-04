@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanDeactivate, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { LoginResults } from '../models/generated/generated';
 import { AccountService } from '../services/account.service';
 
@@ -12,16 +12,19 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<u
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
+    console.log(this.accountService.isAuthenticated())
     if (this.accountService.isAuthenticated()) {
       if (this.accountService.getLoginStatus() === LoginResults.IsTemporaryPassword) {
         this.router.navigateByUrl('/account/change-temporary-password');
+        console.log("activated:false")
         return false;
       }
+      console.log("activated:true")
       return true;
     }
     else {
       this.router.navigateByUrl('account/login');
+      console.log("activated:true")
       return false;
     }
   }
@@ -31,7 +34,10 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<u
     let storage = localStorage.getItem('availablePaths');
     if (storage) {
       const paths: Array<string> = JSON.parse(storage);
-      if (paths.some(s => s.includes(childRoute.url[0].path))) return true;
+      if (paths.some(s => s.includes(childRoute.url[0].path))) {
+        console.log("activatedChild:true")
+        return true;
+      } 
       else return false;
     }
     else return false;
@@ -47,10 +53,15 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<u
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    if (!!this.accountService.isLogin) {
-      this.router.navigate(['account/login']);
+    if (this.accountService.isAuthenticated()) {
+      if (this.accountService.getLoginStatus() === LoginResults.IsTemporaryPassword) {
+        this.router.navigateByUrl('/account/change-temporary-password');
+      }
+      return true;
+    } else {
+      this.router.navigateByUrl('/account/login');
       return false;
     }
-    return true;
+    
   }
 }

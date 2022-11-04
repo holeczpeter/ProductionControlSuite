@@ -5,6 +5,12 @@ namespace Hechinger.FSK.Core.Enums
     public enum Views
     {
         /// <summary>
+        /// Nap
+        /// </summary>
+        [Description("Nap")]
+        Day = 0,
+
+        /// <summary>
         /// Hét
         /// </summary>
         [Description("Hét")]

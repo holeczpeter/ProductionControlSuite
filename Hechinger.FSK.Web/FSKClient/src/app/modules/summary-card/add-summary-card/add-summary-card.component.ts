@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { AddSummaryCard, AddSummaryCardItem } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { SummaryCardDataService } from '../../../services/data/summary-card-data.service';
@@ -36,6 +37,8 @@ export class AddSummaryCardComponent implements OnInit {
       shiftId: ['', [Validators.required]],
       items: this.formBuilder.array([])
     });
+    
+
   }
 
   onSave() {

@@ -1,5 +1,5 @@
 import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, forkJoin, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
@@ -100,13 +100,14 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
   }
   addRow(d: DefectModel) {
     const row = this.formBuilder.group({
-      'id': [0],
-      'order': [1],
-      'defectId': [d.id],
-      'defectName': [d.name],
-      'defectTranslatedName': [d.translatedName],
-      'quantity': [0],
-      'comment': [''],
+    
+      id: [0],
+      order: [1],
+      defectId: [d.id],
+      defectName: [d.name],
+      defectTranslatedName: [d.translatedName],
+      quantity: [0],
+      comment: [''],
 
     });
     this.items.push(row);
