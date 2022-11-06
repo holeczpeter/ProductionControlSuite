@@ -1,12 +1,9 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
-import { GetOperationsByProduct, OperationModel, UpdateOperationContext } from '../../models/generated/generated';
+import { GetOperationsByProduct, OperationModel } from '../../models/generated/generated';
 import { OperationDataService } from '../../services/data/operation-data.service';
-import { ProductDataService } from '../../services/data/product-data.service';
-import { WorkshopDataService } from '../../services/data/workshop-data.service';
 import { LanguageService } from '../../services/language/language.service';
-import { SnackbarService } from '../../services/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-operation-list-editor',
@@ -14,27 +11,35 @@ import { SnackbarService } from '../../services/snackbar/snackbar.service';
   styleUrls: ['./operation-list-editor.component.scss']
 })
 export class OperationListEditorComponent implements OnInit, OnChanges {
-  @Input() formGroup: UntypedFormGroup;
-  @Output() resfresh = new EventEmitter<Array<UpdateOperationContext>>();
+  @Input() productId: number;
+  @Output() resfreshItems = new EventEmitter<Array<OperationModel>>();
   @Output() isValid = new EventEmitter<boolean>();
-  
+  formGroup: UntypedFormGroup;
+
   get itemsFormArray(): FormArray {
     return this.formGroup.get('operations') as FormArray;
   }
   constructor(private readonly operationDataService: OperationDataService,
     private readonly formBuilder: UntypedFormBuilder,
-    public languageService: LanguageService) { }
-  
+    public languageService: LanguageService) {
+  }
 
   ngOnInit(): void {
 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['formGroup']) {
+    if (changes['productId'] && this.productId) {
       let request: GetOperationsByProduct = {
-        productId: this.formGroup.get('id')?.value,
+        productId: this.productId,
       }
+      this.formGroup = this.formBuilder.group({
+        operations: this.formBuilder.array(new Array<OperationModel>())
+      });
+      this.formGroup.valueChanges.subscribe(x => {
+        this.resfreshItems.emit(this.itemsFormArray.value);
+        this.isValid.emit(this.formGroup.valid);
+      });
       forkJoin([this.operationDataService.getByProduct(request)]).
         subscribe(([operations]) => {
           operations.forEach(op => this.addOperation(op));
@@ -50,8 +55,9 @@ export class OperationListEditorComponent implements OnInit, OnChanges {
       norma: [operation ? operation.norma : 0],
       operationTime: [operation ? operation.operationTime : 0],
       translatedName: [operation ? operation.translatedName : '', [Validators.required]],
+      productId: [this.productId,[Validators.required]],
       hasDefect: [operation ? operation.hasDefect : false],
-      defects: this.formBuilder.array([]),
+     
     }));
   }
   removeOperation(i: number) {

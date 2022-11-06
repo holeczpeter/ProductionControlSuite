@@ -662,39 +662,11 @@ export interface GetAllWorkshops {
 export interface GetWorkshop {
   id: number,
 }
-export interface AddOperationContext {
-  name: string,
-  code: string,
-  translatedName: string,
-  productId: number,
-  operationTime: any,
-  norma: any,
-  defects: Array<AddDefect>,
-}
-export interface AddProductContext {
-  name: string,
-  code: string,
-  translatedName: string,
-  workshopId: number,
-  operations: Array<AddOperationContext>,
-}
-export interface UpdateOperationContext {
-  id: number,
-  name: string,
-  code: string,
-  translatedName: string,
-  productId: number,
-  operationTime: any,
-  norma: any,
+export interface SaveDefectContext {
   defects: Array<UpdateDefect>,
 }
-export interface UpdateProductContext {
-  id: number,
-  name: string,
-  code: string,
-  translatedName: string,
-  workshopId: number,
-  operations: Array<UpdateOperationContext>,
+export interface SaveOperationContext {
+  operations: Array<UpdateOperation>,
 }
 export enum Views {
   Day = 0,

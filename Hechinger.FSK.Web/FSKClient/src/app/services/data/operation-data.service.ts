@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddOperation, DeleteOperation, GetOperation, GetOperationsByProduct, OperationModel, Result, SelectModel, UpdateOperation } from '../../models/generated/generated';
+import { AddOperation, DeleteOperation, GetOperation, GetOperationsByProduct, OperationModel, Result, SaveOperationContext, SelectModel, UpdateOperation } from '../../models/generated/generated';
 import { DefectFilterService } from '../table/defect-filter.service';
 import { PaginationService } from '../table/pagination.service';
 import { SortService } from '../table/sort.service';
@@ -24,6 +24,10 @@ export class OperationDataService {
     return this.httpClient.post<Result>('/Operation/Update', request)
   }
 
+  saveContext(request: SaveOperationContext): Observable<Result> {
+    return this.httpClient.post<Result>('/Operation/SaveOperationContext', request)
+  }
+ 
   delete(request: DeleteOperation): Observable<Result> {
     return this.httpClient.post<Result>('/Operation/Delete', request)
   }

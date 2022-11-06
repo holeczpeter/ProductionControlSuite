@@ -47,7 +47,10 @@
       </ng-template>
     </mat-step>
     <mat-step state="supervisor_account" label="{{'operations.title'| translate}}">
-      <app-operation-list-editor [formGroup]="formGroup"></app-operation-list-editor>
+      <app-operation-list-editor [productId]="productId"
+                                 (resfreshItems)= "refreshOperations($event)"
+                                 (isValid)= "refreshOperationsValid($event)">
+      </app-operation-list-editor>
     </mat-step>
     <!--<mat-step state="playlist_add_check" label="{{'defects.title'| translate}}">
       <mat-accordion>
@@ -79,30 +82,41 @@
   </mat-stepper>
 </mat-dialog-content>
 <div mat-dialog-actions *ngIf="stepper">
-  <ng-container *ngIf="stepper.selectedIndex != 0">
-    <button mat-stroked-button
-            color="blue"
-            (click)="goBack(stepper)"
-            [disabled]="stepper.selectedIndex === 0">
-      {{ 'back' | translate }}
-    </button>
-  </ng-container>
-  <ng-container *ngIf="stepper.selectedIndex != 2;else save">
+  
+  <ng-container *ngIf="stepper.selectedIndex == 0">
     <button mat-raised-button
             color="blue"
-            (click)="goForward(stepper)"
-            [disabled]="formGroup && (!formGroup.valid || !operationsIsValid)">
-      {{ 'next' | translate}}
+            (click)="goForwardAndSaveProduct(stepper)"
+            [disabled]="formGroup && (!formGroup.valid)">
+      {{ 'nextandsave' | translate}}
     </button>
   </ng-container>
-  <ng-template #save>
-    <button mat-raised-button cdkFocusInitial
+  <ng-container *ngIf="stepper.selectedIndex == 1">
+    <button mat-stroked-button
             color="blue"
-            (click)="onSave()"
-            [disabled]="formGroup && !formGroup.valid">
-      {{'save'| translate}}
+            (click)="goBack(stepper)">
+      {{ 'back' | translate }}
     </button>
-  </ng-template>
+    <button mat-raised-button
+            color="blue"
+            (click)="goForwardAndSaveOperations(stepper)"
+            [disabled]="!operationsIsValid">
+      {{ 'nextandsave' | translate}}
+    </button>
+  </ng-container>
+  <ng-container *ngIf="stepper.selectedIndex == 2">
+    <button mat-stroked-button
+            color="blue"
+            (click)="goBack(stepper)">
+      {{ 'back' | translate }}
+    </button>
+    <button mat-raised-button
+            color="blue"
+            (click)="goForwardAndSaveDefects(stepper)"
+            [disabled]="!defectsIsValid">
+      {{ 'save' | translate}}
+    </button>
+  </ng-container>
 </div>
 
 

@@ -1,9 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { forkJoin } from 'rxjs';
-import { AddDefect, DefectModel, EnumModel, GetDefectsByOperation, UpdateDefect, UpdateOperation, UpdateOperationContext } from '../../models/generated/generated';
-import { DefectDataService } from '../../services/data/defect-data.service';
-import { LanguageService } from '../../services/language/language.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-defect-list-editor',

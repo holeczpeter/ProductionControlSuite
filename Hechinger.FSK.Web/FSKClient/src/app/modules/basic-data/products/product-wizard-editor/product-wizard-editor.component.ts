@@ -5,7 +5,9 @@ import { MatSelect } from '@angular/material/select';
 import { MatStepper } from '@angular/material/stepper';
 import { forkJoin, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
 import { ProductEditorModel } from '../../../../models/dialog-models/product-editor-model';
-import { AddOperationContext, AddProductContext, DefectModel, GetOperationsByProduct, OperationModel, ProductModel, UpdateOperation, UpdateOperationContext, UpdateProductContext, WorkshopModel } from '../../../../models/generated/generated';
+import { AddProduct, DefectModel, GetOperationsByProduct, OperationModel, ProductModel, SaveDefectContext, SaveOperationContext, UpdateDefect, UpdateOperation, UpdateProduct, WorkshopModel } from '../../../../models/generated/generated';
+import { DefectDataService } from '../../../../services/data/defect-data.service';
+import { OperationDataService } from '../../../../services/data/operation-data.service';
 import { ProductDataService } from '../../../../services/data/product-data.service';
 import { WorkshopDataService } from '../../../../services/data/workshop-data.service';
 import { LanguageService } from '../../../../services/language/language.service';
@@ -22,33 +24,29 @@ export class ProductWizardEditorComponent implements OnInit, AfterViewInit, OnDe
   productId: number;
   formGroup: UntypedFormGroup;
   workshops!: WorkshopModel[];
-  operations!: Array<UpdateOperationContext>
+  operations!: Array<OperationModel>;
+  defects!: Array<DefectModel>;
   public filterCtrl: FormControl = new FormControl();
   public filtered: ReplaySubject<WorkshopModel[]> = new ReplaySubject<WorkshopModel[]>(1);
   protected _onDestroy = new Subject<void>();
   @ViewChild('singleSelect') singleSelect: MatSelect;
-
-
   @ViewChild('mystepper') stepper: MatStepper;
   totalStepsCount!: 3;
-  operationsIsValid: boolean = true;
-  operationId: number;
-  get itemsFormArray(): FormArray {
-    return this.formGroup.get('operations') as FormArray;
-  }
+  operationsIsValid: boolean = false;
+  defectsIsValid: boolean;
+  
   constructor(private readonly dialogRef: MatDialogRef<ProductWizardEditorComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ProductEditorModel,
     private readonly productDataService: ProductDataService,
+    private readonly operationDataService: OperationDataService,
+    private readonly defectDataService: DefectDataService,
     private readonly workshopDataService: WorkshopDataService,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly snackBar: SnackbarService,
     private readonly changeDetector: ChangeDetectorRef,
     public languageService: LanguageService) {
-    this.productId = data ? data.productModel.id : 0;
     this.product = data ? data.productModel : null;
     this.title = this.product ? "products.edit" : "products.add";
-
-
   }
 
   ngOnInit(): void {
@@ -64,7 +62,7 @@ export class ProductWizardEditorComponent implements OnInit, AfterViewInit, OnDe
           code: [this.product ? this.product.code : '', [Validators.required]],
           translatedName: [this.product ? this.product.translatedName : '', [Validators.required]],
           workshop: [this.product ? this.workshops.find(ws => ws.id == this.product!.workshopId) : null, [Validators.required]],
-          operations: this.formBuilder.array([]),
+          
         });
         this.filtered.next(this.workshops.slice());
         this.filterCtrl.valueChanges
@@ -102,22 +100,102 @@ export class ProductWizardEditorComponent implements OnInit, AfterViewInit, OnDe
   goForward(stepper: MatStepper) {
     this.stepper.next();
   }
-  onSave() {
-    console.log(this.formGroup)
-    let model: UpdateProductContext = {
+  goForwardAndSaveProduct(stepper: MatStepper) {
+    this.formGroup.get('id')?.value == 0 ? this.addProduct(stepper) : this.updateProduct(stepper);
+  }
+  goForwardAndSaveOperations(stepper: MatStepper) {
+    let items = new Array<UpdateOperation>();
+    this.operations.forEach(op => {
+      let oepration: UpdateOperation = {
+        id: op.id,
+        code: op.code,
+        name: op.name,
+        norma: op.norma,
+        operationTime: op.operationTime,
+        productId: op.productId,
+        translatedName: op.translatedName
+      }
+      items.push(oepration);
+    });
+    let request: SaveOperationContext = {
+      operations : items,
+    }
+    this.operationDataService.saveContext(request).subscribe(result => {
+      this.snackBar.open(result);
+      if (result.isSuccess) {
+        this.goForward(stepper);
+      }
+    });
+  }
+  goForwardAndSaveDefects(stepper: MatStepper) {
+    let items = new Array<UpdateDefect>();
+    this.defects.forEach(d => {
+      let defect: UpdateDefect = {
+        id: d.id,
+        code: d.code,
+        name: d.name,
+        operationId: d.operationId,
+        translatedName: d.translatedName,
+        defectCategory: d.defectCategory
+      }
+      items.push(defect);
+    });
+    let request: SaveDefectContext = {
+      defects: items,
+    }
+    this.defectDataService.saveContext(request).subscribe(result => {
+      this.snackBar.open(result);
+      if (result.isSuccess) {
+        this.goForward(stepper);
+      }
+    });
+  }
+  addProduct(stepper: MatStepper) {
+    let model: AddProduct = {
+      name: this.formGroup.get('name')?.value,
+      code: this.formGroup.get('code')?.value,
+      translatedName: this.formGroup.get('translatedName')?.value,
+      workshopId: this.formGroup.get('workshop')?.value.id,
+
+    };
+    this.productDataService.add(model).subscribe(result => {
+      this.snackBar.open(result);
+      if (result.isSuccess) {
+        this.productId = result.entities;
+        this.goForward(stepper);
+      } 
+    });
+  }
+
+  updateProduct(stepper: MatStepper) {
+    let model: UpdateProduct = {
       id: this.formGroup.get('id')?.value,
       name: this.formGroup.get('name')?.value,
       code: this.formGroup.get('code')?.value,
       translatedName: this.formGroup.get('translatedName')?.value,
       workshopId: this.formGroup.get('workshop')?.value.id,
-      operations: this.operations
+
     };
-    this.productDataService.updateContext(model).subscribe(result => {
+    this.productDataService.update(model).subscribe(result => {
       this.snackBar.open(result);
-      if (result.isSuccess) this.dialogRef.close(true);
+      if (result.isSuccess) {
+        this.productId = result.entities;
+        this.goForward(stepper);
+      }
     });
   }
-
+  refreshOperations(event: Array<OperationModel>) {
+    this.operations = event;
+  }
+  refreshOperationsValid(event: boolean) {
+    this.operationsIsValid = event;
+  }
+  //refreshDefects(event: Array<DefectModel>) {
+  //  this.defects = event;
+  //}
+  //refreshDefectsValid(event: boolean) {
+  //  this.defectsIsValid = event;
+  //}
   onCancel() {
     this.dialogRef.close(false);
   }

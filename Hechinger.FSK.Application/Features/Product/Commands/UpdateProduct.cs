@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class UpdateProduct : IRequest<Result<bool>>
+    public class UpdateProduct : IRequest<Result<int>>
     {
         [Required]
         public int Id { get; set; }

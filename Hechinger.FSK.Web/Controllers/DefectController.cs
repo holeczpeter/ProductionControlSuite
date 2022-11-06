@@ -25,6 +25,12 @@ namespace Hechinger.FSK.Web.Controllers
             return await this.mediator.Send(request, cancellationToken);
         }
         [HttpPost]
+        public async Task<Result<int>> SaveDefectContext([FromBody] SaveDefectContext request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+
+        [HttpPost]
         public async Task<Result<bool>> Delete([FromBody] DeleteDefect request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);

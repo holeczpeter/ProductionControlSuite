@@ -1,7 +1,6 @@
 ﻿using Hechinger.FSK.Application.Common;
 using Hechinger.FSK.Application.Common.Models;
 using Hechinger.FSK.Application.Features;
-using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 
 namespace Hechinger.FSK.Web.Controllers
@@ -15,25 +14,16 @@ namespace Hechinger.FSK.Web.Controllers
 
 
         [HttpPost]
-        public async Task<Result<bool>> Add([FromBody] AddProduct request, CancellationToken cancellationToken)
+        public async Task<Result<int>> Add([FromBody] AddProduct request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
         }
         [HttpPost]
-        public async Task<Result<bool>> Update([FromBody] UpdateProduct request, CancellationToken cancellationToken)
+        public async Task<Result<int>> Update([FromBody] UpdateProduct request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
         }
-        [HttpPost]
-        public async Task<Result<bool>> AddContext([FromBody] AddProductContext request, CancellationToken cancellationToken)
-        {
-            return await this.mediator.Send(request, cancellationToken);
-        }
-        [HttpPost]
-        public async Task<Result<bool>> UpdateContext([FromBody] UpdateProductContext request, CancellationToken cancellationToken)
-        {
-            return await this.mediator.Send(request, cancellationToken);
-        }
+       
         [HttpPost]
         public async Task<Result<bool>> Delete([FromBody] DeleteProduct request, CancellationToken cancellationToken)
         {
