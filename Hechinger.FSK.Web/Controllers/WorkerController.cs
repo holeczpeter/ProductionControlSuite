@@ -1,7 +1,9 @@
 ﻿using Hechinger.FSK.Application.Features;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hechinger.FSK.Web.Controllers
 {
+    [Authorize]
     public class WorkerController : ControllerBase
     {
         private readonly IMediator mediator;

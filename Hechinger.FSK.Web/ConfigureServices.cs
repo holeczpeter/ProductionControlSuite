@@ -3,6 +3,7 @@ using Hechinger.FSK.Core;
 using Hechinger.FSK.Web.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,9 @@ namespace Hechinger.FSK.Web
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
+            FskEnvironment.SetConfiguration(configuration); 
             services.AddHttpContextAccessor();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
@@ -36,7 +39,8 @@ namespace Hechinger.FSK.Web
             services.AddMvcCore(options => options.Filters.Add(typeof(ValidateModelStateAttribute))).AddControllersAsServices();
             services.Configure<ForwardedHeadersOptions>(options => options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto);
             services.Configure<FormOptions>(options => options.MultipartBodyLengthLimit = 600000000);
-            services.AddMemoryCache();
+           
+            services.AddHttpClient();
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.InvalidModelStateResponseFactory = actionContext =>

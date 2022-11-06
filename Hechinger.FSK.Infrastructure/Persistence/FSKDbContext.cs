@@ -1,5 +1,6 @@
 ﻿using Hechinger.FSK.Core.Common;
 using Hechinger.FSK.Core.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hechinger.FSK.Infrastructure.Persistence
@@ -21,11 +22,18 @@ namespace Hechinger.FSK.Infrastructure.Persistence
         public DbSet<SummaryCard> SummaryCards { get; set; }
         public DbSet<SummaryCardItem> SummaryCardItem { get; set; }
         public DbSet<Language> Languages { get; set; }
+        public IHttpContextAccessor httpContextAccessor;
         public FSKDbContext(DbContextOptions options) : base(options)
         {
 
         }
+      
+        public FSKDbContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor) : base(options)
+        {
+            
+            this.httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
 
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -58,7 +66,7 @@ namespace Hechinger.FSK.Infrastructure.Persistence
         private void UpdateEntityInfo()
         {
             var entries = ChangeTracker.Entries().Where(e => e.Entity is BaseEntity && (e.State == EntityState.Added || e.State == EntityState.Modified)).ToList();
-            var currentUser = "SYSTEM";
+            var currentUser = GetCurrentUser();
 
             foreach (var entityEntry in entries)
             {
@@ -78,6 +86,12 @@ namespace Hechinger.FSK.Infrastructure.Persistence
                     ((BaseEntity)entityEntry.Entity).LastModifier = !string.IsNullOrEmpty(currentUser) ? currentUser : string.Empty;
                 }
             }
+        }
+        public string GetCurrentUser()
+        {
+            var claim = this.httpContextAccessor?.HttpContext?.User?.Claims.FirstOrDefault(x => x.Type == "user");
+            if (claim != null) return claim.Value;
+            else return string.Empty;
         }
     }
 }

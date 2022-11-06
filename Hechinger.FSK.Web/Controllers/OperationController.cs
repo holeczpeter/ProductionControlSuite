@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 
 namespace Hechinger.FSK.Web.Controllers
 {
+    [Authorize]
     public class OperationController : ControllerBase
     {
         private readonly IMediator mediator;

@@ -1,8 +1,10 @@
 ﻿using Hechinger.FSK.Application.Common.Models;
 using Hechinger.FSK.Application.Features;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hechinger.FSK.Web.Controllers
 {
+    [Authorize]
     public class RoleController : ControllerBase
     {
         private readonly IMediator mediator;

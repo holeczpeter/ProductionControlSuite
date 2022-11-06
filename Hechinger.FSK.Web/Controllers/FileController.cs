@@ -1,5 +1,8 @@
-﻿namespace Hechinger.FSK.Web.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace Hechinger.FSK.Web.Controllers
 {
+    [Authorize]
     public class FileController : ControllerBase
     {
         private readonly IMediator mediator;

@@ -4,17 +4,20 @@ namespace Hechinger.FSK.Application.Features
     public class GetAllDefectsHandler : IRequestHandler<GetAllDefect, IEnumerable<DefectModel>>
     {
         private readonly FSKDbContext context;
-        private readonly IDefectCahche cache;
-        public GetAllDefectsHandler(FSKDbContext context, IDefectCahche cache)
+        private readonly IPermissionService permissionService;  
+     
+        public GetAllDefectsHandler(FSKDbContext context, IPermissionService permissionService)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
-            this.cache = cache ?? throw new ArgumentNullException(nameof(cache));
+            this.permissionService = permissionService ?? throw new ArgumentNullException(nameof(permissionService));
         }
         public async Task<IEnumerable<DefectModel>> Handle(GetAllDefect request, CancellationToken cancellationToken)
         {
-
+            
+            var permittedDefects = await this.permissionService.GetPermissionToDefects(cancellationToken);
             return await context.Defects
-                .Where(x => x.EntityStatus == EntityStatuses.Active)
+                .Where(x => x.EntityStatus == EntityStatuses.Active &&  
+                            permittedDefects.Contains(x.Id))
                 .Select(x => new DefectModel()
                 {
                     Id = x.Id,

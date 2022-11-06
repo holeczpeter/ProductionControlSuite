@@ -1,8 +1,10 @@
 ﻿using Hechinger.FSK.Application;
 using Hechinger.FSK.Application.Features;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hechinger.FSK.Web.Controllers
 {
+    [Authorize]
     public class QualityController : ControllerBase
     {
         private readonly IMediator mediator;

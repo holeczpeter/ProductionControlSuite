@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace Hechinger.FSK.Web.Controllers
 {
+
     public class TokenController
     {
         private readonly IMediator mediator;

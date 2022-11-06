@@ -11,6 +11,7 @@
 
         public async Task<IEnumerable<SelectModel>> Handle(GetDefectByFilter request, CancellationToken cancellationToken)
         {
+            
             return await context.Defects
                 .Where(x => x.EntityStatus == EntityStatuses.Active)
                 .Select(x => new SelectModel()
