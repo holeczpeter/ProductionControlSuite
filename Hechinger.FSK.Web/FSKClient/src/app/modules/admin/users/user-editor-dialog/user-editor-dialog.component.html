@@ -28,14 +28,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="row pt-2">
-            <mat-form-field class="col">
-              <input matInput [formControlName]="'password'" [placeholder]="'password' | translate" />
-              <mat-error class="col" *ngIf="formGroup.get('password')?.hasError('required')">
-                {{'password'| translate}} {{'required' | translate}}
-              </mat-error>
-            </mat-form-field>
-          </div>
+
           <div class="row pt-2">
             <mat-form-field class="col">
               <mat-select [formControlName]="'roleId'" [placeholder]="'roleName' | translate" required>
@@ -60,6 +53,56 @@
               </mat-error>
             </mat-form-field>
           </div>
+          <div class="row pt-4" [ngClass]="{'hidden': formGroup.get('password')?.disabled}">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'password'" [placeholder]="'password' | translate" [type]="hide ? 'password' : 'text'" />
+              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              <mat-error *ngIf="formGroup.get('password')?.hasError('hasNumber')">
+                A jelszónak tartalmaznia kell számot!
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('password')?.hasError('hasCapitalCase')">
+                A jelszónak tartalmaznia kell egy nagybetűs karaktert!
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('password')?.hasError('hasSmallCase')">
+                A jelszónak tartalmaznia kell egy kisbetűs karaktert!
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('password')?.hasError('minlength')">
+                A jelszónak legalább 8 karakter hosszúnak kell lennie!
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('password')?.hasError('required')">
+                {{'password'| translate}} {{'required' | translate}}
+              </mat-error>
+              <mat-hint class="mat-error"
+                        *ngIf="formGroup.get('password')?.value != formGroup.get('passwordRe')?.value">
+                A két jelszó nem egyezik!
+              </mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="row pt-4" [ngClass]="{'hidden': formGroup.get('password')?.disabled}">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'passwordRe'" [placeholder]="'password' | translate" [type]="hideRe ? 'password' : 'text'" />
+              <mat-icon matSuffix (click)="hideRe = !hideRe">{{hideRe ? 'visibility_off' : 'visibility'}}</mat-icon>
+              <mat-error *ngIf="formGroup.get('passwordRe')?.hasError('hasNumber')">
+                A jelszónak tartalmaznia kell számot!
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('passwordRe')?.hasError('hasCapitalCase')">
+                A jelszónak tartalmaznia kell egy nagybetűs karaktert!
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('passwordRe')?.hasError('hasSmallCase')">
+                A jelszónak tartalmaznia kell egy kisbetűs karaktert!
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('passwordRe')?.hasError('minlength')">
+                A jelszónak legalább 8 karakter hosszúnak kell lennie!
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('passwordRe')?.hasError('required')">
+                {{'password'| translate}} {{'required' | translate}}
+              </mat-error>
+              <mat-hint class="mat-error"
+                        *ngIf="formGroup.get('password')?.value != formGroup.get('passwordRe')?.value">
+                A két jelszó nem egyezik!
+              </mat-hint>
+            </mat-form-field>
+          </div>
         </form>
         </div>
     </mat-tab>
@@ -67,7 +110,7 @@
   </mat-tab-group>
 </mat-dialog-content>
 <div mat-dialog-actions>
-  <button mat-raised-button cdkFocusInitial color="blue" (click)="onSave()" [disabled]="!formGroup.valid">{{'save'| translate}} </button>
+  <button mat-raised-button cdkFocusInitial color="blue" (click)="onSave()"  [disabled]="!formGroup.valid || formGroup.get('password')?.value != formGroup.get('passwordRe')?.value">{{'save'| translate}} </button>
   <button mat-stroked-button color="blue" (click)="onCancel()">{{'cancel'| translate}} </button>
 </div>
 

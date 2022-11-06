@@ -16,8 +16,8 @@ namespace Hechinger.FSK.Application.Features
         public async Task<Result<bool>> Handle(UpdateRole request, CancellationToken cancellationToken)
         {
             var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
-            var defaultRole = await context.Roles.Where(x => x.IsDefault && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync();
-            var currentRole = await context.Roles.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync();
+            var defaultRole = await context.Roles.Where(x => x.IsDefault && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
+            var currentRole = await context.Roles.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (currentRole == null)
             {
                 result.Errors.Add("A szerepkör nem található");
@@ -33,7 +33,7 @@ namespace Hechinger.FSK.Application.Features
                 currentRole.IsDefault = request.IsDefault;
 
                 //Menu
-                var currentMenuRole = this.context.MenuRoles.Where(x => x.RoleId == currentRole.Id).ToList();
+                var currentMenuRole = this.context.MenuRoles.Where(x => x.RoleId == currentRole.Id && x.EntityStatus == EntityStatuses.Active).ToList();
                 var deletedMenuIds = currentMenuRole.Select(x => x.MenuId).Except(request.Menu.Select(x => x.Id));
                 var deletedMenu = currentMenuRole.Where(x => deletedMenuIds.Contains(x.MenuId));
                 this.context.MenuRoles.RemoveRange(deletedMenu);
@@ -44,7 +44,7 @@ namespace Hechinger.FSK.Application.Features
                     currentRoleAndMenu.RoleId = currentRole.Id;
                     currentRoleAndMenu.MenuId = menu.Id;
                     var state = this.context.Entry(currentRoleAndMenu).State;
-                    if (state != EntityState.Modified && state != EntityState.Unchanged) await this.context.MenuRoles.AddAsync(currentRoleAndMenu);
+                    if (state != EntityState.Modified && state != EntityState.Unchanged) await this.context.MenuRoles.AddAsync(currentRoleAndMenu, cancellationToken);
                 }
 
                 var currentUsers = await this.context.Users.Where(x => x.RoleId == currentRole.Id).ToListAsync();
@@ -54,7 +54,7 @@ namespace Hechinger.FSK.Application.Features
                 {
                     removedUser.RoleId = defaultRole.Id;
                 }
-                var addedUsers = await this.context.Users.Where(x => x.RoleId != currentRole.Id && request.Users.Select(u => u.Id).Contains(x.Id)).ToListAsync();
+                var addedUsers = await this.context.Users.Where(x => x.RoleId != currentRole.Id && request.Users.Select(u => u.Id).Contains(x.Id) && x.EntityStatus == EntityStatuses.Active).ToListAsync(cancellationToken);
                 foreach (var added in addedUsers)
                 {
                     added.Role = currentRole;

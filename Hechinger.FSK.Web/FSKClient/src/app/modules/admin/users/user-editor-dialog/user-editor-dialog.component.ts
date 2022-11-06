@@ -7,6 +7,7 @@ import { LanguageDataService } from '../../../../services/data/language-data.ser
 import { RoleDataService } from '../../../../services/data/role-data.service';
 import { UserDataService } from '../../../../services/data/user-data.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
+import { CustomValidator } from '../../../../validators/custom-validator';
 
 @Component({
   selector: 'app-user-editor-dialog',
@@ -19,7 +20,9 @@ export class UserEditorDialogComponent implements OnInit {
   formGroup: UntypedFormGroup;
   roles!: RoleModel[];
   languages!: LanguageModel[];
-  accessWorkshops!: Array<WorkshopUserItem>
+  accessWorkshops!: Array<WorkshopUserItem>;
+  hide = true;
+  hideRe = true;
   constructor(private readonly dialogRef: MatDialogRef<UserEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: UserModel,
     private readonly userDataService: UserDataService,
@@ -35,15 +38,27 @@ export class UserEditorDialogComponent implements OnInit {
       lastName: [this.data ? this.data.lastName : '', [Validators.required]],
       code: [this.data ? this.data.code : '', [Validators.required]],
       roleId: [this.data ? this.data.roleId : '', [Validators.required]],
-      password: [null],
+      password: [{ value: null, disabled: this.data }, Validators.compose([
+        Validators.required,
+        CustomValidator.patternValidator(/\d/, { hasNumber: true }),
+        CustomValidator.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
+        CustomValidator.patternValidator(/[a-z]/, { hasSmallCase: true }),
+        Validators.minLength(8)])
+      ],
+      passwordRe: [{ value: null, disabled: this.data },  Validators.compose([
+        Validators.required,
+        CustomValidator.patternValidator(/\d/, { hasNumber: true }),
+        CustomValidator.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
+        CustomValidator.patternValidator(/[a-z]/, { hasSmallCase: true }),
+        Validators.minLength(8)])
+      ],
       languageId: [this.data ? this.data.languageId : '', [Validators.required]],
     });
     if (this.formGroup && this.data) {
-      this.formGroup.get('password')!.clearValidators() 
+      this.formGroup.get('password')!.clearValidators();
+      this.formGroup.get('passwordRe')!.clearValidators()
     }
-    else if (this.formGroup && this.data == null) {
-      this.formGroup.get('password')!.setValidators(Validators.required);
-    }
+    
     
   }
 
@@ -85,7 +100,6 @@ export class UserEditorDialogComponent implements OnInit {
       code: this.formGroup.get('code')?.value,
       firstName: this.formGroup.get('firstName')?.value,
       lastName: this.formGroup.get('lastName')?.value,
-      password: this.formGroup.get('password')?.value,
       roleId: this.formGroup.get('roleId')?.value,
       languageId: this.formGroup.get('languageId')?.value,
       workshops: this.accessWorkshops,

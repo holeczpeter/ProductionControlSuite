@@ -10,7 +10,7 @@
         public async Task<int> Handle(GetProductsCount request, CancellationToken cancellationToken)
         {
 
-            return await this.context.SummaryCards.CountAsync();
+            return await this.context.SummaryCards.CountAsync(cancellationToken);
         }
     }
 }

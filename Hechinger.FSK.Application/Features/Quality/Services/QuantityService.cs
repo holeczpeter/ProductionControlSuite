@@ -12,10 +12,10 @@
 
         public async Task<IEnumerable<QuantityOperationReportModel>> Get(int productId, DateTime start, DateTime end, CancellationToken cancellationToken)
         {
-            var operations = await this.context.Operations.Where(p => p.ProductId == productId).ToListAsync();
+            var operations = await this.context.Operations.Where(p => p.ProductId == productId && p.EntityStatus == EntityStatuses.Active).ToListAsync(cancellationToken);
 
 
-            var result = await this.context.Operations.Where(p => p.ProductId == productId)
+            var result = await this.context.Operations.Where(p => p.ProductId == productId && p.EntityStatus == EntityStatuses.Active)
                 .Select(op => new QuantityOperationReportModel()
                 {
                     OperationId = op.Id,
@@ -23,7 +23,7 @@
                     OperationCode = op.Code,
                     OperationTranslatedName = !String.IsNullOrEmpty(op.TranslatedName) ? op.TranslatedName : op.Name,
                     Days = op.SummaryCards
-                        .Where(sc => sc.Date >= start && sc.Date <= end).AsEnumerable()
+                        .Where(sc => sc.Date >= start && sc.Date <= end  sc.EntityStatus == EntityStatuses.Active).AsEnumerable()
                         .GroupBy(sc => new { Date = sc.Date.Date, Shift = sc.ShiftId })
                         .Select(g => new QuantityDayReportModel()
                         {
@@ -39,7 +39,7 @@
                         DefectCode = d.Code,
                         DefectTranslatedName = !String.IsNullOrEmpty(d.TranslatedName) ? d.TranslatedName : d.Name,
                         DefectCategory = d.DefectCategory,
-                        Days = d.SummaryCardItems.Where(sc => sc.SummaryCard.Date.Date >= start.Date && sc.SummaryCard.Date.Date <= end.Date).ToList()
+                        Days = d.SummaryCardItems.Where(sc => sc.SummaryCard.Date.Date >= start.Date && sc.SummaryCard.Date.Date <= end.Date &&  sc.EntityStatus == EntityStatuses.Active).ToList()
                         .GroupBy(sc => new { Date = sc.SummaryCard.Date.Date, Shift = sc.SummaryCard.ShiftId }).Select(sc => new QuantityDayReportModel()
                         {
 

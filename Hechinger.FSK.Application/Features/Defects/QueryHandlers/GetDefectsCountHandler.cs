@@ -10,7 +10,7 @@
         public async Task<int> Handle(GetDefectsCount request, CancellationToken cancellationToken)
         {
 
-            return await this.context.Defects.CountAsync();
+            return await this.context.Defects.CountAsync(cancellationToken);
         }
     }
 }

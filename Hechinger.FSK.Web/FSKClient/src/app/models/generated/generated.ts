@@ -593,7 +593,6 @@ export interface UpdateUser {
   lastName: string,
   roleId: number,
   languageId: number,
-  password: string,
   workshops: Array<WorkshopUserItem>,
 }
 export interface UserModel {

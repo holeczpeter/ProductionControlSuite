@@ -19,7 +19,7 @@
                     TranslatedShortName = x.ShortName,
                     Start = x.Start,
                     End = x.End,
-                }).FirstOrDefaultAsync();
+                }).FirstOrDefaultAsync(cancellationToken);
         }
     }
 }

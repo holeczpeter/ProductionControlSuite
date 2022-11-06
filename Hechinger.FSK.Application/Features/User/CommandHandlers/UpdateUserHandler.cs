@@ -12,7 +12,7 @@ namespace Hechinger.FSK.Application.Features
         public async Task<Result<bool>> Handle(UpdateUser request, CancellationToken cancellationToken)
         {
             var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
-            var current = await context.Users.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync();
+            var current = await context.Users.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (current == null)
             {
                 result.Errors.Add("A felhasználó nem található");
@@ -26,23 +26,14 @@ namespace Hechinger.FSK.Application.Features
                 current.RoleId = request.RoleId;
                 current.LanguageId = request.LanguageId;
 
-                if (request.Password != null) 
-                {
-                    var salt = Salt.Create();
-                    var hash = Hash.Create(request.Password, salt);
-                    bool isValid = Hash.Validate(request.Password, salt, hash);
-                    current.Password = hash;
-                    current.Salt = salt;
-                    current.IsTemporary = true;
-                    current.ChangePass = DateTime.Now;
-                }
+              
                 //Workshops
-                var currentRelation = await this.context.WorkShopUsers.Where(x => x.UserId == current.Id).ToListAsync();
+                var currentRelation = await this.context.WorkShopUsers.Where(x => x.UserId == current.Id).ToListAsync(cancellationToken);
                 var removedIds = currentRelation.Select(x => x.WorkShopId).Except(request.Workshops.Select(x => x.Id));
                 var removedRelations = currentRelation.Where(x => removedIds.Contains(x.WorkShopId));
                 this.context.RemoveRange(removedRelations);
 
-                var requestWorkshops = await this.context.WorkShops.Where(x => request.Workshops.Select(w => w.Id).Contains(x.Id)).ToListAsync();
+                var requestWorkshops = await this.context.WorkShops.Where(x => request.Workshops.Select(w => w.Id).Contains(x.Id)).ToListAsync(cancellationToken);
                 var addedRelation = requestWorkshops.Select(x => x.Id).Except(currentRelation.Select(x => x.WorkShopId));
                 foreach (var item in addedRelation)
                 {
@@ -51,7 +42,7 @@ namespace Hechinger.FSK.Application.Features
                         User = current,
                         WorkShopId = item,
                     };
-                    await this.context.AddAsync(newRelation);
+                    await this.context.AddAsync(newRelation, cancellationToken);
                 }
 
                 await context.SaveChangesAsync(cancellationToken);

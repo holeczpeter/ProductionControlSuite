@@ -23,6 +23,6 @@
         [Required]
         public string Password { get; set; }
 
-        public IEnumerable<WorkshopUserItem> Workshops { get; set; }
+        public IEnumerable<WorkshopUserItem> Workshops { get; set; } = Enumerable.Empty<WorkshopUserItem>();
     }
 }

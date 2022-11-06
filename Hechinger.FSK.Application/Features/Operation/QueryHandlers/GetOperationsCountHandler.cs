@@ -10,7 +10,7 @@
         public async Task<int> Handle(GetOperationsCount request, CancellationToken cancellationToken)
         {
 
-            return await this.context.Operations.CountAsync();
+            return await this.context.Operations.CountAsync(cancellationToken);
         }
     }
 }

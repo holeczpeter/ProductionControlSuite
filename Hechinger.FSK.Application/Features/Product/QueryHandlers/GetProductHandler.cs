@@ -25,7 +25,7 @@
                     Norma = operation.Norma,
                     OperationTime = operation.OperationTime,    
                 }),  
-            }).FirstOrDefaultAsync();
+            }).FirstOrDefaultAsync(cancellationToken);
         }
     }
 }

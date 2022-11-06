@@ -10,7 +10,7 @@
         public async Task<Result<bool>> Handle(DeleteShift request, CancellationToken cancellationToken)
         {
             var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
-            var current = await context.Shifts.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync();
+            var current = await context.Shifts.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (current == null)
             {
                 result.Errors.Add("A műszak nem található");

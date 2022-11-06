@@ -14,7 +14,7 @@
                 Id = x.Id,
                 Name = x.Name,
                 TranslatedName = x.TranslatedName,
-            }).FirstOrDefaultAsync();
+            }).FirstOrDefaultAsync(cancellationToken);
         }
     }
 }

@@ -14,9 +14,7 @@
         public int RoleId { get; set; }
         [Required]
         public int LanguageId { get; set; }
-      
-        public string Password { get; set; }
 
-        public IEnumerable<WorkshopUserItem> Workshops { get; set; }
+        public IEnumerable<WorkshopUserItem> Workshops { get; set; } = Enumerable.Empty<WorkshopUserItem>();
     }
 }

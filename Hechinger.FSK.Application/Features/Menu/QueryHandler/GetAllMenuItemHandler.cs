@@ -21,7 +21,7 @@ namespace Hechinger.FSK.Application.Features
                 Path = menu.Path,
                 ParentId = menu.ParentId,
                 Type = menu.MenuType
-            }).ToListAsync();
+            }).ToListAsync(cancellationToken);
 
             var result = menus.GenerateTree(i => i.Id, i => i.ParentId);
             return result;

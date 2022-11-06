@@ -10,7 +10,7 @@
         public async Task<Result<bool>> Handle(UpdateSummaryCard request, CancellationToken cancellationToken)
         {
             var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
-            var currentCard = await this.context.SummaryCards.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync();
+            var currentCard = await this.context.SummaryCards.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (currentCard == null)
             {
                 result.Errors.Add("A hibagyűjtő nem található");
@@ -26,7 +26,7 @@
 
             foreach (var item in request.Items)
             {
-                var currentItem = await this.context.SummaryCardItem.Where(x => x.Id == item.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync();
+                var currentItem = await this.context.SummaryCardItem.Where(x => x.Id == item.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
                 if (currentItem == null)
                 {
                     result.Errors.Add("A hibagyűjtő hiba tétele nem található");

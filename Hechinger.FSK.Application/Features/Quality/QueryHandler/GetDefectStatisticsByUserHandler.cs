@@ -17,7 +17,9 @@
                                where c.Date.Date >= request.StartDate &&
                                      c.Date <= request.EndDate &&
                                      c.WorkerCode == request.WorkerCode &&
-                                     c.OperationId == request.OperationId
+                                     c.OperationId == request.OperationId &&
+                                     c.EntityStatus == EntityStatuses.Active &&
+                                     i.EntityStatus == EntityStatuses.Active
                                select new
                                {
                                    DefectId= i.Defect.Id,

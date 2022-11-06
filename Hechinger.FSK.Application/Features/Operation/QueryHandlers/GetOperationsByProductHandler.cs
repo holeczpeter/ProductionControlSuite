@@ -21,7 +21,7 @@
                 ProductName = x.Product.Name,
                 ProductCode = x.Product.Code,
                 HasDefect = x.Defects.Any(),
-            }).ToListAsync();
+            }).ToListAsync(cancellationToken);
         }
     }
 }

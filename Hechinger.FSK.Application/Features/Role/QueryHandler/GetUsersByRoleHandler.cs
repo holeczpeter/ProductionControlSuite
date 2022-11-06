@@ -9,13 +9,13 @@
         }
         public async Task<IEnumerable<RoleUserItem>> Handle(GetUsersByRole request, CancellationToken cancellationToken)
         {
-            return await this.context.Users.Where(x => x.RoleId == request.RoleId)
+            return await this.context.Users.Where(x => x.RoleId == request.RoleId && x.EntityStatus == EntityStatuses.Active)
                 .Select(x => new RoleUserItem()
                 {
                     Id = x.Id,
                     Code = x.Code,
                     FullName = x.FullName,
-                }).ToListAsync();
+                }).ToListAsync(cancellationToken);
         }
     }
 }

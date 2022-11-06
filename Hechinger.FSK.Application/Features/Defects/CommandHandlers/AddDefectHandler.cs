@@ -10,7 +10,7 @@
         public async Task<Result<bool>> Handle(AddDefect request, CancellationToken cancellationToken)
         {
             var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
-            var currentOperation = await this.context.Operations.Where(x => x.Id == request.OperationId && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync();
+            var currentOperation = await this.context.Operations.Where(x => x.Id == request.OperationId && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             var current = new Defect()
             {
                 Name = request.Name,

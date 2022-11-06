@@ -17,8 +17,7 @@
                 .Select(x => new WorkerModel()
                 {
                     WorkerCode = x.Key,
-                })
-                .ToListAsync();
+                }).ToListAsync(cancellationToken);
         }
     }
 }

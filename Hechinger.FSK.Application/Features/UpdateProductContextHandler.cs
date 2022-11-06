@@ -11,14 +11,14 @@
         {
             var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
    
-            var currentWorkShop = await this.context.WorkShops.Where(x => x.Id == request.WorkshopId && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync();
+            var currentWorkShop = await this.context.WorkShops.Where(x => x.Id == request.WorkshopId && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (currentWorkShop == null)
             {
                 result.Errors.Add("A műhely nem található");
                 return result;
             }
 
-            var currentProduct = await context.Products.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync();
+            var currentProduct = await context.Products.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (currentProduct == null) currentProduct = new Product();
             currentProduct.Name = request.Name;
             currentProduct.Code = request.Code;
@@ -26,19 +26,19 @@
             currentProduct.WorkShop = currentWorkShop;
             
             var productState = this.context.Entry(currentProduct).State;
-            if (productState != EntityState.Modified && productState != EntityState.Unchanged) await this.context.Products.AddAsync(currentProduct);
+            if (productState != EntityState.Modified && productState != EntityState.Unchanged) await this.context.Products.AddAsync(currentProduct, cancellationToken);
         
 
 
             //Műveletek
-            var currentOperations = await this.context.Operations.Where(x => x.ProductId == request.Id).ToListAsync();
+            var currentOperations = await this.context.Operations.Where(x => x.ProductId == request.Id && x.EntityStatus == EntityStatuses.Active).ToListAsync(cancellationToken);
             var removedIds = currentOperations.Select(x => x.Id).Except(request.Operations.Select(x => x.Id));
             var removedOperation = currentOperations.Where(x => removedIds.Contains(x.Id));
             this.context.RemoveRange(removedOperation);
 
             foreach (var item in request.Operations)
             {
-                var currentOperation = await this.context.Operations.Where(x => x.Id == item.Id).FirstOrDefaultAsync(cancellationToken);
+                var currentOperation = await this.context.Operations.Where(x => x.Id == item.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
                 if (currentOperation == null) currentOperation = new Operation();
                 currentOperation.Name = item.Name;
                 currentOperation.Code = item.Code;
@@ -47,18 +47,17 @@
                 currentOperation.OperationTime = item.OperationTime;
                 currentOperation.Product = currentProduct;
                 var operationState = this.context.Entry(currentOperation).State;
-                if (operationState != EntityState.Modified && operationState != EntityState.Unchanged) await this.context.Operations.AddAsync(currentOperation);
-                await this.context.AddAsync(currentOperation);
-
+                if (operationState != EntityState.Modified && operationState != EntityState.Unchanged) await this.context.Operations.AddAsync(currentOperation, cancellationToken);
+              
 
                 //Hibák
-                var currentDefects = await this.context.Defects.Where(x => x.OperationId == currentOperation.Id).ToListAsync();
+                var currentDefects = await this.context.Defects.Where(x => x.OperationId == currentOperation.Id && x.EntityStatus == EntityStatuses.Active).ToListAsync(cancellationToken);
                 var removedDefectIds = currentDefects.Select(x => x.Id).Except(item.Defects.Select(x => x.Id));
                 var removedDefect = currentDefects.Where(x => removedDefectIds.Contains(x.Id));
                 this.context.RemoveRange(removedOperation);
                 foreach (var defect in item.Defects)
                 {
-                    var currentDefect = await this.context.Defects.Where(x => x.Id == defect.Id).FirstOrDefaultAsync(cancellationToken);
+                    var currentDefect = await this.context.Defects.Where(x => x.Id == defect.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
                     if (currentDefect == null) currentDefect = new Defect();
                     currentDefect.Name = defect.Name;
                     currentDefect.Code = defect.Code;
@@ -66,8 +65,8 @@
                     currentDefect.DefectCategory = defect.DefectCategory;
                     currentDefect.Operation = currentOperation;
                     var defectState = this.context.Entry(currentDefect).State;
-                    if (defectState != EntityState.Modified && operationState != EntityState.Unchanged) await this.context.Defects.AddAsync(currentDefect);
-                    await this.context.AddAsync(currentDefect);
+                    if (defectState != EntityState.Modified && operationState != EntityState.Unchanged) await this.context.Defects.AddAsync(currentDefect, cancellationToken);
+                  
                 }
             }
 

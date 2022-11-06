@@ -24,7 +24,7 @@
                 StatusName = u.EntityStatus.GetDescription()
                 
 
-            }).ToListAsync();
+            }).ToListAsync(cancellationToken);
         }
     }
 }

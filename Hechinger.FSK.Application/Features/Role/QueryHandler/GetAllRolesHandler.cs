@@ -17,7 +17,7 @@
                 TranslatedName = u.TranslatedName,
                 IsDefault = u.IsDefault,    
 
-            }).ToListAsync();
+            }).ToListAsync(cancellationToken);
         }
     }
     

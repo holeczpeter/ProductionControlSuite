@@ -13,7 +13,7 @@ namespace Hechinger.FSK.Application.Features
         {
             var result = new UserDataModel() { UserInfo = new UserInfo() };
             var code = request.Code.Trim().ToLower();
-            var currentUser = await this.context.Users.Where(x => x.Code.ToLower() == code).FirstOrDefaultAsync();
+            var currentUser = await this.context.Users.Where(x => x.Code.ToLower() == code.ToLower()).FirstOrDefaultAsync(cancellationToken);
             if (currentUser == null || currentUser.EntityStatus != EntityStatuses.Active)
             {
                 result.LoginStatus = LoginResults.NotExistUser;

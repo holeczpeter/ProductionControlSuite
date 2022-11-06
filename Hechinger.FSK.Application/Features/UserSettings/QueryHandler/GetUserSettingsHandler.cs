@@ -15,13 +15,13 @@ namespace Hechinger.FSK.Application.Features
         }
         public async Task<UserSettingsModel> Handle(GetUserSettings request, CancellationToken cancellationToken)
         {
-            return await this.context.Users.Where(u => u.Id == request.Id).Select(u => new UserSettingsModel()
+            return await this.context.Users.Where(u => u.Id == request.Id && u.EntityStatus == EntityStatuses.Active).Select(u => new UserSettingsModel()
             {
                 Id = u.Id,
                 PageSize = u.PageSize,
                 LanguageId = u.Language.Id,
 
-            }).FirstOrDefaultAsync();
+            }).FirstOrDefaultAsync(cancellationToken);
         }
     }
 }

@@ -17,7 +17,9 @@
                          join i in this.context.SummaryCardItem on c.Id equals i.SummaryCardId
                          where c.Date.Date >= startDate &&
                                c.Date <= endDate &&
-                               c.Operation.ProductId == request.ProductId
+                               c.Operation.ProductId == request.ProductId &&
+                               c.EntityStatus == EntityStatuses.Active &&
+                               i.EntityStatus == EntityStatuses.Active
                                select new 
                                {
                                    Date = c.Date,
@@ -25,7 +27,7 @@
                                    DefectQuantity = i.Quantity,
                                    Category = i.Defect.DefectCategory
                                }
-                       ).ToListAsync();
+                       ).ToListAsync(cancellationToken);
             var groups = items.GroupBy(p => new { Category = p.Category }).Select(g => new MonthlyQualityModel
             {
                 Category  = g.Key.Category,

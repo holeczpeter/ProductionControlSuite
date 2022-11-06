@@ -20,7 +20,7 @@
                 OperationCode = x.Operation.Code,
                 OperationName = x.Operation.Name,
 
-            }).FirstOrDefaultAsync();
+            }).FirstOrDefaultAsync(cancellationToken);
         }
     }
 }

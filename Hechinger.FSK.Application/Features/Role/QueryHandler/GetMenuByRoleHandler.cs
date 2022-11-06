@@ -18,7 +18,7 @@ namespace Hechinger.FSK.Application.Features
                 ParentId = menu.ParentId,
                 Type = menu.MenuType,
                 IsEnabled = menu.MenuRoles.Where(mr=> mr.RoleId == request.RoleId).Any()
-            }).ToListAsync();
+            }).ToListAsync(cancellationToken);
 
             var result = menus.GenerateTree(i => i.Id, i => i.ParentId);
             return result;

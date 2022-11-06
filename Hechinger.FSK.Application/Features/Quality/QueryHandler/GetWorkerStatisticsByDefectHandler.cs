@@ -16,13 +16,16 @@
                          join i in this.context.SummaryCardItem on c.Id equals i.SummaryCardId
                          where c.Date.Date >= request.StartDate &&
                                c.Date <= request.EndDate &&
-                               i.DefectId == request.DefectId 
+                               i.DefectId == request.DefectId &&
+                               c.EntityStatus == EntityStatuses.Active &&
+                               i.EntityStatus == EntityStatuses.Active
                                select new 
                                {
                                    WorkerCode = c.WorkerCode,
                                    Quantity = c.Quantity,
                                    DefectQuantity = i.Quantity
                                }).ToListAsync(cancellationToken);
+
             var result = items.GroupBy(item => new { WorkerCode = item.WorkerCode }).Select(x => new WorkerStatisticModel()
             {
                 WorkerCode = x.Key.WorkerCode,

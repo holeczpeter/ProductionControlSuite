@@ -17,7 +17,7 @@ namespace Hechinger.FSK.Application.Features
         public async Task<Result<bool>> Handle(UpdateUserSettings request, CancellationToken cancellationToken)
         {
             var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
-            var user = await this.context.Users.Where(x=>x.Id == request.Id).FirstOrDefaultAsync(cancellationToken);
+            var user = await this.context.Users.Where(x=>x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (user == null)
             {
                 result.Errors.Add("A felhasználó nem található");
