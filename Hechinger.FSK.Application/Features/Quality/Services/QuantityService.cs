@@ -23,7 +23,7 @@
                     OperationCode = op.Code,
                     OperationTranslatedName = !String.IsNullOrEmpty(op.TranslatedName) ? op.TranslatedName : op.Name,
                     Days = op.SummaryCards
-                        .Where(sc => sc.Date >= start && sc.Date <= end  sc.EntityStatus == EntityStatuses.Active).AsEnumerable()
+                        .Where(sc => sc.Date >= start && sc.Date <= end  && sc.EntityStatus == EntityStatuses.Active).AsEnumerable()
                         .GroupBy(sc => new { Date = sc.Date.Date, Shift = sc.ShiftId })
                         .Select(g => new QuantityDayReportModel()
                         {
