@@ -9,6 +9,7 @@
         }
         public async Task<IEnumerable<WorkerModel>> Handle(GetAllWorker request, CancellationToken cancellationToken)
         {
+
             return await context.SummaryCards
                 .Where(x => x.EntityStatus == EntityStatuses.Active)
                 .Select(x => x.WorkerCode)

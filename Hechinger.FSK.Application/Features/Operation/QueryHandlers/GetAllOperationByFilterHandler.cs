@@ -3,16 +3,21 @@
     public class GetAllOperationByFilterHandler : IRequestHandler<GetOperationByFilter, IEnumerable<SelectModel>>
     {
         private readonly FSKDbContext context;
-        public GetAllOperationByFilterHandler(FSKDbContext context)
+        private readonly IPermissionService permissionService;
+        public GetAllOperationByFilterHandler(FSKDbContext context, IPermissionService permissionService)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.permissionService = permissionService ?? throw new ArgumentNullException(nameof(permissionService));
+            
         }
 
 
         public async Task<IEnumerable<SelectModel>> Handle(GetOperationByFilter request, CancellationToken cancellationToken)
         {
+            var permittedOperation = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
             return await context.Operations
-                .Where(x => x.EntityStatus == EntityStatuses.Active)
+                .Where(x => x.EntityStatus == EntityStatuses.Active &&
+                           permittedOperation.Contains(x.Product.WorkShopId))
                 .Select(x => new SelectModel()
                 {
                     Id = x.Id,

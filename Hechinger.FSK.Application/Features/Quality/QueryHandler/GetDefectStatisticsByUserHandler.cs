@@ -4,6 +4,7 @@
     {
         private readonly FSKDbContext context;
         private readonly IQualityService qualityService;
+
         public GetDefectStatisticsByUserHandler(FSKDbContext context, IQualityService qualityService)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
@@ -11,7 +12,7 @@
         }
         public async Task<IEnumerable<DefectStatisticModel>> Handle(GetDefectStatisticsByUser request, CancellationToken cancellationToken)
         {
-
+           
             var items = await (from c in this.context.SummaryCards
                                join i in this.context.SummaryCardItem on c.Id equals i.SummaryCardId
                                where c.Date.Date >= request.StartDate &&

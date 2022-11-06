@@ -3,17 +3,22 @@
     internal class GetDefectByFilterHandler : IRequestHandler<GetDefectByFilter, IEnumerable<SelectModel>>
     {
         private readonly FSKDbContext context;
-        public GetDefectByFilterHandler(FSKDbContext context)
+        private readonly IPermissionService permissionService;
+        public GetDefectByFilterHandler(FSKDbContext context, IPermissionService permissionService)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.permissionService = permissionService ?? throw new ArgumentNullException(nameof(permissionService));
         }
 
 
         public async Task<IEnumerable<SelectModel>> Handle(GetDefectByFilter request, CancellationToken cancellationToken)
         {
-            
+
+
+            var permittedDefects = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
             return await context.Defects
-                .Where(x => x.EntityStatus == EntityStatuses.Active)
+                .Where(x => x.EntityStatus == EntityStatuses.Active &&
+                            permittedDefects.Contains(x.Operation.Product.WorkShopId))
                 .Select(x => new SelectModel()
                 {
                     Id = x.Id,

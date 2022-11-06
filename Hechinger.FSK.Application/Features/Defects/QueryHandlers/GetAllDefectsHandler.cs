@@ -14,10 +14,10 @@ namespace Hechinger.FSK.Application.Features
         public async Task<IEnumerable<DefectModel>> Handle(GetAllDefect request, CancellationToken cancellationToken)
         {
             
-            var permittedDefects = await this.permissionService.GetPermissionToDefects(cancellationToken);
+            var permittedDefects = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
             return await context.Defects
-                .Where(x => x.EntityStatus == EntityStatuses.Active &&  
-                            permittedDefects.Contains(x.Id))
+                .Where(x => x.EntityStatus == EntityStatuses.Active &&
+                           permittedDefects.Contains(x.Operation.Product.WorkShopId))
                 .Select(x => new DefectModel()
                 {
                     Id = x.Id,

@@ -3,14 +3,18 @@
     public class GetAllProductHandler : IRequestHandler<GetAllProducts, IEnumerable<ProductModel>>
     {
         private readonly FSKDbContext context;
-        public GetAllProductHandler(FSKDbContext context)
+        private readonly IPermissionService permissionService;
+        public GetAllProductHandler(FSKDbContext context, IPermissionService permissionService)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.permissionService = permissionService ?? throw new ArgumentNullException(nameof(permissionService));
         }
         public async Task<IEnumerable<ProductModel>> Handle(GetAllProducts request, CancellationToken cancellationToken)
         {
+            var permittedProducts = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
             return await context.Products
-                .Where(x => x.EntityStatus == EntityStatuses.Active)
+                .Where(x => x.EntityStatus == EntityStatuses.Active &&
+                            permittedProducts.Contains(x.WorkShopId))
                 .Select(x => new ProductModel()
                 {
                     Id = x.Id,

@@ -4,15 +4,18 @@
     {
         private readonly FSKDbContext context;
         private readonly IOperationCache cache;
-        public GetAllOperationHandler(FSKDbContext context, IOperationCache cache)
+        private readonly IPermissionService permissionService;
+        public GetAllOperationHandler(FSKDbContext context, IOperationCache cache, IPermissionService permissionService)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
             this.cache = cache ?? throw new ArgumentNullException(nameof(cache));
+            this.permissionService = permissionService ?? throw new ArgumentNullException(nameof(permissionService));
         }
         public async Task<IEnumerable<OperationModel>> Handle(GetAllOperation request, CancellationToken cancellationToken)
         {
+            var permittedOperation = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
             return await this.context.Operations
-                .Where(x => x.EntityStatus == EntityStatuses.Active)
+                .Where(x => x.EntityStatus == EntityStatuses.Active && permittedOperation.Contains(x.Product.WorkShopId))
                 .Select(x => new OperationModel()
                 {
                     Id = x.Id,

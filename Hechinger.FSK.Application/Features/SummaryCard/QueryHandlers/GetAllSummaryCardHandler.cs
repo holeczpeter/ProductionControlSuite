@@ -3,13 +3,16 @@
     public class GetAllSummaryCardHandler : IRequestHandler<GetAllSummaryCards, IEnumerable<SummaryCardModel>>
     {
         private readonly FSKDbContext context;
-        public GetAllSummaryCardHandler(FSKDbContext context)
+        private readonly IPermissionService permissionService;
+        public GetAllSummaryCardHandler(FSKDbContext context, IPermissionService permissionService)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.permissionService = permissionService ?? throw new ArgumentNullException(nameof(permissionService));
         }
         public async Task<IEnumerable<SummaryCardModel>> Handle(GetAllSummaryCards request, CancellationToken cancellationToken)
         {
-            return await this.context.SummaryCards.Where(x => x.EntityStatus == EntityStatuses.Active)
+            var permittedOperations = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
+            return await this.context.SummaryCards.Where(x => x.EntityStatus == EntityStatuses.Active && permittedOperations.Contains(x.Operation.Product.WorkShopId))
                 .Select(x => new SummaryCardModel()
                 {
                     Id = x.Id,
