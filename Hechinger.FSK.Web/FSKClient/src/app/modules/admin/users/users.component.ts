@@ -12,6 +12,7 @@ import { UserDataService } from '../../../services/data/user-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { CompareService } from '../../../services/sort/sort.service';
 import { TableFilterService } from '../../../services/table/table-filter.service';
+import { ChangePasswordEditorDialogComponent } from './change-password-editor-dialog/change-password-editor-dialog.component';
 import { UserEditorDialogComponent } from './user-editor-dialog/user-editor-dialog.component';
 
 @Component({
@@ -26,7 +27,7 @@ export class UsersComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array<string> = ['fullName', 'code', 'roleName','languageName', 'statusName', 'edit', 'delete']
+  columnNames: Array<string> = ['fullName', 'code', 'roleName','languageName', 'statusName','password', 'edit', 'delete']
   title = "users.title";
   filterableColumns: Array<TableColumn> = [
     {
@@ -126,6 +127,17 @@ export class UsersComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }
+  onChangePassword(data: UserModel) {
+
+    let dialogRef = this.dialog.open(ChangePasswordEditorDialogComponent, {
+      disableClose: true,
+      autoFocus: false,
+      data: data,
+      minWidth: '600px'
+    });
+    dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
+  }
+
   onEdit(data: UserModel) {
   
     let dialogRef = this.dialog.open(UserEditorDialogComponent, {

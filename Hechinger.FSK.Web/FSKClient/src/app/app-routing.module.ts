@@ -4,20 +4,12 @@ import { AuthGuard } from './guards/auth.guard';
 import { LayoutComponent } from './layout/layout/layout.component';
 
 const routes: Routes = [
-  {
-    path: 'account',
-    loadChildren: () => import('./modules/account/account.module').then(module => module.AccountModule),
-  },
-  {
-    path: '',
-    redirectTo: 'account',
-    pathMatch: 'full'
-  },
+
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [AuthGuard],
     canLoad: [AuthGuard],
-    canActivateChild: [AuthGuard],
     children: [
       {
         path: 'home',
@@ -56,11 +48,19 @@ const routes: Routes = [
         canActivateChild: [AuthGuard],
       },
       {
-        path: '**',
+        path: '',
         redirectTo: 'home',
         pathMatch: 'full'
       }
     ]
+  },
+  {
+    path: 'account',
+    loadChildren: () => import('./modules/account/account.module').then(module => module.AccountModule),
+  },
+  {
+    path: '**',
+    redirectTo: ''
   },
 ];
 

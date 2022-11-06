@@ -39,6 +39,10 @@ export interface ChangePassword {
   oldPassword: string,
   newPassword: string,
 }
+export interface ChangePasswordByAdmin {
+  code: string,
+  newPassword: string,
+}
 export interface ForgotPassword {
   code: string,
 }
