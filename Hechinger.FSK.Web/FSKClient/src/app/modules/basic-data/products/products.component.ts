@@ -153,20 +153,17 @@ export class ProductsComponent implements OnInit, AfterViewInit{
     let dialogRef = this.dialog.open(ProductWizardEditorComponent, {
       disableClose: true,
       autoFocus: false,
-      data: null,
+      data: 0,
       minWidth: '750px'
     });
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }
   onEditContext(data: ProductModel) {
-    let productEditorModel: ProductEditorModel = {
-      productModel: data,
-      isCopy: false
-    }
+   
     let dialogRef = this.dialog.open(ProductWizardEditorComponent, {
       disableClose: true,
       autoFocus: false,
-      data: productEditorModel,
+      data: data.id,
       minWidth: '750px'
     });
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });

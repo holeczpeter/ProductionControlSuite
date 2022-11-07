@@ -1,0 +1,19 @@
+<mat-accordion *ngIf="productContext">
+  <ng-container *ngFor="let operation of productContext.operations">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{operation.name}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{operation.code}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-defect-context-element-editor [operation]="operation"
+                                         [categories]="categories"
+                                         (resfreshOperation)="refreshOperation($event)">
+      </app-defect-context-element-editor>
+    </mat-expansion-panel>
+  </ng-container>
+</mat-accordion>
+

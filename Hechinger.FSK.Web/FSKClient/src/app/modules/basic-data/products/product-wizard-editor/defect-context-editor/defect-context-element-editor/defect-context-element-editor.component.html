@@ -1,5 +1,5 @@
-<!--<form [formGroup]="formGroup" *ngIf="formGroup">
-  <div formArrayName="items" *ngFor="let item of itemsFormArray.controls; let i = index">
+<form [formGroup]="formGroup" *ngIf="formGroup">
+  <div formArrayName="defects" *ngFor="let item of itemsFormArray.controls; let i = index">
     <mat-card [formGroupName]="i" class="defect-card">
       <div class="flex-defect">
         <div class="form-div">
@@ -57,4 +57,5 @@
       <mat-icon>add</mat-icon>
     </button>
   </div>
-</form>-->
+</form>
+

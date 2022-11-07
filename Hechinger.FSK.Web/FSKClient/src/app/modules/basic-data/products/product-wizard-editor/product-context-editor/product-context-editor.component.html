@@ -1,0 +1,41 @@
+<form [formGroup]="formGroup" *ngIf="formGroup">
+   <div class="row pt-2">
+     <mat-form-field class="col">
+       <input matInput [formControlName]="'name'" [placeholder]="'name' | translate" required />
+       <mat-error class="col" *ngIf="formGroup.get('name')?.hasError('required')">
+         {{'name'| translate}} {{'required' | translate}}
+       </mat-error>
+     </mat-form-field>
+   </div>
+   <div class="row pt-2">
+     <mat-form-field class="col">
+       <input matInput [formControlName]="'code'" [placeholder]="'code' | translate" required />
+       <mat-error class="col" *ngIf="formGroup.get('code')?.hasError('required')">
+         {{'code'| translate}} {{'required' | translate}}
+       </mat-error>
+     </mat-form-field>
+   </div>
+   <div class="row pt-2">
+     <mat-form-field class="col">
+       <input matInput [formControlName]="'translatedName'" [placeholder]="'translatedName' | translate" required />
+       <mat-error class="col" *ngIf="formGroup.get('translatedName')?.hasError('required')">
+         {{'translatedName'| translate}} {{'required' | translate}}
+       </mat-error>
+     </mat-form-field>
+   </div>
+   <div class="row pt-2">
+     <mat-form-field>
+       <mat-select [formControlName]="'workshop'" [placeholder]="'workshopName' | translate" #singleSelect required>
+         <mat-option>
+           <ngx-mat-select-search [formControl]="filterCtrl"></ngx-mat-select-search>
+         </mat-option>
+         <mat-option *ngFor="let option of filtered | async" [value]="option">
+           {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
+         </mat-option>
+       </mat-select>
+       <mat-error *ngIf="formGroup.get('workshop')?.hasError('required')">
+         {{'workshopName'| translate}} {{'required' | translate}}
+       </mat-error>
+     </mat-form-field>
+   </div>
+ </form>

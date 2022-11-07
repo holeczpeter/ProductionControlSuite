@@ -24,10 +24,6 @@ export class OperationDataService {
     return this.httpClient.post<Result>('/Operation/Update', request)
   }
 
-  saveContext(request: SaveOperationContext): Observable<Result> {
-    return this.httpClient.post<Result>('/Operation/SaveOperationContext', request)
-  }
- 
   delete(request: DeleteOperation): Observable<Result> {
     return this.httpClient.post<Result>('/Operation/Delete', request)
   }

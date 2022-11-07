@@ -24,10 +24,6 @@ export class DefectDataService {
     return this.httpClient.post<Result>('/Defect/Update', model)
   }
 
-  saveContext(request: SaveDefectContext): Observable<Result> {
-    return this.httpClient.post<Result>('/Defect/SaveDefectContext', request)
-  }
-
   delete(model: DeleteDefect): Observable<Result> {
     return this.httpClient.post<Result>('/Defect/Delete', model)
   }

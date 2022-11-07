@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddProduct, DeleteProduct, GetProduct, ProductModel, Result, SelectModel, UpdateProduct } from '../../models/generated/generated';
+import { AddProduct, DeleteProduct, GetProduct, GetProductContext, ProductContext, ProductModel, Result, SaveProductContext, SelectModel, UpdateProduct } from '../../models/generated/generated';
 import { DefectFilterService } from '../table/defect-filter.service';
 import { PaginationService } from '../table/pagination.service';
 import { SortService } from '../table/sort.service';
@@ -23,7 +23,9 @@ export class ProductDataService {
   update(request: UpdateProduct): Observable<Result> {
     return this.httpClient.post<Result>('/Product/Update', request)
   }
- 
+  saveProductContext(request: SaveProductContext): Observable<Result> {
+    return this.httpClient.post<Result>('/Product/SaveProductContext', request)
+  }
   delete(request: DeleteProduct): Observable<Result> {
     return this.httpClient.post<Result>('/Product/Delete', request)
   }
@@ -34,6 +36,14 @@ export class ProductDataService {
       {
         id: request.id,
       }});
+  }
+  getProductContext(request: GetProductContext): Observable<ProductContext> {
+    return this.httpClient.get<ProductContext>('/Product/GetProductContext', {
+      params:
+      {
+        id: request.id,
+      }
+    });
   }
   getByFilter(filter: string): Observable<Array<SelectModel>> {
     return this.httpClient.get<Array<SelectModel>> ('/Product/GetByFilter', {

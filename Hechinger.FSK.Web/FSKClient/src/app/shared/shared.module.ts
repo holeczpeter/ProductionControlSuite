@@ -57,8 +57,6 @@ import { DialogHeaderComponent } from './dialog-header/dialog-header.component';
 import { IntervalViewComponent } from './interval-view/interval-view.component';
 import { LoaderComponent } from './loader/loader.component';
 import { TitleComponent } from './title/title.component';
-import { OperationListEditorComponent } from './operation-list-editor/operation-list-editor.component';
-import { DefectListEditorComponent } from './defect-list-editor/defect-list-editor.component';
 
 @NgModule({
   declarations: [
@@ -73,8 +71,6 @@ import { DefectListEditorComponent } from './defect-list-editor/defect-list-edit
     CategoryPipe,
     DateWithNamePipe,
     SumCategoryPipe,
-    OperationListEditorComponent,
-    DefectListEditorComponent
   ],
   imports: [
     CommonModule,
@@ -179,9 +175,7 @@ import { DefectListEditorComponent } from './defect-list-editor/defect-list-edit
     ShiftNamePipe,
     CategoryPipe,
     DateWithNamePipe,
-    SumCategoryPipe,
-    OperationListEditorComponent,
-    DefectListEditorComponent
+    SumCategoryPipe
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },

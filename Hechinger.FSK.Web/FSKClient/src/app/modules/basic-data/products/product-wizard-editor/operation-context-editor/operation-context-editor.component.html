@@ -5,7 +5,7 @@
         <div class="form-div">
           <div class="row">
             <mat-form-field>
-              <input matInput [formControlName]="'name'" [placeholder]="'name' | translate" required/>
+              <input matInput [formControlName]="'name'" [placeholder]="'name' | translate" required />
               <mat-error class="col" *ngIf="itemsFormArray.controls[i].get('name')?.hasError('required')">
                 {{'name'| translate}} {{'required' | translate}}
               </mat-error>
@@ -32,11 +32,11 @@
             <div class="flex-operation">
               <mat-form-field>
                 <input matInput type="number" [formControlName]="'norma'" [placeholder]="'operations.norma' | translate" />
-              
+
               </mat-form-field>
               <mat-form-field class="col">
                 <input matInput type="number" [formControlName]="'operationTime'" [placeholder]="'operations.operationTime' | translate" />
-                
+
               </mat-form-field>
             </div>
           </div>
@@ -59,3 +59,4 @@
     </button>
   </div>
 </form>
+
