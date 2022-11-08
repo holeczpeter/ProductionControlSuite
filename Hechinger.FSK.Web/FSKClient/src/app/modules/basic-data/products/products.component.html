@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="flex-title">
     <app-title class="flex-title-item" [title]="title"></app-title>
-    <button mat-flat-button (click)="onAdd()" color="primary"> {{'add' | translate}} </button>
+    <!--<button mat-flat-button (click)="onAdd()" color="primary"> {{'add' | translate}} </button>-->
     <button mat-flat-button (click)="onAddContext()" color="primary"> {{'add' | translate}} </button>
     <button mat-icon-button (click)="onExport()" color="primary"> <mat-icon>download</mat-icon> </button>
   </div>
@@ -39,7 +39,7 @@
         <button type="button"
                 mat-icon-button
                 color="primary"
-                (click)="onEdit(element)">
+                (click)="onEditContext(element)">
           <mat-icon mat-list-icon [color]="'primary'">edit</mat-icon>
         </button>
       </td>

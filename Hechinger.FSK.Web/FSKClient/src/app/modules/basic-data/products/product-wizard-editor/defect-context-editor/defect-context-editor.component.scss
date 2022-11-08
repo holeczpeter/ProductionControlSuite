@@ -1,0 +1,20 @@
+.flex-defect {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+
+.form-div {
+  flex-grow: 4;
+}
+
+.operation-card {
+  margin-bottom: 10px;
+}
+.mat-accordion .mat-expansion-panel {
+  margin-bottom: 10px;
+}

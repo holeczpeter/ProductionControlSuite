@@ -1,8 +1,8 @@
-<form [formGroup]="formGroup" *ngIf="formGroup">
+<form [formGroup]="productContextService.formGroup" *ngIf="productContextService.formGroup">
    <div class="row pt-2">
      <mat-form-field class="col">
        <input matInput [formControlName]="'name'" [placeholder]="'name' | translate" required />
-       <mat-error class="col" *ngIf="formGroup.get('name')?.hasError('required')">
+       <mat-error class="col" *ngIf="productContextService.formGroup.get('name')?.hasError('required')">
          {{'name'| translate}} {{'required' | translate}}
        </mat-error>
      </mat-form-field>
@@ -10,7 +10,7 @@
    <div class="row pt-2">
      <mat-form-field class="col">
        <input matInput [formControlName]="'code'" [placeholder]="'code' | translate" required />
-       <mat-error class="col" *ngIf="formGroup.get('code')?.hasError('required')">
+       <mat-error class="col" *ngIf="productContextService.formGroup.get('code')?.hasError('required')">
          {{'code'| translate}} {{'required' | translate}}
        </mat-error>
      </mat-form-field>
@@ -18,7 +18,7 @@
    <div class="row pt-2">
      <mat-form-field class="col">
        <input matInput [formControlName]="'translatedName'" [placeholder]="'translatedName' | translate" required />
-       <mat-error class="col" *ngIf="formGroup.get('translatedName')?.hasError('required')">
+       <mat-error class="col" *ngIf="productContextService.formGroup.get('translatedName')?.hasError('required')">
          {{'translatedName'| translate}} {{'required' | translate}}
        </mat-error>
      </mat-form-field>
@@ -33,7 +33,7 @@
            {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
          </mat-option>
        </mat-select>
-       <mat-error *ngIf="formGroup.get('workshop')?.hasError('required')">
+       <mat-error *ngIf="productContextService.formGroup.get('workshop')?.hasError('required')">
          {{'workshopName'| translate}} {{'required' | translate}}
        </mat-error>
      </mat-form-field>

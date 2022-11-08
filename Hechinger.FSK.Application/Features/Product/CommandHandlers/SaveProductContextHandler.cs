@@ -54,8 +54,8 @@
 
                 //Törlés
                 var currentDefects = await this.context.Defects.Where(x => x.OperationId == currentOperation.Id && x.EntityStatus == EntityStatuses.Active).ToListAsync(cancellationToken);
-                var deletedDefectIds = currentOperations.Select(x => x.Id).Except(operation.Defects.Select(x => x.Id));
-                var deletedDefects = currentOperations.Where(x => deletedDefectIds.Contains(x.Id));
+                var deletedDefectIds = currentDefects.Select(x => x.Id).Except(operation.Defects.Select(x => x.Id));
+                var deletedDefects = currentDefects.Where(x => deletedDefectIds.Contains(x.Id));
                 foreach (var deletedDefect in deletedDefects)
                 {
                     deletedDefect.EntityStatus = EntityStatuses.Deleted;

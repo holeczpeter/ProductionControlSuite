@@ -3,23 +3,18 @@
   <mat-stepper orientation="horizontal" #mystepper class="product-stepper">
     <mat-step state="perm_data_setting" label="{{'products.edit'| translate}}" errorMessage="{{'product'| translate}} {{'required' | translate}}">
       <ng-template matStepContent>
-        <app-product-context-editor
-                                    [productContext]="product"
-                                    [workshops]="workshops"
-                                    (refreshProduct)="refreshProduct($event)"></app-product-context-editor>
+        <app-product-context-editor>
+        </app-product-context-editor>
       </ng-template>
     </mat-step>
     <mat-step state="supervisor_account"
               label="{{'operations.title'| translate}}">
-      <app-operation-context-editor [productContext]="product"
-                                    (refreshProduct)="refreshProduct($event)">
+      <app-operation-context-editor>
       </app-operation-context-editor>
     </mat-step>
     <mat-step state="playlist_add_check"
               label="{{'defects.title'| translate}}">
-      <app-defect-context-editor [productContext]="product"
-                                 [categories]="categories"
-                                 (refreshProduct)="refreshProduct($event)">
+      <app-defect-context-editor>
       </app-defect-context-editor>
     </mat-step>
     <ng-template matStepperIcon="perm_data_setting">
@@ -33,24 +28,27 @@
     </ng-template>
   </mat-stepper>
 </mat-dialog-content>
-<div mat-dialog-actions *ngIf="stepper">
+<div mat-dialog-actions *ngIf="stepper" [ngClass]="stepper.selectedIndex !== 0 ? 'stepper-buttons' : 'stepper-buttons-flex-end'">
   <ng-container *ngIf="stepper.selectedIndex == 0">
     <button mat-raised-button
             color="blue"
-            (click)="goForwardAndSaveProduct(stepper)">
-      {{ 'nextandsave' | translate}}
+            [disabled]="productContextService.formGroup && (!productContextService.formGroup.valid)"
+            (click)="goForward(stepper)">
+      {{ 'next' | translate}}
     </button>
   </ng-container>
   <ng-container *ngIf="stepper.selectedIndex == 1">
     <button mat-stroked-button
             color="blue"
+            
             (click)="goBack(stepper)">
       {{ 'back' | translate }}
     </button>
     <button mat-raised-button
             color="blue"
-            (click)="goForwardAndSaveProduct(stepper)">
-      {{ 'nextandsave' | translate}}
+            [disabled]="productContextService.formGroup && (!productContextService.formGroup.valid)"
+            (click)="goForward(stepper)">
+      {{ 'next' | translate}}
     </button>
   </ng-container>
   <ng-container *ngIf="stepper.selectedIndex == 2">
@@ -61,48 +59,9 @@
     </button>
     <button mat-raised-button
             color="blue"
+            [disabled]="productContextService.formGroup && (!productContextService.formGroup.valid)"
             (click)="goForwardAndSaveProduct(stepper)">
       {{ 'save' | translate}}
     </button>
   </ng-container>
-
 </div>
-
-
-<!--<ng-container *ngIf="stepper.selectedIndex == 0">
-  <button mat-raised-button
-          color="blue"
-          (click)="goForwardAndSaveProduct(stepper)"-->
-            <!--[disabled]="formGroup && (!formGroup.valid)"-->
-            <!-->
-      {{ 'nextandsave' | translate}}
-    </button>
-</ng-container>
-<ng-container *ngIf="stepper.selectedIndex == 1">
-  <button mat-stroked-button
-          color="blue"
-          (click)="goBack(stepper)">
-    {{ 'back' | translate }}
-  </button>
-  <button mat-raised-button
-          color="blue"-->
-            <!--(click)="goForwardAndSaveOperations(stepper)"-->
-            <!--[disabled]="!operationsIsValid"-->
-            <!-->
-      {{ 'nextandsave' | translate}}
-    </button>
-</ng-container>
-<ng-container *ngIf="stepper.selectedIndex == 2">
-  <button mat-stroked-button
-          color="blue"
-          (click)="goBack(stepper)">
-    {{ 'back' | translate }}
-  </button>
-  <button mat-raised-button
-          color="blue"-->
-            <!--(click)="goForwardAndSaveDefects(stepper)"
-            [disabled]="!defectsIsValid"-->
-            <!-->
-      {{ 'save' | translate}}
-    </button>
-</ng-container>-->

@@ -1,4 +1,122 @@
-<mat-accordion *ngIf="productContext">
+<form [formGroup]="productContextService.formGroup" *ngIf="productContextService.formGroup">
+  <div formArrayName="operations">
+    <mat-accordion *ngFor="let item of productContextService.getOperations.controls; let i = index" [formGroupName]="i">
+      <ng-container>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ (languageService.getCurrentLanguage() | async) == 'hu' ? productContextService.getOperations.controls[i].get('name')?.value : productContextService.getOperations.controls[i].get('translatedName')?.value}}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{productContextService.getOperations.controls[i].get('code')?.value}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+     
+          <div formArrayName="defects">
+            <div *ngFor="let defect of productContextService.getDefects(i).controls; let j = index"
+                 [formGroupName]="j">
+              <div class="flex-defect">
+                <div class="form-div">
+                  <div class="row">
+                    <mat-form-field>
+                      <input matInput [formControlName]="'name'" [placeholder]="'name' | translate" required />
+                      <mat-error class="col" *ngIf="productContextService.getDefects(i).controls[j].get('name')?.hasError('required')">
+                        {{'name'| translate}} {{'required' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="row">
+                    <mat-form-field>
+                      <input matInput [formControlName]="'code'" [placeholder]="'code' | translate" required />
+                      <mat-error class="col" *ngIf="productContextService.getDefects(i).controls[j].get('code')?.hasError('required')">
+                        {{'code'| translate}} {{'required' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="row">
+                    <mat-form-field class="col">
+                      <input matInput [formControlName]="'translatedName'" [placeholder]="'translatedName' | translate" required />
+                      <mat-error class="col" *ngIf="productContextService.getDefects(i).controls[j].get('translatedName')?.hasError('required')">
+                        {{'translatedName'| translate}} {{'required' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="row">
+                    <mat-form-field class="col">
+                      <mat-select [formControlName]="'defectCategory'" [placeholder]="'defects.defectCategory' | translate" required>
+                        <mat-option *ngFor="let option of productContextService.getCategories() | async" [value]="option.id">
+                          {{ option.name }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error class="col" *ngIf="productContextService.getDefects(i).controls[j].get('defectCategory')?.hasError('required')">
+                        {{'defects.defectCategory'| translate}} {{'required' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div>
+                  <button type="button"
+                          mat-icon-button
+                          color="primary"
+                          (click)="productContextService.removeDefect(j,i)">
+                    <mat-icon mat-list-icon [color]="'primary'">delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <mat-divider></mat-divider>
+            </div>
+            
+            <div class="row justify-content-center">
+              <button mat-fab color="primary" (click)="productContextService.addDefect(null,i)">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </ng-container>
+    </mat-accordion>
+    </div>
+
+
+    <!--<div formArrayName="operations">
+      <div *ngFor="let item of productContextService.getOperations.controls; let i = index" [formGroupName]="i">
+       
+      </div>
+    </div>-->
+
+
+
+</form>
+
+
+<!--<mat-accordion *ngIf="formGroup">
+  <form [formGroup]="formformGroup">
+    <div formArrayName="operations">
+      <div *ngFor="let operation of getOperations.controls; let i = index"
+           [formGroupName]="i">
+        
+        <div formArrayName="daySchedule">
+          <div *ngFor="let scheduleEvent of getDaySchedule(i).controls; let j = index"
+               [formGroupName]="j">
+            <input type="text"
+                   formControlName="time"
+                   placeholder="Enter the event's scheduled time" />
+
+            <input type="text"
+                   formControlName="name"
+                   placeholder="Enter the event's name" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+<pre>
+{{form?.value|json}}
+</pre>
+
+
   <ng-container *ngFor="let operation of productContext.operations">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -15,5 +133,5 @@
       </app-defect-context-element-editor>
     </mat-expansion-panel>
   </ng-container>
-</mat-accordion>
+</mat-accordion>-->
 
