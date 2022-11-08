@@ -26,7 +26,7 @@
         public string DefectName { get; set; }
         public string DefectTranslatedName { get; set; }
         public DefectCategories DefectCategory { get; set; }
-        public int PPM =>  Days.Select(x=>x.PPM).Sum();
+        public int PPM => Days != null ? Days.Select(x=>x.PPM).Sum() : 0;
         public int DefectQuantity => Days != null ?  Days.Select(x => x.DefectQuantity).Sum() : 0;
         public IEnumerable<QuantityDayReportModel> Days { get; set; } = new List<QuantityDayReportModel>();
     }
@@ -36,7 +36,6 @@
         public DateTime Date { get; set; }
         public int ShiftId { get; set; }
         public int DefectQuantity { get; set; }
-        public int Quantity { get; set; }
         public int PPM { get; internal set; }
     }
 }

@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
-import { debounceTime, distinctUntilChanged, ReplaySubject, Subject, Subscription, takeUntil } from 'rxjs';
-import { DefectCategories, GetQuantityReport, IntervalModel, IntervalOption, QuantityOperationReportModel, SelectModel, ShiftModel, Views } from '../../../models/generated/generated';
+import { debounceTime, distinctUntilChanged, forkJoin, ReplaySubject, Subject, Subscription, takeUntil } from 'rxjs';
+import { DefectCategories, EnumModel, GetQuantityReport, IntervalModel, IntervalOption, QuantityOperationReportModel, SelectModel, ShiftModel, Views } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
+import { DefectDataService } from '../../../services/data/defect-data.service';
 import { ProductDataService } from '../../../services/data/product-data.service';
 import { QualityDataService } from '../../../services/data/quality-data.service';
 import { ShiftDataService } from '../../../services/data/shift-data.service';
@@ -51,9 +52,11 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
   title = "qualityreport.title";
   
   shifts: ShiftModel[];
+  categories: EnumModel[];
  
   constructor(private readonly qualityDataService: QualityDataService,
     private readonly productDataService: ProductDataService,
+    private readonly defectDataService: DefectDataService,
     public languageService: LanguageService,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly shiftDataServie: ShiftDataService,
@@ -61,9 +64,12 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.shiftDataServie.getAll().subscribe(shifts => {
+    forkJoin([this.shiftDataServie.getAll(), this.defectDataService.getAllDefectCategories()]).subscribe(([shifts, categories]) => {
       this.shifts = shifts;
+      this.categories = categories;
+
     });
+   
     this.selectedView = this.intervalOptions.find(x => x.isDefault)!.value;
     if (this.monthDataSubscription) this.monthDataSubscription.unsubscribe();
     if (this.intervalSubscription) this.intervalSubscription.unsubscribe();
@@ -102,6 +108,7 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
       }
       this.qualityDataService.getQuantityReport(request).subscribe(reportModel => {
         this.quantityReportModels = reportModel;
+        console.log(this.quantityReportModels)
       });
     };
   }

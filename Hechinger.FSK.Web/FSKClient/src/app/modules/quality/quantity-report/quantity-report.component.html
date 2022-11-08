@@ -23,6 +23,7 @@
     <ng-container *ngFor="let option of quantityReportModels">
       <app-daily-operation-quantity [model]="option"
                                     [interval]="currentInterval"
+                                    [categories]="categories"
                                     [shifts]="shifts">
       </app-daily-operation-quantity>
     </ng-container>

@@ -1,5 +1,5 @@
 import { Component, DoCheck, Input, IterableDiffer, IterableDiffers, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { DefectCategories, IntervalModel, QuantityOperationReportModel, ShiftModel } from '../../../../models/generated/generated';
+import { DefectCategories, EnumModel, IntervalModel, QuantityOperationReportModel, ShiftModel } from '../../../../models/generated/generated';
 import { addDays } from 'date-fns';
 import format from 'date-fns/fp/format';
 import { MatTableDataSource } from '@angular/material/table';
@@ -23,7 +23,7 @@ export class DailyOperationQuantityComponent implements OnInit, OnChanges, DoChe
   @Input() model: QuantityOperationReportModel;
   @Input() interval: IntervalModel;
   @Input() shifts: ShiftModel[];
-  categories = Object.values(DefectCategories).filter((v) => !isNaN(Number(v)));
+  @Input() categories: EnumModel[];
   columnsToDisplay: string[];
   displayedColumns: string[];
   dayHeaders: TableHeader[];
@@ -34,6 +34,10 @@ export class DailyOperationQuantityComponent implements OnInit, OnChanges, DoChe
   shiftQuantityColumns: string[];
   dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
   private _differ: IterableDiffer<any>;
+  categorySumHeaders: TableHeader[];
+  categoryPpmHeaders: TableHeader[];
+  categorySumColumns: string[];
+  categoryPpmColumns: string[];
   constructor(public languageService: LanguageService,
     private differs: IterableDiffers,
     private readonly shiftDataServie: ShiftDataService) {
@@ -47,14 +51,16 @@ export class DailyOperationQuantityComponent implements OnInit, OnChanges, DoChe
   }
   ngDoCheck(): void {
     var changes = this._differ.diff(this.shifts);
+    var changes2 = this._differ.diff(this.categories);
     if (changes) this.createTable();
+    if (changes2) this.createTable();
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['model'] && changes['interval'] && this.model && this.interval) this.createTable();
    
   }
   createTable() {
-    if (this.interval && this.model && this.shifts) {
+    if (this.interval && this.model && this.shifts && this.categories) {
       this.dataSource = new MatTableDataSource();
 
       this.columnsToDisplay = new Array<string>();
@@ -64,10 +70,15 @@ export class DailyOperationQuantityComponent implements OnInit, OnChanges, DoChe
       this.shiftQuantityHeaders = new Array<TableHeader>();
       this.dayColumns = new Array<string>();
       this.shiftColumns = new Array<string>();
+      this.categorySumHeaders = new Array<TableHeader>();
+      this.categoryPpmHeaders = new Array<TableHeader>();
+      this.categorySumColumns = new Array<string>();
+      this.categoryPpmColumns = new Array<string>();
       let rows = new Array<TableColumn>();
 
       this.createHeaders();
       this.model.defects.forEach((defect, index) => {
+       
         const row = new TableColumn();
         row['defect'] = { id: defect.defectId, code: defect.defectCode, name: defect.defectName, translatedName: defect.defectTranslatedName };
         for (let i = 0; i <= this.interval.differenceInCalendarDays; i++) {
@@ -86,13 +97,20 @@ export class DailyOperationQuantityComponent implements OnInit, OnChanges, DoChe
 
             this.categories.forEach((c, catIndex) => {
               let currentDefectQuantity = currentDateObjects.find(x => x.shiftId == this.shifts[j].id);
-              let defectQuantity = c == defect.defectCategory && currentDefectQuantity ? currentDefectQuantity.defectQuantity : '';
-              row[currentDate.toString() + "_" + this.shifts[j].id + "_" + c] = { date: currentDate, shift: this.shifts[j].id, category: c, value: defectQuantity };
+              let defectQuantity = c.id == defect.defectCategory && currentDefectQuantity ? currentDefectQuantity.defectQuantity : '';
+              row[currentDate.toString() + "_" + this.shifts[j].id + "_" + c.id] = { date: currentDate, shift: this.shifts[j].id, category: c, value: defectQuantity };
 
             });
           }
         }
+        this.categories.forEach(c => {
+          row['sum_q_' + c.id] = defect.defectCategory == c.id ? defect.defectQuantity : 0;
+          row['sum_ppm_' + c.id] = defect.defectCategory == c.id ? defect.pPM : 0;
+         
+        });
+       
         rows.push(row);
+       
       });
       this.shiftQuantityColumns = [...this.shiftQuantityHeaders.map(x => x.id)];
       this.dayColumns = [...this.dayHeaders.map(x => x.id)];
@@ -101,6 +119,8 @@ export class DailyOperationQuantityComponent implements OnInit, OnChanges, DoChe
     }
   }
   createHeaders() {
+   
+   
     this.displayedColumns.push("defect");
     for (let i = 0; i <= this.interval.differenceInCalendarDays; i++) {
       let currentDate = addDays(this.interval.startDate, i);
@@ -109,10 +129,18 @@ export class DailyOperationQuantityComponent implements OnInit, OnChanges, DoChe
         this.shiftHeaders.push({ id: currentDate.toString() + "_" + this.shifts[j].id, value: { id: this.shifts[j].id, name: this.shifts[j].name, translatedName: this.shifts[j].translatedName } });
         this.shiftQuantityHeaders.push({ id: "q_" + currentDate.toString() + "_" + this.shifts[j].id, value:''});
         this.categories.forEach((c, catIndex) => {
-          this.displayedColumns.push(currentDate.toString() + "_" + this.shifts[j].id + "_" + c)
+          this.displayedColumns.push(currentDate.toString() + "_" + this.shifts[j].id + "_" + c.id)
         });
       }
     }
+    this.categories.forEach(x => {
+      this.displayedColumns.push('sum_q_' + x.id);
+      
+    });
+    this.categories.forEach(x => {
+      
+      this.displayedColumns.push('sum_ppm_' + x.id);
+    });
     this.columnsToDisplay = [...this.displayedColumns];
   }
 
@@ -148,4 +176,5 @@ export class DailyOperationQuantityComponent implements OnInit, OnChanges, DoChe
         return "#F35B5A";
     }
   }
+ 
 }
