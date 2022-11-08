@@ -1,0 +1,56 @@
+
+.example-container {
+  height: 60vh;
+  overflow: auto;
+}
+
+$table-cell-border: 1px solid #CCC;
+
+table {
+  width: 800px;
+  border-collapse: separate; // border collapse + sticky -> border gets left behind from the sticky element during scroll ..
+  border-spacing: 0; // .. we need to draw the borders manually.
+  
+}
+
+th.mat-header-cell, td.mat-cell {
+  border-right: $table-cell-border;
+}
+
+th.mat-header-cell:first-child, td.mat-cell:first-child {
+  border-left: $table-cell-border;
+}
+
+.mat-row {
+  height: 25px;
+}
+
+.mat-header-row {
+  height: 30px;
+}
+
+.defect-header {
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.category-header {
+  background: var(--background-color);
+}
+
+.mat-column-defect {
+  min-width: 300px;
+}
+
+.mat-paginator-sticky {
+  bottom: 0px;
+  position: sticky;
+  z-index: 10;
+}
+
+.fixed-column {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.54);
+  text-align: right;
+}

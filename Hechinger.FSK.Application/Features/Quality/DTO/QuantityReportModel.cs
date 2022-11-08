@@ -13,9 +13,11 @@
     }
     public class QuantityOperationDayModel : BaseModel
     {
+        public int OperationId { get; set; }
         public DateTime Date { get; set; }
         public int ShiftId { get; set; }
         public int Quantity { get; set; }
+      
     }
     public class QuantityDefectReportModel : BaseModel
     {
