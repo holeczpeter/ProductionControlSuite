@@ -13,7 +13,18 @@
         public async Task<IEnumerable<QuantityOperationReportModel>> Get(int productId, DateTime start, DateTime end, CancellationToken cancellationToken)
         {
             var operations = await this.context.Operations.Where(p => p.ProductId == productId && p.EntityStatus == EntityStatuses.Active).ToListAsync(cancellationToken);
-
+            var days = await this.context.SummaryCards
+                        .Where(sc => sc.Operation.ProductId == productId && 
+                                     sc.Date.Date >= start.Date.Date && sc.Date.Date <= end.Date.Date && 
+                                     sc.EntityStatus == EntityStatuses.Active)
+                        .Select(sc => new { Date = sc.Date, ShiftId = sc.ShiftId, Quantity = sc.Quantity, sc.EntityStatus })
+                        .GroupBy(sc => new { Date = sc.Date.Date, Shift = sc.ShiftId })
+                        .Select(g => new QuantityOperationDayModel()
+                        {
+                            Date = g.Key.Date,
+                            ShiftId = g.Key.Shift,
+                            Quantity = g.ToList().Select(x => x.Quantity).Sum(),
+                        }).ToListAsync(cancellationToken);
 
             var result = await this.context.Operations.Where(p => p.ProductId == productId && p.EntityStatus == EntityStatuses.Active)
                 .Select(op => new QuantityOperationReportModel()
@@ -22,16 +33,7 @@
                     OperationName = op.Name,
                     OperationCode = op.Code,
                     OperationTranslatedName = !String.IsNullOrEmpty(op.TranslatedName) ? op.TranslatedName : op.Name,
-                    Days = op.SummaryCards
-                        .Where(sc => sc.Date >= start && sc.Date <= end  && sc.EntityStatus == EntityStatuses.Active).AsEnumerable()
-                        .GroupBy(sc => new { Date = sc.Date.Date, Shift = sc.ShiftId })
-                        .Select(g => new QuantityDayReportModel()
-                        {
-                            Date = g.Key.Date,
-                            ShiftId = g.Key.Shift,
-                            DefectQuantity = g.SelectMany(i => i.SummaryCardItems).Select(i => i.Quantity).Sum(),
-                            Quantity = g.ToList().Select(x => x.Quantity).Sum(),
-                        }).ToList(),
+                    Days = days,
                     Defects = op.Defects.Select(d => new QuantityDefectReportModel()
                     {
                         DefectId = d.Id,
@@ -39,8 +41,8 @@
                         DefectCode = d.Code,
                         DefectTranslatedName = !String.IsNullOrEmpty(d.TranslatedName) ? d.TranslatedName : d.Name,
                         DefectCategory = d.DefectCategory,
-                        Days = d.SummaryCardItems.Where(sc => sc.SummaryCard.Date.Date >= start.Date && sc.SummaryCard.Date.Date <= end.Date &&  sc.EntityStatus == EntityStatuses.Active).ToList()
-                        .GroupBy(sc => new { Date = sc.SummaryCard.Date.Date, Shift = sc.SummaryCard.ShiftId }).Select(sc => new QuantityDayReportModel()
+                        Days = d.SummaryCardItems.Where(sc => sc.SummaryCard.Date >= start.Date && sc.SummaryCard.Date <= end.Date &&  sc.EntityStatus == EntityStatuses.Active)
+                        .GroupBy(sc => new { Date = sc.SummaryCard.Date, Shift = sc.SummaryCard.ShiftId }).Select(sc => new QuantityDayReportModel()
                         {
 
                             Date = sc.Key.Date,

@@ -40,7 +40,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'quality-assurance'
+    redirectTo: 'quantity-report'
   }
 ];
 

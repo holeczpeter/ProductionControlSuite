@@ -16,7 +16,7 @@
                 ShiftId = request.ShiftId,
                 OperationId = request.OperationId,
                 WorkerCode= request.Worker,
-                Date = request.Date,
+                Date = request.Date.Date,
                 LOS = request.Los,
                 Quantity = request.Quantity,
                 UserId = request.UserId,
