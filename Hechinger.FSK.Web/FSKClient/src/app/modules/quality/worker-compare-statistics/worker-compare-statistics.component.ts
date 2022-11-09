@@ -21,9 +21,9 @@ import { SnackbarService } from '../../../services/snackbar/snackbar.service';
   styleUrls: ['./worker-compare-statistics.component.scss']
 })
 export class WorkerCompareStatisticsComponent implements OnInit, OnDestroy {
-  formGroup: UntypedFormGroup;
+  
   title = "workercompare.title";
-
+  formGroup: UntypedFormGroup;
   products!: SelectModel[];
   public productFilterCtrl: FormControl = new FormControl();
   public filteredProducts: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);

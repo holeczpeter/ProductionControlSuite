@@ -57,7 +57,7 @@ import { DialogHeaderComponent } from './dialog-header/dialog-header.component';
 import { IntervalViewComponent } from './interval-view/interval-view.component';
 import { LoaderComponent } from './loader/loader.component';
 import { TitleComponent } from './title/title.component';
-
+import { NgxPrintModule } from 'ngx-print';
 @NgModule({
   declarations: [
     
@@ -118,6 +118,7 @@ import { TitleComponent } from './title/title.component';
     NgxMaskModule.forRoot(),
     NgChartsModule,
     NgxMatSelectSearchModule,
+    NgxPrintModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
@@ -175,7 +176,8 @@ import { TitleComponent } from './title/title.component';
     ShiftNamePipe,
     CategoryPipe,
     DateWithNamePipe,
-    SumCategoryPipe
+    SumCategoryPipe,
+    NgxPrintModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },

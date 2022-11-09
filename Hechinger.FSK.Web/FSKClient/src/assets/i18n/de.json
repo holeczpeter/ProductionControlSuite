@@ -47,6 +47,7 @@
   "defectName": "Fehler",
   "order": "Nr",
   "quantity": "Stückzahl",
+  "defectQuantity": "Fehler stückzahl",
   "comment": "Note",
   "date": "Daten",
   "year": "Jahr",
@@ -65,6 +66,7 @@
   "startDate": "Startdatum",
   "endDate": "Enddatum",
   "sum": "Summe",
+  "print": "Drucken",
   "workshops": {
     "title": "Werkstätte",
     "add": "Neue hinzufügen",

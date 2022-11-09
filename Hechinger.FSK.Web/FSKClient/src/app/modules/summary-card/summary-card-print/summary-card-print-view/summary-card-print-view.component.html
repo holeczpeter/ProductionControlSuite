@@ -1,0 +1,113 @@
+<button mat-icon-button
+        [useExistingCss]="true"
+        printSectionId="print-section"
+        ngxPrint color="primary">
+  <mat-icon>print
+  </mat-icon>
+</button>
+<div class="row" *ngIf="printableOperation"  id="print-section">
+  <div *ngFor="let number of [0,1]" class="col-6">
+    <table width='705' border='0'>
+      <td width='705' align='center'>
+        <table cellspacing='0' width='100%' style='border: thin solid black;'>
+          <tr height='20'>
+            <td rowspan='3' align='center' width='20%'></td>
+            <td rowspan='3' align='center' width='60%' bgcolor='lightgrey' style='border-left: thin solid black;border-right: thin solid black;'><font size='6' face='Arial'><b> {{ 'summarycard' | translate }}</b></font></td>
+            <td align='center' width='20%'>Azonosító sz.:</td>
+          </tr>
+          <tr height='20'>
+            <td align='center' width='20%'>BI-0035</td>
+          </tr>
+          <tr height='20'>
+            <td align='center' width='20%'>V:5/2006.10.31.</td>
+          </tr>
+        </table>
+        <br />
+        <table cellspacing='0' width='100%'>
+          <tr height='28'>
+            <td align='left' width='13%' style='border-bottom: thin dashed black;'>
+              {{'date'| translate }}:
+            </td>
+            <td width='20%' style='border-bottom: thin dashed black;'>&nbsp;</td>
+            <td align='left' width='13%' style='border-bottom: thin dashed black;'>
+             {{ 'quantity' | translate }}:
+            </td>
+            <td width='20%' style='border-bottom: thin dashed black;'>&nbsp;</td>
+            <td align='left' width='33%' style='border-bottom: thin dashed black;' colspan='4'>
+              {{ 'defectQuantity' | translate }}:
+            </td>
+          </tr>
+          <tr height='28'>
+            <td align='left' width='13%' style='border-bottom: thin dashed black;'>
+              {{ 'worker' | translate}}:
+            </td>
+            <td width='20%' style='border-bottom: thin dashed black;'>&nbsp;</td>
+            <td align='left' width='13%' style='border-bottom: thin dashed black;'>
+              {{ 'productName' | translate}}: 
+            </td>
+            <td width='20%' style='border-bottom: thin dashed black;' colspan='5'>
+              {{ printableOperation.productName }}
+            </td>
+          </tr>
+          <tr height='28'>
+            <td align='left' width='13%' style='border-bottom: thin dashed black;'>
+              {{ 'operationCode' | translate}}:
+            </td>
+            <td width='20%' style='border-bottom: thin dashed black;' align='center'>
+              {{ printableOperation.code }}
+            </td>
+            <td align='left' width='13%' style='border-bottom: thin dashed black;'>
+              {{'productCode'| translate}}:
+            </td>
+            <td width='20%' style='border-bottom: thin dashed black;' align='center'>
+              {{ printableOperation.productCode }}
+            </td>
+            <td align='left' width='18%' style='border-bottom: thin dashed black;'>
+              {{ 'shiftName'| translate }}
+            </td>
+            <td width='5%' align='center' style='border-bottom: thin dashed black;'>
+              1.
+            </td>
+            <td width='5%' align='center' style='border-bottom: thin dashed black;'>
+              2.
+            </td>
+            <td width='5%' align='center' style='border-bottom: thin dashed black;'>
+              3.
+            </td>
+          </tr>
+          <tr height='28'>
+            <td align='center' colspan='8'>
+              {{ 'operationName' | translate }} : {{ (languageService.getCurrentLanguage() | async) == 'hu' ? printableOperation.name : printableOperation.translatedName}}
+            </td>
+          </tr>
+        </table>
+        <table cellspacing='0' width='100%' style='border: thin solid black;'>
+          <tr>
+            <td align='center' width='5%' style='border: thin solid black;'>
+              <b>Nr.:</b>
+            </td>
+            <td align='center' width='60%' style='border: thin solid black;'>
+              <b>{{ 'defectName' | translate}}</b>
+            </td>
+            <td align='center' width='25%' style='border: thin solid black;'>
+              <b>{{ 'defectQuantity' | translate }}</b>
+            </td>
+            <td align='center' width='10%' style='border: thin solid black;'>
+              <b>{{ 'sum' | translate }}</b>
+            </td>
+          </tr>
+          <ng-container *ngFor="let defect of printableOperation?.defects">
+            <tr>
+              <td style='border-bottom: thin solid black;border-left: thin solid black; border-right: thin solid black; ' align='center' width='5%'></td>
+              <td style='border-bottom: thin solid black;' align='left' width='60%'>{{ (languageService.getCurrentLanguage() | async) == 'hu' ? defect.name : defect.translatedName}}</td>
+              <td style='border-bottom: thin solid black;border-left: thin solid black; border-right: thin solid black;' align='center' width='25%'></td>
+              <td style='border-bottom: thin solid black;border-right: thin solid black; ' align='center' width='10%'></td>
+            </tr>
+          </ng-container>
+         
+        </table>
+      </td>
+    </table>
+  </div>
+</div>
+

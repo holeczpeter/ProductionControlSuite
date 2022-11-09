@@ -60,6 +60,10 @@ namespace Hechinger.FSK.Web.Controllers
             HttpContext.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationMetadata));
             return Ok(result);
         }
-        
+        [HttpGet]
+        public async Task<OperationPrintModel> GetPrint(GetOperationPrint request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
     }
 }

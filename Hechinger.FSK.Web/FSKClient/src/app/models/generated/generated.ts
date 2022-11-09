@@ -238,12 +238,44 @@ export interface AddProduct {
 export interface DeleteProduct {
   id: number,
 }
+export interface SaveProductContext {
+  id: number,
+  name: string,
+  code: string,
+  translatedName: string,
+  workshopId: number,
+  operations: Array<OperationContext>,
+}
+export interface OperationContext {
+  id: number,
+  name: string,
+  translatedName: string,
+  code: string,
+  operationTime: any,
+  norma: any,
+  defects: Array<DefectContext>,
+}
 export interface UpdateProduct {
   id: number,
   name: string,
   code: string,
   translatedName: string,
   workshopId: number,
+}
+export interface ProductContext {
+  id: number,
+  name: string,
+  code: string,
+  translatedName: string,
+  workshopId: number,
+  operations: Array<OperationContext>,
+}
+export interface DefectContext {
+  id: number,
+  name: string,
+  translatedName: string,
+  code: string,
+  defectCategory: DefectCategories,
 }
 export interface ProductModel {
   id: number,
@@ -272,6 +304,9 @@ export interface GetProduct {
 }
 export interface GetProductByFilter {
   filter: string,
+}
+export interface GetProductContext {
+  id: number,
 }
 export interface GetProductsCount {
   parameters: RequestParameters,
@@ -330,7 +365,7 @@ export interface QuantityOperationReportModel {
   operationCode: string,
   quantity: number,
   defects: Array<QuantityDefectReportModel>,
-  days: Array<QuantityDayReportModel>,
+  days: Array<QuantityOperationDayModel>,
 }
 export interface QuantityDefectReportModel {
   defectId: number,
@@ -342,11 +377,16 @@ export interface QuantityDefectReportModel {
   defectQuantity: number,
   days: Array<QuantityDayReportModel>,
 }
+export interface QuantityOperationDayModel {
+  operationId: number,
+  date: Date,
+  shiftId: number,
+  quantity: number,
+}
 export interface QuantityDayReportModel {
   date: Date,
   shiftId: number,
   defectQuantity: number,
-  quantity: number,
   pPM: number,
 }
 export interface WorkerStatisticModel {
@@ -662,50 +702,25 @@ export interface GetAllWorkshops {
 export interface GetWorkshop {
   id: number,
 }
-export interface GetProductContext {
+export interface GetOperationPrint {
   id: number,
 }
-export interface ProductContext {
-  id: number,
-  name: string,
-  code: string,
-  translatedName: string,
-  workshopId: number,
-  operations: Array<OperationContext>,
-}
-export interface OperationContext {
+export interface OperationPrintModel {
   id: number,
   name: string,
   translatedName: string,
   code: string,
-  operationTime: any,
-  norma: any,
-  defects: Array<DefectContext>,
+  productId: number,
+  productName: string,
+  productCode: string,
+  defects: Array<DefectPrintModel>,
 }
-export interface DefectContext {
+export interface DefectPrintModel {
   id: number,
+  order: number,
   name: string,
   translatedName: string,
   code: string,
-  defectCategory: DefectCategories,
-}
-export interface SaveDefectContext {
-  items: Array<SaveDefectContextItem>,
-}
-export interface SaveDefectContextItem {
-  operationId: number,
-  defects: Array<UpdateDefect>,
-}
-export interface SaveOperationContext {
-  operations: Array<UpdateOperation>,
-}
-export interface SaveProductContext {
-  id: number,
-  name: string,
-  code: string,
-  translatedName: string,
-  workshopId: number,
-  operations: Array<OperationContext>,
 }
 export enum Views {
   Day = 0,

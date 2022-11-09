@@ -46,6 +46,7 @@
   "defectName": "Hiba megnevezés",
   "order": "Nr",
   "quantity": "Darabszám",
+  "defectQuantity": "Hibás darabszám",
   "comment": "Megjegyzés",
   "date": "Dátum",
   "year": "Év",
@@ -64,6 +65,7 @@
   "startDate": "Időszak kezdete",
   "endDate": "Időszak vége",
   "sum": "Összesen",
+  "print": "Nyomtatás",
   "workshops": {
     "title": "Műhelyek",
     "add": "Új műhely hozzáadása",
