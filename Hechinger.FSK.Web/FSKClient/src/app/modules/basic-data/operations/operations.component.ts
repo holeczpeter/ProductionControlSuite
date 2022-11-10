@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
 import { OperationEditorModel } from '../../../models/dialog-models/operation-editor-model';
 import { DeleteOperation, DeleteProduct, OperationModel } from '../../../models/generated/generated';
-import { TableColumn } from '../../../models/table-column';
+import { TableColumnModel } from '../../../models/table-column-model';
 import { AccountService } from '../../../services/account.service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
 import { ProductDataService } from '../../../services/data/product-data.service';
@@ -34,7 +34,7 @@ export class OperationsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   columnNames: Array<string> = ['name', 'translatedName', 'code', 'productName', 'productCode', 'norma', 'operationTime', 'copy', 'edit', 'delete']
   title = "operations.title";
-  filterableColumns: Array<TableColumn> = [
+  filterableColumns: Array<TableColumnModel> = [
     {
       name: 'name',
       displayName: 'Név',

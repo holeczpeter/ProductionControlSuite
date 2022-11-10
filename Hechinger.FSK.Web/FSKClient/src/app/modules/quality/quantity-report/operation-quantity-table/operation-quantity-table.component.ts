@@ -5,21 +5,15 @@ import format from 'date-fns/fp/format';
 import { MatTableDataSource } from '@angular/material/table';
 import { LanguageService } from '../../../../services/language/language.service';
 import { ShiftDataService } from '../../../../services/data/shift-data.service';
-class TableColumn {
-  [key: string]: any
-}
-
-class TableHeader {
-  id: string;
-  value: any;
-}
+import { TableHeader } from '../../../../models/table-header';
+import { TableColumn } from '../../../../models/table-column';
 
 @Component({
-  selector: 'app-daily-operation-quantity',
-  templateUrl: './daily-operation-quantity.component.html',
-  styleUrls: ['./daily-operation-quantity.component.scss']
+  selector: 'app-operation-quantity-table',
+  templateUrl: './operation-quantity-table.component.html',
+  styleUrls: ['./operation-quantity-table.component.scss']
 })
-export class DailyOperationQuantityComponent implements OnInit, OnChanges, DoCheck {
+export class OperationQuantityTableComponent implements OnInit, OnChanges, DoCheck {
   @Input() model: QuantityOperationReportModel;
   @Input() interval: IntervalModel;
   @Input() shifts: ShiftModel[];
@@ -43,11 +37,11 @@ export class DailyOperationQuantityComponent implements OnInit, OnChanges, DoChe
     private readonly shiftDataServie: ShiftDataService) {
     this._differ = this.differs.find([]).create();
   }
-    
-    
+
+
 
   ngOnInit(): void {
-  
+
   }
   ngDoCheck(): void {
     var changes = this._differ.diff(this.shifts);
@@ -57,7 +51,7 @@ export class DailyOperationQuantityComponent implements OnInit, OnChanges, DoChe
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['model'] && changes['interval'] && this.model && this.interval) this.createTable();
-   
+
   }
   createTable() {
     if (this.interval && this.model && this.shifts && this.categories) {
@@ -78,7 +72,7 @@ export class DailyOperationQuantityComponent implements OnInit, OnChanges, DoChe
 
       this.createHeaders();
       this.model.defects.forEach((defect, index) => {
-       
+
         const row = new TableColumn();
         row['defect'] = { id: defect.defectId, code: defect.defectCode, name: defect.defectName, translatedName: defect.defectTranslatedName };
         for (let i = 0; i <= this.interval.differenceInCalendarDays; i++) {
@@ -106,11 +100,11 @@ export class DailyOperationQuantityComponent implements OnInit, OnChanges, DoChe
         this.categories.forEach(c => {
           row['sum_q_' + c.id] = defect.defectCategory == c.id ? defect.defectQuantity : 0;
           row['sum_ppm_' + c.id] = defect.defectCategory == c.id ? defect.pPM : 0;
-         
+
         });
-       
+
         rows.push(row);
-       
+
       });
       this.shiftQuantityColumns = [...this.shiftQuantityHeaders.map(x => x.id)];
       this.dayColumns = [...this.dayHeaders.map(x => x.id)];
@@ -119,15 +113,15 @@ export class DailyOperationQuantityComponent implements OnInit, OnChanges, DoChe
     }
   }
   createHeaders() {
-   
-   
+
+
     this.displayedColumns.push("defect");
     for (let i = 0; i <= this.interval.differenceInCalendarDays; i++) {
       let currentDate = addDays(this.interval.startDate, i);
       this.dayHeaders.push({ id: currentDate.toString(), value: currentDate });
       for (var j = 0; j < this.shifts.length; j++) {
         this.shiftHeaders.push({ id: currentDate.toString() + "_" + this.shifts[j].id, value: { id: this.shifts[j].id, name: this.shifts[j].name, translatedName: this.shifts[j].translatedName } });
-        this.shiftQuantityHeaders.push({ id: "q_" + currentDate.toString() + "_" + this.shifts[j].id, value:''});
+        this.shiftQuantityHeaders.push({ id: "q_" + currentDate.toString() + "_" + this.shifts[j].id, value: '' });
         this.categories.forEach((c, catIndex) => {
           this.displayedColumns.push(currentDate.toString() + "_" + this.shifts[j].id + "_" + c.id)
         });
@@ -135,10 +129,10 @@ export class DailyOperationQuantityComponent implements OnInit, OnChanges, DoChe
     }
     this.categories.forEach(x => {
       this.displayedColumns.push('sum_q_' + x.id);
-      
+
     });
     this.categories.forEach(x => {
-      
+
       this.displayedColumns.push('sum_ppm_' + x.id);
     });
     this.columnsToDisplay = [...this.displayedColumns];
@@ -155,7 +149,7 @@ export class DailyOperationQuantityComponent implements OnInit, OnChanges, DoChe
     return this.shifts ? this.shifts.length : 0;
   }
   getColSpanDay() {
-    return this.shifts ? this.shifts.length * 3 :3;
+    return this.shifts ? this.shifts.length * 3 : 3;
   }
   isShift(index: number, item: any): boolean {
     return item.isShift;
@@ -176,5 +170,5 @@ export class DailyOperationQuantityComponent implements OnInit, OnChanges, DoChe
         return "#F35B5A";
     }
   }
- 
+
 }

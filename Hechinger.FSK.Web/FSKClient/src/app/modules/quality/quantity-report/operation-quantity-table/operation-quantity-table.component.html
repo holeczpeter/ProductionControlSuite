@@ -90,7 +90,7 @@
   <ng-container matColumnDef="header-row-sum-value">
     <th mat-header-cell *matHeaderCellDef [attr.colspan]="getColSpanShift()*2" class="th-align-center">  {{model.quantity}} </th>
   </ng-container>
-  
+
   <tr mat-header-row *matHeaderRowDef="['header-operation-name'].concat(dayColumns).concat(['header-row-sum-text']);sticky: true"></tr>
   <tr mat-header-row *matHeaderRowDef="['header-operation-code'].concat(shiftColumns);sticky: true"></tr>
   <tr mat-header-row *matHeaderRowDef="['header-row-one-empty'].concat(shiftQuantityColumns).concat(['header-row-sum-value']);sticky: true"></tr>
@@ -110,3 +110,4 @@
     </div>
   </div>
 </ng-template>
+

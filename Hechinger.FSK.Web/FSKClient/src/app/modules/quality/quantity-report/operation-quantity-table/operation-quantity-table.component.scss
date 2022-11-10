@@ -10,7 +10,6 @@ table {
   width: 800px;
   border-collapse: separate; // border collapse + sticky -> border gets left behind from the sticky element during scroll ..
   border-spacing: 0; // .. we need to draw the borders manually.
-  
 }
 
 th.mat-header-cell, td.mat-cell {

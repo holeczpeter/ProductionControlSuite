@@ -17,6 +17,7 @@
       </mat-error>
     </mat-form-field>
   </form>
-  
-  <app-summary-card-print-view [operation]="formGroup?.get('operation')?.value"></app-summary-card-print-view>
+  <ng-container *ngIf="formGroup">
+    <app-summary-card-print-view [operation]="formGroup.get('operation')?.value"></app-summary-card-print-view>
+  </ng-container>
 </div>

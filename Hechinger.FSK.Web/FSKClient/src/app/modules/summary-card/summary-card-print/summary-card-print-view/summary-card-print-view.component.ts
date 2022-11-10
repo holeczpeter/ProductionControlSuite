@@ -1,7 +1,7 @@
 import { OnChanges, SimpleChanges } from '@angular/core';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import jsPDF from 'jspdf';
-import { OperationModel, OperationPrintModel } from '../../../../models/generated/generated';
+import { OperationModel, OperationPrintModel, SelectModel } from '../../../../models/generated/generated';
 import { OperationDataService } from '../../../../services/data/operation-data.service';
 import { LanguageService } from '../../../../services/language/language.service';
 
@@ -11,7 +11,7 @@ import { LanguageService } from '../../../../services/language/language.service'
   styleUrls: ['./summary-card-print-view.component.scss']
 })
 export class SummaryCardPrintViewComponent implements OnInit, OnChanges {
-  @Input() operation: OperationModel;
+  @Input() operation: SelectModel;
   printableOperation: OperationPrintModel;
   @ViewChild('content') content: ElementRef<HTMLElement>;
   constructor(private readonly operationDataService: OperationDataService,

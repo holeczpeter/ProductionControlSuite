@@ -9,7 +9,7 @@ import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WorkshopEditorDialogComponent } from './workshop-editor-dialog/workshop-editor-dialog.component';
 import { AccountService } from '../../../services/account.service';
-import { TableColumn } from '../../../models/table-column';
+import { TableColumnModel } from '../../../models/table-column-model';
 import { UntypedFormGroup } from '@angular/forms';
 import { CompareService } from '../../../services/sort/sort.service';
 import { TableFilterService } from '../../../services/table/table-filter.service';
@@ -28,7 +28,7 @@ export class WorkshopsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   columnNames: Array<string> = ['name','translatedName', 'edit', 'delete']
   title = "workshops.title";
-  filterableColumns: Array<TableColumn> = [
+  filterableColumns: Array<TableColumnModel> = [
     {
       name: 'name',
       displayName: 'Megnevezés',

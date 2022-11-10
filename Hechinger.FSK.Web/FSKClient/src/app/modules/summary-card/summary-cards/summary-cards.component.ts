@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
 import { DeleteSummaryCard, SummaryCardModel } from '../../../models/generated/generated';
-import { TableColumn } from '../../../models/table-column';
+import { TableColumnModel } from '../../../models/table-column-model';
 import { AccountService } from '../../../services/account.service';
 import { SummaryCardDataService } from '../../../services/data/summary-card-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
@@ -32,7 +32,7 @@ export class SummaryCardsComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   columnNames: Array<string> = ['date', 'shiftName','workerName', 'operationCode', 'operationName', 'quantity', 'userName', 'created', 'edit','delete']
   title = "summarycard";
-  filterableColumns: Array<TableColumn> = [
+  filterableColumns: Array<TableColumnModel> = [
     {
       name: 'date',
       displayName: 'Dátum',

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UntypedFormArray, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { TableColumn } from '../../models/table-column';
+import { TableColumnModel } from '../../models/table-column-model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class DefectFilterService {
   }
   constructor() {
   }
-  createFilterFormGroup(filterableColumns: Array<TableColumn>): UntypedFormGroup {
+  createFilterFormGroup(filterableColumns: Array<TableColumnModel>): UntypedFormGroup {
     this.form = new UntypedFormGroup({});
     filterableColumns.forEach(x => {
       this.form.addControl(x.name, new UntypedFormControl());

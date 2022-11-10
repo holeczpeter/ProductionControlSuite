@@ -21,11 +21,11 @@
   <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
   <div class="example-container" *ngIf="quantityReportModels">
     <ng-container *ngFor="let option of quantityReportModels">
-      <app-daily-operation-quantity [model]="option"
+      <app-operation-quantity-table [model]="option"
                                     [interval]="currentInterval"
                                     [categories]="categories"
                                     [shifts]="shifts">
-      </app-daily-operation-quantity>
+      </app-operation-quantity-table>
     </ng-container>
   </div>
 </div>

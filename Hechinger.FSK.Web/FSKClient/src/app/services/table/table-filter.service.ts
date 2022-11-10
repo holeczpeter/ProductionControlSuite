@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { map, Observable } from 'rxjs';
 import { TextSearchSettings } from '../../models/enums/text-search-settings';
-import { TableColumn } from '../../models/table-column';
+import { TableColumnModel } from '../../models/table-column-model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class TableFilterService {
 
   constructor(private fb: UntypedFormBuilder) { }
 
-  createFilterFormGroup(filterableColumns: Array<TableColumn>): UntypedFormGroup {
+  createFilterFormGroup(filterableColumns: Array<TableColumnModel>): UntypedFormGroup {
     let form = new UntypedFormGroup({});
     form.addControl("textSearchSetting", new UntypedFormControl(this.textSearchSettings.isStartsWith.toString()));
    /* let dateArray: string[] = [];*/

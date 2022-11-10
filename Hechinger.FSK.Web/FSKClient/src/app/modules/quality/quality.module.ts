@@ -13,7 +13,7 @@ import { QuantityReportComponent } from './quantity-report/quantity-report.compo
 import { QualityReportComponent } from './quality-report/quality-report.component';
 import { WorkerCompareStatisticsChartComponent } from './worker-compare-statistics/worker-compare-statistics-chart/worker-compare-statistics-chart.component';
 import { WorkerDefectStatisticsChartComponent } from './worker-defect-statistics/worker-defect-statistics-chart/worker-defect-statistics-chart.component';
-import { DailyOperationQuantityComponent } from './quantity-report/daily-operation-quantity/daily-operation-quantity.component';
+import { OperationQuantityTableComponent } from './quantity-report/operation-quantity-table/operation-quantity-table.component';
 
 
 @NgModule({
@@ -28,7 +28,7 @@ import { DailyOperationQuantityComponent } from './quantity-report/daily-operati
     QualityReportComponent,
     WorkerCompareStatisticsChartComponent,
     WorkerDefectStatisticsChartComponent,
-    DailyOperationQuantityComponent,
+    OperationQuantityTableComponent
   ],
   imports: [
     CommonModule,

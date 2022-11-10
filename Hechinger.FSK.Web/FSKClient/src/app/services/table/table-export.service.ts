@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import * as XLSX from 'xlsx';
-import { TableColumn } from '../../models/table-column';
+import { TableColumnModel } from '../../models/table-column-model';
 import { LanguageService } from '../language/language.service';
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class TableExportService {
     });
   }
 
-  export<T>(dataSource: MatTableDataSource<T>, columnNames: Array<TableColumn>, fileName?: string): void {
+  export<T>(dataSource: MatTableDataSource<T>, columnNames: Array<TableColumnModel>, fileName?: string): void {
     let data = null;
     if (dataSource.sort) data = dataSource.sortData(dataSource.filteredData, dataSource.sort);
     else data = dataSource.filteredData;

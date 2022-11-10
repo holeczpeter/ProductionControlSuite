@@ -34,6 +34,7 @@ export class SummaryCardPrintComponent implements OnInit, AfterViewChecked, OnDe
         debounceTime(500)).subscribe(filter => {
           this.filter();
         })
+     
       this.filtered.next(this.operations.slice());
     })
   }

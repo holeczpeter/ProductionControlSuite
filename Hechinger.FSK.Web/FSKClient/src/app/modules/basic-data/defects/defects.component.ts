@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { debounceTime, map } from 'rxjs';
 import { DefectEditorModel } from '../../../models/dialog-models/defect-editor-model';
 import { DefectModel, DeleteDefect } from '../../../models/generated/generated';
-import { TableColumn } from '../../../models/table-column';
+import { TableColumnModel } from '../../../models/table-column-model';
 import { AccountService } from '../../../services/account.service';
 import { DefectDataService } from '../../../services/data/defect-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
@@ -30,7 +30,7 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
   @ViewChild(MatSort) sort!: MatSort;
   columnNames: Array<string> = ['name','translatedName', 'code', 'operationName', 'operationCode','defectCategoryName', 'copy', 'edit', 'delete']
   title = "defects.title";
-  filterableColumns: Array<TableColumn> = [
+  filterableColumns: Array<TableColumnModel> = [
     {
       name: 'name',
       displayName: 'Név',

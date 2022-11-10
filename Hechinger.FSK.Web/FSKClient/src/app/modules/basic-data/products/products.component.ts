@@ -13,7 +13,7 @@ import { ProductEditorModel } from '../../../models/dialog-models/product-editor
 import { AccountService } from '../../../services/account.service';
 import { TableFilterService } from '../../../services/table/table-filter.service';
 import { UntypedFormGroup } from '@angular/forms';
-import { TableColumn } from '../../../models/table-column';
+import { TableColumnModel } from '../../../models/table-column-model';
 import { debounceTime, filter } from 'rxjs';
 import { CompareService } from '../../../services/sort/sort.service';
 import { TableExportService } from '../../../services/table/table-export.service';
@@ -30,7 +30,7 @@ export class ProductsComponent implements OnInit, AfterViewInit{
   dataSource!: MatTableDataSource<ProductModel>;
   @ViewChild(MatSort) sort!: MatSort;
   columnNames: Array<string> = ['name', 'translatedName', 'code', 'workshopName', 'copy', 'edit', 'delete'];
-  filterableColumns: Array<TableColumn> =[
+  filterableColumns: Array<TableColumnModel> =[
     {
       name: 'name',
       displayName: 'Név',
