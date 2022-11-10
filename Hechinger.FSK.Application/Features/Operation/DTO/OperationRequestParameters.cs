@@ -10,6 +10,8 @@ namespace Hechinger.FSK.Application.Features
     {
         public string ProductName { get; set; }
 
+        public string ProductTranslatedName { get; set; }
+
         public string ProductCode { get; set; }
     }
 }

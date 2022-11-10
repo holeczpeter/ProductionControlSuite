@@ -60,19 +60,28 @@
             {{ 'operationCode' | translate}}
           </td>
           <td class="text-cell">
-            <mat-form-field>
-              <mat-select [formControlName]="'operation'" #singleSelect required>
-                <mat-option>
-                  <ngx-mat-select-search [formControl]="filterCtrl"></ngx-mat-select-search>
-                </mat-option>
-                <mat-option *ngFor="let option of filtered | async" [value]="option">
-                  {{option.code}} - {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
-                </mat-option>
-              </mat-select>
-              <mat-error *ngIf="cardForm.get('operation')?.hasError('required')">
-                {{'operationName'| translate}} {{'required' | translate}}
-              </mat-error>
-            </mat-form-field>
+            <ng-container *ngIf="cardForm?.get('id')?.value == 0 ;else readonlyop">
+              <mat-form-field>
+                <mat-select [formControlName]="'operation'" #singleSelect required>
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="filterCtrl"></ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option *ngFor="let option of filtered | async" [value]="option">
+                    {{option.code}} - {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="cardForm.get('operation')?.hasError('required')">
+                  {{'operationName'| translate}} {{'required' | translate}}
+                </mat-error>
+              </mat-form-field>
+            </ng-container>
+            <ng-template #readonlyop>
+              <ng-container *ngIf="currentOperation">
+                {{currentOperation.code}} -
+                {{ (languageService.getCurrentLanguage() | async) == 'hu' ? currentOperation.name : currentOperation.translatedName}}
+              </ng-container>
+             
+            </ng-template>
           </td>
           <td class="text-cell">
             {{ 'shiftName'| translate }}

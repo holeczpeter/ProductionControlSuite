@@ -8,10 +8,10 @@
         public string Code { get; set; }
         public double OperationTime { get; set; }
         public double Norma { get; set; }
-
         public int ProductId { get; set; }
-        public string ProductName { get; set; }
         public string ProductCode { get; set; }
+        public string ProductName { get; set; }
+        public string ProductTranslatedName { get; set; }
         public bool HasDefect { get;  set; }
     }
 }

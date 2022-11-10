@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { concatMap, forkJoin, map } from 'rxjs';
-import { SummaryCardDetailModel, SummaryCardItemModel, UpdateSummaryCard, UpdateSummaryCardItem } from '../../../models/generated/generated';
+import { SelectModel, SummaryCardDetailModel, SummaryCardItemModel, UpdateSummaryCard, UpdateSummaryCardItem } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
 import { SummaryCardDataService } from '../../../services/data/summary-card-data.service';
@@ -32,9 +32,16 @@ export class SummaryCardEditorDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.summaryCardDataService.get(this.data).pipe(
-      concatMap(card => forkJoin([this.operationDataService.get({ id: card.operationId })]).pipe(map(operation => ({ card, operation }))))).subscribe(results => {
+      concatMap(card => forkJoin([this.operationDataService.get({ id: card.operationId })])
+       .pipe(map(operation => ({ card, operation })))))
+      .subscribe(results => {
         this.summaryCard = results.card;
-        let currentOperation = results.operation;
+        let currentOperation: SelectModel = {
+          id: results.operation[0].id,
+          code: results.operation[0].code,
+          name: results.operation[0].name,
+          translatedName: results.operation[0].translatedName,
+        };
         this.cardForm = this.formBuilder.group({
           id: [this.summaryCard ? this.summaryCard.id : 0, [Validators.required]],
           date: [this.summaryCard ? this.summaryCard.date : '', [Validators.required]],
@@ -45,6 +52,7 @@ export class SummaryCardEditorDialogComponent implements OnInit {
           shiftId: [this.summaryCard ? this.summaryCard.shiftId : '', [Validators.required]],
           items: this.formBuilder.array([])
         });
+        console.log(this.cardForm)
         this.summaryCard.items.forEach((d: SummaryCardItemModel) => this.addRow(d));
       });
 

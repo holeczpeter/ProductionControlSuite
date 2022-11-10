@@ -36,7 +36,7 @@ namespace Hechinger.FSK.Application.Common
                           (x.Code.StartsWith(queryParameters.Code) || string.IsNullOrEmpty(queryParameters.Code)) &&
                           (x.Name.StartsWith(queryParameters.Name) || string.IsNullOrEmpty(queryParameters.Name)) &&
                           (x.TranslatedName.StartsWith(queryParameters.TranslatedName) || string.IsNullOrEmpty(queryParameters.TranslatedName)) &&
-                          (x.WorkshopName.StartsWith(queryParameters.TranslatedName) || string.IsNullOrEmpty(queryParameters.WorkshopName));
+                          (x.WorkshopName.StartsWith(queryParameters.WorkshopName) || string.IsNullOrEmpty(queryParameters.WorkshopName));
 
             return query.Where(exp);
         }
@@ -47,6 +47,7 @@ namespace Hechinger.FSK.Application.Common
                           (x.Name.StartsWith(queryParameters.Name) || string.IsNullOrEmpty(queryParameters.Name)) &&
                           (x.TranslatedName.StartsWith(queryParameters.TranslatedName) || string.IsNullOrEmpty(queryParameters.TranslatedName)) &&
                           (x.ProductName.StartsWith(queryParameters.ProductName) || string.IsNullOrEmpty(queryParameters.ProductName)) &&
+                          (x.ProductTranslatedName.StartsWith(queryParameters.ProductTranslatedName) || string.IsNullOrEmpty(queryParameters.ProductName)) &&
                           (x.ProductCode.StartsWith(queryParameters.ProductCode) || string.IsNullOrEmpty(queryParameters.ProductCode)) ;
 
             return query.Where(exp);
@@ -59,6 +60,7 @@ namespace Hechinger.FSK.Application.Common
                           (x.TranslatedName.StartsWith(queryParameters.TranslatedName) || string.IsNullOrEmpty(queryParameters.TranslatedName)) &&
                           (x.OperationCode.StartsWith(queryParameters.OperationCode) || string.IsNullOrEmpty(queryParameters.OperationCode)) &&
                           (x.OperationName.StartsWith(queryParameters.OperationName) || string.IsNullOrEmpty(queryParameters.OperationName)) &&
+                          (x.OperationTranslatedName.StartsWith(queryParameters.OperationTranslatedName) || string.IsNullOrEmpty(queryParameters.OperationTranslatedName)) &&
                           (x.DefectCategoryName.StartsWith(queryParameters.DefectCategoryName) || string.IsNullOrEmpty(queryParameters.DefectCategoryName));
 
             return query.Where(exp);

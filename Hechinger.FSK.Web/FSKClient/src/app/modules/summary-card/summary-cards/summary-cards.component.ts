@@ -30,7 +30,7 @@ export class SummaryCardsComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array<string> = ['date', 'shiftName', 'workerName', 'operationCode', 'operationName', 'quantity', 'userName', 'created', 'edit','delete']
+  columnNames: Array<string> = ['date', 'shiftName','workerName', 'operationCode', 'operationName', 'quantity', 'userName', 'created', 'edit','delete']
   title = "summarycard";
   filterableColumns: Array<TableColumn> = [
     {
@@ -63,6 +63,7 @@ export class SummaryCardsComponent implements OnInit {
       exportable: true,
       columnDef: 'operationNameFilter'
     },
+    
     {
       name: 'quantity',
       displayName: 'Mennyiség',
@@ -82,7 +83,15 @@ export class SummaryCardsComponent implements OnInit {
       columnDef: 'createdFilter'
     },
   ];
-  filterableColumnNames: Array<string> = ['dateFilter', 'shiftNameFilter', 'workerNameFilter', 'operationCodeFilter', 'operationNameFilter', 'quantityFilter', 'userNameFilter','createdFilter', 'more',];
+  filterableColumnNames: Array<string> = [
+    'dateFilter',
+    'shiftNameFilter',
+    'workerNameFilter',
+    'operationCodeFilter',
+    'operationNameFilter',
+    'quantityFilter',
+    'userNameFilter',
+    'createdFilter', 'more',];
   filterForm: UntypedFormGroup;
   totalCount!: number;
   constructor(private readonly summaryCardDataService: SummaryCardDataService,

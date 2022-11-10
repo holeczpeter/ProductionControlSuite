@@ -7,13 +7,18 @@
          matSort
          (matSortChange)="sortData($event)">
     <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header > {{'date' | translate}}  </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'date' | translate}}  </th>
       <td mat-cell *matCellDef="let element">{{element.date |  date:'yyyy.MM.dd' }}</td>
     </ng-container>
     <ng-container matColumnDef="shiftName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'shiftName' | translate}}  </th>
       <td mat-cell *matCellDef="let element">{{element.shiftName}}</td>
     </ng-container>
+    <ng-container matColumnDef="shiftTranslatedName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'shiftName' | translate}}  </th>
+      <td mat-cell *matCellDef="let element">{{element.shiftTranslatedName}}</td>
+    </ng-container>
+    
     <ng-container matColumnDef="workerName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'worker' | translate}}  </th>
       <td mat-cell *matCellDef="let element">{{element.workerName}}</td>
@@ -25,6 +30,10 @@
     <ng-container matColumnDef="operationName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'operationName' | translate}}  </th>
       <td mat-cell *matCellDef="let element">{{element.operationName}}</td>
+    </ng-container>
+    <ng-container matColumnDef="operationTranslatedName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'operationName' | translate}}  </th>
+      <td mat-cell *matCellDef="let element">{{element.operationTranslatedName}}</td>
     </ng-container>
     <ng-container matColumnDef="quantity">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'quantity' | translate}}  </th>

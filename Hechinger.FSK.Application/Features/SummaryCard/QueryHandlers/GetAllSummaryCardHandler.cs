@@ -19,9 +19,11 @@
                     Date = x.Date,
                     Created = x.Created,
                     OperationCode = x.Operation.Code,
-                    OperationName = x.Operation.Name,   
+                    OperationName = x.Operation.Name,
+                    OperationTranslatedName = !String.IsNullOrEmpty(x.Operation.TranslatedName) ? x.Operation.TranslatedName : x.Operation.Name,
                     UserName = x.User.FullName,
-                    ShiftName = x.Shift.Name,   
+                    ShiftName = x.Shift.Name,
+                    ShiftTranslatedName = !String.IsNullOrEmpty(x.Shift.TranslatedName) ? x.Shift.TranslatedName : x.Shift.Name,
                     Quantity = x.Quantity,
                     WorkerName = x.WorkerCode,
                 })

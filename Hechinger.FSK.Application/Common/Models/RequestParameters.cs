@@ -9,6 +9,7 @@ namespace Hechinger.FSK.Application.Common.Models
     
     public class RequestParameters
     {
+        public string Lang { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
         public string TranslatedName { get; set; }

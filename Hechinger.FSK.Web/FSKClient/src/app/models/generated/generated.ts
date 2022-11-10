@@ -111,8 +111,9 @@ export interface DefectModel {
   code: string,
   defectCategory: DefectCategories,
   operationId: number,
-  operationName: string,
   operationCode: string,
+  operationName: string,
+  operationTranslatedName: string,
   defectCategoryName: string,
 }
 export interface GetAllDefect {
@@ -120,6 +121,7 @@ export interface GetAllDefect {
 }
 export interface DefectRequestParameters {
   operationName: string,
+  operationTranslatedName: string,
   operationCode: string,
   defectCategoryName: string,
   code: string,
@@ -199,15 +201,34 @@ export interface OperationModel {
   operationTime: any,
   norma: any,
   productId: number,
+  productCode: string,
+  productName: string,
+  productTranslatedName: string,
+  hasDefect: boolean,
+}
+export interface OperationPrintModel {
+  id: number,
+  name: string,
+  translatedName: string,
+  code: string,
+  productId: number,
   productName: string,
   productCode: string,
-  hasDefect: boolean,
+  defects: Array<DefectPrintModel>,
+}
+export interface DefectPrintModel {
+  id: number,
+  order: number,
+  name: string,
+  translatedName: string,
+  code: string,
 }
 export interface GetAllOperation {
   parameters: OperationRequestParameters,
 }
 export interface OperationRequestParameters {
   productName: string,
+  productTranslatedName: string,
   productCode: string,
   code: string,
   name: string,
@@ -222,6 +243,9 @@ export interface GetOperation {
 }
 export interface GetOperationByFilter {
   filter: string,
+}
+export interface GetOperationPrint {
+  id: number,
 }
 export interface GetOperationsByProduct {
   productId: number,
@@ -570,16 +594,19 @@ export interface SummaryCardItemModel {
   quantity: number,
   order: number,
   comment: string,
+  defectTranslatedName: string,
 }
 export interface SummaryCardModel {
   id: number,
   date: Date,
   created: Date,
   shiftName: string,
+  shiftTranslatedName: string,
   userName: string,
   workerName: string,
   operationCode: string,
   operationName: string,
+  operationTranslatedName: string,
   quantity: number,
 }
 export interface GetAllSummaryCards {
@@ -590,8 +617,10 @@ export interface SummaryCardRequestParameters {
   created: string,
   operationCode: string,
   operationName: string,
+  operationTranslatedName: string,
   userName: string,
   shiftName: string,
+  shiftTranslatedName: string,
   quantity: string,
   workerName: string,
   code: string,
@@ -701,26 +730,6 @@ export interface GetAllWorkshops {
 }
 export interface GetWorkshop {
   id: number,
-}
-export interface GetOperationPrint {
-  id: number,
-}
-export interface OperationPrintModel {
-  id: number,
-  name: string,
-  translatedName: string,
-  code: string,
-  productId: number,
-  productName: string,
-  productCode: string,
-  defects: Array<DefectPrintModel>,
-}
-export interface DefectPrintModel {
-  id: number,
-  order: number,
-  name: string,
-  translatedName: string,
-  code: string,
 }
 export enum Views {
   Day = 0,

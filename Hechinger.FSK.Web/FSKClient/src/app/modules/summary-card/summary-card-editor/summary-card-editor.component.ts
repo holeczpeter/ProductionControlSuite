@@ -29,6 +29,7 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
   public filtered: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
   protected _onDestroy = new Subject<void>();
   @ViewChild('singleSelect') singleSelect: MatSelect;
+  currentOperation: OperationModel;
   get items(): FormArray {
     return this.cardForm.get('items') as FormArray;
   }
@@ -52,6 +53,7 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
       let currentOperationId = this.cardForm && this.cardForm.get('operation') && this.cardForm.get('operation')!.value != null && this.cardForm.get('operation')?.value.id ? this.cardForm.get('operation')?.value.id : 0;
       forkJoin([this.getCurrentOperation({ id: currentOperationId}), this.getOperationSelectModel(''), this.getAllShifts()]).subscribe(([currentOperation,operations, shifts]) => {
         this.operations = operations;
+        this.currentOperation = currentOperation;
         if (currentOperation) this.operations.splice(0, 0, { id: currentOperation.id, code: currentOperation.code, name: currentOperation.name, translatedName: currentOperation.translatedName });
         this.shifts = shifts;
         if (this.items.length > 0) this.dataSource.data = this.items.controls;
@@ -62,6 +64,7 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
           })
         this.filtered.next(this.operations.slice());
       })
+      console.log(this.cardForm)
     }
   }
   filter(): void {
