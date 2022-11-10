@@ -1,0 +1,32 @@
+$mat-radio-primary-color: #5FA6C7;
+$mat-radio-accent-color: #E3762F;
+$mat-radio-warn-color: red;
+$mat-radio-disabled-color: #b0b0b0;
+/* radio */
+.mat-radio-checked .mat-radio-inner-circle {
+  transform: scale(0.45) rotate(0.03deg) !important;
+}
+
+.mat-radio-outer-circle {
+  border-width: 0px !important;
+}
+
+// border colouring
+
+.mat-radio-button.mat-primary .mat-radio-outer-circle {
+  box-shadow: inset 0px 0px 0px 1.4px $mat-radio-primary-color;
+}
+
+.mat-radio-button.mat-accent .mat-radio-outer-circle {
+  box-shadow: inset 0px 0px 0px 1.4px $mat-radio-accent-color;
+}
+
+.mat-radio-button.mat-warn .mat-radio-outer-circle {
+  box-shadow: inset 0px 0px 0px 1.4px $mat-radio-warn-color;
+}
+
+/* radio when disabled */
+
+.mat-radio-button.mat-radio-disabled .mat-radio-outer-circle {
+  box-shadow: inset 0px 0px 0px 1.4px $mat-radio-disabled-color;
+}

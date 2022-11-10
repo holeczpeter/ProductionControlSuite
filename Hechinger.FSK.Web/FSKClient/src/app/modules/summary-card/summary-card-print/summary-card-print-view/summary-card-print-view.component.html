@@ -5,23 +5,11 @@
   <mat-icon>print
   </mat-icon>
 </button>
-<div class="row" *ngIf="printableOperation"  id="print-section">
-  <div *ngFor="let number of [0,1]" class="col-6">
+<div class="row preview" *ngIf="printableOperation"  id="print-section">
+  <div *ngFor="let number of [0,1]" class="col item">
     <table width='705' border='0'>
       <td width='705' align='center'>
-        <table cellspacing='0' width='100%' style='border: thin solid black;'>
-          <tr height='20'>
-            <td rowspan='3' align='center' width='20%'></td>
-            <td rowspan='3' align='center' width='60%' bgcolor='lightgrey' style='border-left: thin solid black;border-right: thin solid black;'><font size='6' face='Arial'><b> {{ 'summarycard' | translate }}</b></font></td>
-            <td align='center' width='20%'>Azonosító sz.:</td>
-          </tr>
-          <tr height='20'>
-            <td align='center' width='20%'>BI-0035</td>
-          </tr>
-          <tr height='20'>
-            <td align='center' width='20%'>V:5/2006.10.31.</td>
-          </tr>
-        </table>
+        <app-summary-card-header></app-summary-card-header>
         <br />
         <table cellspacing='0' width='100%'>
           <tr height='28'>

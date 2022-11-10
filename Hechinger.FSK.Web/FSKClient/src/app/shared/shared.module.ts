@@ -58,6 +58,7 @@ import { IntervalViewComponent } from './interval-view/interval-view.component';
 import { LoaderComponent } from './loader/loader.component';
 import { TitleComponent } from './title/title.component';
 import { NgxPrintModule } from 'ngx-print';
+import { SummaryCardHeaderComponent } from './summary-card-header/summary-card-header.component';
 @NgModule({
   declarations: [
     
@@ -71,6 +72,7 @@ import { NgxPrintModule } from 'ngx-print';
     CategoryPipe,
     DateWithNamePipe,
     SumCategoryPipe,
+    SummaryCardHeaderComponent,
   ],
   imports: [
     CommonModule,
@@ -177,7 +179,8 @@ import { NgxPrintModule } from 'ngx-print';
     CategoryPipe,
     DateWithNamePipe,
     SumCategoryPipe,
-    NgxPrintModule
+    NgxPrintModule,
+    SummaryCardHeaderComponent
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },
