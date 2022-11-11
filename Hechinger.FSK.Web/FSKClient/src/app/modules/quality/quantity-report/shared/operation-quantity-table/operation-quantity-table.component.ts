@@ -9,6 +9,8 @@ import { TableHeader } from '../../../../../models/table-header';
 import { TableColumn } from '../../../../../models/table-column';
 import { forkJoin, of, zip } from 'rxjs';
 import { QuantityTableModel } from '../../../../../models/quantity-table-model';
+import { TableExportService } from '../../../../../services/table/table-export.service';
+import { TableColumnModel } from '../../../../../models/table-column-model';
 
 @Component({
   selector: 'app-operation-quantity-table',
@@ -38,8 +40,10 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
   private _differCategories: IterableDiffer<any>;
   shiftChanges: any;
   categoryChanges: any;
+  filterableColumns: Array<TableColumnModel>;
   constructor(public languageService: LanguageService,
     private differs: IterableDiffers,
+    private readonly exportService: TableExportService,
     private readonly shiftDataServie: ShiftDataService) {
     this._differShifts = this.differs.find([]).create(this.trackByFn);
     this._differCategories = this.differs.find([]).create(this.trackByFn);
@@ -92,7 +96,13 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
               let currentDefectQuantity = currentDateObjects.find(x => x.shiftId == this.shifts[j].id);
               let defectQuantity = c.id == defect.defectCategory && currentDefectQuantity ? currentDefectQuantity.defectQuantity : '';
               row[currentDate.toString() + "_" + this.shifts[j].id + "_" + c.id] = { date: currentDate, shift: this.shifts[j].id, category: c, value: defectQuantity };
-
+              let f: TableColumnModel = {
+                name: currentDate.toString() + "_" + this.shifts[j].id + "_" + c.id,
+                displayName: currentDate.toString() + "_" + this.shifts[j].id + "_" + c.id,
+                columnDef: currentDate.toString() + "_" + this.shifts[j].id + "_" + c.id,
+                exportable: true,
+              }
+              this.filterableColumns.push(f);
             });
           }
         }
@@ -108,6 +118,8 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
       this.shiftQuantityColumns = [...this.shiftQuantityHeaders.map(x => x.id)];
       this.dayColumns = [...this.dayHeaders.map(x => x.id)];
       this.shiftColumns = [...this.shiftHeaders.map(x => x.id)];
+    
+      this.filterableColumns.push()
       this.dataSource = new MatTableDataSource(rows);
     }
   }
@@ -124,7 +136,7 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
       this.categoryPpmHeaders = [...[]];
       this.categorySumColumns = [...[]];
       this.categoryPpmColumns = [...[]];
-      
+      this.filterableColumns = [...[]];
     }
 
   createHeaders() {
@@ -181,6 +193,9 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
   }
   trackByFn(index: number, item: any) {
     return index;
+  }
+  onExport() {
+    this.exportService.export(this.dataSource, this.filterableColumns, "sadas");
   }
   getCategory(categoryId: string) {
     const myArray = categoryId.split("_");

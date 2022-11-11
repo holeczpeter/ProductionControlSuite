@@ -20,6 +20,7 @@ export class TableExportService {
     if (dataSource.sort) data = dataSource.sortData(dataSource.filteredData, dataSource.sort);
     else data = dataSource.filteredData;
     let array = new Array<any>();
+    console.log(data)
     data.forEach(row => {
       const myObj: { [key: string]: any } = { }
       for (const [key, value] of Object.entries(row)) {
