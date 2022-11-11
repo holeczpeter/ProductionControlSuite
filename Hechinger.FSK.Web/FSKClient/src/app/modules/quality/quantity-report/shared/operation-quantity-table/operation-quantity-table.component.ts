@@ -11,7 +11,7 @@ import { forkJoin, of, zip } from 'rxjs';
 import { QuantityTableModel } from '../../../../../models/quantity-table-model';
 import { TableExportService } from '../../../../../services/table/table-export.service';
 import { TableColumnModel } from '../../../../../models/table-column-model';
-
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-operation-quantity-table',
   templateUrl: './operation-quantity-table.component.html',
@@ -67,7 +67,6 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
 
   createTable() {
     if (this.interval && this.model && this.shifts && this.categories) {
-      
       this.setInitial();
       let rows = new Array<TableColumn>();
       this.createHeaders();
@@ -195,7 +194,9 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
     return index;
   }
   onExport() {
-    this.exportService.export(this.dataSource, this.filterableColumns, "sadas");
+    var tbl = document.getElementById('id_of_table');
+    var wb = XLSX.utils.table_to_book(tbl, { sheet: "nameofsheet" });
+    XLSX.writeFile(wb, `${this.interval.startDate.toDateString()}_` + `${this.interval.endDate.toDateString()}_` + `${ this.model.operationCode }` + `.xlsx`);
   }
   getCategory(categoryId: string) {
     const myArray = categoryId.split("_");

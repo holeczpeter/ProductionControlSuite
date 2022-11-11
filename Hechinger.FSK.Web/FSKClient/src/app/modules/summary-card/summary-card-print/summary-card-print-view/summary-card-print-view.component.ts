@@ -1,7 +1,5 @@
-import { OnChanges, SimpleChanges } from '@angular/core';
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import jsPDF from 'jspdf';
-import { OperationModel, OperationPrintModel, SelectModel } from '../../../../models/generated/generated';
+import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { OperationPrintModel, SelectModel } from '../../../../models/generated/generated';
 import { OperationDataService } from '../../../../services/data/operation-data.service';
 import { LanguageService } from '../../../../services/language/language.service';
 
