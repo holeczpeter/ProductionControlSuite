@@ -110,21 +110,35 @@
   flex-grow: 4;
 }
 
+$mat-sidebar-icon-button-margin-compensation: 1.2;
+$mat-sidebar-icon-size: 14px * $mat-sidebar-icon-button-margin-compensation;
+
 .mat-icon-button i, .mat-icon-button .mat-icon {
   line-height: 36px;
 }
 
 .menu-item-icon {
   color: white;
-  height: 14px;
-  width: 14px;
-  font-size: 14px;
+  height: $mat-sidebar-icon-size;
+  width: $mat-sidebar-icon-size;
+  font-size: $mat-sidebar-icon-size;
   display: table-cell;
+}
+
+.menu-item-arrow {
+  transform: rotate(90deg);
+}
+
+.side-icon {
+  height: $mat-sidebar-icon-size;
+  width: $mat-sidebar-icon-size;
+  font-size: $mat-sidebar-icon-size;
 }
 
 .mat-list-base {
   padding: 0px;
 }
+
 
 .mat-divider {
   border-top-color: white;

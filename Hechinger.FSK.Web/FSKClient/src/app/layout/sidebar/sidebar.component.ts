@@ -1,4 +1,5 @@
 import { DoCheck } from '@angular/core';
+import { AfterViewInit } from '@angular/core';
 import { ChangeDetectorRef, Component, EventEmitter, Input, IterableDiffer, IterableDiffers, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,7 +15,7 @@ export type AccordionConfig = {
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit, DoCheck {
+export class SidebarComponent implements OnInit, DoCheck, AfterViewInit {
   @Input() sidebarMenuItems!: Array<TreeItem<MenuItemModel>>;
   @Output() onClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   private _differ!: IterableDiffer<any>;
@@ -28,6 +29,7 @@ export class SidebarComponent implements OnInit, DoCheck {
     public languageService: LanguageService) {
     this._differ = this.differs.find([]).create();
   }
+    
 
   ngOnInit(): void {
    
@@ -55,5 +57,9 @@ export class SidebarComponent implements OnInit, DoCheck {
         .forEach(menu => (menu.collapsed = !menu.collapsed));
     }
     this.sidebarMenuItems[index].collapsed = !this.sidebarMenuItems[index].collapsed;
+  }
+ 
+  ngAfterViewInit(): void {
+    this.cdr.detectChanges();
   }
 }

@@ -1,0 +1,42 @@
+$mat-icon-margin-compensation: 1.2;
+$mat-icon-size: 14px * $mat-icon-margin-compensation;
+$mat-confirm-icon-size: 100px * $mat-icon-margin-compensation;
+
+.mat-icon {
+  font-size: $mat-icon-size !important;
+  width: $mat-icon-size !important;
+  height: $mat-icon-size !important;
+  line-height: $mat-icon-size !important;
+}
+
+.mat-icon-button.mat-blue {
+  color: #14416A;
+}
+
+
+.mat-icon-button i, .mat-icon-button .mat-icon {
+  /*font-size: $mat-icon-size !important;
+  width: $mat-icon-size !important;
+  height: $mat-icon-size !important;
+  line-height: $mat-icon-size !important;*/
+}
+
+.mat-icon-button {
+  /*font-size: $mat-icon-size !important;
+  width: $mat-icon-size !important;
+  height: $mat-icon-size !important;
+  line-height: $mat-icon-size !important;*/
+}
+
+
+.confirm-icon {
+  font-size: $mat-confirm-icon-size !important;
+  height: $mat-confirm-icon-size !important;
+  width: $mat-confirm-icon-size !important;
+  line-height: $mat-confirm-icon-size !important;
+}
+
+.sidebar-icon {
+  color: #FFFFFF;
+  font-size: 14px;
+}
