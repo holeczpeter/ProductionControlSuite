@@ -14,11 +14,13 @@ import { QualityDataService } from '../../../services/data/quality-data.service'
 import { WorkerDataService } from '../../../services/data/worker-data.service';
 import { LanguageService } from '../../../services/language/language.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
+
 @Component({
   selector: 'app-worker-defect-statistics',
   templateUrl: './worker-defect-statistics.component.html',
   styleUrls: ['./worker-defect-statistics.component.scss']
 })
+
 export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
   formGroup: UntypedFormGroup;
   title = "workercompare.title";
@@ -34,7 +36,6 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
   items: Array<DefectStatisticModel>;
   dataSource: MatTableDataSource<DefectStatisticModel>;
 
-  
   public workerFilterCtrl: FormControl = new FormControl();
   public filteredWorkers: ReplaySubject<WorkerModel[]> = new ReplaySubject<WorkerModel[]>(1);
   @ViewChild('workerSelect') workerSelect: MatSelect;
@@ -45,6 +46,7 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   workers: WorkerModel[];
+
   constructor(private readonly workerDataService: WorkerDataService,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly qualityDataService: QualityDataService,
@@ -79,6 +81,7 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
       this.filteredWorkers.next(this.workers.slice());
     });
   }
+
   valueChanges() {
     this.formGroup.get('product')?.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(x => {
       this.getOperations();
@@ -92,8 +95,8 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
     this.defectDataService.getByOperation(request).subscribe(defects => {
       this.defects = defects;
     });
-
   }
+
   getOperations() {
     let request: GetOperationsByProduct = { productId: this.formGroup.get('product')?.value.id };
     this.operatonDataService.getByProduct(request).subscribe(operations => {
@@ -114,6 +117,7 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
       this.filteredProducts.next(this.products.slice());
     });
   }
+
   filterWorker(): void {
     if (!this.workers) return;
     let search = this.workerFilterCtrl.value;
@@ -127,15 +131,14 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
       this.filteredWorkers.next(this.workers.slice());
     });
   }
-  onRequest() {
 
+  onRequest() {
     let request: GetDefectStatisticsByUser = {
       workerCode: this.formGroup.get('worker')?.value.workerCode,
       startDate: new Date(this.formGroup.get('startDate')?.value),
       endDate: new Date(this.formGroup.get('endDate')?.value),
       operationId: this.formGroup.get('operation')?.value.id,
     };
-   
     this.qualityDataService.getDefectStatisticsByUser(request).subscribe(results => {
       this.items = results;
       this.dataSource = new MatTableDataSource(results);

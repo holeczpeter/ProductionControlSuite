@@ -1,0 +1,15 @@
+<div class="container-fluid">
+  <div class="flex-title">
+    <app-title class="flex-title-item" [title]="title"></app-title>
+  </div>
+  <app-operation-search (select)="onSelectedOperation($event)">
+  </app-operation-search>
+  <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
+  <div class="example-container" *ngIf="quantityReportModel">
+    <app-operation-quantity-table [model]="quantityReportModel"
+                                  [interval]="currentInterval"
+                                  [categories]="categories"
+                                  [shifts]="shifts">
+    </app-operation-quantity-table>
+  </div>
+</div>

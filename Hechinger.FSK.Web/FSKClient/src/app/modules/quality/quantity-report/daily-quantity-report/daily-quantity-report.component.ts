@@ -1,27 +1,22 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
 import { distinctUntilChanged, forkJoin, Subscription } from 'rxjs';
-import { EnumModel, GetQuantityReportByProduct, IntervalModel, IntervalOption, ProductModel, QuantityOperationReportModel, SelectModel, ShiftModel, Views } from '../../../models/generated/generated';
-import { DefectDataService } from '../../../services/data/defect-data.service';
-import { ProductDataService } from '../../../services/data/product-data.service';
-import { QualityDataService } from '../../../services/data/quality-data.service';
-import { ShiftDataService } from '../../../services/data/shift-data.service';
-import { IntervalViewService } from '../../../services/interval-view/interval-view.service';
-import { LanguageService } from '../../../services/language/language.service';
+import { EnumModel, GetQuantityReportByOperation, IntervalModel, IntervalOption, QuantityOperationReportModel, SelectModel, ShiftModel, Views } from '../../../../models/generated/generated';
+import { DefectDataService } from '../../../../services/data/defect-data.service';
+import { QualityDataService } from '../../../../services/data/quality-data.service';
+import { ShiftDataService } from '../../../../services/data/shift-data.service';
+import { IntervalViewService } from '../../../../services/interval-view/interval-view.service';
+import { LanguageService } from '../../../../services/language/language.service';
 
 @Component({
-  selector: 'app-quantity-report',
-  templateUrl: './quantity-report.component.html',
-  styleUrls: ['./quantity-report.component.scss']
+  selector: 'app-daily-quantity-report',
+  templateUrl: './daily-quantity-report.component.html',
+  styleUrls: ['./daily-quantity-report.component.scss']
 })
-export class QuantityReportComponent implements OnInit, OnDestroy {
-  quantityReportModels: Array<QuantityOperationReportModel>;
-  product: SelectModel;
+export class DailyQuantityReportComponent implements OnInit, OnDestroy {
+  operation: SelectModel;
+  quantityReportModel: QuantityOperationReportModel;
   intervalOptions: Array<IntervalOption> = [
-    { name: 'day', value: Views.Day, isDefault: false },
-    { name: 'week', value: Views.Week, isDefault: true },
-    { name: 'month', value: Views.Month, isDefault: false },
-    { name: 'year', value: Views.Year, isDefault: false },
+    { name: 'day', value: Views.Day, isDefault: true },
   ];
   currentDate = new Date();
   selectedView: Views;
@@ -31,7 +26,7 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
   title = "qualityreport.title";
   shifts: ShiftModel[];
   categories: EnumModel[];
- 
+
   constructor(private readonly qualityDataService: QualityDataService,
     private readonly defectDataService: DefectDataService,
     public languageService: LanguageService,
@@ -44,7 +39,7 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
       this.shifts = shifts;
       this.categories = categories;
     });
-   
+
     this.selectedView = this.intervalOptions.find(x => x.isDefault)!.value;
     if (this.monthDataSubscription) this.monthDataSubscription.unsubscribe();
     if (this.intervalSubscription) this.intervalSubscription.unsubscribe();
@@ -53,32 +48,31 @@ export class QuantityReportComponent implements OnInit, OnDestroy {
       .subscribe((x: IntervalModel) => {
         this.currentInterval = x;
         this.selectedView = x.selectedView;
-        if (this.product) this.initalize();
+        if (this.operation) this.initalize();
       });
     this.intervalPanelService.setViews(this.selectedView, this.currentDate);
   }
- 
+
   initalize() {
-    if (this.currentInterval && this.product) {
-      let request: GetQuantityReportByProduct = {
-        productId: this.product.id,
+    if (this.currentInterval) {
+      let request: GetQuantityReportByOperation = {
+        operationId: this.operation.id,
         startDate: this.currentInterval.startDate,
         endDate: this.currentInterval.endDate,
       }
-      this.qualityDataService.getQuantityReportByProduct(request).subscribe(reportModel => {
-        this.quantityReportModels = reportModel;
+      this.qualityDataService.getQuantityReportByOperation(request).subscribe(reportModel => {
+        this.quantityReportModel = reportModel;
       });
     };
   }
 
-  onSelectedProduct(event: SelectModel) {
-    this.product = event;
+  onSelectedOperation(event: SelectModel) {
+    this.operation = event;
     this.initalize();
   }
+
   ngOnDestroy() {
     if (this.monthDataSubscription) this.monthDataSubscription.unsubscribe();
     if (this.intervalSubscription) this.intervalSubscription.unsubscribe();
-   
   }
 }
-

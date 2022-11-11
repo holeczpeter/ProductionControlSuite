@@ -7,7 +7,7 @@
 $table-cell-border: 1px solid #CCC;
 
 table {
-  width: 800px;
+  width: 100%;
   border-collapse: separate; // border collapse + sticky -> border gets left behind from the sticky element during scroll ..
   border-spacing: 0; // .. we need to draw the borders manually.
 }

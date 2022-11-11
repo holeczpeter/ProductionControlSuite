@@ -59,6 +59,9 @@ import { LoaderComponent } from './loader/loader.component';
 import { TitleComponent } from './title/title.component';
 import { NgxPrintModule } from 'ngx-print';
 import { SummaryCardHeaderComponent } from './summary-card-header/summary-card-header.component';
+import { OperationSearchComponent } from './operation-search/operation-search.component';
+import { ProductSearchComponent } from './product-search/product-search.component';
+import { DefectSearchComponent } from './defect-search/defect-search.component';
 @NgModule({
   declarations: [
     
@@ -73,6 +76,9 @@ import { SummaryCardHeaderComponent } from './summary-card-header/summary-card-h
     DateWithNamePipe,
     SumCategoryPipe,
     SummaryCardHeaderComponent,
+    OperationSearchComponent,
+    ProductSearchComponent,
+    DefectSearchComponent,
   ],
   imports: [
     CommonModule,
@@ -180,7 +186,10 @@ import { SummaryCardHeaderComponent } from './summary-card-header/summary-card-h
     DateWithNamePipe,
     SumCategoryPipe,
     NgxPrintModule,
-    SummaryCardHeaderComponent
+    SummaryCardHeaderComponent,
+    OperationSearchComponent,
+    ProductSearchComponent,
+    DefectSearchComponent,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },

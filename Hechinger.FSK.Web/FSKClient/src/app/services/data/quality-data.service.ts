@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DefectStatisticModel, GetDefectStatisticsByUser, GetMonthlyQualityHistory, GetQuantityReport, GetWorkerStatisticsByDefect, MonthlyQualityModel, QuantityOperationReportModel, WorkerStatisticModel } from '../../models/generated/generated';
+import { DefectStatisticModel, GetDefectStatisticsByUser, GetMonthlyQualityHistory, GetQuantityReportByOperation, GetQuantityReportByProduct, GetWorkerStatisticsByDefect, MonthlyQualityModel, QuantityOperationReportModel, WorkerStatisticModel } from '../../models/generated/generated';
 
 @Injectable({
   providedIn: 'root'
@@ -36,8 +36,18 @@ export class QualityDataService {
       }
     });
   }
-  getQuantityReport(request: GetQuantityReport): Observable<Array<QuantityOperationReportModel>> {
-    return this.httpClient.get<Array<QuantityOperationReportModel>>('/Quality/GetQuantityReport', {
+  getQuantityReportByOperation(request: GetQuantityReportByOperation): Observable<QuantityOperationReportModel> {
+    return this.httpClient.get<QuantityOperationReportModel>('/Quality/GetQuantityReportByOperation', {
+      params:
+      {
+        'operationId': request.operationId,
+        'startDate': request.startDate.toDateString(),
+        'endDate': request.endDate.toDateString()
+      }
+    });
+  }
+  getQuantityReportByProduct(request: GetQuantityReportByProduct): Observable<Array<QuantityOperationReportModel>> {
+    return this.httpClient.get<Array<QuantityOperationReportModel>>('/Quality/GetQuantityReportByProduct', {
       params:
       {
         'productId': request.productId,

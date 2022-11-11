@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CrapCostsComponent } from './crap-costs/crap-costs.component';
 import { QualityHistoryMonthlyComponent } from './quality-history-monthly/quality-history-monthly.component';
 import { QualityReportComponent } from './quality-report/quality-report.component';
+import { DailyQuantityReportComponent } from './quantity-report/daily-quantity-report/daily-quantity-report.component';
 import { QuantityReportComponent } from './quantity-report/quantity-report.component';
 import { WorkerCompareStatisticsComponent } from './worker-compare-statistics/worker-compare-statistics.component';
 import { WorkerDefectStatisticsComponent } from './worker-defect-statistics/worker-defect-statistics.component';

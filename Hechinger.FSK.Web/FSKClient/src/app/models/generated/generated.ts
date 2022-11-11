@@ -124,6 +124,7 @@ export interface DefectRequestParameters {
   operationTranslatedName: string,
   operationCode: string,
   defectCategoryName: string,
+  lang: string,
   code: string,
   name: string,
   translatedName: string,
@@ -147,6 +148,7 @@ export interface GetDefectsCount {
   parameters: RequestParameters,
 }
 export interface RequestParameters {
+  lang: string,
   code: string,
   name: string,
   translatedName: string,
@@ -230,6 +232,7 @@ export interface OperationRequestParameters {
   productName: string,
   productTranslatedName: string,
   productCode: string,
+  lang: string,
   code: string,
   name: string,
   translatedName: string,
@@ -315,6 +318,7 @@ export interface GetAllProducts {
 }
 export interface ProductRequestParameters {
   workshopName: string,
+  lang: string,
   code: string,
   name: string,
   translatedName: string,
@@ -435,7 +439,12 @@ export interface GetQualityAssurance {
   endDate: Date,
   view: Views,
 }
-export interface GetQuantityReport {
+export interface GetQuantityReportByOperation {
+  operationId: number,
+  startDate: Date,
+  endDate: Date,
+}
+export interface GetQuantityReportByProduct {
   productId: number,
   startDate: Date,
   endDate: Date,
@@ -623,6 +632,7 @@ export interface SummaryCardRequestParameters {
   shiftTranslatedName: string,
   quantity: string,
   workerName: string,
+  lang: string,
   code: string,
   name: string,
   translatedName: string,

@@ -36,7 +36,12 @@ namespace Hechinger.FSK.Web.Controllers
             return await this.mediator.Send(request, cancellationToken);
         }
         [HttpGet]
-        public async Task<IEnumerable<QuantityOperationReportModel>> GetQuantityReport(GetQuantityReport request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<QuantityOperationReportModel>> GetQuantityReportByProduct(GetQuantityReportByProduct request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+        [HttpGet]
+        public async Task<QuantityOperationReportModel> GetQuantityReportByOperation(GetQuantityReportByOperation request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
         }

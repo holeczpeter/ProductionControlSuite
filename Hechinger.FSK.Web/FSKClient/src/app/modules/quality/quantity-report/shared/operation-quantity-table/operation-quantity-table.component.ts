@@ -1,12 +1,12 @@
 import { Component, DoCheck, Input, IterableDiffer, IterableDiffers, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { DefectCategories, EnumModel, IntervalModel, QuantityOperationReportModel, ShiftModel } from '../../../../models/generated/generated';
+import { DefectCategories, EnumModel, IntervalModel, QuantityOperationReportModel, ShiftModel } from '../../../../../models/generated/generated';
 import { addDays } from 'date-fns';
 import format from 'date-fns/fp/format';
 import { MatTableDataSource } from '@angular/material/table';
-import { LanguageService } from '../../../../services/language/language.service';
-import { ShiftDataService } from '../../../../services/data/shift-data.service';
-import { TableHeader } from '../../../../models/table-header';
-import { TableColumn } from '../../../../models/table-column';
+import { LanguageService } from '../../../../../services/language/language.service';
+import { ShiftDataService } from '../../../../../services/data/shift-data.service';
+import { TableHeader } from '../../../../../models/table-header';
+import { TableColumn } from '../../../../../models/table-column';
 
 @Component({
   selector: 'app-operation-quantity-table',
@@ -27,36 +27,36 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
   shiftColumns: string[];
   shiftQuantityColumns: string[];
   dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
-  private _differ: IterableDiffer<any>;
   categorySumHeaders: TableHeader[];
   categoryPpmHeaders: TableHeader[];
   categorySumColumns: string[];
   categoryPpmColumns: string[];
+  private _differ: IterableDiffer<any>;
+
   constructor(public languageService: LanguageService,
     private differs: IterableDiffers,
     private readonly shiftDataServie: ShiftDataService) {
     this._differ = this.differs.find([]).create();
   }
 
-
-
   ngOnInit(): void {
-
   }
+
   ngDoCheck(): void {
     var changes = this._differ.diff(this.shifts);
     var changes2 = this._differ.diff(this.categories);
     if (changes) this.createTable();
     if (changes2) this.createTable();
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['model'] && changes['interval'] && this.model && this.interval) this.createTable();
 
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes)
+    if (changes['model'] && changes['interval'] && this.model && this.interval) this.createTable();
   }
+
   createTable() {
     if (this.interval && this.model && this.shifts && this.categories) {
       this.dataSource = new MatTableDataSource();
-
       this.columnsToDisplay = new Array<string>();
       this.displayedColumns = new Array<string>();
       this.dayHeaders = new Array<TableHeader>();
@@ -69,7 +69,6 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
       this.categorySumColumns = new Array<string>();
       this.categoryPpmColumns = new Array<string>();
       let rows = new Array<TableColumn>();
-
       this.createHeaders();
       this.model.defects.forEach((defect, index) => {
 
@@ -112,9 +111,8 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
       this.dataSource = new MatTableDataSource(rows);
     }
   }
+
   createHeaders() {
-
-
     this.displayedColumns.push("defect");
     for (let i = 0; i <= this.interval.differenceInCalendarDays; i++) {
       let currentDate = addDays(this.interval.startDate, i);
@@ -142,24 +140,31 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
     const myArray = header.split("_");
     return this.shifts.find(x => x.id.toString() == myArray[1])?.name;
   }
+
   getColSpanAfterOperation() {
     return ((this.interval.differenceInCalendarDays + 1) * this.shifts.length * 3) + 3;
   }
+
   getColSpanShift() {
     return this.shifts ? this.shifts.length : 0;
   }
+
   getColSpanDay() {
     return this.shifts ? this.shifts.length * 3 : 3;
   }
+
   isShift(index: number, item: any): boolean {
     return item.isShift;
   }
+
   isDay(index: number, item: any): boolean {
     return item.isDay;
   }
+
   isOperation(index: number, item: any): boolean {
     return item.isOperation;
   }
+
   getCategory(categoryId: string) {
     const myArray = categoryId.split("_");
     switch (myArray[2]) {
@@ -170,5 +175,4 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
         return "#F35B5A";
     }
   }
-
 }

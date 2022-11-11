@@ -1,17 +1,17 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetQuantityReport : IRequest<IEnumerable<QuantityOperationReportModel>>
+    public class GetQuantityReportByProduct : IRequest<IEnumerable<QuantityOperationReportModel>>
     {
         public int ProductId { get; set; }
 
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
-        public GetQuantityReport()
+        public GetQuantityReportByProduct()
         {
 
         }
-        public GetQuantityReport(int productId, DateTime startDate, DateTime endDate)
+        public GetQuantityReportByProduct(int productId, DateTime startDate, DateTime endDate)
         {
             ProductId = productId;
             StartDate = startDate;
