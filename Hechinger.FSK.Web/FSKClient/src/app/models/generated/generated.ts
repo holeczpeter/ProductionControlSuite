@@ -401,7 +401,7 @@ export interface QuantityDefectReportModel {
   defectName: string,
   defectTranslatedName: string,
   defectCategory: DefectCategories,
-  pPM: number,
+  ppm: number,
   defectQuantity: number,
   days: Array<QuantityDayReportModel>,
 }
@@ -415,7 +415,7 @@ export interface QuantityDayReportModel {
   date: Date,
   shiftId: number,
   defectQuantity: number,
-  pPM: number,
+  ppm: number,
 }
 export interface WorkerStatisticModel {
   workerCode: string,

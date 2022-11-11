@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { distinctUntilChanged, forkJoin, Subscription } from 'rxjs';
 import { EnumModel, GetQuantityReportByOperation, IntervalModel, IntervalOption, QuantityOperationReportModel, SelectModel, ShiftModel, Views } from '../../../../models/generated/generated';
+import { QuantityTableModel } from '../../../../models/quantity-table-model';
 import { DefectDataService } from '../../../../services/data/defect-data.service';
 import { QualityDataService } from '../../../../services/data/quality-data.service';
 import { ShiftDataService } from '../../../../services/data/shift-data.service';
@@ -13,10 +14,13 @@ import { LanguageService } from '../../../../services/language/language.service'
   styleUrls: ['./daily-quantity-report.component.scss']
 })
 export class DailyQuantityReportComponent implements OnInit, OnDestroy {
+ 
   operation: SelectModel;
   quantityReportModel: QuantityOperationReportModel;
   intervalOptions: Array<IntervalOption> = [
     { name: 'day', value: Views.Day, isDefault: true },
+    { name: 'week', value: Views.Week, isDefault: false },
+    { name: 'month', value: Views.Month, isDefault: false },
   ];
   currentDate = new Date();
   selectedView: Views;
@@ -26,7 +30,8 @@ export class DailyQuantityReportComponent implements OnInit, OnDestroy {
   title = "qualityreport.title";
   shifts: ShiftModel[];
   categories: EnumModel[];
-
+  chartTitle: string | null;
+  tableModel: QuantityTableModel;
   constructor(private readonly qualityDataService: QualityDataService,
     private readonly defectDataService: DefectDataService,
     public languageService: LanguageService,
@@ -62,6 +67,12 @@ export class DailyQuantityReportComponent implements OnInit, OnDestroy {
       }
       this.qualityDataService.getQuantityReportByOperation(request).subscribe(reportModel => {
         this.quantityReportModel = reportModel;
+        this.tableModel = {
+          interval: this.currentInterval,
+          model: this.quantityReportModel
+        };
+
+        this.chartTitle = this.intervalPanelService.details;
       });
     };
   }

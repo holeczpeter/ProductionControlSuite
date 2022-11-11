@@ -1,0 +1,11 @@
+<div class="category-panel">
+  <div class="category-item" *ngFor="let category of categoryService.getCategories()">
+    <div>
+      <span class="item"
+            [style.--border-color]="category.backgroundColor">
+      </span>
+    </div>
+    <div>{{category.name}}</div>
+  </div>
+</div>
+

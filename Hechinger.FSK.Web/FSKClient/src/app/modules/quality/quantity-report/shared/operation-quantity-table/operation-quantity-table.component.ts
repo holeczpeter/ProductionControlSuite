@@ -7,6 +7,8 @@ import { LanguageService } from '../../../../../services/language/language.servi
 import { ShiftDataService } from '../../../../../services/data/shift-data.service';
 import { TableHeader } from '../../../../../models/table-header';
 import { TableColumn } from '../../../../../models/table-column';
+import { forkJoin, of, zip } from 'rxjs';
+import { QuantityTableModel } from '../../../../../models/quantity-table-model';
 
 @Component({
   selector: 'app-operation-quantity-table',
@@ -14,10 +16,11 @@ import { TableColumn } from '../../../../../models/table-column';
   styleUrls: ['./operation-quantity-table.component.scss']
 })
 export class OperationQuantityTableComponent implements OnInit, OnChanges, DoCheck {
-  @Input() model: QuantityOperationReportModel;
-  @Input() interval: IntervalModel;
+  @Input() tableModel: QuantityTableModel;
   @Input() shifts: ShiftModel[];
   @Input() categories: EnumModel[];
+  interval: IntervalModel;
+  model: QuantityOperationReportModel;
   columnsToDisplay: string[];
   displayedColumns: string[];
   dayHeaders: TableHeader[];
@@ -31,60 +34,57 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
   categoryPpmHeaders: TableHeader[];
   categorySumColumns: string[];
   categoryPpmColumns: string[];
-  private _differ: IterableDiffer<any>;
-
+  private _differShifts: IterableDiffer<any>;
+  private _differCategories: IterableDiffer<any>;
+  shiftChanges: any;
+  categoryChanges: any;
   constructor(public languageService: LanguageService,
     private differs: IterableDiffers,
     private readonly shiftDataServie: ShiftDataService) {
-    this._differ = this.differs.find([]).create();
+    this._differShifts = this.differs.find([]).create(this.trackByFn);
+    this._differCategories = this.differs.find([]).create(this.trackByFn);
   }
 
   ngOnInit(): void {
   }
-
+  
   ngDoCheck(): void {
-    var changes = this._differ.diff(this.shifts);
-    var changes2 = this._differ.diff(this.categories);
-    if (changes) this.createTable();
-    if (changes2) this.createTable();
+    this.shiftChanges = this._differShifts.diff(this.shifts);
+    this.categoryChanges = this._differCategories.diff(this.categories);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
-    if (changes['model'] && changes['interval'] && this.model && this.interval) this.createTable();
+    if ((changes['tableModel'] && this.tableModel) || this.shiftChanges || this.categoryChanges) {
+      this.interval = this.tableModel.interval;
+      this.model = this.tableModel.model;
+      this.createTable();
+    } 
   }
 
   createTable() {
     if (this.interval && this.model && this.shifts && this.categories) {
-      this.dataSource = new MatTableDataSource();
-      this.columnsToDisplay = new Array<string>();
-      this.displayedColumns = new Array<string>();
-      this.dayHeaders = new Array<TableHeader>();
-      this.shiftHeaders = new Array<TableHeader>();
-      this.shiftQuantityHeaders = new Array<TableHeader>();
-      this.dayColumns = new Array<string>();
-      this.shiftColumns = new Array<string>();
-      this.categorySumHeaders = new Array<TableHeader>();
-      this.categoryPpmHeaders = new Array<TableHeader>();
-      this.categorySumColumns = new Array<string>();
-      this.categoryPpmColumns = new Array<string>();
+      
+      this.setInitial();
       let rows = new Array<TableColumn>();
       this.createHeaders();
       this.model.defects.forEach((defect, index) => {
 
         const row = new TableColumn();
+        
         row['defect'] = { id: defect.defectId, code: defect.defectCode, name: defect.defectName, translatedName: defect.defectTranslatedName };
         for (let i = 0; i <= this.interval.differenceInCalendarDays; i++) {
+         
           let currentDate = addDays(this.interval.startDate, i);
           let currentDateObjects = defect.days.filter(day => format('yyyy-MM-dd', new Date(day.date)).trim() == format('yyyy-MM-dd', currentDate).trim());
 
           for (var j = 0; j < this.shifts.length; j++) {
             if (index == 0) {
+             
               let shiftQuantityModel = this.model.days
                 .find(day => format('yyyy-MM-dd', new Date(day.date)).trim() == format('yyyy-MM-dd', currentDate).trim() && day.shiftId == this.shifts[j].id);
               let header = this.shiftQuantityHeaders.find(x => x.id == "q_" + currentDate.toString() + "_" + this.shifts[j].id);
               if (header) {
-                header.value = shiftQuantityModel ? shiftQuantityModel.quantity : '';
+                header.value = shiftQuantityModel ? shiftQuantityModel.quantity :0;
               }
             }
 
@@ -98,7 +98,7 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
         }
         this.categories.forEach(c => {
           row['sum_q_' + c.id] = defect.defectCategory == c.id ? defect.defectQuantity : 0;
-          row['sum_ppm_' + c.id] = defect.defectCategory == c.id ? defect.pPM : 0;
+          row['sum_ppm_' + c.id] = defect.defectCategory == c.id ? defect.ppm : 0;
 
         });
 
@@ -111,6 +111,21 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
       this.dataSource = new MatTableDataSource(rows);
     }
   }
+    setInitial() {
+      this.dataSource = new MatTableDataSource();
+      this.columnsToDisplay = [...[]];
+      this.displayedColumns = [...[]];
+      this.dayHeaders = [...[]];
+      this.shiftHeaders = [...[]];
+      this.shiftQuantityHeaders = [...[]];
+      this.dayColumns = [...[]];
+      this.shiftColumns = [...[]];
+      this.categorySumHeaders = [...[]];
+      this.categoryPpmHeaders = [...[]];
+      this.categorySumColumns = [...[]];
+      this.categoryPpmColumns = [...[]];
+      
+    }
 
   createHeaders() {
     this.displayedColumns.push("defect");
@@ -164,7 +179,9 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
   isOperation(index: number, item: any): boolean {
     return item.isOperation;
   }
-
+  trackByFn(index: number, item: any) {
+    return index;
+  }
   getCategory(categoryId: string) {
     const myArray = categoryId.split("_");
     switch (myArray[2]) {

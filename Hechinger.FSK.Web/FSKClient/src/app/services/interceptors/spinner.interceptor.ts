@@ -8,7 +8,7 @@ import {
   HttpResponse,
   HttpErrorResponse
 } from '@angular/common/http';
-import { catchError, Observable, tap } from 'rxjs';
+import { catchError, EMPTY, Observable, tap } from 'rxjs';
 import { SpinnerService } from '../spinner/spinner.service';
 import { Router } from '@angular/router';
 import { AccountService } from '../account.service';
@@ -51,7 +51,11 @@ export class SpinnerInterceptor implements HttpInterceptor {
         , catchError((x: HttpErrorResponse) => {
           this.currentRequests = 0;
           this.spinnerService.hide();
-          throw new Error(JSON.stringify(x.error));
+          if (x.status !== 401)  {
+            throw new Error(JSON.stringify(x.error));
+          }
+          console.log(x.error);
+          return EMPTY;
         })
       );
   }

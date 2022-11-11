@@ -1,0 +1,16 @@
+.category-panel {
+  margin-top:30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.category-item {
+  display: flex;
+  gap: 10px;
+}
+.item {
+  border-color: var(--border-color);
+  margin-left: 15px;
+  border-left-style: solid;
+  border-left-width: 30px;
+}

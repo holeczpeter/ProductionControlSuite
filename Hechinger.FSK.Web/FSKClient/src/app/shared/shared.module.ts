@@ -62,6 +62,7 @@ import { SummaryCardHeaderComponent } from './summary-card-header/summary-card-h
 import { OperationSearchComponent } from './operation-search/operation-search.component';
 import { ProductSearchComponent } from './product-search/product-search.component';
 import { DefectSearchComponent } from './defect-search/defect-search.component';
+import { CategoriesLegendComponent } from './categories-legend/categories-legend.component';
 @NgModule({
   declarations: [
     
@@ -79,6 +80,7 @@ import { DefectSearchComponent } from './defect-search/defect-search.component';
     OperationSearchComponent,
     ProductSearchComponent,
     DefectSearchComponent,
+    CategoriesLegendComponent,
   ],
   imports: [
     CommonModule,
@@ -190,6 +192,7 @@ import { DefectSearchComponent } from './defect-search/defect-search.component';
     OperationSearchComponent,
     ProductSearchComponent,
     DefectSearchComponent,
+    CategoriesLegendComponent,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },

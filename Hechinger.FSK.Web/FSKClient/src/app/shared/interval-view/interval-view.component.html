@@ -68,10 +68,10 @@
       <h2>
         <ng-container *ngIf="intervalViewModel!.currentWeek  - 1 !== 0; else Turn">
           {{intervalViewModel!.currentYear }}.
-          {{intervalViewModel!.currentWeek }}. hét
+          {{intervalViewModel!.currentWeek }}. {{ 'week'  | translate | lowercase }}
         </ng-container>
         <ng-template #Turn>
-          {{intervalViewModel!.currentYear }}.53. hét / {{intervalViewModel!.currentYear+1 }}.1. hét
+          {{intervalViewModel!.currentYear }}.53. {{ 'week'  | translate | lowercase }} / {{intervalViewModel!.currentYear+1 }}.1. {{ 'week'  | translate | lowercase }}
         </ng-template>
       </h2>
     </div>

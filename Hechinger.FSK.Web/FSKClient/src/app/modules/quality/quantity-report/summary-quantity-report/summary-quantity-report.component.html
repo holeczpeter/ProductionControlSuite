@@ -4,12 +4,13 @@
   <app-product-search (select)="onSelectedProduct($event)"></app-product-search>
   <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
   <div class="example-container" *ngIf="quantityReportModels">
-    <ng-container *ngFor="let option of quantityReportModels">
+    <!--<ng-container *ngFor="let option of quantityReportModels">
       <app-operation-quantity-table [model]="option"
                                     [interval]="currentInterval"
                                     [categories]="categories"
                                     [shifts]="shifts">
       </app-operation-quantity-table>
-    </ng-container>
+    </ng-container>-->
   </div>
 </div>
+

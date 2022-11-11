@@ -12,6 +12,8 @@
     <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="FSKClient\src\app\models\quantity-chart-model.ts" />
+    <None Remove="FSKClient\src\app\models\quantity-table-model.ts" />
     <None Remove="FSKClient\src\app\validators\custom-validator.ts" />
     <None Remove="FSKClient\src\app\validators\password-equality-validator.ts" />
   </ItemGroup>
@@ -97,6 +99,8 @@
     <Folder Include="FSKClient\src\app\services\navigation\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="FSKClient\src\app\models\quantity-chart-model.ts" />
+    <TypeScriptCompile Include="FSKClient\src\app\models\quantity-table-model.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\validators\custom-validator.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\validators\password-equality-validator.ts" />
   </ItemGroup>

@@ -17,7 +17,8 @@ export class DateService {
   getDays() {
     return this.days.asObservable();
   }
-  months = [
+
+  hunMonth = [
     "Január",
     "Február",
     "Március",
@@ -29,7 +30,24 @@ export class DateService {
     "Szeptember",
     "Október",
     "November",
-    "December"];
+    "December"
+  ];
+  deMonth = [
+    'Januar',
+    'Februar',
+    'March',
+    'April',
+    'Mai',
+    'June',
+    'July',
+    'August',
+    'September',
+    'Oktober',
+    'November',
+    'Dezember',
+
+  ];
+  months = this.translateService.currentLang == 'hu' ? this.hunMonth : this.deMonth;
 
   setDays(lang: string) {
     return lang == 'hu' ? [
@@ -42,14 +60,14 @@ export class DateService {
       "Vasárnap"
 
     ] : [
-      
+
       "Montag",
       "Dienstag",
       "Mittwoch",
       "Donnerstag",
       "Freitag",
-        "Samstag",
-        "Sonntag",
+      "Samstag",
+      "Sonntag",
     ]
   }
   dayCodes = [
@@ -87,7 +105,7 @@ export class DateService {
   getMonthName(monthId: number): string {
     return this.months[monthId];
   }
-  
+
 
   getDayCode(day: Date): string {
     var result = this.dayCodes[day.getDay()];

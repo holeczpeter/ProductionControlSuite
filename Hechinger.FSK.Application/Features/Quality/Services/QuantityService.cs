@@ -54,7 +54,7 @@
                             Date = sc.Key.Date,
                             ShiftId = sc.Key.Shift,
                             DefectQuantity = sc.Select(x => x.Quantity).Sum(),
-                            PPM = this.qualityService.GetPPM(sc.Select(x => x.SummaryCard.Quantity).Sum(), sc.Select(x => x.Quantity).Sum()),
+                            Ppm = this.qualityService.GetPpm(sc.Select(x => x.SummaryCard.Quantity).Sum(), sc.Select(x => x.Quantity).Sum()),
 
                         }).ToList(),
                     }).ToList(),
@@ -107,7 +107,7 @@
                             Date = sc.Key.Date,
                             ShiftId = sc.Key.Shift,
                             DefectQuantity = sc.Select(x => x.Quantity).Sum(),
-                            PPM = this.qualityService.GetPPM(sc.Select(x => x.SummaryCard.Quantity).Sum(), sc.Select(x => x.Quantity).Sum()),
+                            Ppm = this.qualityService.GetPpm(sc.Select(x => x.SummaryCard.Quantity).Sum(), sc.Select(x => x.Quantity).Sum()),
 
                         }).ToList(),
                     }).ToList(),

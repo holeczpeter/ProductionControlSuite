@@ -9,13 +9,14 @@ import { CrapCostsComponent } from './crap-costs/crap-costs.component';
 import { SharedModule } from '../../shared/shared.module';
 import { WorkerCompareStatisticsComponent } from './worker-compare-statistics/worker-compare-statistics.component';
 import { WorkerDefectStatisticsComponent } from './worker-defect-statistics/worker-defect-statistics.component';
-import { QuantityReportComponent } from './quantity-report/quantity-report.component';
 import { QualityReportComponent } from './quality-report/quality-report.component';
 import { WorkerCompareStatisticsChartComponent } from './worker-compare-statistics/worker-compare-statistics-chart/worker-compare-statistics-chart.component';
 import { WorkerDefectStatisticsChartComponent } from './worker-defect-statistics/worker-defect-statistics-chart/worker-defect-statistics-chart.component';
 import { DailyQuantityReportComponent } from './quantity-report/daily-quantity-report/daily-quantity-report.component';
 import { WeeklyQuantityReportComponent } from './quantity-report/weekly-quantity-report/weekly-quantity-report.component';
 import { OperationQuantityTableComponent } from './quantity-report/shared/operation-quantity-table/operation-quantity-table.component';
+import { SummaryQuantityReportComponent } from './quantity-report/summary-quantity-report/summary-quantity-report.component';
+import { OperationQuantityChartComponent } from './quantity-report/shared/operation-quantity-chart/operation-quantity-chart.component';
 
 
 @NgModule({
@@ -26,13 +27,14 @@ import { OperationQuantityTableComponent } from './quantity-report/shared/operat
     CrapCostsComponent,
     WorkerCompareStatisticsComponent,
     WorkerDefectStatisticsComponent,
-    QuantityReportComponent,
     QualityReportComponent,
     WorkerCompareStatisticsChartComponent,
     WorkerDefectStatisticsChartComponent,
     DailyQuantityReportComponent,
     WeeklyQuantityReportComponent,
-    OperationQuantityTableComponent
+    OperationQuantityTableComponent,
+    SummaryQuantityReportComponent,
+    OperationQuantityChartComponent
   ],
   imports: [
     CommonModule,

@@ -36,7 +36,7 @@
                 { 
                     Year = a.Key.Year,
                     Month = a.Key.Month,
-                    Value = this.qualityService.GetPPM(a.Sum(z=>z.Quantity), a.Sum(c => c.DefectQuantity))
+                    Value = this.qualityService.GetPpm(a.Sum(z=>z.Quantity), a.Sum(c => c.DefectQuantity))
                 }).ToList()
             });
 

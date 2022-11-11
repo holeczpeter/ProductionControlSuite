@@ -15,6 +15,7 @@ import { DateWithNamePipe } from './pipes/date-with-name.pipe';
 import { ShiftNamePipe } from './pipes/shift-name.pipe';
 import { CategoryPipe } from './pipes/category.pipe';
 import { SumCategoryPipe } from './pipes/sum-category.pipe';
+import { DatePipe, LowerCasePipe } from '@angular/common';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -45,7 +46,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     }),
     SharedModule,
   ],
-  providers: [],
+  providers: [DatePipe, LowerCasePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

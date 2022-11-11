@@ -31,7 +31,7 @@
                 WorkerCode = x.Key.WorkerCode,
                 Quantity = x.Sum(x=>x.Quantity),
                 DefectQuantity =  x.Sum(x => x.DefectQuantity),
-                Ppm = this.qualityService.GetPPM(x.Sum(x => x.Quantity), x.Sum(x => x.DefectQuantity))
+                Ppm = this.qualityService.GetPpm(x.Sum(x => x.Quantity), x.Sum(x => x.DefectQuantity))
 
             }).OrderByDescending(x=>x.Ppm).ToList();
             return result;

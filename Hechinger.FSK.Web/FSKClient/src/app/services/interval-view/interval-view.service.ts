@@ -1,3 +1,4 @@
+import { DatePipe, LowerCasePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { differenceInCalendarDays, endOfMonth, endOfWeek, endOfYear, getWeek, startOfMonth, startOfWeek, startOfYear } from 'date-fns';
@@ -20,7 +21,7 @@ export class IntervalViewService {
   }
 
   private options = new BehaviorSubject(this.setOptions(this.translateService.currentLang));
-
+  details: string | null;
   setOptions(lang: string) {
     return [
       { name: lang == 'hu' ? 'Nap' : 'Tag', value: Views.Day, isDefault: false },
@@ -32,7 +33,10 @@ export class IntervalViewService {
   public getOptions() {
     return this.options.asObservable();
   }
-  constructor(private dateService: DateService, private readonly translateService: TranslateService) {
+  constructor(private dateService: DateService,
+    private datePipe: DatePipe,
+    private lowerCasePipe: LowerCasePipe,
+    private readonly translateService: TranslateService) {
     this.translateService.onLangChange.subscribe(lang => {
       this.setOptions(lang.lang);
     });
@@ -69,7 +73,7 @@ export class IntervalViewService {
         break;
       }
     };
-    return {
+    let result: IntervalModel ={
       startDate: this.startDate,
       endDate: this.endDate,
       differenceInCalendarDays: differenceInCalendarDays(this.endDate, this.startDate),
@@ -79,6 +83,28 @@ export class IntervalViewService {
       currentYear: currentDate.getFullYear(),
       currentWeek: getWeek(currentDate, { weekStartsOn: 1 }),
      
+    }
+    this.details = this.setDetail(result);
+    return result;
+  }
+  setDetail(result: IntervalModel): string | null {
+    switch (result.selectedView) {
+      case Views.Day:
+        return this.translateService.currentLang == 'hu' ?
+          this.datePipe.transform(this.currentDate, 'yyyy.MM.dd') :
+          this.datePipe.transform(this.currentDate, 'dd.MM.yyyy');
+      case Views.Week:
+        return result.currentYear.toString() + ". " +
+          result.currentWeek.toString() + ". " +
+          this.lowerCasePipe.transform(this.translateService.instant('week'));
+      case Views.Month:
+        return result.currentYear.toString() + ". " + result.currentMonthName.toString();
+      case Views.Year:
+        return result.currentYear.toString() + ". ";
+      default:
+        return this.translateService.currentLang == 'hu' ?
+          this.datePipe.transform(this.currentDate, 'yyyy.MM.dd') :
+          this.datePipe.transform(this.currentDate, 'dd.MM.yyyy');
     }
   }
 
@@ -91,7 +117,7 @@ export class IntervalViewService {
 
     this.startDate = startDate;
     this.endDate = endDate;
-    this.subject.next({
+    let result: IntervalModel = {
       startDate: this.startDate,
       endDate: this.endDate,
       differenceInCalendarDays: differenceInCalendarDays(this.endDate, this.startDate),
@@ -100,7 +126,8 @@ export class IntervalViewService {
       currentMonthName: this.dateService.getMonthName(this.startDate.getMonth()),
       currentYear: this.startDate.getFullYear(),
       currentWeek: getWeek(this.startDate, { weekStartsOn: 1 }),
-      
-    });
+    };
+    this.details = this.setDetail(result);
+    this.subject.next(result);
   }
 }
