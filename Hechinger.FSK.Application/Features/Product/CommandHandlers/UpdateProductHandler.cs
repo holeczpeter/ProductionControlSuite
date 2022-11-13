@@ -11,7 +11,7 @@
         {
             var result = new ResultBuilder<int>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
             var current = await context.Products.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
-            var currentWorkShop = await this.context.WorkShops.Where(x => x.Id == request.WorkshopId && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
+            var currentWorkShop = await this.context.Workshops.Where(x => x.Id == request.WorkshopId && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (currentWorkShop == null)
             {
                 result.Errors.Add("A műhely nem található");
@@ -27,7 +27,7 @@
                 current.Name = request.Name;
                 current.Code = request.Code;
                 current.TranslatedName = request.TranslatedName;
-                current.WorkShop = currentWorkShop;
+                current.Workshop = currentWorkShop;
                 await context.SaveChangesAsync(cancellationToken);
                 result.Message = "A termék sikeresen módosítva";
                 result.IsSuccess = true;

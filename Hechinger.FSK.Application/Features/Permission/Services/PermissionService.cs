@@ -13,8 +13,8 @@ namespace Hechinger.FSK.Application.Features
         public async Task<IEnumerable<int>> GetPermissionToWorkshops(CancellationToken cancellationToken)
         {
             var userId = this.context.GetCurrentUser();
-            return await (from u in this.context.WorkShopUsers
-                          join w in this.context.WorkShops on u.WorkShopId equals w.Id
+            return await (from u in this.context.WorkshopUsers
+                          join w in this.context.Workshops on u.WorkshopId equals w.Id
                           where
                           w.EntityStatus == EntityStatuses.Active &&
                           u.UserId.ToString() == userId
@@ -24,9 +24,9 @@ namespace Hechinger.FSK.Application.Features
         public async Task<IEnumerable<int>> GetPermissionToProducts(CancellationToken cancellationToken)
         {
             var userId = this.context.GetCurrentUser();
-            return await (from u in this.context.WorkShopUsers
-                          join w in this.context.WorkShops on u.WorkShopId equals w.Id
-                          join p in this.context.Products on w.Id equals p.WorkShopId
+            return await (from u in this.context.WorkshopUsers
+                          join w in this.context.Workshops on u.WorkshopId equals w.Id
+                          join p in this.context.Products on w.Id equals p.WorkshopId
                           where
                           w.EntityStatus == EntityStatuses.Active &&
                           p.EntityStatus == EntityStatuses.Active &&
@@ -40,9 +40,9 @@ namespace Hechinger.FSK.Application.Features
         {
             var userId = this.context.GetCurrentUser();
           
-            return await (from u in this.context.WorkShopUsers
-                          join w in this.context.WorkShops on u.WorkShopId equals w.Id
-                          join p in this.context.Products on w.Id equals p.WorkShopId
+            return await (from u in this.context.WorkshopUsers
+                          join w in this.context.Workshops on u.WorkshopId equals w.Id
+                          join p in this.context.Products on w.Id equals p.WorkshopId
                           join o in this.context.Operations on p.Id equals o.ProductId
                           where
                           w.EntityStatus == EntityStatuses.Active &&
@@ -59,9 +59,9 @@ namespace Hechinger.FSK.Application.Features
         {
 
             var userId = this.context.GetCurrentUser();
-            return await (from u in this.context.WorkShopUsers
-                            join w in this.context.WorkShops on u.WorkShopId equals w.Id
-                            join p in this.context.Products on w.Id equals p.WorkShopId
+            return await (from u in this.context.WorkshopUsers
+                            join w in this.context.Workshops on u.WorkshopId equals w.Id
+                            join p in this.context.Products on w.Id equals p.WorkshopId
                             join o in this.context.Operations on p.Id equals o.ProductId
                             join d in this.context.Defects on o.Id equals d.OperationId
                             where

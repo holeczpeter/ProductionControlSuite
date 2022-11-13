@@ -28,7 +28,7 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
                     
                     
                     List<OperationImportModel> items = JsonConvert.DeserializeObject<List<OperationImportModel>>(json);
-                    var workshops = await this.context.WorkShops.Select(x => new { Id = x.Id }).ToListAsync(cancellationToken);
+                    var workshops = await this.context.Workshops.Select(x => new { Id = x.Id }).ToListAsync(cancellationToken);
                     var products = items.GroupBy(x => new { code = x.Termekszam, name = x.Termeknev, workshop = x.muhely }).Select(x => new
                     {
                         prodCode = x.Key.code,
@@ -54,7 +54,7 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
                             Code = product.prodCode,
                             Name = product.prodName,
                             TranslatedName = product.prodName,
-                            WorkShopId = workshopId != 0 ? workshopId : 1,
+                            WorkshopId = workshopId != 0 ? workshopId : 1,
                             Created = DateTime.Now,
                             Creator = "SYSTEM",
                             LastModified = DateTime.Now,

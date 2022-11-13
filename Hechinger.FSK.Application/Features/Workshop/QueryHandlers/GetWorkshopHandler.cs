@@ -9,7 +9,7 @@
         }
         public async Task<WorkshopModel> Handle(GetWorkshop request, CancellationToken cancellationToken)
         {
-            return await context.WorkShops.Where(x => x.EntityStatus == EntityStatuses.Active && x.Id == request.Id).Select(x => new WorkshopModel()
+            return await context.Workshops.Where(x => x.EntityStatus == EntityStatuses.Active && x.Id == request.Id).Select(x => new WorkshopModel()
             {
                 Id = x.Id,
                 Name = x.Name,

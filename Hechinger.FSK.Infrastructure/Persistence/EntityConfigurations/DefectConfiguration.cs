@@ -8,7 +8,8 @@ namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Defect> builder)
         {
-            EntityConfiguration.ConfigureEntityPart(builder);
+            EntityConfiguration.ConfigureEntity(builder);
+            EntityConfiguration.ConfigureBaseEntity(builder);
             builder
                 .HasOne(x => x.Operation)
                 .WithMany(x => x.Defects)

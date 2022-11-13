@@ -16,7 +16,7 @@
             return await context.Defects
                 .Where(x => x.OperationId == request.OperationId &&
                             x.EntityStatus == EntityStatuses.Active &&
-                             permittedDefects.Contains(x.Operation.Product.WorkShopId))
+                             permittedDefects.Contains(x.Operation.Product.WorkshopId))
                 .Select(x => new DefectModel()
                 {
                     Id = x.Id,

@@ -1,5 +1,4 @@
-﻿using Hechinger.FSK.Core.Enums;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -11,7 +10,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
         {
             migrationBuilder.InsertData(
             table: "Roles",
-            columns: new[] { "Id", "Created", "Creator", "LastModified", "LastModifier", "EntityStatus", "Name", "TranslatedName", "ShortName", "IsDefault" },
+            columns: new[] { "Id", "Created", "Creator", "LastModified", "LastModifier", "EntityStatus", "Name", "TranslatedName", "Code", "IsDefault" },
             values: new object[,]
             {
                     { 1, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active, "Felhasználó", "Benutzer", "USER", true},

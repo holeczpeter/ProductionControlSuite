@@ -13,7 +13,7 @@
             {
                 Id = r.Id,
                 Name = r.Name,
-                Code = r.ShortName,
+                Code = r.Code,
                 TranslatedName = r.TranslatedName,
                 IsDefault = r.IsDefault,
 

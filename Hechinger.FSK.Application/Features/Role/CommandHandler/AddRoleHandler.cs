@@ -13,7 +13,7 @@
             var currentRole = new Role()
             {
                 Name = request.Name,
-                ShortName = request.Code,
+                Code = request.Code,
                 TranslatedName = request.TranslatedName,  
                 IsDefault = request.IsDefault,  
             };

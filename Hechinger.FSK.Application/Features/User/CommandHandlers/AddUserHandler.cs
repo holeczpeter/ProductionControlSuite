@@ -38,13 +38,13 @@ namespace Hechinger.FSK.Application.Features
             await this.context.AddAsync(user, cancellationToken);
 
             //Workshops
-            var addedWorkshops = await this.context.WorkShops.Where(x => request.Workshops.Select(w => w.Id).Contains(x.Id)).ToListAsync(cancellationToken);
+            var addedWorkshops = await this.context.Workshops.Where(x => request.Workshops.Select(w => w.Id).Contains(x.Id)).ToListAsync(cancellationToken);
             foreach (var item in addedWorkshops)
             {
-                var newRelation = new WorkShopUser()
+                var newRelation = new WorkshopUser()
                 {
                     User = user,
-                    WorkShop = item,
+                    Workshop = item,
                 };
                 await this.context.AddAsync(newRelation, cancellationToken);
             }

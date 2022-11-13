@@ -8,7 +8,7 @@ namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<SummaryCard> builder)
         {
-            EntityConfiguration.ConfigureEntityPart(builder);
+            EntityConfiguration.ConfigureEntity(builder);
 
             builder
                .HasOne(x => x.User)
@@ -34,8 +34,7 @@ namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
              .OnDelete(DeleteBehavior.Restrict)
              .IsRequired();
 
-            //builder
-            //   .Ignore(e => e.DateOnly);
+           
         }
     }
 }

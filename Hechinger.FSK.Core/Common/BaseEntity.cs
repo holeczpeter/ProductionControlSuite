@@ -1,14 +1,9 @@
 ﻿namespace Hechinger.FSK.Core.Common
 {
-    public class BaseEntity : IEntity
+    public class BaseEntity : Entity
     {
-        public virtual string TranslatedName { get; set; }
-        public virtual DateTime Created { get; set; } = DateTime.Now;
-        public virtual string Creator { get; set; }
-        public virtual DateTime LastModified { get; set; } = DateTime.Now;
-        public virtual string LastModifier { get; set; }
-        public virtual byte[] RowVersion { get; set; }
-        public virtual EntityStatuses EntityStatus { get; set; } = EntityStatuses.Active;
-
+        public string Name { get; set; }
+        public string Code { get; set; }
+        public string TranslatedName { get; set; }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hechinger.FSK.Application.Features
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class GetProductContextHandler : IRequestHandler<GetProductContext, ProductContext>
     {
@@ -21,7 +15,7 @@ namespace Hechinger.FSK.Application.Features
                 Name = x.Name,
                 Code = x.Code,
                 TranslatedName = !String.IsNullOrEmpty(x.TranslatedName) ? x.TranslatedName : x.Name,
-                WorkshopId = x.WorkShop.Id,
+                WorkshopId = x.Workshop.Id,
                 Operations = x.Operations.Where(op=> op.EntityStatus == EntityStatuses.Active).Select(operation => new OperationContext()
                 {
                     Id = operation.Id,

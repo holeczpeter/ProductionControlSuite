@@ -8,7 +8,7 @@ namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<MenuRole> builder)
         {
-            EntityConfiguration.ConfigureEntityPart(builder);
+            EntityConfiguration.ConfigureEntity(builder);
 
             builder
                 .HasOne(x => x.Menu)
@@ -23,6 +23,9 @@ namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
                 .HasForeignKey(x => x.RoleId)
                 .HasConstraintName("FK_ROLEMENU_CONNECTION")
                 .OnDelete(DeleteBehavior.Restrict);
+
+          
+              
         }
     }
 }

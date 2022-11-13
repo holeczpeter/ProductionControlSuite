@@ -14,7 +14,7 @@
             var permittedOperation = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
             return await context.Operations.Where(x => x.ProductId == request.ProductId && 
             x.EntityStatus == EntityStatuses.Active && 
-            permittedOperation.Contains(x.Product.WorkShopId)).Select(x => new OperationModel()
+            permittedOperation.Contains(x.Product.WorkshopId)).Select(x => new OperationModel()
             {
                 Id = x.Id,
                 Name = x.Name,

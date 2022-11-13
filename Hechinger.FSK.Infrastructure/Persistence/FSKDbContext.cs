@@ -1,6 +1,4 @@
-﻿using Hechinger.FSK.Core.Common;
-using Hechinger.FSK.Core.Entities;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hechinger.FSK.Infrastructure.Persistence
@@ -12,9 +10,9 @@ namespace Hechinger.FSK.Infrastructure.Persistence
         public DbSet<User> Users { get; set; }
         public DbSet<Menu> Menus { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<WorkShopUser> WorkShopUsers { get; set; }
+        public DbSet<WorkshopUser> WorkshopUsers { get; set; }
         public DbSet<MenuRole> MenuRoles { get; set; }
-        public DbSet<WorkShop> WorkShops { get; set; }
+        public DbSet<Workshop> Workshops { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Operation> Operations { get; set; }
         public DbSet<Defect> Defects { get; set; }
@@ -27,14 +25,11 @@ namespace Hechinger.FSK.Infrastructure.Persistence
         public IHttpContextAccessor httpContextAccessor;
         public FSKDbContext(DbContextOptions options) : base(options)
         {
-
         }
       
         public FSKDbContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
-            
-            this.httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-
+           this.httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -75,17 +70,17 @@ namespace Hechinger.FSK.Infrastructure.Persistence
 
                 if (entityEntry.State == EntityState.Added)
                 {
-                    var creator = ((BaseEntity)entityEntry.Entity).Creator;
+                    var creator = ((Entity)entityEntry.Entity).Creator;
 
-                    ((BaseEntity)entityEntry.Entity).Creator = !string.IsNullOrEmpty(creator) ? creator : !string.IsNullOrEmpty(currentUser) ? currentUser : string.Empty;
-                    ((BaseEntity)entityEntry.Entity).Created = DateTime.Now;
-                    ((BaseEntity)entityEntry.Entity).LastModified = DateTime.Now;
-                    ((BaseEntity)entityEntry.Entity).LastModifier = !string.IsNullOrEmpty(creator) ? creator : !string.IsNullOrEmpty(currentUser) ? currentUser : string.Empty;
+                    ((Entity)entityEntry.Entity).Creator = !string.IsNullOrEmpty(creator) ? creator : !string.IsNullOrEmpty(currentUser) ? currentUser : string.Empty;
+                    ((Entity)entityEntry.Entity).Created = DateTime.Now;
+                    ((Entity)entityEntry.Entity).LastModified = DateTime.Now;
+                    ((Entity)entityEntry.Entity).LastModifier = !string.IsNullOrEmpty(creator) ? creator : !string.IsNullOrEmpty(currentUser) ? currentUser : string.Empty;
                 }
                 else
                 {
-                    ((BaseEntity)entityEntry.Entity).LastModified = DateTime.Now;
-                    ((BaseEntity)entityEntry.Entity).LastModifier = !string.IsNullOrEmpty(currentUser) ? currentUser : string.Empty;
+                    ((Entity)entityEntry.Entity).LastModified = DateTime.Now;
+                    ((Entity)entityEntry.Entity).LastModifier = !string.IsNullOrEmpty(currentUser) ? currentUser : string.Empty;
                 }
             }
         }

@@ -1,5 +1,4 @@
-﻿using Hechinger.FSK.Core.Enums;
-using Hechinger.FSK.Core.Helpers;
+﻿using Hechinger.FSK.Core.Helpers;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Newtonsoft.Json;
 
@@ -22,7 +21,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     int.TryParse(item.kod, out workshopId);
 
                     migrationBuilder.InsertData(
-                        table: "WorkShops",
+                        table: "Workshops",
                         columns: new[] { "Id", "Created", "Creator", "LastModified", "LastModifier", "EntityStatus", "Name", "TranslatedName" },
                         values: new object[,]
                         {
@@ -34,7 +33,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("Delete WorkShops");
+            migrationBuilder.Sql("Delete Workshops");
         }
     }
 }

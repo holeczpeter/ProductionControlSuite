@@ -11,7 +11,7 @@
         {
             var result = new ResultBuilder<int>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
             var currentProduct = await context.Products.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
-            var currentWorkShop = await this.context.WorkShops.Where(x => x.Id == request.WorkshopId && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
+            var currentWorkShop = await this.context.Workshops.Where(x => x.Id == request.WorkshopId && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (currentWorkShop == null)
             {
                 result.Errors.Add("A műhely nem található");
@@ -21,7 +21,7 @@
             currentProduct.Name = request.Name;
             currentProduct.Code = request.Code;
             currentProduct.TranslatedName = request.TranslatedName;
-            currentProduct.WorkShop = currentWorkShop;
+            currentProduct.Workshop = currentWorkShop;
             var productState = this.context.Entry(currentProduct).State;
             if (productState != EntityState.Modified && productState != EntityState.Unchanged) await this.context.Products.AddAsync(currentProduct, cancellationToken);
 

@@ -8,7 +8,7 @@ namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<AuditLogProperty> builder)
         {
-            EntityConfiguration.ConfigureEntityPart(builder);
+            EntityConfiguration.ConfigureEntity(builder);
             builder
                 .HasOne(x => x.AuditLogEntity)
                 .WithMany(x => x.AuditLogProperties)

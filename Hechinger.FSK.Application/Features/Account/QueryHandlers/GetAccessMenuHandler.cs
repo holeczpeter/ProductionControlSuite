@@ -22,8 +22,9 @@ namespace Hechinger.FSK.Application.Features
                 Icon = menuRole.Menu.Icon,
                 Path = menuRole.Menu.Path,
                 ParentId = menuRole.Menu.ParentId,
+                Order = menuRole.Menu.Order,
                 Type = menuRole.Menu.MenuType
-            }).ToListAsync(cancellationToken);
+            }).OrderBy(x=>x.Order).ToListAsync(cancellationToken);
 
             var result = menus.GenerateTree(i => i.Id, i => i.ParentId);
             return result;

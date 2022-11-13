@@ -11,7 +11,7 @@
         {
             var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
 
-            var current = new WorkShop()
+            var current = new Workshop()
             {
                 Name = request.Name,
                 TranslatedName = request.TranslatedName,

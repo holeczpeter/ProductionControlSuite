@@ -6,6 +6,7 @@ import { AccountService } from '../../../services/account.service';
 import { LanguageDataService } from '../../../services/data/language-data.service';
 import { UserDataService } from '../../../services/data/user-data.service';
 import { UserSettingsService } from '../../../services/data/user-settings.service';
+import { LanguageService } from '../../../services/language/language.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 
 @Component({
@@ -22,6 +23,7 @@ export class ApplicationSettingsComponent implements OnInit {
     private readonly accountService: AccountService,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly snackBar: SnackbarService,
+    public languageService: LanguageService,
     private readonly languageDataService: LanguageDataService) { }
 
   ngOnInit(): void {

@@ -1,5 +1,4 @@
-﻿using Hechinger.FSK.Core.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
@@ -8,8 +7,8 @@ namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Language> builder)
         {
-            EntityConfiguration.ConfigureEntityPart(builder);
-
+            EntityConfiguration.ConfigureEntity(builder);
+            EntityConfiguration.ConfigureBaseEntity(builder);
         }
     }
 }

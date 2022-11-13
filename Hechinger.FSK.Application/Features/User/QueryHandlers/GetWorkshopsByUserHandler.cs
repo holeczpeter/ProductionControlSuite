@@ -9,11 +9,11 @@
         }
         public async Task<IEnumerable<WorkshopUserItem>> Handle(GetWorkshopsByUser request, CancellationToken cancellationToken)
         {
-            return await this.context.WorkShopUsers.Where(x => x.UserId == request.UserId && x.EntityStatus == EntityStatuses.Active)
+            return await this.context.WorkshopUsers.Where(x => x.UserId == request.UserId && x.EntityStatus == EntityStatuses.Active)
                 .Select(x => new WorkshopUserItem()
                 {
-                    Id = x.WorkShop.Id,
-                    Name = x.WorkShop.Name,
+                    Id = x.Workshop.Id,
+                    Name = x.Workshop.Name,
                 }).ToListAsync(cancellationToken);
         }
     }

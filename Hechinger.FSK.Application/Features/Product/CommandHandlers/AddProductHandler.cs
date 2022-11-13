@@ -10,13 +10,13 @@
         public async Task<Result<int>> Handle(AddProduct request, CancellationToken cancellationToken)
         {
             var result = new ResultBuilder<int>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
-            var currentWorkShop = await this.context.WorkShops.Where(x => x.Id == request.WorkshopId && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
+            var currentWorkShop = await this.context.Workshops.Where(x => x.Id == request.WorkshopId && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             var current = new Product()
             {
                 Name = request.Name,
                 Code = request.Code,    
                 TranslatedName = request.TranslatedName,
-                WorkShop = currentWorkShop
+                Workshop = currentWorkShop
                
             };
             await this.context.AddAsync(current, cancellationToken);

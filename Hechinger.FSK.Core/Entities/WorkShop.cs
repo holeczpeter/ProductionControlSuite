@@ -1,9 +1,8 @@
 ﻿namespace Hechinger.FSK.Core.Entities
 {
-    public class WorkShop : Entity
+    public class Workshop : BaseEntity
     {
-        public string Name { get; set; }
         public virtual ICollection<Product> Products { get; set; } = new HashSet<Product>();
-        public virtual ICollection<WorkShopUser> Users { get; set; } = new HashSet<WorkShopUser>();
+        public virtual ICollection<WorkshopUser> Users { get; set; } = new HashSet<WorkshopUser>();
     }
 }

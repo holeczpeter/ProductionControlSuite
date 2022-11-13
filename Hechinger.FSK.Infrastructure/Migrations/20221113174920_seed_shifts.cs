@@ -1,5 +1,4 @@
-﻿using Hechinger.FSK.Core.Enums;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -12,7 +11,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
             table: "Shifts",
-            columns: new[] { "Id", "Created", "Creator", "LastModified", "LastModifier", "EntityStatus", "Name","TranslatedName", "ShortName", "TranslatedShortName", "Start", "End" },
+            columns: new[] { "Id", "Created", "Creator", "LastModified", "LastModifier", "EntityStatus", "Name", "TranslatedName", "Code", "TranslatedCode", "Start", "End" },
             values: new object[,]
             {
                 { 1, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,"Délelőtt", "Frühschicht", "DE", "F", new TimeSpan(6,0,0),new TimeSpan(14,0,0)},
@@ -20,7 +19,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 { 3, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,"Éjszaka", "Nachtschicht", "É", "N", new TimeSpan(22,0,0),new TimeSpan(6,0,0)},
 
             });
-            
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

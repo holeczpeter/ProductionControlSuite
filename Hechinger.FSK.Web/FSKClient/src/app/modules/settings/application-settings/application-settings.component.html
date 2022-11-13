@@ -11,7 +11,7 @@
           <mat-select [formControlName]="'languageId'"
                       [placeholder]="'language' | translate" required>
             <mat-option *ngFor="let option of languages" [value]="option.id">
-              {{ option.name }}
+              {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
             </mat-option>
           </mat-select>
           <mat-error class="col" *ngIf="formGroup.get('languageId')?.hasError('required')">

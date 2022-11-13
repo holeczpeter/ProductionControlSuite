@@ -8,11 +8,12 @@ namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            EntityConfiguration.ConfigureEntityPart(builder);
+            EntityConfiguration.ConfigureEntity(builder);
+            EntityConfiguration.ConfigureBaseEntity(builder);
             builder
-             .HasOne(x => x.WorkShop)
+             .HasOne(x => x.Workshop)
              .WithMany(x => x.Products)
-             .HasForeignKey(x => x.WorkShopId)
+             .HasForeignKey(x => x.WorkshopId)
              .HasConstraintName("FK_WORKSHOPPRODUCT_CONNECTION")
              .OnDelete(DeleteBehavior.Restrict)
              .IsRequired();

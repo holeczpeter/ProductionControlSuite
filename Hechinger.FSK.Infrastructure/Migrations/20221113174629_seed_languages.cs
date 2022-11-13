@@ -1,5 +1,4 @@
-﻿using Hechinger.FSK.Core.Enums;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 

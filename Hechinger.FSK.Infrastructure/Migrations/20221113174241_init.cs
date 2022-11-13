@@ -17,11 +17,10 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EntityId = table.Column<long>(type: "bigint", nullable: false),
                     EntityName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Creator = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifier = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     EntityStatus = table.Column<int>(type: "int", nullable: false)
                 },
@@ -36,13 +35,13 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    TranslatedName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Creator = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifier = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     EntityStatus = table.Column<int>(type: "int", nullable: false)
                 },
@@ -57,18 +56,20 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    TranslatedName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ParentId = table.Column<long>(type: "bigint", nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Path = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Icon = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MenuType = table.Column<int>(type: "int", nullable: false),
                     Order = table.Column<int>(type: "int", nullable: false),
-                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsVisible = table.Column<bool>(type: "bit", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Creator = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifier = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     EntityStatus = table.Column<int>(type: "int", nullable: false)
                 },
@@ -83,14 +84,14 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ShortName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    TranslatedName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     IsDefault = table.Column<bool>(type: "bit", nullable: false),
-                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Creator = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifier = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     EntityStatus = table.Column<int>(type: "int", nullable: false)
                 },
@@ -105,16 +106,16 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ShortName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TranslatedShortName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    TranslatedName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    TranslatedCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Start = table.Column<TimeSpan>(type: "time", nullable: false),
                     End = table.Column<TimeSpan>(type: "time", nullable: false),
-                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Creator = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifier = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     EntityStatus = table.Column<int>(type: "int", nullable: false)
                 },
@@ -124,23 +125,24 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WorkShops",
+                name: "Workshops",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    TranslatedName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Creator = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifier = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     EntityStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkShops", x => x.Id);
+                    table.PrimaryKey("PK_Workshops", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -154,11 +156,10 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     OldValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NewValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Action = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Creator = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifier = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     EntityStatus = table.Column<int>(type: "int", nullable: false)
                 },
@@ -181,11 +182,10 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MenuId = table.Column<int>(type: "int", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
-                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Creator = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifier = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     EntityStatus = table.Column<int>(type: "int", nullable: false)
                 },
@@ -212,9 +212,9 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Salt = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsTemporary = table.Column<bool>(type: "bit", nullable: false),
@@ -224,11 +224,10 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     RoleId = table.Column<int>(type: "int", nullable: false),
                     LanguageId = table.Column<int>(type: "int", nullable: false),
                     PageSize = table.Column<int>(type: "int", nullable: false),
-                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Creator = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifier = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     EntityStatus = table.Column<int>(type: "int", nullable: false)
                 },
@@ -255,14 +254,14 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WorkShopId = table.Column<int>(type: "int", nullable: false),
-                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    TranslatedName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    WorkshopId = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Creator = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifier = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     EntityStatus = table.Column<int>(type: "int", nullable: false)
                 },
@@ -271,31 +270,30 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
                         name: "FK_WORKSHOPPRODUCT_CONNECTION",
-                        column: x => x.WorkShopId,
-                        principalTable: "WorkShops",
+                        column: x => x.WorkshopId,
+                        principalTable: "Workshops",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "WorkShopUsers",
+                name: "WorkshopUsers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    WorkShopId = table.Column<int>(type: "int", nullable: false),
+                    WorkshopId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Creator = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifier = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     EntityStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkShopUsers", x => x.Id);
+                    table.PrimaryKey("PK_WorkshopUsers", x => x.Id);
                     table.ForeignKey(
                         name: "FK_USERWORKSHOP_CONNECTION",
                         column: x => x.UserId,
@@ -304,8 +302,8 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_WORKSHOPUSER_CONNECTION",
-                        column: x => x.WorkShopId,
-                        principalTable: "WorkShops",
+                        column: x => x.WorkshopId,
+                        principalTable: "Workshops",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -316,8 +314,9 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    TranslatedName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     OperationTime = table.Column<double>(type: "float", nullable: false),
                     Norma = table.Column<double>(type: "float", nullable: false),
@@ -325,11 +324,10 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     ComponentQuantity = table.Column<int>(type: "int", nullable: false),
                     PpmGoal = table.Column<int>(type: "int", nullable: false),
                     DefectCataglogLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Creator = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifier = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     EntityStatus = table.Column<int>(type: "int", nullable: false)
                 },
@@ -350,16 +348,16 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    TranslatedName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     DefectCategory = table.Column<int>(type: "int", nullable: false),
                     OperationId = table.Column<int>(type: "int", nullable: false),
                     Order = table.Column<int>(type: "int", nullable: false),
-                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Creator = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifier = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     EntityStatus = table.Column<int>(type: "int", nullable: false)
                 },
@@ -387,11 +385,10 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     WorkerCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LOS = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Creator = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifier = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     EntityStatus = table.Column<int>(type: "int", nullable: false)
                 },
@@ -426,11 +423,10 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ImageData = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     DefectId = table.Column<int>(type: "int", nullable: false),
-                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Creator = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifier = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     EntityStatus = table.Column<int>(type: "int", nullable: false)
                 },
@@ -455,11 +451,10 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     SummaryCardId = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TranslatedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Creator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Creator = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifier = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     EntityStatus = table.Column<int>(type: "int", nullable: false)
                 },
@@ -496,9 +491,19 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 column: "EntityStatus");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Defects_Code",
+                table: "Defects",
+                column: "Code");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Defects_EntityStatus",
                 table: "Defects",
                 column: "EntityStatus");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Defects_Name",
+                table: "Defects",
+                column: "Name");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Defects_OperationId",
@@ -506,9 +511,29 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 column: "OperationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Defects_TranslatedName",
+                table: "Defects",
+                column: "TranslatedName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Languages_Code",
+                table: "Languages",
+                column: "Code");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Languages_EntityStatus",
                 table: "Languages",
                 column: "EntityStatus");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Languages_Name",
+                table: "Languages",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Languages_TranslatedName",
+                table: "Languages",
+                column: "TranslatedName");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MenuRoles_EntityStatus",
@@ -526,9 +551,29 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Menus_Code",
+                table: "Menus",
+                column: "Code");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Menus_EntityStatus",
                 table: "Menus",
                 column: "EntityStatus");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Menus_Name",
+                table: "Menus",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Menus_TranslatedName",
+                table: "Menus",
+                column: "TranslatedName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Operations_Code",
+                table: "Operations",
+                column: "Code");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Operations_EntityStatus",
@@ -536,9 +581,19 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 column: "EntityStatus");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Operations_Name",
+                table: "Operations",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Operations_ProductId",
                 table: "Operations",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Operations_TranslatedName",
+                table: "Operations",
+                column: "TranslatedName");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pictures_DefectId",
@@ -551,14 +606,34 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 column: "EntityStatus");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Products_Code",
+                table: "Products",
+                column: "Code");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_EntityStatus",
                 table: "Products",
                 column: "EntityStatus");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_WorkShopId",
+                name: "IX_Products_Name",
                 table: "Products",
-                column: "WorkShopId");
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_TranslatedName",
+                table: "Products",
+                column: "TranslatedName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_WorkshopId",
+                table: "Products",
+                column: "WorkshopId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Roles_Code",
+                table: "Roles",
+                column: "Code");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Roles_EntityStatus",
@@ -566,9 +641,34 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 column: "EntityStatus");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Roles_Name",
+                table: "Roles",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Roles_TranslatedName",
+                table: "Roles",
+                column: "TranslatedName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shifts_Code",
+                table: "Shifts",
+                column: "Code");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Shifts_EntityStatus",
                 table: "Shifts",
                 column: "EntityStatus");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shifts_Name",
+                table: "Shifts",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shifts_TranslatedName",
+                table: "Shifts",
+                column: "TranslatedName");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SummaryCardItems_DefectId",
@@ -621,24 +721,39 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkShops_EntityStatus",
-                table: "WorkShops",
+                name: "IX_Workshops_Code",
+                table: "Workshops",
+                column: "Code");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Workshops_EntityStatus",
+                table: "Workshops",
                 column: "EntityStatus");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkShopUsers_EntityStatus",
-                table: "WorkShopUsers",
+                name: "IX_Workshops_Name",
+                table: "Workshops",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Workshops_TranslatedName",
+                table: "Workshops",
+                column: "TranslatedName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkshopUsers_EntityStatus",
+                table: "WorkshopUsers",
                 column: "EntityStatus");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkShopUsers_UserId",
-                table: "WorkShopUsers",
+                name: "IX_WorkshopUsers_UserId",
+                table: "WorkshopUsers",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkShopUsers_WorkShopId",
-                table: "WorkShopUsers",
-                column: "WorkShopId");
+                name: "IX_WorkshopUsers_WorkshopId",
+                table: "WorkshopUsers",
+                column: "WorkshopId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -656,7 +771,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 name: "SummaryCardItems");
 
             migrationBuilder.DropTable(
-                name: "WorkShopUsers");
+                name: "WorkshopUsers");
 
             migrationBuilder.DropTable(
                 name: "AuditLogEntities");
@@ -689,7 +804,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 name: "Roles");
 
             migrationBuilder.DropTable(
-                name: "WorkShops");
+                name: "Workshops");
         }
     }
 }

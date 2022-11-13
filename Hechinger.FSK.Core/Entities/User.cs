@@ -18,6 +18,6 @@
         public virtual Language Language { get; set; }
         public int PageSize { get; set; }
         public virtual ICollection<SummaryCard> SummaryCards { get; set; } = new HashSet<SummaryCard>();
-        public virtual ICollection<WorkShopUser> WorkShops { get; set; } = new HashSet<WorkShopUser>();
+        public virtual ICollection<WorkshopUser> WorkShops { get; set; } = new HashSet<WorkshopUser>();
     }
 }

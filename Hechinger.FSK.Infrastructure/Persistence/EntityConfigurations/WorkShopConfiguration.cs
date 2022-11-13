@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
 {
-    public class WorkShopConfiguration : IEntityTypeConfiguration<WorkShop>
+    public class WorkShopConfiguration : IEntityTypeConfiguration<Workshop>
     {
-        public void Configure(EntityTypeBuilder<WorkShop> builder)
+        public void Configure(EntityTypeBuilder<Workshop> builder)
         {
-            EntityConfiguration.ConfigureEntityPart(builder);
-
+            EntityConfiguration.ConfigureEntity(builder);
+            EntityConfiguration.ConfigureBaseEntity(builder);
         }
     }
 }

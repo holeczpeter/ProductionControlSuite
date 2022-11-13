@@ -23,7 +23,7 @@
                 current.TranslatedName = request.TranslatedName;
                 current.Start = request.Start;
                 current.End = request.End;
-                current.ShortName = request.ShortName;
+                current.Code = request.ShortName;
                 //current.TranslatedShortName = request.TranslatedShortName,
                 await context.SaveChangesAsync(cancellationToken);
 

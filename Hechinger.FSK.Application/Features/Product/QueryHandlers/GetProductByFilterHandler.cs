@@ -15,7 +15,7 @@
             return await context.Products
                 .Where(x => 
                         x.EntityStatus == EntityStatuses.Active && 
-                        permittedProduct.Contains(x.WorkShopId))
+                        permittedProduct.Contains(x.WorkshopId))
                 .Select(x => new SelectModel()
                 {
                     Id = x.Id,

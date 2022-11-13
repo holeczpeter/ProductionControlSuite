@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
 {
-    public class WorkShopUserConfiguration : IEntityTypeConfiguration<WorkShopUser>
+    public class WorkShopUserConfiguration : IEntityTypeConfiguration<WorkshopUser>
     {
-        public void Configure(EntityTypeBuilder<WorkShopUser> builder)
+        public void Configure(EntityTypeBuilder<WorkshopUser> builder)
         {
-            EntityConfiguration.ConfigureEntityPart(builder);
+            EntityConfiguration.ConfigureEntity(builder);
 
             builder
-                .HasOne(x => x.WorkShop)
+                .HasOne(x => x.Workshop)
                 .WithMany(x => x.Users)
-                .HasForeignKey(x => x.WorkShopId)
+                .HasForeignKey(x => x.WorkshopId)
                 .HasConstraintName("FK_WORKSHOPUSER_CONNECTION")
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();

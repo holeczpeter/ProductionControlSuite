@@ -17,7 +17,7 @@
                 TranslatedName = request.TranslatedName,
                 Start = request.Start,  
                 End = request.End,
-                ShortName = request.ShortName,  
+                Code = request.ShortName,  
                 //TranslatedShortName = request.TranslatedShortName,
             };
             await this.context.AddAsync(current, cancellationToken);

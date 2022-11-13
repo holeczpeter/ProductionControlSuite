@@ -48,15 +48,6 @@ export class SpinnerInterceptor implements HttpInterceptor {
           this.currentRequests = 0;
           this.spinnerService.hide();
         })
-        , catchError((x: HttpErrorResponse) => {
-          this.currentRequests = 0;
-          this.spinnerService.hide();
-          if (x.status !== 401)  {
-            throw new Error(JSON.stringify(x.error));
-          }
-          console.log(x.error);
-          return EMPTY;
-        })
       );
   }
 

@@ -26,7 +26,8 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
@@ -35,7 +36,10 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<long>("EntityId")
                         .HasColumnType("bigint");
@@ -47,18 +51,18 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModified")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifier")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnUpdate()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
-
-                    b.Property<string>("TranslatedName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -71,7 +75,8 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
@@ -86,16 +91,22 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModified")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifier")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnUpdate()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("NewValue")
                         .HasColumnType("nvarchar(max)");
@@ -111,9 +122,6 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
-                    b.Property<string>("TranslatedName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AuditLogEntityId");
@@ -127,19 +135,25 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)")
+                        .HasColumnOrder(2);
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("DefectCategory")
                         .HasColumnType("int");
@@ -148,13 +162,18 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModified")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifier")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnUpdate()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("OperationId")
                         .HasColumnType("int");
@@ -168,13 +187,21 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("rowversion");
 
                     b.Property<string>("TranslatedName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(3);
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code");
+
                     b.HasIndex("EntityStatus");
 
+                    b.HasIndex("Name");
+
                     b.HasIndex("OperationId");
+
+                    b.HasIndex("TranslatedName");
 
                     b.ToTable("Defects");
                 });
@@ -183,31 +210,42 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)")
+                        .HasColumnOrder(2);
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModified")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifier")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnUpdate()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(1);
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -215,11 +253,19 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("rowversion");
 
                     b.Property<string>("TranslatedName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(3);
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code");
+
                     b.HasIndex("EntityStatus");
+
+                    b.HasIndex("Name");
+
+                    b.HasIndex("TranslatedName");
 
                     b.ToTable("Languages");
                 });
@@ -228,16 +274,25 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)")
+                        .HasColumnOrder(2);
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("DisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -248,17 +303,25 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.Property<string>("Icon")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsVisible")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("LastModified")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifier")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnUpdate()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("MenuType")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("Order")
                         .HasColumnType("int");
@@ -275,11 +338,19 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("rowversion");
 
                     b.Property<string>("TranslatedName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(3);
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code");
+
                     b.HasIndex("EntityStatus");
+
+                    b.HasIndex("Name");
+
+                    b.HasIndex("TranslatedName");
 
                     b.ToTable("Menus");
                 });
@@ -288,7 +359,8 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
@@ -297,16 +369,22 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModified")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifier")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnUpdate()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("MenuId")
                         .HasColumnType("int");
@@ -318,9 +396,6 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
-
-                    b.Property<string>("TranslatedName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -337,12 +412,15 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("ComponentQuantity")
                         .HasColumnType("int");
@@ -352,7 +430,10 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("DefectCataglogLink")
                         .HasColumnType("nvarchar(max)");
@@ -361,13 +442,18 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModified")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifier")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnUpdate()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(1);
 
                     b.Property<double>("Norma")
                         .HasColumnType("float");
@@ -390,13 +476,21 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("rowversion");
 
                     b.Property<string>("TranslatedName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(3);
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code");
+
                     b.HasIndex("EntityStatus");
 
+                    b.HasIndex("Name");
+
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("TranslatedName");
 
                     b.ToTable("Operations");
                 });
@@ -405,7 +499,8 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
@@ -414,7 +509,10 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("DefectId")
                         .HasColumnType("int");
@@ -426,18 +524,18 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.Property<DateTime>("LastModified")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifier")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnUpdate()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
-
-                    b.Property<string>("TranslatedName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -452,31 +550,42 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)")
+                        .HasColumnOrder(2);
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModified")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifier")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnUpdate()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(1);
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -484,16 +593,24 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("rowversion");
 
                     b.Property<string>("TranslatedName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(3);
 
-                    b.Property<int>("WorkShopId")
+                    b.Property<int>("WorkshopId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code");
+
                     b.HasIndex("EntityStatus");
 
-                    b.HasIndex("WorkShopId");
+                    b.HasIndex("Name");
+
+                    b.HasIndex("TranslatedName");
+
+                    b.HasIndex("WorkshopId");
 
                     b.ToTable("Products");
                 });
@@ -502,16 +619,25 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)")
+                        .HasColumnOrder(2);
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
@@ -520,28 +646,38 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("LastModified")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifier")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnUpdate()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(1);
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
-                    b.Property<string>("ShortName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("TranslatedName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(3);
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code");
+
                     b.HasIndex("EntityStatus");
+
+                    b.HasIndex("Name");
+
+                    b.HasIndex("TranslatedName");
 
                     b.ToTable("Roles");
                 });
@@ -550,16 +686,25 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)")
+                        .HasColumnOrder(2);
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<TimeSpan>("End")
                         .HasColumnType("time");
@@ -568,34 +713,44 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModified")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifier")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnUpdate()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(1);
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
-                    b.Property<string>("ShortName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<TimeSpan>("Start")
                         .HasColumnType("time");
 
-                    b.Property<string>("TranslatedName")
+                    b.Property<string>("TranslatedCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TranslatedShortName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("TranslatedName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(3);
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code");
+
                     b.HasIndex("EntityStatus");
+
+                    b.HasIndex("Name");
+
+                    b.HasIndex("TranslatedName");
 
                     b.ToTable("Shifts");
                 });
@@ -604,7 +759,8 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
@@ -613,7 +769,10 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -625,10 +784,13 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastModified")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifier")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnUpdate()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("OperationId")
                         .HasColumnType("int");
@@ -643,9 +805,6 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.Property<int>("ShiftId")
                         .HasColumnType("int");
-
-                    b.Property<string>("TranslatedName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -670,7 +829,8 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
@@ -682,7 +842,10 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("DefectId")
                         .HasColumnType("int");
@@ -691,10 +854,13 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModified")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifier")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnUpdate()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -706,9 +872,6 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.Property<int>("SummaryCardId")
                         .HasColumnType("int");
-
-                    b.Property<string>("TranslatedName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -725,7 +888,8 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
@@ -733,14 +897,18 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
@@ -749,7 +917,8 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<bool>("IsTemporary")
                         .HasColumnType("bit");
@@ -758,13 +927,17 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModified")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifier")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnUpdate()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<int>("PageSize")
                         .HasColumnType("int");
@@ -786,9 +959,6 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.Property<string>("Salt")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TranslatedName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("EntityStatus");
@@ -800,32 +970,46 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Hechinger.FSK.Core.Entities.WorkShop", b =>
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.Workshop", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)")
+                        .HasColumnOrder(2);
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModified")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifier")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnUpdate()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(1);
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -833,20 +1017,29 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("rowversion");
 
                     b.Property<string>("TranslatedName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(3);
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code");
+
                     b.HasIndex("EntityStatus");
 
-                    b.ToTable("WorkShops");
+                    b.HasIndex("Name");
+
+                    b.HasIndex("TranslatedName");
+
+                    b.ToTable("Workshops");
                 });
 
-            modelBuilder.Entity("Hechinger.FSK.Core.Entities.WorkShopUser", b =>
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.WorkshopUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
@@ -855,29 +1048,32 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModified")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifier")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnUpdate()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
-
-                    b.Property<string>("TranslatedName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("WorkShopId")
+                    b.Property<int>("WorkshopId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -886,9 +1082,9 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("WorkShopId");
+                    b.HasIndex("WorkshopId");
 
-                    b.ToTable("WorkShopUsers");
+                    b.ToTable("WorkshopUsers");
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.AuditLogProperty", b =>
@@ -962,14 +1158,14 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Product", b =>
                 {
-                    b.HasOne("Hechinger.FSK.Core.Entities.WorkShop", "WorkShop")
+                    b.HasOne("Hechinger.FSK.Core.Entities.Workshop", "Workshop")
                         .WithMany("Products")
-                        .HasForeignKey("WorkShopId")
+                        .HasForeignKey("WorkshopId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_WORKSHOPPRODUCT_CONNECTION");
 
-                    b.Navigation("WorkShop");
+                    b.Navigation("Workshop");
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.SummaryCard", b =>
@@ -1044,7 +1240,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Hechinger.FSK.Core.Entities.WorkShopUser", b =>
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.WorkshopUser", b =>
                 {
                     b.HasOne("Hechinger.FSK.Core.Entities.User", "User")
                         .WithMany("WorkShops")
@@ -1053,16 +1249,16 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_USERWORKSHOP_CONNECTION");
 
-                    b.HasOne("Hechinger.FSK.Core.Entities.WorkShop", "WorkShop")
+                    b.HasOne("Hechinger.FSK.Core.Entities.Workshop", "Workshop")
                         .WithMany("Users")
-                        .HasForeignKey("WorkShopId")
+                        .HasForeignKey("WorkshopId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_WORKSHOPUSER_CONNECTION");
 
                     b.Navigation("User");
 
-                    b.Navigation("WorkShop");
+                    b.Navigation("Workshop");
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.AuditLogEntity", b =>
@@ -1123,7 +1319,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.Navigation("WorkShops");
                 });
 
-            modelBuilder.Entity("Hechinger.FSK.Core.Entities.WorkShop", b =>
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.Workshop", b =>
                 {
                     b.Navigation("Products");
 

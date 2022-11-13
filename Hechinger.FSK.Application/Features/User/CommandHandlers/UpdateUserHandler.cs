@@ -28,19 +28,19 @@ namespace Hechinger.FSK.Application.Features
 
               
                 //Workshops
-                var currentRelation = await this.context.WorkShopUsers.Where(x => x.UserId == current.Id).ToListAsync(cancellationToken);
-                var removedIds = currentRelation.Select(x => x.WorkShopId).Except(request.Workshops.Select(x => x.Id));
-                var removedRelations = currentRelation.Where(x => removedIds.Contains(x.WorkShopId));
+                var currentRelation = await this.context.WorkshopUsers.Where(x => x.UserId == current.Id).ToListAsync(cancellationToken);
+                var removedIds = currentRelation.Select(x => x.WorkshopId).Except(request.Workshops.Select(x => x.Id));
+                var removedRelations = currentRelation.Where(x => removedIds.Contains(x.WorkshopId));
                 this.context.RemoveRange(removedRelations);
 
-                var requestWorkshops = await this.context.WorkShops.Where(x => request.Workshops.Select(w => w.Id).Contains(x.Id)).ToListAsync(cancellationToken);
-                var addedRelation = requestWorkshops.Select(x => x.Id).Except(currentRelation.Select(x => x.WorkShopId));
+                var requestWorkshops = await this.context.Workshops.Where(x => request.Workshops.Select(w => w.Id).Contains(x.Id)).ToListAsync(cancellationToken);
+                var addedRelation = requestWorkshops.Select(x => x.Id).Except(currentRelation.Select(x => x.WorkshopId));
                 foreach (var item in addedRelation)
                 {
-                    var newRelation = new WorkShopUser()
+                    var newRelation = new WorkshopUser()
                     {
                         User = current,
-                        WorkShopId = item,
+                        WorkshopId = item,
                     };
                     await this.context.AddAsync(newRelation, cancellationToken);
                 }

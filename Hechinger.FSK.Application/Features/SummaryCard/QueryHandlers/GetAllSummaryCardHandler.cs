@@ -12,7 +12,7 @@
         public async Task<IEnumerable<SummaryCardModel>> Handle(GetAllSummaryCards request, CancellationToken cancellationToken)
         {
             var permittedOperations = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
-            return await this.context.SummaryCards.Where(x => x.EntityStatus == EntityStatuses.Active && permittedOperations.Contains(x.Operation.Product.WorkShopId))
+            return await this.context.SummaryCards.Where(x => x.EntityStatus == EntityStatuses.Active && permittedOperations.Contains(x.Operation.Product.WorkshopId))
                 .Select(x => new SummaryCardModel()
                 {
                     Id = x.Id,

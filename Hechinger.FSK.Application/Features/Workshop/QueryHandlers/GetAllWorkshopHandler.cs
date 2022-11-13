@@ -12,7 +12,7 @@
         public async Task<IEnumerable<WorkshopModel>> Handle(GetAllWorkshops request, CancellationToken cancellationToken)
         {
             var permittedWorkShops = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
-            return await context.WorkShops
+            return await context.Workshops
                 .Where(x => x.EntityStatus == EntityStatuses.Active && permittedWorkShops.Contains(x.Id))
                 .Select(x => new WorkshopModel()
                 {

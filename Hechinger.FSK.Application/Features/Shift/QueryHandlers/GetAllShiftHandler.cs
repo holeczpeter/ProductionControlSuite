@@ -15,8 +15,8 @@
                     Id = x.Id,
                     Name = x.Name,
                     TranslatedName = x.TranslatedName,
-                    ShortName = x.ShortName,
-                    TranslatedShortName = x.ShortName,
+                    ShortName = x.Code,
+                    TranslatedShortName = x.Code,
                     Start = x.Start,
                     End = x.End,
                 }).ToListAsync(cancellationToken);

@@ -13,5 +13,6 @@
         public MenuTypes Type { get; set; }
 
         public long ParentId { get; set; }
+        public int Order { get;  set; }
     }
 }

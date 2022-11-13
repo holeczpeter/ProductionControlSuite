@@ -29,7 +29,7 @@ namespace Hechinger.FSK.Application.Features
 
                 currentRole.Name = request.Name;
                 currentRole.TranslatedName = request.TranslatedName;
-                currentRole.ShortName = request.Code;
+                currentRole.Code = request.Code;
                 currentRole.IsDefault = request.IsDefault;
 
                 //Menu

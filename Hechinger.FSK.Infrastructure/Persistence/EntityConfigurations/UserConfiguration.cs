@@ -1,5 +1,4 @@
-﻿using Hechinger.FSK.Core.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
@@ -8,7 +7,7 @@ namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            EntityConfiguration.ConfigureEntityPart(builder);
+            EntityConfiguration.ConfigureEntity(builder);
 
             builder
             .HasOne(x => x.Role)
@@ -23,6 +22,10 @@ namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
            .HasForeignKey(x => x.LanguageId)
            .HasConstraintName("FK_USERLANGUAGE_CONNECTION")
            .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Property(x => x.Code).HasMaxLength(20);
+            builder.Property(x => x.FirstName).HasMaxLength(25);
+            builder.Property(x => x.LastName).HasMaxLength(25);
         }
     }
 }

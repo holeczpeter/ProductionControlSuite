@@ -4,7 +4,7 @@
 
 namespace Hechinger.FSK.Infrastructure.Migrations
 {
-    public partial class seed_developer_menu : Migration
+    public partial class seed_dev_menu : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

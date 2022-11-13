@@ -15,8 +15,8 @@
                 Name = x.Name,
                 Code =x.Code,
                 TranslatedName = !String.IsNullOrEmpty(x.TranslatedName) ? x.TranslatedName : x.Name,
-                WorkshopId = x.WorkShop.Id,
-                WorkshopName = x.WorkShop.Name,
+                WorkshopId = x.Workshop.Id,
+                WorkshopName = x.Workshop.Name,
                 Operations = x.Operations.Select(operation=> new OperationModel() 
                 { 
                     Name = operation.Name,  

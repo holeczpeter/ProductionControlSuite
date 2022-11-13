@@ -12,7 +12,7 @@
             return await this.context.Roles.Where(r=> r.EntityStatus == EntityStatuses.Active).Select(u => new RoleModel()
             {
                 Id = u.Id,
-                Code = u.ShortName,
+                Code = u.Code,
                 Name = u.Name,  
                 TranslatedName = u.TranslatedName,
                 IsDefault = u.IsDefault,    

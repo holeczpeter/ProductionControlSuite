@@ -1,9 +1,8 @@
 ﻿namespace Hechinger.FSK.Core.Entities
 {
-    public class Operation : Entity
+    public class Operation : BaseEntity
     {
-        public string Name { get; set; }
-        public string Code { get; set; }
+       
         public virtual int ProductId { get; set; }
         public virtual Product Product { get; set; }
         public double OperationTime { get; set; }
