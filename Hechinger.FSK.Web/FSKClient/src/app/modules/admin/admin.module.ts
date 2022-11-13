@@ -11,6 +11,7 @@ import { RoleMenuEditorComponent } from './roles/role-menu-editor/role-menu-edit
 import { RoleUserEditorComponent } from './roles/role-user-editor/role-user-editor.component';
 import { UserWorkshopEditorComponent } from './users/user-editor-dialog/user-workshop-editor/user-workshop-editor.component';
 import { ChangePasswordEditorDialogComponent } from './users/change-password-editor-dialog/change-password-editor-dialog.component';
+import { ImportComponent } from './import/import.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ChangePasswordEditorDialogComponent } from './users/change-password-edi
     RoleMenuEditorComponent,
     RoleUserEditorComponent,
     UserWorkshopEditorComponent,
-    ChangePasswordEditorDialogComponent
+    ChangePasswordEditorDialogComponent,
+    ImportComponent
   ],
   imports: [
     CommonModule,

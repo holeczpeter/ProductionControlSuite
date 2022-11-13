@@ -11,5 +11,7 @@ namespace Hechinger.FSK.Core.Entities
         public virtual Operation Operation { get; set; }
         public int Order { get; set; }
         public virtual ICollection<SummaryCardItem> SummaryCardItems { get; set; } = new HashSet<SummaryCardItem>();
+
+        public virtual ICollection<Picture> Pictures { get; set; } = new HashSet<Picture>();
     }
 }

@@ -14,7 +14,7 @@
             var startDate = new DateTime(request.Year, 1, 1);
             var endDate = new DateTime(request.Year, 12, 31);
             var items = await (from c in this.context.SummaryCards
-                         join i in this.context.SummaryCardItem on c.Id equals i.SummaryCardId
+                         join i in this.context.SummaryCardItems on c.Id equals i.SummaryCardId
                          where c.Date.Date >= startDate &&
                                c.Date <= endDate &&
                                c.Operation.ProductId == request.ProductId &&

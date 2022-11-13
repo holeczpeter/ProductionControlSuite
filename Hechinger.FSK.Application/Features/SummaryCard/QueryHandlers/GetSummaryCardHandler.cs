@@ -24,7 +24,7 @@
 
             var defects = this.context.Defects.Where(x => x.OperationId == card.OperationId && x.EntityStatus == EntityStatuses.Active).ToList().Select(defect =>
             {
-                var cardItem = this.context.SummaryCardItem.Where(x => x.DefectId == defect.Id && x.SummaryCardId == card.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefault();
+                var cardItem = this.context.SummaryCardItems.Where(x => x.DefectId == defect.Id && x.SummaryCardId == card.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefault();
                 return new SummaryCardItemModel()
                 {
                     Id = cardItem != null ?  cardItem.Id : 0,

@@ -1,0 +1,14 @@
+<label class="image-upload-container btn btn-bbc">
+  <span>Kép kiválasztása</span>
+  <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)"/>
+</label>
+<div *ngIf="currentPicture">
+  <img class="picture" [src]="currentPicture">
+</div>
+<div *ngIf="selectedFile" class="img-preview-container">
+  <div class="img-preview{{selectedFile.status==='fail' ? '-error': ''}}"  [ngStyle]="{'background-image':
+       'url('+selectedFile.src+')'}">
+  </div>
+  <div *ngIf="selectedFile.status === 'ok'" class="alert alert-success">Kép sikeresen feltöltve</div>
+  <div *ngIf="selectedFile.status === 'fail'" class="alert alert-danger">Kép feltöltése sikertelen</div>
+</div>

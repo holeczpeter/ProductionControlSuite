@@ -1,0 +1,14 @@
+<div class="row">
+  <div>
+    <div>Fájl kiválasztása</div>
+    <input #imageInput type="file" id="fileUpload"
+           accept="json/*"
+           (change)="processFile(imageInput)"
+           />
+   
+  </div>
+  <button mat-flat-button (click)="onUpload()" color="primary"> {{'add' | translate}} </button>
+</div>
+
+
+

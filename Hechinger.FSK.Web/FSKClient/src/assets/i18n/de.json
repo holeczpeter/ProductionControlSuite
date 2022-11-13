@@ -67,6 +67,7 @@
   "endDate": "Enddatum",
   "sum": "Summe",
   "print": "Drucken",
+  "basicdata": "Stammdaten",
   "workshops": {
     "title": "Werkstätte",
     "add": "Neue hinzufügen",

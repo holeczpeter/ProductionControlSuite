@@ -8,11 +8,10 @@ namespace Hechinger.FSK.Web.Controllers
     public class QualityController : ControllerBase
     {
         private readonly IMediator mediator;
-        private readonly IImportService importService;
-        public QualityController(IMediator mediator, IImportService importService) 
+        
+        public QualityController(IMediator mediator) 
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            this.importService = importService ?? throw new ArgumentNullException(nameof(importService));
         }
 
         [HttpGet]
@@ -45,14 +44,6 @@ namespace Hechinger.FSK.Web.Controllers
         {
             return await this.mediator.Send(request, cancellationToken);
         }
-        [HttpPost]
-        public async Task<bool> Import(CancellationToken cancellationToken)
-        {
-           // await this.importService.ImportOperations(cancellationToken);
-            //await this.importService.ImportFehlers(cancellationToken);
-            await this.importService.ImportCards(cancellationToken);
-            return true;
-
-        }
+        
     }
 }

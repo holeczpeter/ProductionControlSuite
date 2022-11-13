@@ -26,7 +26,7 @@
 
             foreach (var item in request.Items)
             {
-                var currentItem = await this.context.SummaryCardItem.Where(x => x.Id == item.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
+                var currentItem = await this.context.SummaryCardItems.Where(x => x.Id == item.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
                 if (currentItem == null)
                 {
                     result.Errors.Add("A hibagyűjtő hiba tétele nem található");

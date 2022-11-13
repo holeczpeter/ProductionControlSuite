@@ -20,8 +20,10 @@ namespace Hechinger.FSK.Infrastructure.Persistence
         public DbSet<Defect> Defects { get; set; }
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<SummaryCard> SummaryCards { get; set; }
-        public DbSet<SummaryCardItem> SummaryCardItem { get; set; }
+        public DbSet<SummaryCardItem> SummaryCardItems { get; set; }
         public DbSet<Language> Languages { get; set; }
+        public DbSet<Picture> Pictures { get; set; }
+
         public IHttpContextAccessor httpContextAccessor;
         public FSKDbContext(DbContextOptions options) : base(options)
         {

@@ -66,6 +66,7 @@
   "endDate": "Időszak vége",
   "sum": "Összesen",
   "print": "Nyomtatás",
+  "basicdata": "Törzsadat",
   "workshops": {
     "title": "Műhelyek",
     "add": "Új műhely hozzáadása",

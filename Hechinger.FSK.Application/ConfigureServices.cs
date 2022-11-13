@@ -17,7 +17,6 @@ namespace Hechinger.FSK.Application
             services.AddTransient(typeof(IDefectCahche), typeof(DefectCahche));
             services.AddTransient(typeof(IQuantityService), typeof(QuantityService));
             services.AddTransient(typeof(IQualityService), typeof(QualityService));
-            services.AddTransient(typeof(IImportService), typeof(ImportService));
             services.AddTransient(typeof(IPermissionService), typeof(PermissionService));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
             return services;

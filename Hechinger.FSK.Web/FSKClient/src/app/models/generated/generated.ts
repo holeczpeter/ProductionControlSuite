@@ -157,6 +157,20 @@ export interface RequestParameters {
   page: number,
   pageCount: number,
 }
+export interface DefectImport {
+  file: any,
+}
+export interface OperationImport {
+  file: any,
+}
+export interface SummaryCardImport {
+  file: any,
+}
+export interface ImportError {
+  type: string,
+  code: string,
+  errorText: string,
+}
 export interface LanguageModel {
   id: number,
   name: string,

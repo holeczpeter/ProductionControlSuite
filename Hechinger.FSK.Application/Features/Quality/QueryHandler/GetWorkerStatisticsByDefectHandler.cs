@@ -13,7 +13,7 @@
         {
            
             var items = await (from c in this.context.SummaryCards
-                         join i in this.context.SummaryCardItem on c.Id equals i.SummaryCardId
+                         join i in this.context.SummaryCardItems on c.Id equals i.SummaryCardId
                          where c.Date.Date >= request.StartDate &&
                                c.Date <= request.EndDate &&
                                i.DefectId == request.DefectId &&

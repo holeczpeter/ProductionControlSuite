@@ -39,7 +39,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgChartsModule } from 'ng2-charts';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
@@ -63,6 +62,8 @@ import { OperationSearchComponent } from './operation-search/operation-search.co
 import { ProductSearchComponent } from './product-search/product-search.component';
 import { DefectSearchComponent } from './defect-search/defect-search.component';
 import { CategoriesLegendComponent } from './categories-legend/categories-legend.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
+import { ImageUploadComponent } from './image-upload/image-upload.component';
 @NgModule({
   declarations: [
     
@@ -81,6 +82,8 @@ import { CategoriesLegendComponent } from './categories-legend/categories-legend
     ProductSearchComponent,
     DefectSearchComponent,
     CategoriesLegendComponent,
+    FileUploadComponent,
+    ImageUploadComponent,
   ],
   imports: [
     CommonModule,
@@ -126,7 +129,6 @@ import { CategoriesLegendComponent } from './categories-legend/categories-legend
     MatSlideToggleModule,
     TranslateModule,
     NgxMaskModule.forRoot(),
-    NgChartsModule,
     NgxMatSelectSearchModule,
     NgxPrintModule,
     NgxEchartsModule.forRoot({
@@ -175,7 +177,6 @@ import { CategoriesLegendComponent } from './categories-legend/categories-legend
     MatGridListModule,
     MatSlideToggleModule,
     NgxMaskModule,
-    NgChartsModule,
     TitleComponent,
     DialogHeaderComponent,
     OverlayLoadingDirective,
@@ -193,6 +194,8 @@ import { CategoriesLegendComponent } from './categories-legend/categories-legend
     ProductSearchComponent,
     DefectSearchComponent,
     CategoriesLegendComponent,
+    FileUploadComponent,
+    ImageUploadComponent,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },

@@ -44,7 +44,7 @@
                         DefectCode = d.Code,
                         DefectTranslatedName = !String.IsNullOrEmpty(d.TranslatedName) ? d.TranslatedName : d.Name,
                         DefectCategory = d.DefectCategory,
-                        Days = this.context.SummaryCardItem.Where(sc =>
+                        Days = this.context.SummaryCardItems.Where(sc =>
                         sc.SummaryCard.Date >= start.Date && sc.SummaryCard.Date <= end.Date &&
                         sc.DefectId == d.Id &&
                         sc.EntityStatus == EntityStatuses.Active)
@@ -97,7 +97,7 @@
                         DefectCode = d.Code,
                         DefectTranslatedName = !String.IsNullOrEmpty(d.TranslatedName) ? d.TranslatedName : d.Name,
                         DefectCategory = d.DefectCategory,
-                        Days = this.context.SummaryCardItem.Where(sc => 
+                        Days = this.context.SummaryCardItems.Where(sc => 
                         sc.SummaryCard.Date >= start.Date && sc.SummaryCard.Date <= end.Date &&  
                         sc.DefectId == d.Id &&
                         sc.EntityStatus == EntityStatuses.Active)

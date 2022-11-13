@@ -123,6 +123,7 @@ export class AccountService {
     else return 0;
   }
   setLanguage(userData: UserDataModel) {
+    this.translateService.use(userData.languageCode);
     this.translateService.setDefaultLang(userData.languageCode);
   }
   getLanguage(): string {

@@ -17,7 +17,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -344,11 +344,17 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ComponentQuantity")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DefectCataglogLink")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EntityStatus")
@@ -369,6 +375,12 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.Property<double>("OperationTime")
                         .HasColumnType("float");
 
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PpmGoal")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
@@ -387,6 +399,53 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Operations");
+                });
+
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.Picture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Creator")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DefectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifier")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<string>("TranslatedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DefectId");
+
+                    b.HasIndex("EntityStatus");
+
+                    b.ToTable("Pictures");
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Product", b =>
@@ -659,7 +718,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("SummaryCardId");
 
-                    b.ToTable("SummaryCardItem");
+                    b.ToTable("SummaryCardItems");
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.User", b =>
@@ -889,6 +948,18 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.Picture", b =>
+                {
+                    b.HasOne("Hechinger.FSK.Core.Entities.Defect", "Defect")
+                        .WithMany("Pictures")
+                        .HasForeignKey("DefectId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FKDEFECTPICTURE_CONNECTION");
+
+                    b.Navigation("Defect");
+                });
+
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Product", b =>
                 {
                     b.HasOne("Hechinger.FSK.Core.Entities.WorkShop", "WorkShop")
@@ -1001,6 +1072,8 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Defect", b =>
                 {
+                    b.Navigation("Pictures");
+
                     b.Navigation("SummaryCardItems");
                 });
 

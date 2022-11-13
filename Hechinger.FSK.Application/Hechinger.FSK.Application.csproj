@@ -28,7 +28,7 @@
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Mappings\" />
-    <Folder Include="Features\Export\" />
+    <Folder Include="Features\Import\Services\" />
     <Folder Include="Features\Worker\" />
   </ItemGroup>
 

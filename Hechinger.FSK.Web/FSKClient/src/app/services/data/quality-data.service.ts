@@ -56,8 +56,5 @@ export class QualityDataService {
       }
     });
   }
-  import(): Observable<boolean> {
-    return this.httpClient.post<boolean>('/Quality/import', null)
-  }
-
+  
 }

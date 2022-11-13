@@ -13,6 +13,6 @@ export class AppComponent {
     private readonly router: Router ) {
     
     translateService.addLangs(this.supportedLanguages);
-    translateService.setDefaultLang(this.supportedLanguages[1]);
+    translateService.setDefaultLang(this.supportedLanguages[0]);
   }
 }

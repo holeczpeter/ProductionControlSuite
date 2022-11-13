@@ -149,11 +149,7 @@ export class QualityHistoryMonthlyComponent implements  OnInit, OnDestroy {
     else return 0;
 
   }
-  onImport() {
-    this.qualityDataService.import().subscribe(x => {
-      this.snackbarService.open(new ResultBuilder().setMessage('Kész').setSuccess(x).build())
-    });
-  }
+ 
   ngOnDestroy() {
     if (this.intervalSubscription) this.intervalSubscription.unsubscribe();
     if (this.monthDataSubscription) this.monthDataSubscription.unsubscribe();
