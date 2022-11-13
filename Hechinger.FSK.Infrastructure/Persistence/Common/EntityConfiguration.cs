@@ -40,13 +40,11 @@ namespace Hechinger.FSK.Infrastructure.Common
         public static void ConfigureBaseEntity<TEntity>(EntityTypeBuilder<TEntity> builder) where TEntity : BaseEntity
         {
             builder.Property(x => x.Name)
-                .HasMaxLength(100)
                 .HasColumnOrder(1);
             builder.Property(x => x.Code)
                 .HasMaxLength(25)
                 .HasColumnOrder(2);
             builder.Property(x => x.TranslatedName)
-                .HasMaxLength(100)
                 .HasColumnOrder(3);
             builder
                .HasIndex(e => e.Name);
