@@ -13,7 +13,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
             columns: new[] { "Id", "Created", "Creator", "LastModified", "LastModifier", "EntityStatus", "Code", "FirstName", "LastName", "Salt", "Password", "IsTemporary", "ExpiryDate", "ChangePass", "RoleId", "LanguageId", "PageSize" },
             values: new object[,]
             {
-                { 0, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,"0000", "-", "-", "","", true, DateTime.Now.AddHours(2),DateTime.Now, 2,1,25},
+                { 0, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.InActive,"0000", "-", "-", "","", true, DateTime.Now.AddHours(2),DateTime.Now, 2,1,25},
                 { 1, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active,"9999", "Péter", "Holecz", "PerjpnB0Agfh243gxF1hGg==","8wxZMSndeT/5g3SKeO2583mx+ibQwz+fJI7UJ48NoL0=", true, DateTime.Now.AddHours(2),DateTime.Now, 2,1,25}
             });
         }

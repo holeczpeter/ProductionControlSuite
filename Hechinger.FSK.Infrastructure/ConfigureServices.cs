@@ -11,7 +11,7 @@ namespace Hechinger.FSK.Infrastructure
 
             services.AddDbContext<FSKDbContext>(options =>
             {
-                options.UseLazyLoadingProxies();
+                //options.UseLazyLoadingProxies();
                 options.UseSqlServer(configuration.GetConnectionString("FSK"));
             });
             return services;
