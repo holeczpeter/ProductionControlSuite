@@ -13,7 +13,10 @@ using Serilog;
 using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("hostsettings.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables(prefix: "ASPNETCORE_");
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
