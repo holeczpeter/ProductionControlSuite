@@ -42,7 +42,7 @@ namespace Hechinger.FSK.Application.Features
                         User = current,
                         WorkshopId = item,
                     };
-                    await this.context.AddAsync(newRelation, cancellationToken);
+                    await this.context.WorkshopUsers.AddAsync(newRelation, cancellationToken);
                 }
 
                 await context.SaveChangesAsync(cancellationToken);

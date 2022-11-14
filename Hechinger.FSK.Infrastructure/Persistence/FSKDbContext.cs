@@ -44,7 +44,7 @@ namespace Hechinger.FSK.Infrastructure.Persistence
         }
         public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
-           //await OnBeforeChangesAsync();
+            await OnBeforeChangesAsync();
             return await base.SaveChangesAsync();
         }
 
@@ -62,7 +62,7 @@ namespace Hechinger.FSK.Infrastructure.Persistence
         }
         private void UpdateEntityInfo()
         {
-            var entries = ChangeTracker.Entries().Where(e => e.Entity is BaseEntity && (e.State == EntityState.Added || e.State == EntityState.Modified)).ToList();
+            var entries = this.ChangeTracker.Entries().Where(e => e.Entity is IEntity && (e.State == EntityState.Added || e.State == EntityState.Modified)).ToList();
             var currentUser = GetCurrentUser();
 
             foreach (var entityEntry in entries)

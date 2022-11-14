@@ -16,17 +16,20 @@ namespace Hechinger.FSK.Web.Controllers
         
         }
         [HttpPost]
+        [DisableRequestSizeLimit]
         public async Task<Result<IEnumerable<ImportError>>> ImportOperation([FromForm] OperationImport request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
         }
         [HttpPost]
+        [DisableRequestSizeLimit]
         public async Task<Result<IEnumerable<ImportError>>> ImportDefect([FromForm] DefectImport request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
         }
         [HttpPost]
-        public async Task<Result<IEnumerable<ImportError>>> SummaryCardImport([FromForm] SummaryCardImport request, CancellationToken cancellationToken)
+        [DisableRequestSizeLimit]
+        public async Task<Result<IEnumerable<ImportError>>> ImportSummaryCard([FromForm] SummaryCardImport request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
         }

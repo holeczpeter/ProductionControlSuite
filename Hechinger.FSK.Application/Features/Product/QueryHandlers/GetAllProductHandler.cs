@@ -13,8 +13,7 @@
         {
             var permittedProducts = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
             return await context.Products
-                .Where(x => x.EntityStatus == EntityStatuses.Active &&
-                            permittedProducts.Contains(x.WorkshopId))
+                .Where(x => x.EntityStatus == EntityStatuses.Active && permittedProducts.Contains(x.WorkshopId))
                 .Select(x => new ProductModel()
                 {
                     Id = x.Id,

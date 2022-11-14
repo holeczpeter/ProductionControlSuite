@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -32,14 +33,25 @@ namespace Hechinger.FSK.Web
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-
             services.AddSpaStaticFiles();
             services.AddCors(options => options.AddPolicy("CorsPolicy", builder => builder.WithOrigins().AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "FSK/dist"; });
             services.AddMvcCore(options => options.Filters.Add(typeof(ValidateModelStateAttribute))).AddControllersAsServices();
             services.Configure<ForwardedHeadersOptions>(options => options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto);
-            services.Configure<FormOptions>(options => options.MultipartBodyLengthLimit = 600000000);
-           
+            services.Configure<FormOptions>(options => {
+                options.ValueLengthLimit = int.MaxValue;
+                options.MultipartBodyLengthLimit = int.MaxValue; 
+                options.MultipartHeadersLengthLimit = int.MaxValue;
+             });
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.MaxRequestBodySize = int.MaxValue;
+            });
+
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.Limits.MaxRequestBodySize = int.MaxValue;
+            });
             services.AddHttpClient();
             services.Configure<ApiBehaviorOptions>(options =>
             {

@@ -36,7 +36,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     { 18, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active, (int)MenuTypes.SubMenu, true,"Termékek", "Termékek","Produkte", "list", 3, 15, "/basic-data/product"},
                     { 19, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active, (int)MenuTypes.SubMenu, true,"Műveletek", "Műveletek","Operationen", "build", 4, 15, "/basic-data/operation"},
                     { 20, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active, (int)MenuTypes.SubMenu, true,"Hibák", "Hibák","Fehlers", "list", 5,15, "/basic-data/defects"},
-                    { 21, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active, (int)MenuTypes.SubMenu, false,"Hibaösszesítők", "Hibaösszesítők","Qualitätsmeldung", "list", 6,15, "/basic-data/defect-groups"},
+                    { 21, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active, (int)MenuTypes.SubMenu, false,"Hibaösszesítők", "Hibaösszesítők","Qualitätsmeldung", "table_view", 6,15, "/basic-data/defect-groups"},
 
                     { 22, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active, (int)MenuTypes.Module,  true,"Adminisztrátor", "Adminisztrátor","Admin", "", 5, 0, "/admin"},
                     { 23, DateTime.Now, "SYSTEM",DateTime.Now, "SYSTEM", (int)EntityStatuses.Active, (int)MenuTypes.SubMenu, true,"Felhasználók", "Felhasználók","Benutzer", "supervisor_account", 1, 22, "/admin/users"},

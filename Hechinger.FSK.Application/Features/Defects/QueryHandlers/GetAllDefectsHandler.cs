@@ -16,8 +16,7 @@ namespace Hechinger.FSK.Application.Features
             
             var permittedDefects = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
             return await context.Defects
-                .Where(x => x.EntityStatus == EntityStatuses.Active &&
-                           permittedDefects.Contains(x.Operation.Product.WorkshopId))
+                .Where(x => x.EntityStatus == EntityStatuses.Active && permittedDefects.Contains(x.Operation.Product.WorkshopId))
                 .Select(x => new DefectModel()
                 {
                     Id = x.Id,

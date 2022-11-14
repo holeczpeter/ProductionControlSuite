@@ -12,7 +12,7 @@ namespace Hechinger.FSK.Application.Features
         public async Task<IEnumerable<TreeItem<MenuItemModel>>> Handle(GetAllMenuItem request, CancellationToken cancellationToken)
         {
 
-            var menus = await this.context.Menus.Where(x => x.EntityStatus == EntityStatuses.Active).Select(menu => new MenuItemModel()
+            var menus = await this.context.Menus.Where(x => x.EntityStatus == EntityStatuses.Active && x.IsVisible).Select(menu => new MenuItemModel()
             {
                 Id = menu.Id,
                 Title = menu.Name,

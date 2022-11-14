@@ -4,12 +4,11 @@
 
 namespace Hechinger.FSK.Infrastructure.Migrations
 {
-    public partial class seed_dev_menu : Migration
+    public partial class update_menu_isvisible : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("INSERT INTO MenuRoles(MenuId,RoleId,Created,Creator,LastModified, LastModifier,EntityStatus)" +
-                 $"select m.Id, {2}, GETDATE(),'SYSTEM',GETDATE(),'SYSTEM',1 from Menus m");
+            migrationBuilder.Sql("UPDATE Menus set IsVisible = 0 where Id in (9,11,21)");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

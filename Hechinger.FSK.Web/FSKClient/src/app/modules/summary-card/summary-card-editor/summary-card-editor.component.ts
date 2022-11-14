@@ -64,7 +64,6 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
           })
         this.filtered.next(this.operations.slice());
       })
-      console.log(this.cardForm)
     }
   }
   filter(): void {
