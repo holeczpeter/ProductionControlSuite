@@ -8,6 +8,9 @@ import {
 } from '@angular/common/http';
 import { BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError } from 'rxjs';
 import { AccountService } from '../account.service';
+import { SnackbarService } from '../snackbar/snackbar.service';
+import { ResultBuilder } from '../result/result-builder';
+import { TokenRequestModel } from '../../models/generated/generated';
 
 @Injectable()
 
@@ -15,7 +18,7 @@ import { AccountService } from '../account.service';
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(private accountService: AccountService) { }
+  constructor(private accountService: AccountService, private snackBarService: SnackbarService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let authReq = req;
@@ -24,11 +27,13 @@ import { AccountService } from '../account.service';
       authReq = this.addTokenHeader(req, token);
     }
 
-    return next.handle(authReq).pipe(catchError(error => {
+    return next.handle(authReq).pipe(catchError((error: HttpErrorResponse) => {
       if (error.status === 401 && !authReq.url.includes('Token/Refresh')) {
-        return this.handle401Error(authReq, next);
+        return this.handle401Error(req, next);
       }
-      return throwError(error);
+      this.snackBarService.open(new ResultBuilder().setSuccess(false).setMessage("A művelet során hiba történt").build());
+
+      throw new Error(JSON.stringify(error));
     }));
   }
 
@@ -41,19 +46,19 @@ import { AccountService } from '../account.service';
 
       if (token)
         return this.accountService.refreshToken().pipe(
-          switchMap((token: any) => {
+          switchMap((token: TokenRequestModel) => {
             this.isRefreshing = false;
 
-            this.accountService.saveToken(token.accessToken, token.refreshToken);
-            this.refreshTokenSubject.next(token.accessToken);
+            this.accountService.saveToken(token.token, token.refreshToken);
+            this.refreshTokenSubject.next(token.token);
 
-            return next.handle(this.addTokenHeader(request, token.accessToken));
+            return next.handle(this.addTokenHeader(request, token.token));
           }),
           catchError((err) => {
             this.isRefreshing = false;
 
             this.accountService.logout();
-            return throwError(err);
+            throw new Error(JSON.stringify(err));
           })
         );
     }

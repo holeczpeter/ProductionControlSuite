@@ -105,6 +105,7 @@ namespace Hechinger.FSK.Web
                     }
                 };
             });
+            services.AddAuthorization();
             return services;
         }
     }
