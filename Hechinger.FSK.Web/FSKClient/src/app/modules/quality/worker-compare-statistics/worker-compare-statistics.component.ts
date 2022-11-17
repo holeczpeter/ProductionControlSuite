@@ -39,6 +39,7 @@ export class WorkerCompareStatisticsComponent implements OnInit, OnDestroy {
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  chartInfo: any;
   constructor(private readonly formBuilder: UntypedFormBuilder,
     private readonly qualityDataService: QualityDataService,
     private readonly productDataService: ProductDataService,
@@ -112,6 +113,7 @@ export class WorkerCompareStatisticsComponent implements OnInit, OnDestroy {
     };
     
     this.qualityDataService.getWorkerStatisticsByDefect(request).subscribe(results => {
+      this.chartInfo = { startDate: request.startDate, endDate: request.endDate, defect: this.formGroup.get('defect')?.value };
       this.items = results;
       this.dataSource = new MatTableDataSource(results);
       this.dataSource.sort = this.sort;

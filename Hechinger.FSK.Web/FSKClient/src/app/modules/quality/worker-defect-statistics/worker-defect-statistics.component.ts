@@ -24,7 +24,7 @@ import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
   formGroup: UntypedFormGroup;
   title = "workercompare.title";
-
+  chartInfo: any;
   products!: SelectModel[];
   public productFilterCtrl: FormControl = new FormControl();
   public filteredProducts: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
@@ -141,6 +141,7 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
     };
     this.qualityDataService.getDefectStatisticsByUser(request).subscribe(results => {
       this.items = results;
+      this.chartInfo = { workerCode: request.workerCode, startDate: request.startDate, endDate: request.endDate, operation: this.formGroup.get('operation')?.value };
       this.dataSource = new MatTableDataSource(results);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;

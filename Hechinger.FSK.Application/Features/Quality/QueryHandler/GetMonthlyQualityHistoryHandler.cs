@@ -11,6 +11,18 @@
         }
         public async Task<IEnumerable<MonthlyQualityModel>> Handle(GetMonthlyQualityHistory request, CancellationToken cancellationToken)
         {
+            var currentProduct = await context.Products
+                .Where(x => x.Id == request.ProductId)
+                .Select(x=> new
+                {
+                    Id = x.Id,
+                    Code = x.Code,
+                    Name = x.Name,
+                    TranslatedName = x.TranslatedName,
+                    Goal = 2000,
+                })
+                .FirstOrDefaultAsync(cancellationToken);
+
             var startDate = new DateTime(request.Year, 1, 1);
             var endDate = new DateTime(request.Year, 12, 31);
             var items = await (from c in this.context.SummaryCards
@@ -22,6 +34,9 @@
                                i.EntityStatus == EntityStatuses.Active
                                select new 
                                {
+                                   ProductName = c.Operation.Product.Name,
+                                   ProductTranslatedName = c.Operation.Product.TranslatedName,
+                                   ProductCode = c.Operation.Product.Code,
                                    Date = c.Date,
                                    Quantity = c.Quantity,
                                    DefectQuantity = i.Quantity,
@@ -30,6 +45,11 @@
                        ).ToListAsync(cancellationToken);
             var groups = items.GroupBy(p => new { Category = p.Category }).Select(g => new MonthlyQualityModel
             {
+                Year = request.Year,
+                ProductCode = currentProduct.Code,
+                ProductName =   currentProduct.Name,
+                ProductTranslatedName = currentProduct.TranslatedName,  
+                Goal = currentProduct.Goal,
                 Category  = g.Key.Category,
                 CategoryName = g.Key.Category.GetDescription(),
                 Items = g.GroupBy(x=> new { Year=x.Date.Year, Month = x.Date.Month }).Select(a => new MonthlyQualityItem() 
@@ -37,7 +57,8 @@
                     Year = a.Key.Year,
                     Month = a.Key.Month,
                     Value = this.qualityService.GetPpm(a.Sum(z=>z.Quantity), a.Sum(c => c.DefectQuantity))
-                }).ToList()
+                }).ToList(),
+               
             });
 
             return groups.OrderBy(x=>x.Category).ToList();

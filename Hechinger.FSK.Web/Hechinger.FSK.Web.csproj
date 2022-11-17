@@ -112,6 +112,7 @@
     <Folder Include="FSKClient\src\app\models\dialog-models\" />
     <Folder Include="FSKClient\src\app\services\navigation\" />
     <Folder Include="FSKClient\src\app\services\image\" />
+    <Folder Include="FSKClient\src\app\services\chart\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="FSKClient\src\app\models\file-snippet.ts" />

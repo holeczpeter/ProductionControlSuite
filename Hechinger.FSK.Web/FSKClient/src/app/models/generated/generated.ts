@@ -186,6 +186,7 @@ export interface MenuItemModel {
   path: string,
   type: MenuTypes,
   parentId: number,
+  order: number,
 }
 export interface GetAllMenuItem {
 }
@@ -369,9 +370,15 @@ export interface MonthlyQualityItem {
   value: number,
 }
 export interface MonthlyQualityModel {
+  year: number,
+  productName: string,
+  productTranslatedName: string,
+  productCode: string,
   category: DefectCategories,
   categoryName: string,
   items: Array<MonthlyQualityItem>,
+  goal: number,
+  avarage: any,
 }
 export interface QualityAssuranceProductModel {
   productId: number,
@@ -754,6 +761,17 @@ export interface GetAllWorkshops {
 }
 export interface GetWorkshop {
   id: number,
+}
+export interface GetWorkshopPPmData {
+  startDate: Date,
+  endDate: Date,
+}
+export interface WorkshopPpmData {
+  workshopId: number,
+  workshopName: string,
+  ppm: number,
+  quantity: any,
+  defectQuantity: number,
 }
 export enum Views {
   Day = 0,

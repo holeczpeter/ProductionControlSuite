@@ -1,18 +1,13 @@
-<button mat-icon-button
-        [useExistingCss]="true"
-        printSectionId="print-section"
-        ngxPrint color="primary">
-  <mat-icon>
-    print
-  </mat-icon>
-</button>
-<div class="row" id="print-section">
-  <div class="col">
-    <div echarts [options]="options" class="chart" ></div>
-  </div>
-  <div class="col-auto">
-    <app-categories-legend></app-categories-legend>
-  </div>
+
+
+<div *ngIf="chartOptions">
+  <apx-chart [series]="chartOptions.series"
+             [colors]="chartOptions.colors"
+             [chart]="chartOptions.chart"
+             [xaxis]="chartOptions.xaxis"
+             [yaxis]="chartOptions.yaxis"
+             [title]="chartOptions.title">
+  </apx-chart>
 </div>
 
 

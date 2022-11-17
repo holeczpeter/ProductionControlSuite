@@ -82,7 +82,7 @@ export class QualityHistoryMonthlyComponent implements  OnInit, OnDestroy {
   initalize(): void {
     if (this.currentInterval && this.formGroup && this.formGroup.get('product')?.value) {
       let request: GetMonthlyQualityHistory = {
-        productId: this.formGroup.get('product')?.value.id, //1177,
+        productId: this.formGroup.get('product')?.value.id,
         year: this.currentInterval.currentYear
       }
       this.qualityDataService.getMonthlyQualityHistory(request).subscribe(results => {

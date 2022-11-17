@@ -64,6 +64,7 @@ import { DefectSearchComponent } from './defect-search/defect-search.component';
 import { CategoriesLegendComponent } from './categories-legend/categories-legend.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 @NgModule({
   declarations: [
     
@@ -131,6 +132,7 @@ import { ImageUploadComponent } from './image-upload/image-upload.component';
     NgxMaskModule.forRoot(),
     NgxMatSelectSearchModule,
     NgxPrintModule,
+    NgApexchartsModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
@@ -189,6 +191,7 @@ import { ImageUploadComponent } from './image-upload/image-upload.component';
     DateWithNamePipe,
     SumCategoryPipe,
     NgxPrintModule,
+    NgApexchartsModule,
     SummaryCardHeaderComponent,
     OperationSearchComponent,
     ProductSearchComponent,

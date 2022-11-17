@@ -209,7 +209,6 @@ h2.regular, h3.regular {
   background: black;
 }
 
-
 .flex-title {
   display: flex;
   justify-content: space-between;
@@ -231,4 +230,7 @@ table {
   justify-content: flex-end;
   margin: 20px;
   display: flex;
+}
+.chart{
+    margin-top:20px;
 }

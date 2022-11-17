@@ -28,7 +28,7 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field class="col">
-        <mat-select [formControlName]="'worker'" [placeholder]="'workerCode' | translate" #productSelect required>
+        <mat-select [formControlName]="'worker'" [placeholder]="'worker' | translate" #productSelect required>
           <mat-option>
             <ngx-mat-select-search [formControl]="workerFilterCtrl"></ngx-mat-select-search>
           </mat-option>
@@ -118,7 +118,10 @@
                      showFirstLastButtons></mat-paginator>
     </div>
     <div>
-      <app-worker-defect-statistics-chart [items]="items"></app-worker-defect-statistics-chart>
+      <app-worker-defect-statistics-chart [chartInfo]="chartInfo"
+                                          [items]="items">
+
+      </app-worker-defect-statistics-chart>
     </div>
   </div>
 

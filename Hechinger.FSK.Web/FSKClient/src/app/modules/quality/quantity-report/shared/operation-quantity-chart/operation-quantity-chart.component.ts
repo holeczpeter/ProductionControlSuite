@@ -1,27 +1,49 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DefectCategories, QuantityOperationReportModel } from '../../../../../models/generated/generated';
 import { QuantityChartModel } from '../../../../../models/quantity-chart-model';
 import { LanguageService } from '../../../../../services/language/language.service';
-
+import {
+  ChartComponent,
+  ApexYAxis,
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexXAxis,
+  ApexDataLabels,
+  ApexPlotOptions,
+  ApexFill,
+  ApexTooltip,
+  ApexLegend,
+  ApexStroke,
+ 
+} from "ng-apexcharts";
+import { ChartService } from '../../../../../services/chart/chart.service';
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  yaxis: ApexYAxis;
+  xaxis: ApexXAxis;
+  fill: ApexFill;
+  tooltip: ApexTooltip;
+  stroke: ApexStroke;
+  legend: ApexLegend;
+};
 @Component({
   selector: 'app-operation-quantity-chart',
   templateUrl: './operation-quantity-chart.component.html',
   styleUrls: ['./operation-quantity-chart.component.scss']
 })
 export class OperationQuantityChartComponent implements OnInit, OnChanges {
-  
   @Input() chartModel: QuantityOperationReportModel;
   @Input() chartTitle: string | null;
-  options: any;
+  @ViewChild("chart") chart: ChartComponent;
+  public chartOptions!: Partial<ChartOptions> | any;
   chartModels: Array<QuantityChartModel>; 
-  xAxisName: string;
-  xAxisData: string[];
-  operationName: string;
-  constructor(public translateService: TranslateService) {
-    this.translateService.get('defectName').subscribe(x => {
-      this.xAxisName = x;
-    });
+
+  constructor(public translateService: TranslateService,
+    private readonly chartService: ChartService) {
     this.translateService.onLangChange.subscribe(x => {
       this.createChart(x.lang);
     })
@@ -30,7 +52,6 @@ export class OperationQuantityChartComponent implements OnInit, OnChanges {
   ngOnInit(): void {
   }
   ngOnChanges(changes: SimpleChanges): void {
-
     if (changes['chartModel'] && this.chartModel) {
       this.chartModels = this.chartModel.defects.sort((a, b) => b.ppm - a.ppm).map(x => {
         let item: QuantityChartModel = {
@@ -40,7 +61,6 @@ export class OperationQuantityChartComponent implements OnInit, OnChanges {
           translatedName: x.defectTranslatedName,
           value: x.ppm,
           category: x.defectCategory,
-
         }
         return item;
       });
@@ -51,70 +71,52 @@ export class OperationQuantityChartComponent implements OnInit, OnChanges {
   
   createChart(lang: string) {
     let operationName = this.translateService.currentLang == 'hu' ? this.chartModel.operationName : this.chartModel.operationTranslatedName;
-    const xAxisData = lang == 'hu' ? this.chartModels.map(x => x.name) : this.chartModels.map(x => x.translatedName);
-    const data01 = this.chartModels.map(x => { return { value: x.value, itemStyle: { color: this.getColor(x.category) } } });
-    let categories = [1, 2, 3];
-    this.options = {
-      title: {
-        text: this.chartTitle + "\n" + operationName + "\n" + this.chartModel.operationCode,
-        left: 'center',
-        
-        color: '#ccc',
-      },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow',
-        }
-      },
-      xAxis: {
-        name: this.xAxisName,
-        nameLocation: 'center',
-        nameTextStyle: {
-          fontWeight:'bold'
-        },
-        nameGap: 60,
-        axisLabel: {
-          interval: 0,
-          hideOverlap:false,
-          show:true,
-          width:'80',
-          overflow:'break',
-          
-        },
-        type: 'category',
-        data: xAxisData,
-        axisTick: {
-          alignWithLabel: true
-        }
-      },
-      yAxis: {
-        name: 'PPM',
-        nameLocation: 'center',
-        nameTextStyle: {
-          fontWeight: 'bold'
-        },
-        nameGap: 50,
-        type: 'value'
-      },
+    const categories = lang == 'hu' ? this.chartModels.map(x => x.name) : this.chartModels.map(x => x.translatedName);
+    const data = this.chartModels.map(x => { return { x: x.name, y: x.value, fillColor: this.chartService.getColor(x.category) } });
+    let xAxisName = this.translateService.instant('defectName');
+    this.chartOptions = {
       series: [
         {
-          name: 'PPM',
-          data: data01,
-          type: 'bar',
-          categories,
+          name: "PPM",
+          data: data
         },
-        
-      ]
+      ],
+      chart: {
+        height: 400,
+        type: "bar",
+        toolbar: {
+          show: true
+        },
+        zoom: {
+          enabled: true
+        }
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: "55%",
+          endingShape: "rounded"
+        }
+      },
+      title: {
+        text: this.chartTitle + "\n" + operationName + "\n" + this.chartModel.operationCode,
+      },
+      xaxis: {
+        title: { text: xAxisName, offsetY: 200, },
+        categories: categories
+      },
+      yaxis: {
+        name: 'PPM',
+        seriesName: "PPM",
+        title: { text: "PPM", },
+        tooltip: {
+          enabled: true,
+          offsetX: 0,
+        },
+      },
+      
     };
-    console.log(this.options)
+
   }
-  getColor(category: DefectCategories): string {
-    switch (category) {
-      case 0: return '#FFCA39';
-      case 1: return '#F35B5A';
-      case 2: return '#379DDA';
-      default: return '#F35B5A';
-    }
-  }
+  
 }

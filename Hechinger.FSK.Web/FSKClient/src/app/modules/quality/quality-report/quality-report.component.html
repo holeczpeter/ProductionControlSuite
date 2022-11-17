@@ -1,10 +1,7 @@
-<!--<div>
-  <button mat-flat-button (click)="getQualityData()" color="primary"> Darabszám lekérdezés </button>
-</div>-->
+
 <div class="container-fluid">
   <app-title class="flex-title-item" [title]="title"></app-title>
   <app-product-search (select)="onSelectedProduct($event)"></app-product-search>
   <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
-
 </div>
 

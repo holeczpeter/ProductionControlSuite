@@ -6,13 +6,17 @@
   </app-operation-search>
   <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
   <div class="example-container" *ngIf="quantityReportModel">
-    <app-operation-quantity-table [tableModel]="tableModel"
-                                  
-                                  [categories]="categories"
-                                  [shifts]="shifts">
-    </app-operation-quantity-table>
-    <app-operation-quantity-chart [chartModel]="quantityReportModel"
-                                  [chartTitle]="chartTitle">
-    </app-operation-quantity-chart>
+    <div>
+      <app-operation-quantity-table [tableModel]="tableModel"
+                                    [categories]="categories"
+                                    [shifts]="shifts">
+      </app-operation-quantity-table>
+    </div>
+    <div class="chart">
+      <app-operation-quantity-chart [chartModel]="quantityReportModel"
+                                    [chartTitle]="chartTitle">
+      </app-operation-quantity-chart>
+    </div>
+   
   </div>
 </div>

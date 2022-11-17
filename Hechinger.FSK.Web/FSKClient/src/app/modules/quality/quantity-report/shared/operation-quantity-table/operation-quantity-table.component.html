@@ -1,5 +1,6 @@
 <div class="example-container">
-  <button mat-icon-button (click)="onExport()" color="primary" > <mat-icon>download</mat-icon> </button>
+  <div class="toolbar"><button mat-icon-button (click)="onExport()" color="primary"> <mat-icon>download</mat-icon> </button></div>
+ 
   <table mat-table  id="id_of_table"
          [dataSource]="dataSource">
     <ng-container *ngFor="let key of displayedColumns; let i = index">
