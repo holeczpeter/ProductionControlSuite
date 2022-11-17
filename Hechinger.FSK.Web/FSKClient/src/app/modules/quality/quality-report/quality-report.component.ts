@@ -1,11 +1,7 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatSelect } from '@angular/material/select';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { debounceTime, distinctUntilChanged, ReplaySubject, Subject, Subscription, takeUntil } from 'rxjs';
+import { distinctUntilChanged, Subject, Subscription } from 'rxjs';
 import { GetQuantityReportByProduct, IntervalModel, IntervalOption, QuantityOperationReportModel, SelectModel, Views } from '../../../models/generated/generated';
-import { AccountService } from '../../../services/account.service';
-import { ProductDataService } from '../../../services/data/product-data.service';
 import { QualityDataService } from '../../../services/data/quality-data.service';
 import { IntervalViewService } from '../../../services/interval-view/interval-view.service';
 import { LanguageService } from '../../../services/language/language.service';
