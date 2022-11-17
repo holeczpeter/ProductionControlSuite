@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetDefectStatisticsByUserHandler : IRequestHandler<GetDefectStatisticsByUser, IEnumerable<DefectStatisticModel>>
+    public class GetDefectStatisticsByUserHandler : IRequestHandler<GetDefectStatisticsByUser, DefectStatisticModel>
     {
         private readonly FSKDbContext context;
         private readonly IQualityService qualityService;
@@ -10,9 +10,16 @@
             this.context = context ?? throw new ArgumentNullException(nameof(context));
             this.qualityService = qualityService ?? throw new ArgumentNullException(nameof(qualityService));
         }
-        public async Task<IEnumerable<DefectStatisticModel>> Handle(GetDefectStatisticsByUser request, CancellationToken cancellationToken)
+        public async Task<DefectStatisticModel> Handle(GetDefectStatisticsByUser request, CancellationToken cancellationToken)
         {
-           
+            var currentOperation = await this.context.Operations
+                .Where(x=>x.Id == request.OperationId)
+                .Select(x=> new 
+                { 
+                    Code = x.Code,  
+                    Name = x.Name,  
+                    TranslatedName = x.TranslatedName,
+                }).FirstOrDefaultAsync(cancellationToken);  
             var items = await (from c in this.context.SummaryCards
                                join i in this.context.SummaryCardItems on c.Id equals i.SummaryCardId
                                where c.Date.Date >= request.StartDate &&
@@ -32,7 +39,7 @@
                                    Quantity = c.Quantity,
                                    DefectQuantity = i.Quantity
                                }).ToListAsync(cancellationToken);
-            var result = items.GroupBy(item => new { DefectId = item.DefectId }).Select(x => new DefectStatisticModel()
+            var result = items.GroupBy(item => new { DefectId = item.DefectId }).Select(x => new DefectStatisticsItem()
             {
                 
                 DefectCode = x.FirstOrDefault().DefectCode,
@@ -45,7 +52,18 @@
                 Ppm = this.qualityService.GetPpm(x.Sum(x => x.Quantity), x.Sum(x => x.DefectQuantity))
 
             }).OrderByDescending(x => x.Ppm).ToList();
-            return result;
+
+            return new DefectStatisticModel()
+            {
+                StartDate = request.StartDate,
+                EndDate = request.EndDate,  
+                WorkerCode = request.WorkerCode,    
+                OperationCode = currentOperation.Code,
+                OperationName = currentOperation.Name,  
+                OperationTranslatedName = currentOperation.TranslatedName,
+                Items = result
+            };
+            
         }
     }
 }

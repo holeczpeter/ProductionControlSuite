@@ -16,6 +16,7 @@ import {
 } from "ng-apexcharts";
 import { TranslateService } from '@ngx-translate/core';
 import { ChartService } from '../../../../services/chart/chart.service';
+import { DatePipe } from '@angular/common';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -28,44 +29,51 @@ export type ChartOptions = {
   stroke: ApexStroke;
   legend: ApexLegend;
   title: ApexTitleSubtitle;
+  subtitle: ApexTitleSubtitle;
 };
 @Component({
   selector: 'app-worker-defect-statistics-chart',
   templateUrl: './worker-defect-statistics-chart.component.html',
   styleUrls: ['./worker-defect-statistics-chart.component.scss']
 })
-export class WorkerDefectStatisticsChartComponent implements OnInit, DoCheck, OnChanges {
-  @Input() items: Array<DefectStatisticModel>;
-  @Input() chartInfo: any;
+export class WorkerDefectStatisticsChartComponent implements OnInit, OnChanges {
+  @Input() model: DefectStatisticModel;
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
-  private _differ: IterableDiffer<any>;
-  constructor(private differs: IterableDiffers,
-    private readonly chartService: ChartService,
+
+  constructor(private readonly chartService: ChartService,
+    private readonly datePipe: DatePipe,
     public translateService: TranslateService) {
-    this._differ = this.differs.find([]).create(this.trackByFn);
     this.translateService.onLangChange.subscribe(x => {
       this.createChart(x.lang);
     })
   }
-    
 
   ngOnInit(): void {
   }
-  ngDoCheck() {
-    var changes = this._differ.diff(this.items);
-    if (changes) this.createChart(this.translateService.currentLang);
-  }
+ 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['chartInfo'] && this.chartInfo) this.createChart(this.translateService.currentLang);
+    if (changes['model'] && this.model) this.createChart(this.translateService.currentLang);
   }
   createChart(lang: string) {
-    if (this.chartInfo && this.items) {
-      let operationName = lang == 'hu' ? this.chartInfo.operation.name : this.chartInfo.operation.translatedName;
-      const categories = lang == 'hu' ? this.items.map(x => x.defectName) : this.items.map(x => x.defectTranslatedName);
-      const data = this.items.map(x => { return { x: lang == 'hu' ? x.defectName : x.defectTranslatedName, y: x.ppm, fillColor: this.chartService.getColor(x.defectCategory) } });
-      const title = this.chartInfo.workerCode + " - " + operationName;
+    if (this.model) {
+      let operationName = lang == 'hu' ? this.model.operationName : this.model.operationTranslatedName;
+      const categories = lang == 'hu' ? this.model.items.map(x => x.defectName) : this.model.items.map(x => x.defectTranslatedName);
+      const data = this.model.items.map(x => { return { x: lang == 'hu' ? x.defectName : x.defectTranslatedName, y: x.ppm, fillColor: this.chartService.getColor(x.defectCategory) } });
+      const title = this.model.workerCode + " - " + operationName;
+      let startDate = this.translateService.currentLang == 'hu' ?
+        this.datePipe.transform(this.model.startDate, 'yyyy.MM.dd') :
+        this.datePipe.transform(this.model.startDate, 'dd.MM.yyyy');
+      let endDate = this.translateService.currentLang == 'hu' ?
+        this.datePipe.transform(this.model.startDate, 'yyyy.MM.dd') :
+        this.datePipe.transform(this.model.endDate, 'dd.MM.yyyy');
       this.chartOptions = {
+        title: {
+          text: title,
+        },
+        subtitle: {
+          text: startDate + "-" + endDate,
+        },
         series: [
           {
             name: "PPM",
@@ -89,9 +97,7 @@ export class WorkerDefectStatisticsChartComponent implements OnInit, DoCheck, On
             endingShape: "rounded"
           }
         },
-        title: {
-          text: title,
-        },
+        
         xaxis: {
           categories: categories
         },
@@ -109,8 +115,5 @@ export class WorkerDefectStatisticsChartComponent implements OnInit, DoCheck, On
     }
    
   }
-  
-  trackByFn(index: number, item: any) {
-    return index;
-  }
+ 
 }

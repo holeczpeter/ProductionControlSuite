@@ -1,12 +1,8 @@
-import { OnDestroy } from '@angular/core';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSelect } from '@angular/material/select';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { GetDefectsByOperation, GetOperationsByProduct, GetWorkerStatisticsByDefect, SelectModel, WorkerStatisticModel } from '../../../models/generated/generated';
+import { GetDefectsByOperation, GetOperationsByProduct, GetWorkerStatisticsByDefect, SelectModel, WorkerStatisticsModel } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { DefectDataService } from '../../../services/data/defect-data.service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
@@ -32,22 +28,15 @@ export class WorkerCompareStatisticsComponent implements OnInit, OnDestroy {
   operations!: SelectModel[];
   defects!: SelectModel[];
   protected _onDestroy = new Subject<void>();
-  items: Array<WorkerStatisticModel>;
-  dataSource: MatTableDataSource<WorkerStatisticModel>;
-  columnNames: Array<string> = ['workerCode', 'quantity', 'defectQuantity', 'ppm'];
-  pageSize = this.accountService.getPageSize();
-  pageSizeOptions: number[] = [5, 10, 25, 50, 100];
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-  chartInfo: any;
+
+  model: WorkerStatisticsModel;
+  
   constructor(private readonly formBuilder: UntypedFormBuilder,
     private readonly qualityDataService: QualityDataService,
     private readonly productDataService: ProductDataService,
     private readonly operatonDataService: OperationDataService,
     private readonly defectDataService: DefectDataService,
-    private readonly snackBar: SnackbarService,
-    public languageService: LanguageService,
-    private readonly accountService: AccountService) { }
+    public languageService: LanguageService) { }
 
   ngOnInit(): void {
     this.productDataService.getByFilter('').subscribe(products => {
@@ -105,21 +94,16 @@ export class WorkerCompareStatisticsComponent implements OnInit, OnDestroy {
 
  
   onRequest() {
-   
     let request: GetWorkerStatisticsByDefect = {
       defectId: this.formGroup.get('defect')?.value.id,
       startDate: new Date(this.formGroup.get('startDate')?.value),
       endDate: new Date(this.formGroup.get('endDate')?.value),
     };
-    
-    this.qualityDataService.getWorkerStatisticsByDefect(request).subscribe(results => {
-      this.chartInfo = { startDate: request.startDate, endDate: request.endDate, defect: this.formGroup.get('defect')?.value };
-      this.items = results;
-      this.dataSource = new MatTableDataSource(results);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+    this.qualityDataService.getWorkerStatisticsByDefect(request).subscribe(result => {
+      this.model = result;
     });
   }
+
   ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();

@@ -355,6 +355,15 @@ export interface GetProductsCount {
   parameters: RequestParameters,
 }
 export interface DefectStatisticModel {
+  workerCode: string,
+  operationCode: string,
+  operationName: string,
+  operationTranslatedName: string,
+  startDate: Date,
+  endDate: Date,
+  items: Array<DefectStatisticsItem>,
+}
+export interface DefectStatisticsItem {
   defectCode: string,
   defectName: string,
   defectTranslatedName: string,
@@ -438,7 +447,16 @@ export interface QuantityDayReportModel {
   defectQuantity: number,
   ppm: number,
 }
-export interface WorkerStatisticModel {
+export interface WorkerStatisticsModel {
+  defectId: number,
+  defectName: string,
+  defectTranslatedName: string,
+  defectCategory: DefectCategories,
+  startDate: Date,
+  endDate: Date,
+  items: Array<WorkerStatisticsItem>,
+}
+export interface WorkerStatisticsItem {
   workerCode: string,
   quantity: number,
   defectQuantity: number,

@@ -5,7 +5,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, forkJoin, ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { DefectStatisticModel, GetDefectsByOperation, GetDefectStatisticsByUser, GetOperationsByProduct, SelectModel, WorkerModel } from '../../../models/generated/generated';
+import { DefectStatisticModel, GetDefectsByOperation, GetDefectStatisticsByUser, GetOperationsByProduct, SelectModel, WorkerModel, WorkerStatisticsModel } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { DefectDataService } from '../../../services/data/defect-data.service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
@@ -33,19 +33,14 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
   operations!: SelectModel[];
   defects!: SelectModel[];
   protected _onDestroy = new Subject<void>();
-  items: Array<DefectStatisticModel>;
-  dataSource: MatTableDataSource<DefectStatisticModel>;
-
+  
   public workerFilterCtrl: FormControl = new FormControl();
   public filteredWorkers: ReplaySubject<WorkerModel[]> = new ReplaySubject<WorkerModel[]>(1);
   @ViewChild('workerSelect') workerSelect: MatSelect;
 
-  columnNames: Array<string> = ['defectCode', 'defectName', 'defectTranslatedName','defectCategoryName', 'quantity', 'defectQuantity', 'ppm'];
-  pageSize = this.accountService.getPageSize();
-  pageSizeOptions: number[] = [5, 10, 25, 50, 100];
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
   workers: WorkerModel[];
+
+  model: DefectStatisticModel;
 
   constructor(private readonly workerDataService: WorkerDataService,
     private readonly formBuilder: UntypedFormBuilder,
@@ -140,11 +135,7 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
       operationId: this.formGroup.get('operation')?.value.id,
     };
     this.qualityDataService.getDefectStatisticsByUser(request).subscribe(results => {
-      this.items = results;
-      this.chartInfo = { workerCode: request.workerCode, startDate: request.startDate, endDate: request.endDate, operation: this.formGroup.get('operation')?.value };
-      this.dataSource = new MatTableDataSource(results);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+      this.model = results;
     });
   }
   

@@ -1,6 +1,6 @@
 import { DoCheck, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { Component, Input, IterableDiffer, IterableDiffers, OnInit } from '@angular/core';
-import { DefectCategories, WorkerStatisticModel } from '../../../../models/generated/generated';
+import { DefectCategories, WorkerStatisticsModel } from '../../../../models/generated/generated';
 import {
   ChartComponent,
   ApexAxisChartSeries,
@@ -17,6 +17,7 @@ import {
 } from "ng-apexcharts";
 import { TranslateService } from '@ngx-translate/core';
 import { ChartService } from '../../../../services/chart/chart.service';
+import { DatePipe } from '@angular/common';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -29,49 +30,50 @@ export type ChartOptions = {
   tooltip: ApexTooltip;
   stroke: ApexStroke;
   legend: ApexLegend;
+  title: ApexTitleSubtitle;
+  subtitle: ApexTitleSubtitle;
 };
 @Component({
   selector: 'app-worker-compare-statistics-chart',
   templateUrl: './worker-compare-statistics-chart.component.html',
   styleUrls: ['./worker-compare-statistics-chart.component.scss']
 })
-export class WorkerCompareStatisticsChartComponent implements OnInit, DoCheck, OnChanges {
-  @Input() items: Array<WorkerStatisticModel>;
-  @Input() chartInfo: any;
+export class WorkerCompareStatisticsChartComponent implements OnInit, OnChanges {
+  @Input() model: WorkerStatisticsModel;
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
-  private _differ: IterableDiffer<any>;
 
-  constructor(private differs: IterableDiffers,
-    private readonly chartService: ChartService,
+  constructor(private readonly chartService: ChartService,
+    private readonly datePipe: DatePipe,
     public translateService: TranslateService) {
-    this._differ = this.differs.find([]).create(this.trackByFn);
-    this.translateService.onLangChange.subscribe(x => {
-      this.createChart(x.lang);
-    })
+    this.translateService.onLangChange.subscribe(x => { this.createChart(x.lang); });
   }
 
   ngOnInit(): void {
   }
 
-  ngDoCheck() {
-    var changes = this._differ.diff(this.items);
-    if (changes) this.createChart(this.translateService.currentLang);
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['chartInfo'] && this.chartInfo) this.createChart(this.translateService.currentLang);
+    if (changes['model'] && this.model) this.createChart(this.translateService.currentLang);
   }
 
   createChart(lang: string) {
-    if (this.chartInfo && this.items) {
-      let defectName = lang == 'hu' ? this.chartInfo.defect.name : this.chartInfo.defect.translatedName;
-      const categories = this.items.map(x => x.workerCode);
-      const data = this.items.map(x => { return { x: x.workerCode, y: x.ppm, fillColor: this.chartService.getColor(this.chartInfo.defect.defectCategory) } });
-
+    if (this.model) {
+      const categories = this.model.items.map(x => x.workerCode);
+      const data = this.model.items.map(x => { return { x: x.workerCode, y: x.ppm, fillColor: this.chartService.getColor(this.model.defectCategory) } });
+      let defectName = lang == 'hu' ? this.model.defectName : this.model.defectTranslatedName;
+      let startDate = this.translateService.currentLang == 'hu' ?
+        this.datePipe.transform(this.model.startDate, 'yyyy.MM.dd') :
+        this.datePipe.transform(this.model.startDate, 'dd.MM.yyyy');
+      let endDate = this.translateService.currentLang == 'hu' ?
+        this.datePipe.transform(this.model.startDate, 'yyyy.MM.dd') :
+        this.datePipe.transform(this.model.endDate, 'dd.MM.yyyy');
+     
       this.chartOptions = {
         title: {
           text: defectName,
+        },
+        subtitle: {
+          text: startDate + "-" + endDate,
         },
         series: [
           {
@@ -112,7 +114,5 @@ export class WorkerCompareStatisticsChartComponent implements OnInit, DoCheck, O
       };
     }
   }
-  trackByFn(index: number, item: any) {
-    return index;
-  }
+  
 }

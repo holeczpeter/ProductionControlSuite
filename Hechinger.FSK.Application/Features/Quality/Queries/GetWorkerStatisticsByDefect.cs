@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetWorkerStatisticsByDefect : IRequest<IEnumerable<WorkerStatisticModel>>
+    public class GetWorkerStatisticsByDefect : IRequest<WorkerStatisticsModel>
     {
        
         public int DefectId { get; set; }
