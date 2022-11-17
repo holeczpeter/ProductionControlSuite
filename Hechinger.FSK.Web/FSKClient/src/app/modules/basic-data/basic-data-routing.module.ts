@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DefectGroupsComponent } from './defect-groups/defect-groups.component';
 import { DefectsComponent } from './defects/defects.component';
 import { OperationsComponent } from './operations/operations.component';
 import { ProductsComponent } from './products/products.component';
@@ -30,6 +31,11 @@ const routes: Routes = [
   {
     path: 'defects',
     component: DefectsComponent,
+
+  },
+  {
+    path: 'defect-groups',
+    component: DefectGroupsComponent,
 
   },
   {
