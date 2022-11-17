@@ -67,8 +67,6 @@ export class ProductWizardEditorComponent implements OnInit, AfterViewInit, Afte
       this.snackBar.open(result);
       if (result.isSuccess) {
         this.dialogRef.close(true);
-        //this.refresh(result.entities);
-        //this.goForward(stepper);
       }
     });
   }

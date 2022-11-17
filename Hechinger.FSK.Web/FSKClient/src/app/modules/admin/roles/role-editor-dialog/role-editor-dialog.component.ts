@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
@@ -8,7 +8,6 @@ import { forkJoin } from 'rxjs';
 import { AddRole, GetRole, RoleDetailModel, RoleMenuItem, RoleModel, RoleUserItem, UpdateRole } from '../../../../models/generated/generated';
 import { TreeItemFlatNode } from '../../../../models/tree-item-flat-node';
 import { RoleDataService } from '../../../../services/data/role-data.service';
-import { UserDataService } from '../../../../services/data/user-data.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
 
 @Component({
@@ -20,19 +19,20 @@ import { SnackbarService } from '../../../../services/snackbar/snackbar.service'
     useValue: { displayDefaultIndicatorType: false },
   },]
 })
-export class RoleEditorDialogComponent implements OnInit, AfterViewInit{
+export class RoleEditorDialogComponent implements OnInit, AfterViewInit, AfterViewInit, AfterContentChecked{
   title!: string;
   id: number = 0;
   role!: RoleDetailModel;
   formGroup!: UntypedFormGroup;
   accessMenu!: Array<RoleMenuItem>
   accessUsers!: Array<RoleUserItem>
-  @ViewChild('stepper') myStepper!: MatStepper;
+  @ViewChild('mystepper') stepper: MatStepper;
   totalStepsCount!: 3;
   constructor(private readonly dialogRef: MatDialogRef<RoleEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: RoleModel,
     private readonly roleDataService: RoleDataService,
     private readonly formBuilder: UntypedFormBuilder,
+    private readonly changeDetector: ChangeDetectorRef,
     private readonly snackBar: SnackbarService) {
     this.id = this.data ? this.data.id : 0;
     this.title = this.data ? "roles.edit" : "roles.add";
@@ -52,9 +52,7 @@ export class RoleEditorDialogComponent implements OnInit, AfterViewInit{
       });
     });
   }
-  ngAfterViewInit() {
-   
-  }
+ 
 
   goBack(stepper: MatStepper) {
     stepper.previous();
@@ -107,5 +105,10 @@ export class RoleEditorDialogComponent implements OnInit, AfterViewInit{
   onCancel() {
     this.dialogRef.close(false);
   }
-
+  ngAfterViewInit() {
+    this.changeDetector.detectChanges();
+  }
+  ngAfterContentChecked() {
+    this.changeDetector.detectChanges();
+  }
 }

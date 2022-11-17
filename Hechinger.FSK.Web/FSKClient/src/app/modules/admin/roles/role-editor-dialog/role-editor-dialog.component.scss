@@ -8,3 +8,6 @@
   margin: 20px;
   display: flex;
 }
+::ng-deep .mat-horizontal-stepper-header {
+  pointer-events: none !important;
+}
