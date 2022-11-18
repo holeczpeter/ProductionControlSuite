@@ -54,7 +54,6 @@ export class ProductWizardEditorComponent implements OnInit, AfterViewInit, Afte
   }
 
   goForwardAndSaveProduct(stepper: MatStepper) {
-    console.log(this.productContextService.formGroup);
     let model: SaveProductContext = {
       id: this.productContextService.formGroup.get('id')?.value,
       name: this.productContextService.formGroup.get('name')?.value,

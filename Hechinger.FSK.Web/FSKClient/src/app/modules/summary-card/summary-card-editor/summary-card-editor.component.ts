@@ -49,7 +49,6 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
   ngOnChanges(changes: SimpleChanges): void {
     this.dataSource = new MatTableDataSource<AbstractControl>();
     if (changes['cardForm'] && this.cardForm) {
-      this.cardForm.valueChanges.subscribe(x => { console.log(x) })
       let currentOperationId = this.cardForm && this.cardForm.get('operation') && this.cardForm.get('operation')!.value != null && this.cardForm.get('operation')?.value.id ? this.cardForm.get('operation')?.value.id : 0;
       forkJoin([this.getCurrentOperation({ id: currentOperationId}), this.getOperationSelectModel(''), this.getAllShifts()]).subscribe(([currentOperation,operations, shifts]) => {
         this.operations = operations;
@@ -94,6 +93,7 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
   createTable() {
     let query: GetDefectsByOperation = { operationId: this.cardForm.get('operation')?.value.id }
     this.getDefectsByOperation(query).subscribe(results => {
+     
       this.items.clear();
       results.forEach((d: DefectModel) => this.addRow(d));
       this.dataSource.data = this.items.controls;
@@ -105,11 +105,11 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
     const row = this.formBuilder.group({
     
       id: [0],
-      order: [1],
+      order: [d.order],
       defectId: [d.id],
       defectName: [d.name],
       defectTranslatedName: [d.translatedName],
-      quantity: [0],
+      quantity: [''],
       comment: [''],
 
     });

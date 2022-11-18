@@ -32,7 +32,7 @@ export class AddSummaryCardComponent implements OnInit {
       date: [ new Date(), [Validators.required]],
       worker: ['', [Validators.required]],
       operation: [null, [Validators.required]],
-      quantity: [ 0, [Validators.required]],
+      quantity: [ '', [Validators.required]],
       los: [ ''],
       shiftId: ['', [Validators.required]],
       items: this.formBuilder.array([])
@@ -44,6 +44,7 @@ export class AddSummaryCardComponent implements OnInit {
   onSave() {
     let items = new Array<AddSummaryCardItem>();
     this.items.controls.forEach(data => {
+      if (data.value.quantity == "") data.value.quantity = 0;
       let item: AddSummaryCardItem = { defectId: data.value.defectId, comment: data.value.comment, quantity: data.value.quantity };
       items.push(item);
     });

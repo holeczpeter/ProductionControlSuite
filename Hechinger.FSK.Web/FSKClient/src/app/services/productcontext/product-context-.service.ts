@@ -38,7 +38,7 @@ export class ProductContextService {
 
   buildForm(productContext: ProductContext) {
     this.getWorkShops().subscribe(workshops => {
-      console.log(workshops)
+    
       this.formGroup = this.formBuilder.group({
         id: [productContext ? productContext.id : '0', [Validators.required]],
         name: [productContext ? productContext.name : '', [Validators.required]],
@@ -66,12 +66,13 @@ export class ProductContextService {
       id: [operation ? operation.id : 0],
       name: [operation ? operation.name : '', [Validators.required]],
       code: [operation ? operation.code : '', [Validators.required]],
+      order: [operation ? operation.order : '', [Validators.required]],
       norma: [operation ? operation.norma : 0],
       operationTime: [operation ? operation.operationTime : 0],
       translatedName: [operation ? operation.translatedName : '', [Validators.required]],
       defects: this.formBuilder.array(new Array<OperationModel>())
     }));
-    console.log(operation)
+    
     operation?.defects?.forEach(d => this.addDefect(d, operations.length-1));
   }
   removeOperation(i: number) {
@@ -84,9 +85,11 @@ export class ProductContextService {
       id: [defect ? defect.id : 0, [Validators.required]],
       name: [defect ? defect.name : '', [Validators.required]],
       code: [defect ? defect.code : '', [Validators.required]],
+      order: [defect ? defect.order : '', [Validators.required]],
       translatedName: [defect ? defect.translatedName : '', [Validators.required]],
       defectCategory: [defect ? defect.defectCategory : '', [Validators.required]],
     }));
+    
   }
 
   removeDefect(i: number, opIndex: number) {

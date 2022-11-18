@@ -109,6 +109,7 @@ export interface DefectModel {
   name: string,
   translatedName: string,
   code: string,
+  order: number,
   defectCategory: DefectCategories,
   operationId: number,
   operationCode: string,
@@ -222,6 +223,7 @@ export interface OperationModel {
   productName: string,
   productTranslatedName: string,
   hasDefect: boolean,
+  order: number,
 }
 export interface OperationPrintModel {
   id: number,
@@ -294,6 +296,7 @@ export interface OperationContext {
   translatedName: string,
   code: string,
   operationTime: any,
+  order: number,
   norma: any,
   defects: Array<DefectContext>,
 }
@@ -317,6 +320,7 @@ export interface DefectContext {
   name: string,
   translatedName: string,
   code: string,
+  order: number,
   defectCategory: DefectCategories,
 }
 export interface ProductModel {

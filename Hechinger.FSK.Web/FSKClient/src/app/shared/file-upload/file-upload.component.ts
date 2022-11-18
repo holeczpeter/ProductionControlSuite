@@ -20,7 +20,7 @@ export class FileUploadComponent implements OnInit {
   }
   processFile(imageInput: any) {
     const file: File = imageInput.files[0];
-    console.log(file)
+    
     const reader = new FileReader();
     reader.addEventListener('load', (event: any) => {
       this.selectedFile = new FileSnippet(event.target.result, file);

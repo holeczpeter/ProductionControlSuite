@@ -18,8 +18,13 @@
                 {{'code'| translate}} {{'required' | translate}}
               </mat-error>
             </mat-form-field>
+            <mat-form-field>
+              <input matInput [formControlName]="'order'" [placeholder]="'order' | translate" required />
+              <mat-error class="col" *ngIf="productContextService.getOperations.controls[i].get('order')?.hasError('required')">
+                {{'order'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
           </div>
-
           <div class="row">
             <mat-form-field class="col">
               <input matInput [formControlName]="'translatedName'" [placeholder]="'translatedName' | translate" required />

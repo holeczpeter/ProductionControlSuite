@@ -22,6 +22,7 @@
                     Name = operation.Name,
                     TranslatedName = !String.IsNullOrEmpty(operation.TranslatedName) ? operation.TranslatedName : operation.Name,
                     Code = operation.Code,
+                    Order = operation.Order,
                     Norma = operation.Norma,
                     OperationTime = operation.OperationTime,
                     Defects = operation.Defects.Where(d => d.EntityStatus == EntityStatuses.Active).Select(defect => new DefectContext() 
@@ -29,10 +30,11 @@
                         Id = defect.Id,
                         Name = defect.Name,
                         Code = defect.Code,
+                        Order = defect.Order,
                         TranslatedName = !String.IsNullOrEmpty(defect.TranslatedName) ? defect.TranslatedName : defect.Name,
                         DefectCategory = defect.DefectCategory,
-                    }).ToList()
-                }).ToList(),
+                    }).OrderBy(defect=>defect.Order).ToList()
+                }).OrderBy(defect => defect.Order).ToList(),
             }).FirstOrDefaultAsync(cancellationToken);
         }
     }

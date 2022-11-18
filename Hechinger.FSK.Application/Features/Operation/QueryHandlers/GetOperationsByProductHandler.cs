@@ -19,6 +19,7 @@
                 Id = x.Id,
                 Name = x.Name,
                 Code = x.Code,
+                Order = x.Order,
                 TranslatedName = !String.IsNullOrEmpty(x.TranslatedName) ? x.TranslatedName : x.Name,
                 OperationTime = x.OperationTime,
                 Norma = x.Norma,
@@ -26,7 +27,9 @@
                 ProductName = x.Product.Name,
                 ProductCode = x.Product.Code,
                 HasDefect = x.Defects.Any(),
-            }).ToListAsync(cancellationToken);
+            })
+            .OrderBy(x=>x.Order)
+            .ToListAsync(cancellationToken);
         }
     }
 }

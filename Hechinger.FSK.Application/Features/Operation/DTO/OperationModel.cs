@@ -13,5 +13,6 @@
         public string ProductName { get; set; }
         public string ProductTranslatedName { get; set; }
         public bool HasDefect { get;  set; }
+        public int Order { get;  set; }
     }
 }

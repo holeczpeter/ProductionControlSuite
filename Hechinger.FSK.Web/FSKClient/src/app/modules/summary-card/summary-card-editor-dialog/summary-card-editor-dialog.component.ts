@@ -52,7 +52,6 @@ export class SummaryCardEditorDialogComponent implements OnInit {
           shiftId: [this.summaryCard ? this.summaryCard.shiftId : '', [Validators.required]],
           items: this.formBuilder.array([])
         });
-        console.log(this.cardForm)
         this.summaryCard.items.forEach((d: SummaryCardItemModel) => this.addRow(d));
       });
 
@@ -63,7 +62,7 @@ export class SummaryCardEditorDialogComponent implements OnInit {
   addRow(d: SummaryCardItemModel) {
     const row = this.formBuilder.group({
       'id': [d.id],
-      'order': [1],
+      'order': [d.order],
       'defectId': [d.defectId],
       'defectName': [d.defectName],
       'quantity': [d.quantity],

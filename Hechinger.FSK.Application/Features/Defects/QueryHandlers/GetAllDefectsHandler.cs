@@ -22,6 +22,7 @@ namespace Hechinger.FSK.Application.Features
                     Id = x.Id,
                     Name = x.Name,
                     Code = x.Code,
+                    Order = x.Order,
                     TranslatedName = !String.IsNullOrEmpty(x.TranslatedName) ? x.TranslatedName : x.Name,
                     DefectCategory = x.DefectCategory,
                     DefectCategoryName = x.DefectCategory.GetDescription(),

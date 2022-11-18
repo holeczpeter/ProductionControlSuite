@@ -30,6 +30,7 @@
                     Id = cardItem != null ?  cardItem.Id : 0,
                     DefectId = defect.Id,
                     DefectName = defect.Name,
+                    Order = defect.Order,
                     DefectTranslatedName = !String.IsNullOrEmpty(defect.TranslatedName) ? defect.TranslatedName : defect.Name,
                     Quantity = cardItem != null ? cardItem.Quantity : 0,
                     Comment = cardItem != null ? cardItem.Comment : String.Empty,

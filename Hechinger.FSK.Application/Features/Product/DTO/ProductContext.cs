@@ -16,6 +16,8 @@
         public string TranslatedName { get; set; }
         public string Code { get; set; }
         public double OperationTime { get; set; }
+
+        public int Order { get; set; }
         public double Norma { get; set; }
         public IEnumerable<DefectContext> Defects { get; set; } = new List<DefectContext>();
     }
@@ -25,6 +27,7 @@
         public string Name { get; set; }
         public string TranslatedName { get; set; }
         public string Code { get; set; }
+        public int Order { get; set; }
         public DefectCategories DefectCategory { get; set; }
     }
 }

@@ -14,6 +14,7 @@
                 Id = x.Id,
                 Name = x.Name,
                 Code = x.Code,
+                Order = x.Order,
                 TranslatedName = !String.IsNullOrEmpty(x.TranslatedName) ? x.TranslatedName : x.Name,
                 OperationTime = x.OperationTime,
                 Norma = x.Norma,

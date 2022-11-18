@@ -8,6 +8,7 @@ namespace Hechinger.FSK.Application.Features
         public string Name { get; set; }
         public string TranslatedName { get; set; }
         public string Code { get; set; }
+        public int Order { get; set; }
         public DefectCategories DefectCategory { get; set; }
         public int OperationId { get; set; }
         public string OperationCode { get; set; }
