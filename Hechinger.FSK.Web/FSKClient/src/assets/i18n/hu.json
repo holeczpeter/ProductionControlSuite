@@ -125,6 +125,11 @@
   "qualityhistorymonthly": {
     "title": "Éves összegzés"
   },
+  "defectgroups": {
+    "title": "Hibösszesítők",
+    "add": "Új hibösszesítő hozzáadása",
+    "edit": "Hibösszesítő szerkesztése"
+  },
   "workercompare": {
     "title": "Dolgozók összehasonlítása"
   },

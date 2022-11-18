@@ -122,10 +122,15 @@
   "users": {
     "title": "Benutzer",
     "add": "Neue Benutzer hinzufügen",
-    "edit": "Benutzer szerkesztése"
+    "edit": "Benutzer bearbeiten"
   },
   "qualityhistorymonthly": {
     "title": "Qualitätsverlauf monatlich"
+  },
+  "defectgroups": {
+    "title": "Fehlersammelkarten",
+    "add": "Neue Fehlersammelkarten hinzufügen",
+    "edit": "Fehlersammelkarte bearbeiten"
   },
   "workercompare": {
     "title": "Arbeiter fehlers meldung"

@@ -18,6 +18,8 @@ import { ProductContextEditorComponent } from './products/product-wizard-editor/
 import { OperationContextEditorComponent } from './products/product-wizard-editor/operation-context-editor/operation-context-editor.component';
 import { DefectContextEditorComponent } from './products/product-wizard-editor/defect-context-editor/defect-context-editor.component';
 import { DefectGroupsComponent } from './defect-groups/defect-groups.component';
+import { DefectGroupWizardComponent } from './defect-groups/defect-group-wizard/defect-group-wizard.component';
+import { DefectGroupDataEditorComponent } from './defect-groups/defect-group-wizard/defect-group-data-editor/defect-group-data-editor.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { DefectGroupsComponent } from './defect-groups/defect-groups.component';
     OperationContextEditorComponent,
     DefectContextEditorComponent,
     DefectGroupsComponent,
+    DefectGroupWizardComponent,
+    DefectGroupDataEditorComponent,
   ],
   imports: [
     CommonModule,
