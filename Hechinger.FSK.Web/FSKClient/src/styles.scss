@@ -38,6 +38,8 @@ $theme: mat.define-light-theme($primary, $accent);
 @import "./app/styles/tab.scss";
 @import "./app/styles/icon.scss";
 @import "./app/styles/radio-button.scss";
+@import "./app/styles/chart.scss";
+@import "./app/styles/stepper.scss";
 .primary-light {
   background-color: mat.get-color-from-palette($blue-palette, 100);
   color: mat-contrast($blue-palette, 100);
@@ -217,23 +219,9 @@ h2.regular, h3.regular {
 .flex-title-item {
   flex-grow: 4;
 }
-table {
-  width: 100%;
-}
-.stepper-buttons {
-  justify-content: space-between;
-  margin: 20px;
-  display: flex;
-}
 
-.stepper-buttons-flex-end {
-  justify-content: flex-end;
-  margin: 20px;
-  display: flex;
-}
-.chart{
-    margin-top:20px;
-}
+
+
 .container-fluid{
     padding-bottom:20px;
 }
