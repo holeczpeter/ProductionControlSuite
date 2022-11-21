@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DefectGroupContextService } from '../../../../../services/defectgroupcontext/defect-group-context.service';
 
 @Component({
   selector: 'app-defect-group-data-editor',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DefectGroupDataEditorComponent implements OnInit {
 
-  constructor() { }
+  constructor(public defectGroupContextService: DefectGroupContextService) { }
 
   ngOnInit(): void {
   }

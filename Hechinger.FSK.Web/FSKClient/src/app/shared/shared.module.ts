@@ -65,6 +65,7 @@ import { CategoriesLegendComponent } from './categories-legend/categories-legend
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { ProductMultiSelectSearchComponent } from './product-multi-select-search/product-multi-select-search.component';
 @NgModule({
   declarations: [
     
@@ -85,6 +86,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     CategoriesLegendComponent,
     FileUploadComponent,
     ImageUploadComponent,
+    ProductMultiSelectSearchComponent,
   ],
   imports: [
     CommonModule,
@@ -199,6 +201,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     CategoriesLegendComponent,
     FileUploadComponent,
     ImageUploadComponent,
+    ProductMultiSelectSearchComponent
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },

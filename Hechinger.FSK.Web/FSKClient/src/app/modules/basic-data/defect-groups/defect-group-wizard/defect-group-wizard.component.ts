@@ -2,8 +2,11 @@ import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angula
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatStepper } from '@angular/material/stepper';
-import { ProductContext } from '../../../../models/generated/generated';
+import { forkJoin } from 'rxjs';
+import { DefectGroupContext, GetDefectGroupContext, ProductContext, ProductModel } from '../../../../models/generated/generated';
+import { DefectGroupDataService } from '../../../../services/data/defect-group-data.service';
 import { ProductDataService } from '../../../../services/data/product-data.service';
+import { DefectGroupContextService } from '../../../../services/defectgroupcontext/defect-group-context.service';
 import { LanguageService } from '../../../../services/language/language.service';
 import { ProductContextService } from '../../../../services/productcontext/product-context-.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
@@ -15,14 +18,15 @@ import { SnackbarService } from '../../../../services/snackbar/snackbar.service'
 })
 export class DefectGroupWizardComponent implements OnInit {
   title!: string;
-  product: ProductContext;
+  context: DefectGroupContext;
   @ViewChild('singleSelect') singleSelect: MatSelect;
   @ViewChild('mystepper') stepper: MatStepper;
   totalStepsCount!: 3;
   constructor(private readonly dialogRef: MatDialogRef<DefectGroupWizardComponent>,
     @Inject(MAT_DIALOG_DATA) public data: number,
+    private readonly defectGroupDataService: DefectGroupDataService,
     private readonly productDataService: ProductDataService,
-    public productContextService: ProductContextService,
+    public defectGroupContextService: DefectGroupContextService,
     private readonly snackBar: SnackbarService,
     private readonly changeDetector: ChangeDetectorRef,
     public languageService: LanguageService) {
@@ -30,6 +34,20 @@ export class DefectGroupWizardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.refresh(this.data);
+
+  }
+  refresh(productId: number) {
+    let request: GetDefectGroupContext = {
+      id: productId,
+    };
+    forkJoin([this.defectGroupDataService.getDefectGroupContext(request)]).subscribe(([product]) => {
+      this.context = product;
+      this.defectGroupContextService.buildForm(this.context);
+    });
+  }
+  onRefreshProducts(event: Array<ProductModel>) {
+    console.log(event)
   }
   goBack(stepper: MatStepper) {
     this.stepper.previous();
