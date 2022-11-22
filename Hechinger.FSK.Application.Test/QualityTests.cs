@@ -16,7 +16,7 @@ namespace Hechinger.FSK.Application.Test
         public void TestCrapCostValue()
         {
             var result = _qualityService.CrapCost(9.39, 10);
-            Assert.Pass();
+            Assert.AreEqual(result, 18.78);
         }
         [Test]
         public void TestPpmValue()
