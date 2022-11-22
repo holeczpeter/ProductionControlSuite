@@ -18,6 +18,7 @@
                 .ToListAsync(cancellationToken);
 
             var product = await this.context.Products
+                .AsNoTracking()
                 .Where(x=>x.Operations.Select(x=>x.Id).Contains(request.OperationId))
                 .Select(p=> new 
                 { 
@@ -31,11 +32,13 @@
                        .Where(sc => sc.OperationId == request.OperationId &&
                                     sc.Date.Date >= request.StartDate.Date.Date && sc.Date.Date <= request.EndDate.Date.Date &&
                                     sc.EntityStatus == EntityStatuses.Active)
-                       .Select(sc => new { 
+                       .Select(sc => new 
+                       { 
                            OperationId = sc.OperationId, 
                            Date = sc.Date, 
                            Quantity = sc.Quantity,
-                           DefectQuantity = sc.DefectQuantity})
+                           DefectQuantity = sc.DefectQuantity
+                       })
                        .ToListAsync(cancellationToken);
 
             var result = new CrapCostProductModel()

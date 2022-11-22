@@ -3,6 +3,6 @@
     public interface IQualityService
     {
         int GetPpm(int sumQuantity, int fehlerQuantity);
-        int CrapCost(int operationTime, int fehlerQuantity);
+        double CrapCost(double operationTime, int fehlerQuantity);
     }
 }

@@ -9,9 +9,11 @@
             return sumQuantity != 0 ? (Ppm / sumQuantity) * fehlerQuantity : 0;
         }
 
-        public int CrapCost(int operationTime, int fehlerQuantity)
+        public double CrapCost(double operationTime, int fehlerQuantity)
         {
-            return operationTime != 0 ? (Ppm / operationTime) * fehlerQuantity : 0;
+
+            var r = 100 / fehlerQuantity;
+            return operationTime != 0 ? (operationTime * 100) / r * 12 : 0;
         }
     }
 }

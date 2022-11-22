@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { distinctUntilChanged, forkJoin, Subscription } from 'rxjs';
 import { CrapCostTableModel } from '../../../models/crap-cost-table-model';
-import { CrapCostOperationModel, CrapCostProductModel, EnumModel, GetCrapCostByOperation, GetCrapCostByWorkshop, IntervalModel, IntervalOption, QuantityOperationReportModel, SelectModel, ShiftModel, Views } from '../../../models/generated/generated';
-import { QuantityTableModel } from '../../../models/quantity-table-model';
+import { CrapCostProductModel, EnumModel, GetCrapCostByOperation, IntervalModel, IntervalOption, SelectModel, ShiftModel, Views } from '../../../models/generated/generated';
 import { DefectDataService } from '../../../services/data/defect-data.service';
 import { QualityDataService } from '../../../services/data/quality-data.service';
 import { ShiftDataService } from '../../../services/data/shift-data.service';
@@ -14,7 +13,7 @@ import { LanguageService } from '../../../services/language/language.service';
   templateUrl: './crap-costs.component.html',
   styleUrls: ['./crap-costs.component.scss']
 })
-export class CrapCostsComponent implements OnInit {
+export class CrapCostsComponent implements OnInit, OnDestroy {
 
   operation: SelectModel;
   crapCostModel: CrapCostProductModel;

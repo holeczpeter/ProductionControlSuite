@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hechinger.FSK.Web", "Hechin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hechinger.FSK.Application", "Hechinger.FSK.Application\Hechinger.FSK.Application.csproj", "{0D01A3A1-964D-4EBE-A405-92C8B4D1EF2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hechinger.FSK.Infrastructure", "Hechinger.FSK.Infrastructure\Hechinger.FSK.Infrastructure.csproj", "{44A2F835-7617-436F-B68F-93B3ADB25B65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hechinger.FSK.Infrastructure", "Hechinger.FSK.Infrastructure\Hechinger.FSK.Infrastructure.csproj", "{44A2F835-7617-436F-B68F-93B3ADB25B65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hechinger.FSK.Application.Test", "Hechinger.FSK.Application.Test\Hechinger.FSK.Application.Test.csproj", "{FF4FA443-EA8B-486E-AE2D-EA9A27580D14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{44A2F835-7617-436F-B68F-93B3ADB25B65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44A2F835-7617-436F-B68F-93B3ADB25B65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44A2F835-7617-436F-B68F-93B3ADB25B65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF4FA443-EA8B-486E-AE2D-EA9A27580D14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF4FA443-EA8B-486E-AE2D-EA9A27580D14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF4FA443-EA8B-486E-AE2D-EA9A27580D14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF4FA443-EA8B-486E-AE2D-EA9A27580D14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -11,28 +11,38 @@
         }
         public async Task<IEnumerable<WorkshopPpmData>> Handle(GetWorkshopPPmData request, CancellationToken cancellationToken)
         {
-            var result = await this.context.SummaryCards.Where(sc =>
-                          sc.Date.Date >= request.StartDate.Date.Date &&
-                          sc.Date.Date <= request.EndDate.Date &&
-                          sc.EntityStatus == EntityStatuses.Active)
+            var workshops = await this.context.Workshops
+                .AsNoTracking()
+                .Select(w => new { Id = w.Id, Name = w.Name })
+                .ToListAsync(cancellationToken);
+
+            var cards = await this.context.SummaryCards
+                .Where(sc => sc.Date.Date >= request.StartDate.Date.Date &&
+                             sc.Date.Date <= request.EndDate.Date &&
+                             sc.EntityStatus == EntityStatuses.Active)
                 .Select(sc => new
                 {
                     WorkshopId = sc.Operation.Product.Workshop.Id,
-                    WorkshopName = sc.Operation.Product.Workshop.Name,
                     Quantity = sc.Quantity,
-                    DefectQuantity = 40
-                })
+                    DefectQuantity = sc.DefectQuantity
+                }).ToListAsync(cancellationToken);
+
+            var groups = cards
                 .GroupBy(r => new { WorkshopId = r.WorkshopId, })
                 .Select(g => new WorkshopPpmData()
                 {
                     WorkshopId = g.Key.WorkshopId,
-                    WorkshopName = g.First().WorkshopName,   
-                    Quantity = g.ToList().Select(x => x.Quantity).Sum(),
-                    DefectQuantity = g.ToList().Select(x => x.DefectQuantity).Sum(),
                     Ppm = this.qualityService.GetPpm(g.ToList().Select(x => x.Quantity).Sum(), g.ToList().Select(x => x.DefectQuantity).Sum()),
-                }).ToListAsync(cancellationToken);
-        
-            return result;
+                }).ToList();
+
+            var results = workshops.Select(w => new WorkshopPpmData()
+            {
+                WorkshopId = w.Id,
+                WorkshopName = w.Name,
+                Ppm = groups.Where(i=>i.WorkshopId == w.Id).Select(i=>i.Ppm).FirstOrDefault()
+
+            }).ToList();
+            return results;
 
         }
     }
