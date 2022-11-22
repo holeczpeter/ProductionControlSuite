@@ -43,7 +43,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { OverlayLoadingDirective } from '../directives/overlay-loading.directive';
-import { CategoryPipe } from '../pipes/category.pipe';
+import { CategorySplitPipe } from '../pipes/category-split.pipe';
 import { DateWithNamePipe } from '../pipes/date-with-name.pipe';
 import { EnumPipe } from '../pipes/enum.pipe';
 import { ShiftNamePipe } from '../pipes/shift-name.pipe';
@@ -66,6 +66,8 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ProductMultiSelectSearchComponent } from './product-multi-select-search/product-multi-select-search.component';
+import { TableToolbarComponent } from './table-toolbar/table-toolbar.component';
+import { CategoryPipe } from '../pipes/category.pipe';
 @NgModule({
   declarations: [
     
@@ -76,7 +78,7 @@ import { ProductMultiSelectSearchComponent } from './product-multi-select-search
     IntervalViewComponent,
     EnumPipe,
     ShiftNamePipe,
-    CategoryPipe,
+    CategorySplitPipe,
     DateWithNamePipe,
     SumCategoryPipe,
     SummaryCardHeaderComponent,
@@ -87,6 +89,8 @@ import { ProductMultiSelectSearchComponent } from './product-multi-select-search
     FileUploadComponent,
     ImageUploadComponent,
     ProductMultiSelectSearchComponent,
+    TableToolbarComponent,
+    CategoryPipe,
   ],
   imports: [
     CommonModule,
@@ -189,7 +193,7 @@ import { ProductMultiSelectSearchComponent } from './product-multi-select-search
     NgxEchartsModule,
     EnumPipe,
     ShiftNamePipe,
-    CategoryPipe,
+    CategorySplitPipe,
     DateWithNamePipe,
     SumCategoryPipe,
     NgxPrintModule,
@@ -201,7 +205,9 @@ import { ProductMultiSelectSearchComponent } from './product-multi-select-search
     CategoriesLegendComponent,
     FileUploadComponent,
     ImageUploadComponent,
-    ProductMultiSelectSearchComponent
+    ProductMultiSelectSearchComponent,
+    TableToolbarComponent,
+    CategoryPipe,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },

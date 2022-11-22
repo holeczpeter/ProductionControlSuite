@@ -13,10 +13,12 @@ table {
 }
 
 th.mat-header-cell, td.mat-cell {
+  border-top: $table-cell-border;
   border-right: $table-cell-border;
 }
 
 th.mat-header-cell:first-child, td.mat-cell:first-child {
+  
   border-left: $table-cell-border;
 }
 

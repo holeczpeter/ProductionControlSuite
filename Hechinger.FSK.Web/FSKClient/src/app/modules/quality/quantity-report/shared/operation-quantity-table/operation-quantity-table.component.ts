@@ -1,17 +1,17 @@
 import { Component, DoCheck, Input, IterableDiffer, IterableDiffers, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { DefectCategories, EnumModel, IntervalModel, QuantityOperationReportModel, ShiftModel } from '../../../../../models/generated/generated';
+import { MatTableDataSource } from '@angular/material/table';
 import { addDays } from 'date-fns';
 import format from 'date-fns/fp/format';
-import { MatTableDataSource } from '@angular/material/table';
-import { LanguageService } from '../../../../../services/language/language.service';
-import { ShiftDataService } from '../../../../../services/data/shift-data.service';
-import { TableHeader } from '../../../../../models/table-header';
-import { TableColumn } from '../../../../../models/table-column';
-import { forkJoin, of, zip } from 'rxjs';
-import { QuantityTableModel } from '../../../../../models/quantity-table-model';
-import { TableExportService } from '../../../../../services/table/table-export.service';
-import { TableColumnModel } from '../../../../../models/table-column-model';
 import * as XLSX from 'xlsx';
+import { EnumModel, IntervalModel, QuantityOperationReportModel, ShiftModel } from '../../../../../models/generated/generated';
+import { QuantityTableModel } from '../../../../../models/quantity-table-model';
+import { TableColumn } from '../../../../../models/table-column';
+import { TableColumnModel } from '../../../../../models/table-column-model';
+import { TableHeader } from '../../../../../models/table-header';
+import { ShiftDataService } from '../../../../../services/data/shift-data.service';
+import { LanguageService } from '../../../../../services/language/language.service';
+import { TableExportService } from '../../../../../services/table/table-export.service';
+
 @Component({
   selector: 'app-operation-quantity-table',
   templateUrl: './operation-quantity-table.component.html',

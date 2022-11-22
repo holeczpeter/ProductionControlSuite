@@ -47,6 +47,18 @@ td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type, th.mat-header-cell:
 tr.mat-footer-row {
   font-weight: bold;
 }
-.toolbar {
+
+.responsive-table-container {
+  width: 100%;
+  overflow: auto;
+  padding-top: 10px;
+}
+.mat-paginator {
+  left: 0px;
+  bottom: 0px;
+  position: sticky;
+  z-index: 10;
+}
+.table-toolbar {
   text-align: right;
 }

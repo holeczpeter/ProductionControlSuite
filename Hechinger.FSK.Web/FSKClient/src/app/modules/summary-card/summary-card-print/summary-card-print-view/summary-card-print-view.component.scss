@@ -1,6 +1,13 @@
 .preview {
-  width: 1450px;
+  background: white;
+  padding: 20px;
 }
 .item {
   width: 705px;
+}
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 11mm 17mm 17mm 17mm;
+  }
 }

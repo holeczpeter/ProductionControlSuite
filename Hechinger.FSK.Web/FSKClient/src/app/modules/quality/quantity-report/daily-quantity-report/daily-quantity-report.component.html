@@ -2,21 +2,23 @@
   <div class="flex-title">
     <app-title class="flex-title-item" [title]="title"></app-title>
   </div>
-  <app-operation-search (select)="onSelectedOperation($event)">
-  </app-operation-search>
-  <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
-  <div class="example-container" *ngIf="quantityReportModel">
-    <div>
-      <app-operation-quantity-table [tableModel]="tableModel"
-                                    [categories]="categories"
-                                    [shifts]="shifts">
-      </app-operation-quantity-table>
+  <div class="container-inside">
+    <app-operation-search (select)="onSelectedOperation($event)">
+    </app-operation-search>
+
+    <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
+    <div class="example-container" *ngIf="quantityReportModel">
+      <div>
+        <app-operation-quantity-table [tableModel]="tableModel"
+                                      [categories]="categories"
+                                      [shifts]="shifts">
+        </app-operation-quantity-table>
+      </div>
+      <div class="chart">
+        <app-operation-quantity-chart [chartModel]="quantityReportModel"
+                                      [chartTitle]="chartTitle">
+        </app-operation-quantity-chart>
+      </div>
     </div>
-    <div class="chart">
-      <app-operation-quantity-chart [chartModel]="quantityReportModel"
-                                    [chartTitle]="chartTitle">
-      </app-operation-quantity-chart>
-    </div>
-   
   </div>
 </div>

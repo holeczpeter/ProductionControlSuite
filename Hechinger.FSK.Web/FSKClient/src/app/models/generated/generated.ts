@@ -252,6 +252,7 @@ export interface DefectPrintModel {
   name: string,
   translatedName: string,
   code: string,
+  defectCategory: DefectCategories,
 }
 export interface GetAllOperation {
   parameters: OperationRequestParameters,

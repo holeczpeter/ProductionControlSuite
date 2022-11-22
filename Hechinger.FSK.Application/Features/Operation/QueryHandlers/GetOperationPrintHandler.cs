@@ -25,6 +25,7 @@
                                        Order = d.Order,
                                        Name = d.Name,   
                                        Code= d.Code, 
+                                       DefectCategory = d.DefectCategory,
                                        TranslatedName = !String.IsNullOrEmpty(d.TranslatedName) ? d.TranslatedName : d.Name,
                                    })
             }).FirstOrDefaultAsync(cancellationToken);

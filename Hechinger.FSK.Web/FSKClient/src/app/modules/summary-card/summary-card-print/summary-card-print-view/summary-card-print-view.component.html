@@ -7,8 +7,8 @@
 </button>
 <div class="row preview" *ngIf="printableOperation"  id="print-section">
   <div *ngFor="let number of [0,1]" class="col item">
-    <table width='705' border='0'>
-      <td width='705' align='center'>
+    <table border='0'>
+      <td  align='center'>
         <app-summary-card-header></app-summary-card-header>
         <br />
         <table cellspacing='0' width='100%'>
@@ -77,7 +77,10 @@
             <td align='center' width='60%' style='border: thin solid black;'>
               <b>{{ 'defectName' | translate}}</b>
             </td>
-            <td align='center' width='25%' style='border: thin solid black;'>
+            <td align='center' width='5%' style='border: thin solid black;'>
+              <b>{{ 'defectName' | translate}}</b>
+            </td>
+            <td align='center' width='20%' style='border: thin solid black;'>
               <b>{{ 'defectQuantity' | translate }}</b>
             </td>
             <td align='center' width='10%' style='border: thin solid black;'>
@@ -86,10 +89,11 @@
           </tr>
           <ng-container *ngFor="let defect of printableOperation?.defects">
             <tr>
-              <td style='border-bottom: thin solid black;border-left: thin solid black; border-right: thin solid black; ' align='center' width='5%'></td>
-              <td style='border-bottom: thin solid black;' align='left' width='60%'>{{ (languageService.getCurrentLanguage() | async) == 'hu' ? defect.name : defect.translatedName}}</td>
-              <td style='border-bottom: thin solid black;border-left: thin solid black; border-right: thin solid black;' align='center' width='25%'></td>
-              <td style='border-bottom: thin solid black;border-right: thin solid black; ' align='center' width='10%'></td>
+              <td style='border: thin solid black;border-left: thin solid black; border-right: thin solid black; ' align='center' width='5%'>{{ defect.order }}</td>
+              <td style='border: thin solid black;' align='left' width='60%'>{{ (languageService.getCurrentLanguage() | async) == 'hu' ? defect.name : defect.translatedName}}</td>
+              <td style='border: thin solid black;' align='center' width='5%'>{{ defect.defectCategory | category}}</td>
+              <td style='border: thin solid black;border-left: thin solid black; border-right: thin solid black;' align='center' width='20%'></td>
+              <td style='border: thin solid black;border-right: thin solid black; ' align='center' width='10%'></td>
             </tr>
           </ng-container>
          
