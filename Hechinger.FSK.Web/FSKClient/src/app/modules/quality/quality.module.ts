@@ -18,6 +18,8 @@ import { SummaryQuantityReportComponent } from './quantity-report/summary-quanti
 import { OperationQuantityChartComponent } from './quantity-report/shared/operation-quantity-chart/operation-quantity-chart.component';
 import { WorkerCompareStatisticsTableComponent } from './worker-compare-statistics/worker-compare-statistics-table/worker-compare-statistics-table.component';
 import { WorkerDefectStatisticsTableComponent } from './worker-defect-statistics/worker-defect-statistics-table/worker-defect-statistics-table.component';
+import { CrapCostTableComponent } from './crap-costs/crap-cost-table/crap-cost-table.component';
+import { CrapCostChartComponent } from './crap-costs/crap-cost-chart/crap-cost-chart.component';
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import { WorkerDefectStatisticsTableComponent } from './worker-defect-statistics
     SummaryQuantityReportComponent,
     OperationQuantityChartComponent,
     WorkerCompareStatisticsTableComponent,
-    WorkerDefectStatisticsTableComponent
+    WorkerDefectStatisticsTableComponent,
+    CrapCostTableComponent,
+    CrapCostChartComponent
   ],
   imports: [
     CommonModule,

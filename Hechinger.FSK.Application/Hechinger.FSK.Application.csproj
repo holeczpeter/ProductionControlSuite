@@ -30,6 +30,7 @@
     <Folder Include="Common\Mappings\" />
     <Folder Include="Features\Import\Services\" />
     <Folder Include="Features\Dashboard\" />
+    <Folder Include="Features\Quality\QuantityReport\" />
     <Folder Include="Features\Worker\" />
   </ItemGroup>
 

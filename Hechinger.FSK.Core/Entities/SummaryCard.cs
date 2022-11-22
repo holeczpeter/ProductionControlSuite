@@ -14,6 +14,10 @@ namespace Hechinger.FSK.Core.Entities
         public string WorkerCode { get; set; }
         public string LOS { get; set; }
         public int Quantity { get; set; }
+        public int DefectQuantity => SummaryCardItems.Select(x=> x.Quantity).Sum();
+        public int F0 => SummaryCardItems.Where(x=>x.Defect.DefectCategory == DefectCategories.F0).Select(x => x.Quantity).Sum();
+        public int F1 => SummaryCardItems.Where(x => x.Defect.DefectCategory == DefectCategories.F1).Select(x => x.Quantity).Sum();
+        public int F2 => SummaryCardItems.Where(x => x.Defect.DefectCategory == DefectCategories.F2).Select(x => x.Quantity).Sum();
         public virtual ICollection<SummaryCardItem> SummaryCardItems { get; set; } = new HashSet<SummaryCardItem>();
     }
 }

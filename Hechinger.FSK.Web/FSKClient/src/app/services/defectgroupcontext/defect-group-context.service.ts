@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, forkJoin } from 'rxjs';
-import { EntityGroupModel } from '../../models/generated/generated';
 import { DefectDataService } from '../data/defect-data.service';
 import { WorkshopDataService } from '../data/workshop-data.service';
 
@@ -28,11 +27,11 @@ export class DefectGroupContextService {
     private readonly defectDataService: DefectDataService) {
   }
 
-  buildForm(context: EntityGroupModel) {
+  buildForm(context: any) {
     this.formGroup = this.formBuilder.group({
       id: [context ? context.id : '0', [Validators.required]],
       name: [context ? context.name : '', [Validators.required]],
-      defectGroupContextHeads: this.formBuilder.array(new Array<EntityGroupModel>())
+      defectGroupContextHeads: this.formBuilder.array(new Array<any>())
     });
     //context?.children?.forEach(h => this.addHead(h));
 

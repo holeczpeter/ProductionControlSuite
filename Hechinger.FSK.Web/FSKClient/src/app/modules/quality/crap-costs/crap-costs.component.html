@@ -1,1 +1,9 @@
-<p>crap-costs works!</p>
+<div class="container-fluid">
+  <div class="flex-title">
+    <app-title class="flex-title-item" [title]="title"></app-title>
+  </div>
+  <app-operation-search (select)="onSelectedOperation($event)">
+  </app-operation-search>
+  <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
+  <app-crap-cost-table [model]="crapCostTableModel"></app-crap-cost-table>
+</div>

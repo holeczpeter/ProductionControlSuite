@@ -13,11 +13,6 @@ export class DateService {
   getMonthExtension() {
     return this.monthExtensions.asObservable();
   }
-  days = new BehaviorSubject<Array<string>>(this.setDays(this.translateService.currentLang));
-  getDays() {
-    return this.days.asObservable();
-  }
-
   hunMonth = [
     "Január",
     "Február",
@@ -48,28 +43,29 @@ export class DateService {
 
   ];
   months = this.translateService.currentLang == 'hu' ? this.hunMonth : this.deMonth;
+ 
+  hunDays = [
+    "Vasárnap",
+    "Hétfő",
+    "Kedd",
+    "Szerda",
+    "Csütörtök",
+    "Péntek",
+    "Szombat",
+    
 
-  setDays(lang: string) {
-    return lang == 'hu' ? [
-      "Hétfő",
-      "Kedd",
-      "Szerda",
-      "Csütörtök",
-      "Péntek",
-      "Szombat",
-      "Vasárnap"
+  ];
+  deDays = [
+    "Sonntag",
+    "Montag",
+    "Dienstag",
+    "Mittwoch",
+    "Donnerstag",
+    "Freitag",
+    "Samstag",
+    ];
+  dayNames = this.translateService.currentLang == 'hu' ? this.hunDays : this.deDays;
 
-    ] : [
-
-      "Montag",
-      "Dienstag",
-      "Mittwoch",
-      "Donnerstag",
-      "Freitag",
-      "Samstag",
-      "Sonntag",
-    ]
-  }
   dayCodes = [
     "V",
     "H",
@@ -105,8 +101,14 @@ export class DateService {
   getMonthName(monthId: number): string {
     return this.months[monthId];
   }
-
-
+  getDayName(day: Date): string {
+    var result = this.dayNames[day.getDay()];
+    return result;
+  }
+  getDayNameByLang(day: Date, lang: string): string {
+    var result = lang == 'hu' ? this.hunDays[day.getDay()] : this.deDays[day.getDay()];
+    return result;
+  }
   getDayCode(day: Date): string {
     var result = this.dayCodes[day.getDay()];
     return result;

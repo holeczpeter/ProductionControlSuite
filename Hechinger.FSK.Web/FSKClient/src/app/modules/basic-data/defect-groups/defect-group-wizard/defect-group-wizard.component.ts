@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatStepper } from '@angular/material/stepper';
 import { forkJoin } from 'rxjs';
-import { DefectGroupContext, GetDefectGroupContext, ProductContext, ProductModel } from '../../../../models/generated/generated';
+import { ProductContext, ProductModel } from '../../../../models/generated/generated';
 import { DefectGroupDataService } from '../../../../services/data/defect-group-data.service';
 import { ProductDataService } from '../../../../services/data/product-data.service';
 import { DefectGroupContextService } from '../../../../services/defectgroupcontext/defect-group-context.service';
@@ -18,7 +18,7 @@ import { SnackbarService } from '../../../../services/snackbar/snackbar.service'
 })
 export class DefectGroupWizardComponent implements OnInit {
   title!: string;
-  context: DefectGroupContext;
+  context: any;
   @ViewChild('singleSelect') singleSelect: MatSelect;
   @ViewChild('mystepper') stepper: MatStepper;
   totalStepsCount!: 3;
@@ -38,7 +38,7 @@ export class DefectGroupWizardComponent implements OnInit {
 
   }
   refresh(productId: number) {
-    let request: GetDefectGroupContext = {
+    let request: any = {
       id: productId,
     };
     forkJoin([this.defectGroupDataService.getDefectGroupContext(request)]).subscribe(([product]) => {

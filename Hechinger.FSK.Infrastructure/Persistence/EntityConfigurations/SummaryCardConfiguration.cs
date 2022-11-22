@@ -34,7 +34,15 @@ namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
              .OnDelete(DeleteBehavior.Restrict)
              .IsRequired();
 
-           
+            builder
+              .Ignore(e => e.F0);
+            builder
+             .Ignore(e => e.F1);
+            builder
+             .Ignore(e => e.F2);
+            builder
+             .Ignore(e => e.DefectQuantity);
+
         }
     }
 }

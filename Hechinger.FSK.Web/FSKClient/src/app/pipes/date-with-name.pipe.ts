@@ -11,9 +11,8 @@ export class DateWithNamePipe implements PipeTransform {
   }
   transform(value: string, arg1: any): string {
     let date = new Date(value);
-    let day = date.getDate();
-  
-    return this.dateService.setDays(arg1)[day];
+   
+    return this.dateService.getDayNameByLang(date,arg1);
   }
 
 }

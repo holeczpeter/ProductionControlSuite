@@ -65,8 +65,8 @@
     <ng-container *ngFor="let day of dayHeaders; let i = index">
       <ng-container [matColumnDef]="day.id">
         <th mat-header-cell *matHeaderCellDef [attr.colspan]="getColSpanDay()" class="th-align-center">
-          {{(languageService.getCurrentLanguage() | async) == 'hu' ? ( day.value | dateWithName:'hu') : ( day.value | dateWithName:'de')}} <br />
-          {{(languageService.getCurrentLanguage() | async) == 'hu' ? ( day.value | date:'YYYY.MM.dd') : ( day.value | date:'dd.MM.YYYY')}} <br />
+          {{(languageService.getCurrentLanguage() | async) == 'hu' ? ( day.value | dateWithName:'hu') : ( day.value | dateWithName:'de')}} <br/>
+          {{(languageService.getCurrentLanguage() | async) == 'hu' ? ( day.value | date:'YYYY.MM.dd') : ( day.value | date:'dd.MM.YYYY')}} <br/>
         </th>
       </ng-container>
     </ng-container>

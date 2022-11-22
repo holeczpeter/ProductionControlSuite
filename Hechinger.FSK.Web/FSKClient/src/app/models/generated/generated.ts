@@ -86,6 +86,17 @@ export interface GetAccessMenu {
 export interface GetUserTokenInfo {
   userId: number,
 }
+export interface WorkshopPpmData {
+  workshopId: number,
+  workshopName: string,
+  ppm: number,
+  quantity: any,
+  defectQuantity: number,
+}
+export interface GetWorkshopPPmData {
+  startDate: Date,
+  endDate: Date,
+}
 export interface AddDefect {
   name: string,
   code: string,
@@ -358,24 +369,48 @@ export interface GetProductContext {
 export interface GetProductsCount {
   parameters: RequestParameters,
 }
-export interface DefectStatisticModel {
-  workerCode: string,
-  operationCode: string,
-  operationName: string,
-  operationTranslatedName: string,
-  startDate: Date,
-  endDate: Date,
-  items: Array<DefectStatisticsItem>,
-}
-export interface DefectStatisticsItem {
-  defectCode: string,
-  defectName: string,
-  defectTranslatedName: string,
-  defectCategory: DefectCategories,
-  defectCategoryName: string,
+export interface CrapCostDayModel {
+  operationId: number,
+  date: Date,
   quantity: number,
   defectQuantity: number,
-  ppm: number,
+  operationTime: any,
+  value: any,
+}
+export interface CrapCostOperationModel {
+  operationId: number,
+  operationName: string,
+  operationCode: string,
+  operationTranslatedName: string,
+  quantity: number,
+  defectQuantity: number,
+  value: any,
+  days: Array<CrapCostDayModel>,
+}
+export interface CrapCostProductModel {
+  productId: number,
+  productName: string,
+  productCode: string,
+  productTranslatedName: string,
+  quantity: number,
+  defectQuantity: number,
+  value: any,
+  operations: Array<CrapCostOperationModel>,
+}
+export interface GetCrapCostByOperation {
+  operationId: number,
+  startDate: Date,
+  endDate: Date,
+}
+export interface GetCrapCostByProduct {
+  productId: number,
+  startDate: Date,
+  endDate: Date,
+}
+export interface GetCrapCostByWorkshop {
+  workshopId: number,
+  startDate: Date,
+  endDate: Date,
 }
 export interface MonthlyQualityItem {
   year: number,
@@ -420,6 +455,16 @@ export interface QualityAssuranceModel {
   month: number,
   quantity: number,
 }
+export interface GetMonthlyQualityHistory {
+  productId: number,
+  year: number,
+}
+export interface GetQualityAssurance {
+  productId: number,
+  startDate: Date,
+  endDate: Date,
+  view: Views,
+}
 export interface QuantityOperationReportModel {
   operationId: number,
   operationName: string,
@@ -451,6 +496,35 @@ export interface QuantityDayReportModel {
   defectQuantity: number,
   ppm: number,
 }
+export interface GetQuantityReportByOperation {
+  operationId: number,
+  startDate: Date,
+  endDate: Date,
+}
+export interface GetQuantityReportByProduct {
+  productId: number,
+  startDate: Date,
+  endDate: Date,
+}
+export interface DefectStatisticModel {
+  workerCode: string,
+  operationCode: string,
+  operationName: string,
+  operationTranslatedName: string,
+  startDate: Date,
+  endDate: Date,
+  items: Array<DefectStatisticsItem>,
+}
+export interface DefectStatisticsItem {
+  defectCode: string,
+  defectName: string,
+  defectTranslatedName: string,
+  defectCategory: DefectCategories,
+  defectCategoryName: string,
+  quantity: number,
+  defectQuantity: number,
+  ppm: number,
+}
 export interface WorkerStatisticsModel {
   defectId: number,
   defectName: string,
@@ -469,26 +543,6 @@ export interface WorkerStatisticsItem {
 export interface GetDefectStatisticsByUser {
   workerCode: string,
   operationId: number,
-  startDate: Date,
-  endDate: Date,
-}
-export interface GetMonthlyQualityHistory {
-  productId: number,
-  year: number,
-}
-export interface GetQualityAssurance {
-  productId: number,
-  startDate: Date,
-  endDate: Date,
-  view: Views,
-}
-export interface GetQuantityReportByOperation {
-  operationId: number,
-  startDate: Date,
-  endDate: Date,
-}
-export interface GetQuantityReportByProduct {
-  productId: number,
   startDate: Date,
   endDate: Date,
 }
@@ -783,17 +837,6 @@ export interface GetAllWorkshops {
 }
 export interface GetWorkshop {
   id: number,
-}
-export interface GetWorkshopPPmData {
-  startDate: Date,
-  endDate: Date,
-}
-export interface WorkshopPpmData {
-  workshopId: number,
-  workshopName: string,
-  ppm: number,
-  quantity: any,
-  defectQuantity: number,
 }
 export enum Views {
   Day = 0,
