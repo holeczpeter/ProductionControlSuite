@@ -12,7 +12,9 @@
 
         public double CrapCost(double operationTime, int fehlerQuantity)
         {
-            var result = (operationTime * ((double)Euro / (double)60)) * fehlerQuantity;
+            if (fehlerQuantity == 0) return 0;
+            var rate = (double)100 / (double)fehlerQuantity;
+            var result = (operationTime * ((double)Euro / (double)60)) / rate;
             return Math.Round(result, 2); 
         }
     }

@@ -68,6 +68,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { ProductMultiSelectSearchComponent } from './product-multi-select-search/product-multi-select-search.component';
 import { TableToolbarComponent } from './table-toolbar/table-toolbar.component';
 import { CategoryPipe } from '../pipes/category.pipe';
+import { WorkshopSearchComponent } from './workshop-search/workshop-search.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 @NgModule({
   declarations: [
     
@@ -91,6 +93,7 @@ import { CategoryPipe } from '../pipes/category.pipe';
     ProductMultiSelectSearchComponent,
     TableToolbarComponent,
     CategoryPipe,
+    WorkshopSearchComponent,
   ],
   imports: [
     CommonModule,
@@ -139,6 +142,7 @@ import { CategoryPipe } from '../pipes/category.pipe';
     NgxMatSelectSearchModule,
     NgxPrintModule,
     NgApexchartsModule,
+    InfiniteScrollModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
@@ -208,6 +212,8 @@ import { CategoryPipe } from '../pipes/category.pipe';
     ProductMultiSelectSearchComponent,
     TableToolbarComponent,
     CategoryPipe,
+    WorkshopSearchComponent,
+    InfiniteScrollModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },

@@ -5,7 +5,6 @@ import { QualityRoutingModule } from './quality-routing.module';
 import { QualityHistoryMonthlyComponent } from './quality-history-monthly/quality-history-monthly.component';
 import { QualityHistoryMonthyChartComponent } from './quality-history-monthly/quality-history-monthy-chart/quality-history-monthy-chart.component';
 import { QualityHistoryMonthlyTableComponent } from './quality-history-monthly/quality-history-monthly-table/quality-history-monthly-table.component';
-import { CrapCostsComponent } from './crap-costs/crap-costs.component';
 import { SharedModule } from '../../shared/shared.module';
 import { WorkerCompareStatisticsComponent } from './worker-compare-statistics/worker-compare-statistics.component';
 import { WorkerDefectStatisticsComponent } from './worker-defect-statistics/worker-defect-statistics.component';
@@ -20,6 +19,9 @@ import { WorkerCompareStatisticsTableComponent } from './worker-compare-statisti
 import { WorkerDefectStatisticsTableComponent } from './worker-defect-statistics/worker-defect-statistics-table/worker-defect-statistics-table.component';
 import { CrapCostTableComponent } from './crap-costs/crap-cost-table/crap-cost-table.component';
 import { CrapCostChartComponent } from './crap-costs/crap-cost-chart/crap-cost-chart.component';
+import { ProductCrapCostComponent } from './crap-costs/product-crap-cost/product-crap-cost.component';
+import { WorkshopCrapCostComponent } from './crap-costs/workshop-crap-cost/workshop-crap-cost.component';
+import { OperationCrapCostComponent } from './crap-costs/operation-crap-cost/operation-crap-cost.component';
 
 
 @NgModule({
@@ -27,7 +29,6 @@ import { CrapCostChartComponent } from './crap-costs/crap-cost-chart/crap-cost-c
     QualityHistoryMonthyChartComponent,
     QualityHistoryMonthlyTableComponent,
     QualityHistoryMonthlyComponent,
-    CrapCostsComponent,
     WorkerCompareStatisticsComponent,
     WorkerDefectStatisticsComponent,
     QualityReportComponent,
@@ -40,7 +41,10 @@ import { CrapCostChartComponent } from './crap-costs/crap-cost-chart/crap-cost-c
     WorkerCompareStatisticsTableComponent,
     WorkerDefectStatisticsTableComponent,
     CrapCostTableComponent,
-    CrapCostChartComponent
+    CrapCostChartComponent,
+    OperationCrapCostComponent,
+    ProductCrapCostComponent,
+    WorkshopCrapCostComponent
   ],
   imports: [
     CommonModule,

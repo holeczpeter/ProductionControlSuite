@@ -34,28 +34,30 @@ export class CrapCostTableComponent implements OnInit, OnChanges {
   }
   createTable() {
     if (this.interval && this.crapCostProductModel) {
-      let rows = new Array<TableColumn>();
-      const row = new TableColumn();
+      let rows = [...new Array<TableColumn>()]
       this.crapCostProductModel.operations.forEach((operation, index) => {
-          row['item'] = { id: operation.operationId, code: operation.operationCode, name: operation.operationName, translatedName: operation.operationTranslatedName };
-          for (let i = 0; i <= this.interval.differenceInCalendarDays; i++) {
+        const row = new TableColumn();
+      
+        row['item'] = { id: operation.operationId, code: operation.operationCode, name: operation.operationName, translatedName: operation.operationTranslatedName };
+        for (let i = 0; i <= this.interval.differenceInCalendarDays; i++) {
 
-            let currentDate = addDays(this.interval.startDate, i);
-            let currentDateItem = operation.days.find(day => format('yyyy-MM-dd', new Date(day.date)).trim() == format('yyyy-MM-dd', currentDate).trim());
-            row[currentDate.toString()] = currentDateItem;
-          }
-          row['sum'] = operation.value;
-          rows.push(row);
-        });
-        this.dataSource = new MatTableDataSource(rows);
-        this.columnsToDisplay = [...Object.keys(rows[0])];
-        this.headers = this.createDateHeaders(rows);
+          let currentDate = addDays(this.interval.startDate, i);
+          let currentDateItem = operation.days.find(day => format('yyyy-MM-dd', new Date(day.date)).trim() == format('yyyy-MM-dd', currentDate).trim());
+          row[currentDate.toString()] = currentDateItem;
+        }
+        row['sum'] = operation.value;
+        rows.push(row);
+      });
+    
+      this.dataSource = new MatTableDataSource(rows);
+      this.columnsToDisplay = [...Object.keys(rows[0])];
+      this.headers = this.createDateHeaders(rows);
     }
   }
   createDateHeaders(rows: Array<any>): any[] {
     if (rows.length == 0) return new Array<any>();
     return [...Object.keys(rows[0])
-      .filter(x => x != 'item' && x!='sum')
+      .filter(x => x != 'item' && x != 'sum')
       .map(x => {
         return x
       })

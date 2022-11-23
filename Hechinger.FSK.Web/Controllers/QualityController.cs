@@ -49,5 +49,15 @@ namespace Hechinger.FSK.Web.Controllers
         {
             return await this.mediator.Send(request, cancellationToken);
         }
+        [HttpGet]
+        public async Task<CrapCostProductModel> GetCrapCostByProduct(GetCrapCostByProduct request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+        [HttpGet]
+        public async Task<CrapCostWorkshopModel> GetCrapCostByWorkshop(GetCrapCostByWorkshop request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
     }
 }

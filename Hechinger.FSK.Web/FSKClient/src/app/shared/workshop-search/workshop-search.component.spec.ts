@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CrapCostsComponent } from './crap-costs.component';
+import { WorkshopSearchComponent } from './workshop-search.component';
 
-describe('CrapCostsComponent', () => {
-  let component: CrapCostsComponent;
-  let fixture: ComponentFixture<CrapCostsComponent>;
+describe('WorkshopSearchComponent', () => {
+  let component: WorkshopSearchComponent;
+  let fixture: ComponentFixture<WorkshopSearchComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CrapCostsComponent ]
+      declarations: [ WorkshopSearchComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CrapCostsComponent);
+    fixture = TestBed.createComponent(WorkshopSearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

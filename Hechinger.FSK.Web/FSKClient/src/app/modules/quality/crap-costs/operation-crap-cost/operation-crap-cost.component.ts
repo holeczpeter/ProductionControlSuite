@@ -1,19 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { distinctUntilChanged, forkJoin, Subscription } from 'rxjs';
-import { CrapCostTableModel } from '../../../models/crap-cost-table-model';
-import { CrapCostProductModel, EnumModel, GetCrapCostByOperation, IntervalModel, IntervalOption, SelectModel, ShiftModel, Views } from '../../../models/generated/generated';
-import { DefectDataService } from '../../../services/data/defect-data.service';
-import { QualityDataService } from '../../../services/data/quality-data.service';
-import { ShiftDataService } from '../../../services/data/shift-data.service';
-import { IntervalViewService } from '../../../services/interval-view/interval-view.service';
-import { LanguageService } from '../../../services/language/language.service';
+import { CrapCostTableModel } from '../../../../models/crap-cost-table-model';
+import { CrapCostProductModel, EnumModel, GetCrapCostByOperation, IntervalModel, IntervalOption, SelectModel, ShiftModel, Views } from '../../../../models/generated/generated';
+import { DefectDataService } from '../../../../services/data/defect-data.service';
+import { QualityDataService } from '../../../../services/data/quality-data.service';
+import { ShiftDataService } from '../../../../services/data/shift-data.service';
+import { IntervalViewService } from '../../../../services/interval-view/interval-view.service';
+import { LanguageService } from '../../../../services/language/language.service';
 
 @Component({
-  selector: 'app-crap-costs',
-  templateUrl: './crap-costs.component.html',
-  styleUrls: ['./crap-costs.component.scss']
+  selector: 'app-operation-crap-cost',
+  templateUrl: './operation-crap-cost.component.html',
+  styleUrls: ['./operation-crap-cost.component.scss']
 })
-export class CrapCostsComponent implements OnInit, OnDestroy {
+export class OperationCrapCostComponent implements OnInit, OnDestroy {
 
   operation: SelectModel;
   crapCostModel: CrapCostProductModel;
@@ -67,7 +67,7 @@ export class CrapCostsComponent implements OnInit, OnDestroy {
       }
       this.qualityDataService.getCrapCostByOperation(request).subscribe(reportModel => {
         this.crapCostModel = reportModel;
-        this.crapCostTableModel = { model: this.crapCostModel , interval: this.currentInterval }
+        this.crapCostTableModel = { model: this.crapCostModel, interval: this.currentInterval }
       });
     };
   }
@@ -83,3 +83,4 @@ export class CrapCostsComponent implements OnInit, OnDestroy {
   }
 
 }
+

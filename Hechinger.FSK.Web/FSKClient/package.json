@@ -27,7 +27,7 @@
     "date-fns": "^2.29.3",
     "ng-apexcharts": "^1.7.4",
     "ngx-barcode-scanner": "^0.3.0",
-    "ngx-echarts": "^14.0.0",
+    "ngx-infinite-scroll": "^14.0.1",
     "ngx-mask": "^14.2.3",
     "ngx-mat-select-search": "^5.0.0",
     "ngx-print": "^1.2.1",

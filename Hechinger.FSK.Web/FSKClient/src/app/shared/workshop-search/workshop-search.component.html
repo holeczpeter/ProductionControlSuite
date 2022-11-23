@@ -1,0 +1,18 @@
+<form [formGroup]="formGroup" *ngIf="formGroup">
+  <div class="row pt-2">
+    <mat-form-field class="col">
+      <mat-select [formControlName]="'workshop'" [placeholder]="'workshopName' | translate" #workshopSelect required panelClass="myPanelClass">
+        <mat-option>
+          <ngx-mat-select-search [formControl]="workshopFilterCtrl"></ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngFor="let option of filteredWorkshops | async" [value]="option">
+          {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="formGroup.get('workshop')?.hasError('required')">
+        {{'workshopName'| translate}} {{'required' | translate}}
+      </mat-error>
+    </mat-form-field>
+  </div>
+</form>
+

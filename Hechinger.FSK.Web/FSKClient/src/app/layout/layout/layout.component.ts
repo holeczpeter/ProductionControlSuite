@@ -47,7 +47,9 @@ export class LayoutComponent implements OnDestroy {
     this.openedSidebar = !this.openedSidebar;
 
   }
-
+  onScroll() {
+    console.log("scroll")
+  }
   ngOnDestroy() {
     this.onDestroy$.next(null);
   }

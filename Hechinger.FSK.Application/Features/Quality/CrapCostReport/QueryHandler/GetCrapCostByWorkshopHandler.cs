@@ -1,71 +1,88 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetCrapCostByWorkshopHandler : IRequestHandler<GetCrapCostByWorkshop, IEnumerable<CrapCostProductModel>>
+    public class GetCrapCostByWorkshopHandler : IRequestHandler<GetCrapCostByWorkshop, CrapCostWorkshopModel>
     {
         private readonly FSKDbContext context;
-        private readonly IQuantityService quantityService;
+        private readonly IQualityService qualityService;
         private readonly IPermissionService permissionService;
-        public GetCrapCostByWorkshopHandler(FSKDbContext context, IQuantityService quantityService, IPermissionService permissionService)
+        public GetCrapCostByWorkshopHandler(FSKDbContext context, IQualityService qualityService, IPermissionService permissionService)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
-            this.quantityService = quantityService ?? throw new ArgumentNullException(nameof(context));
+            this.qualityService = qualityService ?? throw new ArgumentNullException(nameof(qualityService));
             this.permissionService = permissionService ?? throw new ArgumentNullException(nameof(permissionService));
         }
-        public async Task<IEnumerable<CrapCostProductModel>> Handle(GetCrapCostByWorkshop request, CancellationToken cancellationToken)
+        public async Task<CrapCostWorkshopModel> Handle(GetCrapCostByWorkshop request, CancellationToken cancellationToken)
         {
-            var permittedProducts = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
-
-            var operations = await this.context.Operations
-                .Where(p => p.Product.Workshop.Id == request.WorkshopId && p.EntityStatus == EntityStatuses.Active)
-                .AsNoTracking()
-                .ToListAsync(cancellationToken);
-
-            var products = await this.context.Products
-                .Where(x => x.WorkshopId == request.WorkshopId)
-                .Select(p => new
-                {
-                    Id = p.Id,
-                    Code = p.Code,
-                    Name = p.Name,
-                    TranslatedName = p.TranslatedName,
-                }).ToListAsync(cancellationToken);
-
-            var items = await this.context.SummaryCards
-                       .Where(sc => sc.Operation.Product.WorkshopId == request.WorkshopId &&
-                                    sc.Date.Date >= request.StartDate.Date.Date && sc.Date.Date <= request.EndDate.Date.Date &&
-                                    sc.EntityStatus == EntityStatuses.Active)
-                       .Select(sc => new {
-                           OperationId = sc.OperationId,
-                           Date = sc.Date,
-                           Quantity = sc.Quantity,
-                           DefectQuantity = sc.DefectQuantity
-                       })
-                       .ToListAsync(cancellationToken);
-            var results = products.Select(product=>  new CrapCostProductModel()
+            var permittedWorkshops = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
+            var currentWorkshop = await this.context.Workshops
+               .Where(x => x.Id == request.WorkshopId && permittedWorkshops.Contains(x.Id))
+               .AsNoTracking()
+               .Select(p => new
+               {
+                   Id = p.Id,
+                   Code = p.Code,
+                   Name = p.Name,
+               }).FirstOrDefaultAsync(cancellationToken);
+            if (currentWorkshop != null)
             {
-                ProductId = product.Id,
-                ProductName = product.Name,
-                ProductCode = product.Code,
-                ProductTranslatedName = product.TranslatedName,
-                Operations = operations.Select(op => new CrapCostOperationModel()
-                {
-                    OperationId = op.Id,
-                    OperationName = op.Name,
-                    OperationCode = op.Code,
-                    OperationTranslatedName = !String.IsNullOrEmpty(op.TranslatedName) ? op.TranslatedName : op.Name,
-                    Days = items.GroupBy(sc => new { OperationId = sc.OperationId, Date = sc.Date.Date }).Select(g => new CrapCostDayModel()
+                var products = await this.context.Products
+                    .Where(x => x.WorkshopId == request.WorkshopId)
+                    .AsNoTracking()
+                    .Select(p => new
                     {
-                        OperationId = g.Key.OperationId,
-                        Date = g.Key.Date,
-                        DefectQuantity = g.ToList().Select(x => x.DefectQuantity).Sum(),
-                        Quantity = g.ToList().Select(x => x.Quantity).Sum(),
-                        Value = 10,
-                    }).ToList(),
-                }).ToList()
-            }).ToList();
+                        Id = p.Id,
+                        Code = p.Code,
+                        Name = p.Name,
+                        TranslatedName = p.TranslatedName,
+                    }).ToListAsync(cancellationToken);
+                var operations = await this.context.Operations
+                      .Where(p => p.Product.Workshop.Id == request.WorkshopId && p.EntityStatus == EntityStatuses.Active)
+                      .AsNoTracking()
+                      .ToListAsync(cancellationToken);
 
-           
-            return results;
+                var items = await this.context.SummaryCards
+                     .Where(sc => sc.Operation.Product.WorkshopId == request.WorkshopId &&
+                                  sc.Date.Date >= request.StartDate.Date.Date && sc.Date.Date <= request.EndDate.Date.Date &&
+                                  sc.EntityStatus == EntityStatuses.Active)
+                     .Select(sc => new {
+                         OperationId = sc.OperationId,
+                         Date = sc.Date,
+                         Quantity = sc.Quantity,
+                         DefectQuantity = sc.DefectQuantity
+                     })
+                     .ToListAsync(cancellationToken);
+
+                var result = new CrapCostWorkshopModel()
+                {
+                    WorkshopId = currentWorkshop.Id,
+                    WorkshopName = currentWorkshop.Name,
+                    Products = products.Select(product => new CrapCostProductModel()
+                    {
+                        ProductId = product.Id,
+                        ProductName = product.Name,
+                        ProductCode = product.Code,
+                        ProductTranslatedName = product.TranslatedName,
+                        Operations = operations.Where(x=>x.ProductId == product.Id).Select(op => new CrapCostOperationModel()
+                        {
+                            OperationId = op.Id,
+                            OperationName = op.Name,
+                            OperationCode = op.Code,
+                            OperationTime = op.OperationTime,
+                            OperationTranslatedName = !String.IsNullOrEmpty(op.TranslatedName) ? op.TranslatedName : op.Name,
+                            Days = items.Where(x => x.OperationId == op.Id).GroupBy(sc => new { OperationId = sc.OperationId, Date = sc.Date.Date }).Select(g => new CrapCostDayModel()
+                            {
+                                OperationId = g.Key.OperationId,
+                                Date = g.Key.Date,
+                                DefectQuantity = g.ToList().Select(x => x.DefectQuantity).Sum(),
+                                Quantity = g.ToList().Select(x => x.Quantity).Sum(),
+                                Value = this.qualityService.CrapCost(op.OperationTime, g.ToList().Select(x => x.DefectQuantity).Sum())
+                            }).ToList(),
+                        }).ToList()
+                    }).ToList()
+                };
+                return result;
+            }
+            else return null;
 
         }
     }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddWorkshop, DeleteWorkshop, Result, UpdateWorkshop, WorkshopModel } from '../../models/generated/generated';
+import { AddWorkshop, DeleteWorkshop, Result, SelectModel, UpdateWorkshop, WorkshopModel } from '../../models/generated/generated';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,15 @@ export class WorkshopDataService {
 
   delete(model: DeleteWorkshop): Observable<Result> {
     return this.httpClient.post<Result>('/Workshop/Delete', model)
+  }
+
+  getByFilter(filter: string): Observable<Array<SelectModel>> {
+    return this.httpClient.get<Array<SelectModel>>('/Workshop/GetByFilter', {
+      params:
+      {
+        filter: filter,
+      }
+    });
   }
 
   get(): Observable<WorkshopModel> {

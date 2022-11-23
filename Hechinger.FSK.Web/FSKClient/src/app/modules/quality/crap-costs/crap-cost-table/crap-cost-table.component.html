@@ -4,7 +4,7 @@
   <div class="responsive-table-container">
     <table mat-table id="id_of_table"
            [dataSource]="dataSource">
-      <ng-container matColumnDef="item" sticky>
+      <ng-container matColumnDef="item" sticky class="item-column">
         <th mat-header-cell *matHeaderCellDef>
           {{ 'operationName' | translate }}
         </th>

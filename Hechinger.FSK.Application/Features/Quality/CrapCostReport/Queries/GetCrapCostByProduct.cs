@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetCrapCostByProduct : IRequest<IEnumerable<CrapCostOperationModel>>
+    public class GetCrapCostByProduct : IRequest<CrapCostProductModel>
     {
         public int ProductId { get; set; }
 

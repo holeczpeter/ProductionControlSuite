@@ -90,8 +90,6 @@ export interface WorkshopPpmData {
   workshopId: number,
   workshopName: string,
   ppm: number,
-  quantity: any,
-  defectQuantity: number,
 }
 export interface GetWorkshopPPmData {
   startDate: Date,
@@ -383,6 +381,7 @@ export interface CrapCostOperationModel {
   operationName: string,
   operationCode: string,
   operationTranslatedName: string,
+  operationTime: any,
   quantity: number,
   defectQuantity: number,
   value: any,
@@ -397,6 +396,14 @@ export interface CrapCostProductModel {
   defectQuantity: number,
   value: any,
   operations: Array<CrapCostOperationModel>,
+}
+export interface CrapCostWorkshopModel {
+  workshopId: number,
+  workshopName: string,
+  quantity: number,
+  defectQuantity: number,
+  value: any,
+  products: Array<CrapCostProductModel>,
 }
 export interface GetCrapCostByOperation {
   operationId: number,
@@ -838,6 +845,9 @@ export interface GetAllWorkshops {
 }
 export interface GetWorkshop {
   id: number,
+}
+export interface GetWorkshopByFilter {
+  filter: string,
 }
 export enum Views {
   Day = 0,
