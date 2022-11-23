@@ -1,4 +1,4 @@
-import { Component, DoCheck, Input, IterableDiffer, IterableDiffers, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, DoCheck, Input, IterableDiffer, IterableDiffers, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { DefectCategories, DefectStatisticModel } from '../../../../models/generated/generated';
 import {
   ChartComponent,
@@ -17,6 +17,7 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { ChartService } from '../../../../services/chart/chart.service';
 import { DatePipe } from '@angular/common';
+import { Subscription } from 'rxjs';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -36,15 +37,16 @@ export type ChartOptions = {
   templateUrl: './worker-defect-statistics-chart.component.html',
   styleUrls: ['./worker-defect-statistics-chart.component.scss']
 })
-export class WorkerDefectStatisticsChartComponent implements OnInit, OnChanges {
+export class WorkerDefectStatisticsChartComponent implements OnInit, OnChanges, OnDestroy {
   @Input() model: DefectStatisticModel;
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
-
+  langChangeSubscription: Subscription;
   constructor(private readonly chartService: ChartService,
     private readonly datePipe: DatePipe,
     public translateService: TranslateService) {
-    this.translateService.onLangChange.subscribe(x => {
+    if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
+    this.langChangeSubscription = this.translateService.onLangChange.subscribe(x => {
       this.createChart(x.lang);
     })
   }
@@ -113,7 +115,8 @@ export class WorkerDefectStatisticsChartComponent implements OnInit, OnChanges {
 
       };
     }
-   
   }
- 
+  ngOnDestroy(): void {
+    if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
+  }
 }

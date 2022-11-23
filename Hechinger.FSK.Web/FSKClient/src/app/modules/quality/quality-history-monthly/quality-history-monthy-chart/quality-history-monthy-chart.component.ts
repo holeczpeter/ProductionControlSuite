@@ -18,6 +18,7 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ChartService } from '../../../../services/chart/chart.service';
+import { OnDestroy } from '@angular/core';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -35,10 +36,11 @@ export type ChartOptions = {
   templateUrl: './quality-history-monthy-chart.component.html',
   styleUrls: ['./quality-history-monthy-chart.component.scss']
 })
-export class QualityHistoryMonthyChartComponent implements OnInit, OnChanges {
+export class QualityHistoryMonthyChartComponent implements OnInit, OnChanges, OnDestroy {
   @Input() model: MonthlyQualityModel;
   @Input() chartTitle: string | null;
   @ViewChild("chart") chart: ChartComponent;
+  langChangeSubscription: Subscription;
   public chartOptions!: Partial<ChartOptions> | any;
   public get defectCategories(): typeof DefectCategories {
     return DefectCategories;
@@ -46,10 +48,12 @@ export class QualityHistoryMonthyChartComponent implements OnInit, OnChanges {
   constructor(private dateService: DateService,
     private readonly chartService: ChartService,
     public translateService: TranslateService) {
-    this.translateService.onLangChange.subscribe(x => {
+    if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
+    this.langChangeSubscription = this.translateService.onLangChange.subscribe(x => {
       this.createChart(x.lang);
     });
   }
+  
   ngOnInit(): void {
   }
 
@@ -129,5 +133,8 @@ export class QualityHistoryMonthyChartComponent implements OnInit, OnChanges {
         },
       },
     };
+  }
+  ngOnDestroy(): void {
+    if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
   }
 }

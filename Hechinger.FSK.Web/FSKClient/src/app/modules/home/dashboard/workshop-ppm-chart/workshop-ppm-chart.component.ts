@@ -1,24 +1,13 @@
-import { DoCheck, IterableDiffer, IterableDiffers, OnChanges, SimpleChanges } from "@angular/core";
-import { Component, ViewChild, OnInit, Input } from "@angular/core";
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import {
-  ChartComponent,
-  ApexYAxis,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexDataLabels,
-  ApexPlotOptions,
-  ApexFill,
-  ApexTooltip,
-  ApexLegend,
-  ApexStroke,
-  ApexTitleSubtitle,
+    ApexAxisChartSeries,
+    ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke,
+    ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent
 } from "ng-apexcharts";
-import { WorkshopModel, WorkshopPpmData } from "../../../../models/generated/generated";
-import { WorkshopPpmModel } from "../../../../models/workshop-ppm-model";
+import { Subscription } from "rxjs";
+import { DashboardPpm, DashboardPpmChartModel } from "../../../../models/generated/generated";
 import { ChartService } from "../../../../services/chart/chart.service";
-import { WorkshopDataService } from "../../../../services/data/workshop-data.service";
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -39,34 +28,31 @@ export type ChartOptions = {
   templateUrl: './workshop-ppm-chart.component.html',
   styleUrls: ['./workshop-ppm-chart.component.scss']
 })
-export class WorkshopPpmChartComponent implements OnInit, OnChanges {
-  @Input() model: WorkshopPpmModel;
-  chartModels: Array<WorkshopPpmData>;
+export class WorkshopPpmChartComponent implements OnInit, OnChanges, OnDestroy {
+  @Input() model: DashboardPpmChartModel;
+  chartModels: Array<DashboardPpm>;
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
-  
+  langChangeSubscription: Subscription;
   constructor(public translateService: TranslateService,
     private chartService: ChartService) {
-    this.translateService.onLangChange.subscribe(x => {
+    if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
+    this.langChangeSubscription = this.translateService.onLangChange.subscribe(x => {
       this.createChart()
     });
+  }
+   
+  ngOnInit(): void {
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['model'] && this.model) {
       this.chartModels = this.model.items.sort((a, b) => b.ppm - a.ppm);
       this.createChart();
-     
     }
-    
   }
-  getAllWorkshops() {
-    
-  }
-  ngOnInit(): void {
 
-  }
-  
   createChart() {
     if (this.chartModels && this.model) {
       let title = this.translateService.instant("workshops").title;
@@ -109,6 +95,8 @@ export class WorkshopPpmChartComponent implements OnInit, OnChanges {
 
       };
     }
-   
+  }
+  ngOnDestroy(): void {
+    if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
   }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class WorkshopPpmData : BaseModel
+    public class DashboardPpm : BaseModel
     {
         public int WorkshopId { get; set; }
         public string WorkshopName { get; set; }

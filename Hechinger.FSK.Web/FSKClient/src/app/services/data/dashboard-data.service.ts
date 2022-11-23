@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DashboardCrapCost, GetDashboardCrapCost, GetProductionInformation, GetWorkshopPPmData, ProductionInfo, WorkshopPpmData } from '../../models/generated/generated';
+import { DashboardCrapCost, DashboardPpm, GetDashboardCrapCost, GetDashboardPpm, GetProductionInformation, ProductionInfo } from '../../models/generated/generated';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +19,8 @@ export class DashboardDataService {
         }
       });
   }
-  getWorkshopPpmData(request: GetWorkshopPPmData): Observable<Array<WorkshopPpmData>> {
-    return this.httpClient.get<Array<WorkshopPpmData>>('/Dashboard/GetWorkshopPpmData',
+  getWorkshopPpmData(request: GetDashboardPpm): Observable<Array<DashboardPpm>> {
+    return this.httpClient.get<Array<DashboardPpm>>('/Dashboard/GetWorkshopPpmData',
       {
         params: {
           'startDate': request.startDate.toDateString(),

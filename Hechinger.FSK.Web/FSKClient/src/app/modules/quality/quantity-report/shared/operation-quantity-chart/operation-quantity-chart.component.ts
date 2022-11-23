@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DefectCategories, QuantityOperationReportModel } from '../../../../../models/generated/generated';
 import { QuantityChartModel } from '../../../../../models/quantity-chart-model';
@@ -18,6 +18,7 @@ import {
  
 } from "ng-apexcharts";
 import { ChartService } from '../../../../../services/chart/chart.service';
+import { Subscription } from 'rxjs';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -35,20 +36,21 @@ export type ChartOptions = {
   templateUrl: './operation-quantity-chart.component.html',
   styleUrls: ['./operation-quantity-chart.component.scss']
 })
-export class OperationQuantityChartComponent implements OnInit, OnChanges {
+export class OperationQuantityChartComponent implements OnInit, OnChanges, OnDestroy {
   @Input() chartModel: QuantityOperationReportModel;
   @Input() chartTitle: string | null;
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
   chartModels: Array<QuantityChartModel>; 
-
+  langChangeSubscription: Subscription;
   constructor(public translateService: TranslateService,
     private readonly chartService: ChartService) {
-    this.translateService.onLangChange.subscribe(x => {
+    if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
+    this.langChangeSubscription = this.translateService.onLangChange.subscribe(x => {
       this.createChart(x.lang);
     })
   }
-    
+  
   ngOnInit(): void {
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -118,5 +120,7 @@ export class OperationQuantityChartComponent implements OnInit, OnChanges {
     };
 
   }
-  
+  ngOnDestroy(): void {
+    if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
+  }
 }

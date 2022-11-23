@@ -19,7 +19,7 @@ namespace Hechinger.FSK.Web.Controllers
 
 
         [HttpGet]
-        public async Task<IEnumerable<WorkshopPpmData>> GetWorkshopPpmData(GetWorkshopPPmData request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<DashboardPpm>> GetWorkshopPpmData(GetDashboardPpm request, CancellationToken cancellationToken)
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();

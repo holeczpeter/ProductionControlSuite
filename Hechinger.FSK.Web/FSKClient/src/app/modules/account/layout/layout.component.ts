@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { SpinnerData } from '../../../models/spinner-data';
 import { AccountService } from '../../../services/account.service';
 import { SpinnerService } from '../../../services/spinner/spinner.service';
@@ -21,11 +21,13 @@ export class LayoutComponent  {
   companyName = "Hechinger Hungary Kft.";
   logo = 'assets/images/logo.png';
   currentLang!: string;
+  langChangeSubscription: Subscription;
   constructor(private router: Router,
     private accountService: AccountService,
     public readonly spinnerService: SpinnerService,
     public translateService: TranslateService) {
-    this.translateService.onLangChange.subscribe(x => this.currentLang = x.lang);
+    if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
+    this.langChangeSubscription = this.translateService.onLangChange.subscribe(x => this.currentLang = x.lang);
     this.router.events.subscribe(x => {
       if (x instanceof NavigationEnd) {
         if (x.url.includes('login')) this.loaderData.title = "logininprogress";
@@ -41,6 +43,7 @@ export class LayoutComponent  {
     this.translateService.use(key);
   }
   ngOnDestroy(): void {
+    if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
     this.onDestroy$.next(null);
   }
 

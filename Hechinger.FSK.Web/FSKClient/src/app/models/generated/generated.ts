@@ -91,6 +91,19 @@ export interface DashboardCrapCost {
   workshopName: string,
   value: any,
 }
+export interface DashboardCrapCostChartModel {
+  items: Array<DashboardCrapCost>,
+  interval: IntervalModel,
+}
+export interface DashboardPpm {
+  workshopId: number,
+  workshopName: string,
+  ppm: number,
+}
+export interface DashboardPpmChartModel {
+  items: Array<DashboardPpm>,
+  interval: IntervalModel,
+}
 export interface ProductionInfo {
   workshopId: number,
   workshopName: string,
@@ -102,20 +115,19 @@ export interface ProductionDayInfo {
   quantity: number,
   defectQuantity: number,
 }
-export interface WorkshopPpmData {
-  workshopId: number,
-  workshopName: string,
-  ppm: number,
+export interface ProductionInfoChartModel {
+  item: ProductionInfo,
+  interval: IntervalModel,
 }
 export interface GetDashboardCrapCost {
   startDate: Date,
   endDate: Date,
 }
-export interface GetProductionInformation {
+export interface GetDashboardPpm {
   startDate: Date,
   endDate: Date,
 }
-export interface GetWorkshopPPmData {
+export interface GetProductionInformation {
   startDate: Date,
   endDate: Date,
 }

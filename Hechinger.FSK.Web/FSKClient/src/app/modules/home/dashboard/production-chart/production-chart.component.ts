@@ -1,30 +1,16 @@
 import { DatePipe } from "@angular/common";
-import { DoCheck, IterableDiffer, IterableDiffers, OnChanges, SimpleChanges } from "@angular/core";
-import { Component, ViewChild, OnInit, Input } from "@angular/core";
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { addDays } from 'date-fns';
 import format from 'date-fns/fp/format';
 import {
-  ChartComponent,
-  ApexYAxis,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexDataLabels,
-  ApexPlotOptions,
-  ApexFill,
-  ApexTooltip,
-  ApexLegend,
-  ApexStroke,
-  ApexTitleSubtitle,
-  ApexResponsive,
+    ApexAxisChartSeries,
+    ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexResponsive, ApexStroke,
+    ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent
 } from "ng-apexcharts";
-import { CrapCostWorkshopModel, DashboardCrapCost, WorkshopModel, WorkshopPpmData } from "../../../../models/generated/generated";
-import { WorkshopCrapCostModel } from '../../../../models/workshop-crap-cost-model';
-import { WorkshopPpmModel } from "../../../../models/workshop-ppm-model";
-import { WorkshopProductionInfo } from "../../../../models/workshop-production-info";
+import { Subscription } from "rxjs";
+import { ProductionInfoChartModel } from "../../../../models/generated/generated";
 import { ChartService } from "../../../../services/chart/chart.service";
-import { WorkshopDataService } from "../../../../services/data/workshop-data.service";
 import { DateService } from "../../../../services/date.service";
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -46,19 +32,21 @@ export type ChartOptions = {
   templateUrl: './production-chart.component.html',
   styleUrls: ['./production-chart.component.scss']
 })
-export class ProductionChartComponent implements OnInit, OnChanges {
-  @Input() model: WorkshopProductionInfo;
+export class ProductionChartComponent implements OnInit, OnChanges, OnDestroy {
+  @Input() model: ProductionInfoChartModel;
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
-
+  langChangeSubscription: Subscription;
   constructor(public translateService: TranslateService,
     private readonly datePipe: DatePipe,
     private readonly dateService: DateService,
     private chartService: ChartService) {
-    this.translateService.onLangChange.subscribe(x => {
+    if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
+    this.langChangeSubscription = this.langChangeSubscription = this.translateService.onLangChange.subscribe(x => {
       this.createChart()
     });
   }
+  
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['model'] && this.model) {
@@ -149,6 +137,9 @@ export class ProductionChartComponent implements OnInit, OnChanges {
     };
     
 
+  }
+  ngOnDestroy(): void {
+    if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
   }
 }
 

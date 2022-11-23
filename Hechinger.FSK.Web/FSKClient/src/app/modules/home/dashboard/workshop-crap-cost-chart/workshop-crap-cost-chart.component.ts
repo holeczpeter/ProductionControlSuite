@@ -1,25 +1,13 @@
-import { DoCheck, IterableDiffer, IterableDiffers, OnChanges, SimpleChanges } from "@angular/core";
-import { Component, ViewChild, OnInit, Input } from "@angular/core";
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import {
-  ChartComponent,
-  ApexYAxis,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexDataLabels,
-  ApexPlotOptions,
-  ApexFill,
-  ApexTooltip,
-  ApexLegend,
-  ApexStroke,
-  ApexTitleSubtitle,
+    ApexAxisChartSeries,
+    ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke,
+    ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent
 } from "ng-apexcharts";
-import { CrapCostWorkshopModel, DashboardCrapCost, WorkshopModel, WorkshopPpmData } from "../../../../models/generated/generated";
-import { WorkshopCrapCostModel } from '../../../../models/workshop-crap-cost-model';
-import { WorkshopPpmModel } from "../../../../models/workshop-ppm-model";
+import { Subscription } from "rxjs";
+import { DashboardCrapCost, DashboardCrapCostChartModel } from "../../../../models/generated/generated";
 import { ChartService } from "../../../../services/chart/chart.service";
-import { WorkshopDataService } from "../../../../services/data/workshop-data.service";
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -40,17 +28,21 @@ export type ChartOptions = {
   templateUrl: './workshop-crap-cost-chart.component.html',
   styleUrls: ['./workshop-crap-cost-chart.component.scss']
 })
-export class WorkshopCrapCostChartComponent implements OnInit, OnChanges {
-  @Input() model: WorkshopCrapCostModel;
+export class WorkshopCrapCostChartComponent implements OnInit, OnChanges, OnDestroy {
+  @Input() model: DashboardCrapCostChartModel;
   chartModels: Array<DashboardCrapCost>;
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
-
+  langChangeSubscription: Subscription;
   constructor(public translateService: TranslateService,
     private chartService: ChartService) {
-    this.translateService.onLangChange.subscribe(x => {
+    
+    this.langChangeSubscription = this.translateService.onLangChange.subscribe(x => {
       this.createChart()
     });
+  }
+  ngOnInit(): void {
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -58,13 +50,6 @@ export class WorkshopCrapCostChartComponent implements OnInit, OnChanges {
       this.chartModels = this.model.items.sort((a, b) => b.value - a.value);
       this.createChart();
     }
-
-  }
-  getAllWorkshops() {
-
-  }
-  ngOnInit(): void {
-
   }
 
   createChart() {
@@ -98,10 +83,10 @@ export class WorkshopCrapCostChartComponent implements OnInit, OnChanges {
           show: true,
           title: crapcost,
         },
-        
       };
-      
     }
-
+  }
+  ngOnDestroy(): void {
+    if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
   }
 }
