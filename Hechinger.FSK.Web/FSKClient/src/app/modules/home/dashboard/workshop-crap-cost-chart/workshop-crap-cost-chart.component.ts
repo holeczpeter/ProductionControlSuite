@@ -15,7 +15,8 @@ import {
   ApexStroke,
   ApexTitleSubtitle,
 } from "ng-apexcharts";
-import { WorkshopModel, WorkshopPpmData } from "../../../../models/generated/generated";
+import { CrapCostWorkshopModel, DashboardCrapCost, WorkshopModel, WorkshopPpmData } from "../../../../models/generated/generated";
+import { WorkshopCrapCostModel } from '../../../../models/workshop-crap-cost-model';
 import { WorkshopPpmModel } from "../../../../models/workshop-ppm-model";
 import { ChartService } from "../../../../services/chart/chart.service";
 import { WorkshopDataService } from "../../../../services/data/workshop-data.service";
@@ -35,16 +36,16 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-workshop-ppm-chart',
-  templateUrl: './workshop-ppm-chart.component.html',
-  styleUrls: ['./workshop-ppm-chart.component.scss']
+  selector: 'app-workshop-crap-cost-chart',
+  templateUrl: './workshop-crap-cost-chart.component.html',
+  styleUrls: ['./workshop-crap-cost-chart.component.scss']
 })
-export class WorkshopPpmChartComponent implements OnInit, OnChanges {
-  @Input() model: WorkshopPpmModel;
-  chartModels: Array<WorkshopPpmData>;
+export class WorkshopCrapCostChartComponent implements OnInit, OnChanges {
+  @Input() model: WorkshopCrapCostModel;
+  chartModels: Array<DashboardCrapCost>;
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
-  
+
   constructor(public translateService: TranslateService,
     private chartService: ChartService) {
     this.translateService.onLangChange.subscribe(x => {
@@ -54,49 +55,40 @@ export class WorkshopPpmChartComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['model'] && this.model) {
-      this.chartModels = this.model.items.sort((a, b) => b.ppm - a.ppm);
+      this.chartModels = this.model.items.sort((a, b) => b.value - a.value);
       this.createChart();
-     
     }
-    
+
   }
   getAllWorkshops() {
-    
+
   }
   ngOnInit(): void {
 
   }
-  
+
   createChart() {
     if (this.chartModels && this.model) {
       let title = this.translateService.instant("workshops").title;
-      let data = this.chartModels.map(x => x.ppm);
+      let data = this.chartModels.map(x => x.value);
+      let crapcost = this.translateService.instant("crapcost");
       let subtitle = this.chartService.getChartInterval(this.model.interval);
       this.chartOptions = {
         title: {
-          text: title + " - PPM"
+          text: title + " - " + crapcost,
         },
         subtitle: {
           text: subtitle,
         },
         series: [
           {
-            name: "PPM",
+            name: crapcost,
             data: data
-          },
-
+          }
         ],
         chart: {
-          redrawOnWindowResize: true,
           height: 350,
           type: "bar"
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            columnWidth: "55%",
-            endingShape: "rounded"
-          }
         },
         colors: ["#F35B5A"],
         xaxis: {
@@ -104,11 +96,12 @@ export class WorkshopPpmChartComponent implements OnInit, OnChanges {
         },
         yaxis: {
           show: true,
-          title: 'PPM',
+          title: crapcost,
         },
-
+        
       };
+      
     }
-   
+
   }
 }

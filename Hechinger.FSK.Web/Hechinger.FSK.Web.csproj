@@ -19,6 +19,8 @@
     <None Remove="FSKClient\src\app\models\quantity-chart-model.ts" />
     <None Remove="FSKClient\src\app\models\quantity-table-model.ts" />
     <None Remove="FSKClient\src\app\models\refresh-token-model.ts" />
+    <None Remove="FSKClient\src\app\models\workshop-crap-cost-model.ts" />
+    <None Remove="FSKClient\src\app\models\workshop-production-info.ts" />
     <None Remove="FSKClient\src\app\validators\custom-validator.ts" />
     <None Remove="FSKClient\src\app\validators\password-equality-validator.ts" />
   </ItemGroup>
@@ -119,10 +121,12 @@
   <ItemGroup>
     <TypeScriptCompile Include="FSKClient\src\app\models\file-snippet.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\models\crap-cost-table-model.ts" />
+    <TypeScriptCompile Include="FSKClient\src\app\models\workshop-crap-cost-model.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\models\workshop-ppm-model.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\models\quantity-chart-model.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\models\quantity-table-model.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\models\refresh-token-model.ts" />
+    <TypeScriptCompile Include="FSKClient\src\app\models\workshop-production-info.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\validators\custom-validator.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\validators\password-equality-validator.ts" />
   </ItemGroup>

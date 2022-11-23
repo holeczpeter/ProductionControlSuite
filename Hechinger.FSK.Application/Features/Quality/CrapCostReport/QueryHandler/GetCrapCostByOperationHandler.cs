@@ -28,18 +28,19 @@
                     TranslatedName = p.TranslatedName,
                 }).FirstOrDefaultAsync(cancellationToken);
             
-            var items = await this.context.SummaryCards
-                       .Where(sc => sc.OperationId == request.OperationId &&
-                                    sc.Date.Date >= request.StartDate.Date.Date && sc.Date.Date <= request.EndDate.Date.Date &&
-                                    sc.EntityStatus == EntityStatuses.Active)
-                       .Select(sc => new 
-                       { 
-                           OperationId = sc.OperationId, 
-                           Date = sc.Date, 
-                           Quantity = sc.Quantity,
-                           DefectQuantity = sc.DefectQuantity
-                       })
-                       .ToListAsync(cancellationToken);
+            
+            var items = await this.context.SummaryCardItems
+               .Where(sc => sc.SummaryCard.OperationId == request.OperationId &&  
+                            sc.SummaryCard.Date.Date >= request.StartDate.Date.Date &&
+                            sc.SummaryCard.Date.Date <= request.EndDate.Date &&
+                            sc.EntityStatus == EntityStatuses.Active)
+               .Select(sc => new
+               {
+                   OperationId = sc.SummaryCard.OperationId,
+                   Quantity = sc.SummaryCard.Quantity,
+                   Date = sc.SummaryCard.Date,
+                   DefectQuantity = sc.Quantity
+               }).ToListAsync(cancellationToken);
 
             var result = new CrapCostProductModel()
             {

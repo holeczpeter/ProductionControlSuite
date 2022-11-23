@@ -1,0 +1,31 @@
+.dashboard {
+  width: 82vw;
+  padding: 20px;
+  background-color: white;
+}
+.chart-container {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+.mat-card{
+  height:500px;
+}
+.production-chart-container {
+  padding: 20px;
+  display: flex;
+  flex-wrap:wrap;
+  gap: 20px;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding-top: 20px;
+  column-gap: 20px;
+  row-gap: 20px;
+}
+
+.grid-item {
+  max-width:25vw;
+}

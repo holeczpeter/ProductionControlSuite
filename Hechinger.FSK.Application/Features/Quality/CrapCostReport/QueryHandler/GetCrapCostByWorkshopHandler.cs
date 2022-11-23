@@ -23,6 +23,7 @@
                    Code = p.Code,
                    Name = p.Name,
                }).FirstOrDefaultAsync(cancellationToken);
+
             if (currentWorkshop != null)
             {
                 var products = await this.context.Products
@@ -35,22 +36,24 @@
                         Name = p.Name,
                         TranslatedName = p.TranslatedName,
                     }).ToListAsync(cancellationToken);
+
                 var operations = await this.context.Operations
                       .Where(p => p.Product.Workshop.Id == request.WorkshopId && p.EntityStatus == EntityStatuses.Active)
                       .AsNoTracking()
                       .ToListAsync(cancellationToken);
 
-                var items = await this.context.SummaryCards
-                     .Where(sc => sc.Operation.Product.WorkshopId == request.WorkshopId &&
-                                  sc.Date.Date >= request.StartDate.Date.Date && sc.Date.Date <= request.EndDate.Date.Date &&
-                                  sc.EntityStatus == EntityStatuses.Active)
-                     .Select(sc => new {
-                         OperationId = sc.OperationId,
-                         Date = sc.Date,
-                         Quantity = sc.Quantity,
-                         DefectQuantity = sc.DefectQuantity
-                     })
-                     .ToListAsync(cancellationToken);
+                var items = await this.context.SummaryCardItems
+                    .Where(sc => sc.SummaryCard.Operation.Product.WorkshopId == request.WorkshopId &&
+                          sc.SummaryCard.Date.Date >= request.StartDate.Date.Date &&
+                          sc.SummaryCard.Date.Date <= request.EndDate.Date &&
+                          sc.EntityStatus == EntityStatuses.Active)
+                    .Select(sc => new
+                    {
+                        OperationId = sc.SummaryCard.OperationId,
+                        Date = sc.SummaryCard.Date,
+                        Quantity = sc.SummaryCard.Quantity,
+                        DefectQuantity = sc.Quantity
+                    }).ToListAsync(cancellationToken);
 
                 var result = new CrapCostWorkshopModel()
                 {
@@ -62,7 +65,7 @@
                         ProductName = product.Name,
                         ProductCode = product.Code,
                         ProductTranslatedName = product.TranslatedName,
-                        Operations = operations.Where(x=>x.ProductId == product.Id).Select(op => new CrapCostOperationModel()
+                        Operations = operations.Where(x => x.ProductId == product.Id).Select(op => new CrapCostOperationModel()
                         {
                             OperationId = op.Id,
                             OperationName = op.Name,

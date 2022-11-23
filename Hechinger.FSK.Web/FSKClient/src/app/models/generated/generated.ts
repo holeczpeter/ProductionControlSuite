@@ -86,10 +86,34 @@ export interface GetAccessMenu {
 export interface GetUserTokenInfo {
   userId: number,
 }
+export interface DashboardCrapCost {
+  workshopId: number,
+  workshopName: string,
+  value: any,
+}
+export interface ProductionInfo {
+  workshopId: number,
+  workshopName: string,
+  days: Array<ProductionDayInfo>,
+}
+export interface ProductionDayInfo {
+  workshopId: number,
+  date: Date,
+  quantity: number,
+  defectQuantity: number,
+}
 export interface WorkshopPpmData {
   workshopId: number,
   workshopName: string,
   ppm: number,
+}
+export interface GetDashboardCrapCost {
+  startDate: Date,
+  endDate: Date,
+}
+export interface GetProductionInformation {
+  startDate: Date,
+  endDate: Date,
 }
 export interface GetWorkshopPPmData {
   startDate: Date,

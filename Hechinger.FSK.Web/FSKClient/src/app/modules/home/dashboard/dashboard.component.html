@@ -2,9 +2,47 @@
   <div class="flex-title">
     <app-title class="flex-title-item" [title]="title"></app-title>
   </div>
-  <mat-card>
-    <app-workshop-ppm-chart [model]="workshopPpmModel"></app-workshop-ppm-chart>
-  </mat-card>
-  
+  <div class="dashboard">
+    <div class="row">
+      <div class="col">
+        <mat-card *ngIf="workshopPpmModel">
+          <mat-card-header>
+            <mat-card-title>PPM</mat-card-title>
+            <mat-card-subtitle>{{subtitle}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <app-workshop-ppm-chart [model]="workshopPpmModel"></app-workshop-ppm-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col">
+        <mat-card *ngIf="workshopCrapCostModel">
+          <mat-card-header>
+            <mat-card-title>{{ 'crapcost' | translate }}</mat-card-title>
+            <mat-card-subtitle>{{subtitle}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <app-workshop-crap-cost-chart [model]="workshopCrapCostModel"></app-workshop-crap-cost-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div class="grid-container">
+      <div class="grid-item" *ngFor="let production of workshopProductionInfo">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{ production.item.workshopName }}</mat-card-title>
+            <mat-card-subtitle>{{subtitle}} </mat-card-subtitle>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <app-production-chart [model]="production"></app-production-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
 </div>
 

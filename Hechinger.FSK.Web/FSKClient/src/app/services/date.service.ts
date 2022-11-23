@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
@@ -93,7 +94,9 @@ export class DateService {
       { name: lang == 'hu' ? "December" : 'Dezember', value: 12, stringValue: "12" }
     );
   }
-  constructor(private readonly translateService: TranslateService, private readonly languageService: LanguageService) {
+  constructor(private readonly translateService: TranslateService,
+    private readonly datePipe: DatePipe,
+    private readonly languageService: LanguageService) {
     this.translateService.onLangChange.subscribe(lang => {
       this.monthExtensions.next([...this.setMonthsExtension(lang.lang)])
     });
@@ -165,5 +168,11 @@ export class DateService {
   getDaysInMonth(month: number, year: number): number {
     return new Date(year, month - 1, 0).getDate();
   }
-
+  getDateTextByCurrentLang(date: Date): string | null {
+    let hu = this.datePipe.transform(date, 'yyyy.MM.dd');
+    let de = this.datePipe.transform(date, 'dd.MM.yyyy');
+    return this.translateService.currentLang == 'hu' && de != null && hu != null ?
+      hu :
+      de;
+  }
 }

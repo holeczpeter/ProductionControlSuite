@@ -17,20 +17,42 @@
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
 
-            var days = await this.context.SummaryCards
-                        .Where(sc => sc.OperationId == operationId &&
-                                     sc.Date.Date >= start.Date.Date && sc.Date.Date <= end.Date.Date &&
-                                     sc.EntityStatus == EntityStatuses.Active)
-                        .Select(sc => new { OperationId = sc.OperationId, Date = sc.Date, ShiftId = sc.ShiftId, Quantity = sc.Quantity, sc.EntityStatus })
-                        .GroupBy(sc => new { OperationId = sc.OperationId, Date = sc.Date.Date, Shift = sc.ShiftId })
-                        .Select(g => new QuantityOperationDayModel()
-                        {
-                            OperationId = g.Key.OperationId,
-                            Date = g.Key.Date,
-                            ShiftId = g.Key.Shift,
-                            Quantity = g.ToList().Select(x => x.Quantity).Sum(),
-                        }).ToListAsync(cancellationToken);
+            //var days = await this.context.SummaryCards
+            //            .Where(sc => sc.OperationId == operationId &&
+            //                         sc.Date.Date >= start.Date.Date && sc.Date.Date <= end.Date.Date &&
+            //                         sc.EntityStatus == EntityStatuses.Active)
+            //            .Select(sc => new { OperationId = sc.OperationId, Date = sc.Date, ShiftId = sc.ShiftId, Quantity = sc.Quantity, sc.EntityStatus })
+            //            .GroupBy(sc => new { OperationId = sc.OperationId, Date = sc.Date.Date, Shift = sc.ShiftId })
+            //            .Select(g => new QuantityOperationDayModel()
+            //            {
+            //                OperationId = g.Key.OperationId,
+            //                Date = g.Key.Date,
+            //                ShiftId = g.Key.Shift,
+            //                Quantity = g.ToList().Select(x => x.Quantity).Sum(),
+            //            }).ToListAsync(cancellationToken);
+            var items = await this.context.SummaryCardItems
+                  .Where(sc =>
+                        sc.SummaryCard.OperationId == operationId &&
+                        sc.SummaryCard.Date.Date >= start.Date.Date && sc.SummaryCard.Date.Date <= end.Date.Date &&
+                        sc.EntityStatus == EntityStatuses.Active)
+                  .Select(sc => new
+                  {
+                      OperationId = sc.SummaryCard.OperationId,
+                      Date = sc.SummaryCard.Date,
+                      ShiftId = sc.SummaryCard.ShiftId,
+                      Quantity = sc.SummaryCard.Quantity,
+                      DefectQuantity = sc.Quantity
+                  }).ToListAsync(cancellationToken);
 
+            var groups = items
+                .GroupBy(sc => new { OperationId = sc.OperationId, Date = sc.Date.Date, Shift = sc.ShiftId })
+                .Select(g => new QuantityOperationDayModel()
+                {
+                    OperationId = g.Key.OperationId,
+                    Date = g.Key.Date,
+                    ShiftId = g.Key.Shift,
+                    Quantity = g.ToList().Select(x => x.Quantity).Sum(),
+                }).ToList();
 
             var result = operations.Select(op => new QuantityOperationReportModel()
             {
@@ -38,7 +60,7 @@
                 OperationName = op.Name,
                 OperationCode = op.Code,
                 OperationTranslatedName = !String.IsNullOrEmpty(op.TranslatedName) ? op.TranslatedName : op.Name,
-                Days = days.Where(x => x.OperationId == op.Id),
+                Days = groups.Where(x => x.OperationId == op.Id),
                 Defects = this.context.Defects
                                 .AsNoTracking()
                                 .Where(d => d.EntityStatus == EntityStatuses.Active && d.OperationId == op.Id)
