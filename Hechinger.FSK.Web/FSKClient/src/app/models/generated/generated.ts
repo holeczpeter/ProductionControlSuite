@@ -86,25 +86,44 @@ export interface GetAccessMenu {
 export interface GetUserTokenInfo {
   userId: number,
 }
-export interface DashboardCrapCost {
+export interface DashboardCrapCostChartModel {
+  items: Array<DashboardWorkshopCrapCost>,
+  interval: IntervalModel,
+}
+export interface DashboardWorkshopCrapCost {
   workshopId: number,
   workshopName: string,
   value: any,
 }
-export interface DashboardCrapCostChartModel {
-  items: Array<DashboardCrapCost>,
+export interface DashboardPpmChartModel {
+  items: Array<DashboardWorkshopPpm>,
   interval: IntervalModel,
 }
-export interface DashboardPpm {
+export interface DashboardWorkshopPpm {
   workshopId: number,
   workshopName: string,
   ppm: number,
 }
-export interface DashboardPpmChartModel {
-  items: Array<DashboardPpm>,
-  interval: IntervalModel,
+export interface PpmWarning {
+  operationId: number,
+  operationName: string,
+  operationTranslatedName: string,
+  operationCode: string,
+  date: Date,
+  shiftId: number,
+  quantity: number,
+  defectQuantity: number,
+  ppm: number,
+  summaryGoal: number,
 }
-export interface ProductionInfo {
+export interface SummaryModel {
+  title: string,
+  value: string,
+  icon: string,
+  subtitle: string,
+  color: string,
+}
+export interface WorkshopProduction {
   workshopId: number,
   workshopName: string,
   days: Array<ProductionDayInfo>,
@@ -115,21 +134,31 @@ export interface ProductionDayInfo {
   quantity: number,
   defectQuantity: number,
 }
-export interface ProductionInfoChartModel {
-  item: ProductionInfo,
+export interface WorkshopProductionChartModel {
+  item: WorkshopProduction,
   interval: IntervalModel,
 }
-export interface GetDashboardCrapCost {
+export interface WorkshopUserInfo {
+  workshopName: string,
+  count: number,
+}
+export interface GetDashboardWorkshopCrapCost {
   startDate: Date,
   endDate: Date,
 }
-export interface GetDashboardPpm {
+export interface GetDashboardWorkshopPpm {
   startDate: Date,
   endDate: Date,
 }
-export interface GetProductionInformation {
+export interface GetPpmWarnings {
   startDate: Date,
   endDate: Date,
+}
+export interface GetWorkshopProduction {
+  startDate: Date,
+  endDate: Date,
+}
+export interface GetWorkshopUserStats {
 }
 export interface AddDefect {
   name: string,

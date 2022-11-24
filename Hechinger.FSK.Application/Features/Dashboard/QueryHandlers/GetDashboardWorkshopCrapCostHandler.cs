@@ -1,15 +1,15 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetDashboardCrapCostHandler : IRequestHandler<GetDashboardCrapCost, IEnumerable<DashboardCrapCost>>
+    public class GetDashboardWorkshopCrapCostHandler : IRequestHandler<GetDashboardWorkshopCrapCost, IEnumerable<DashboardWorkshopCrapCost>>
     {
         private readonly FSKDbContext context;
         private readonly IQualityService qualityService;
-        public GetDashboardCrapCostHandler(FSKDbContext context, IQualityService qualityService)
+        public GetDashboardWorkshopCrapCostHandler(FSKDbContext context, IQualityService qualityService)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
             this.qualityService = qualityService ?? throw new ArgumentNullException(nameof(qualityService));
         }
-        public async Task<IEnumerable<DashboardCrapCost>> Handle(GetDashboardCrapCost request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<DashboardWorkshopCrapCost>> Handle(GetDashboardWorkshopCrapCost request, CancellationToken cancellationToken)
         {
             var workshops = await this.context.Workshops
                 .AsNoTracking()
@@ -28,13 +28,13 @@
 
             var groups = items
                 .GroupBy(r => new { WorkshopId = r.WorkshopId, })
-                .Select(g => new DashboardCrapCost()
+                .Select(g => new DashboardWorkshopCrapCost()
                 {
                     WorkshopId = g.Key.WorkshopId,
                     Value = Math.Round(g.ToList().Select(x=>x.CrapCost).Sum(), 2),
                 }).ToList();
 
-            var results = workshops.Select(w => new DashboardCrapCost()
+            var results = workshops.Select(w => new DashboardWorkshopCrapCost()
             {
                 WorkshopId = w.Id,
                 WorkshopName = w.Name,

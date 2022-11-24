@@ -1,15 +1,15 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetDashboardPpmHandler : IRequestHandler<GetDashboardPpm, IEnumerable<DashboardPpm>>
+    public class GetDashboardWorkshopPpmHandler : IRequestHandler<GetDashboardWorkshopPpm, IEnumerable<DashboardWorkshopPpm>>
     {
         private readonly FSKDbContext context;
         private readonly IQualityService qualityService;
-        public GetDashboardPpmHandler(FSKDbContext context, IQualityService qualityService)
+        public GetDashboardWorkshopPpmHandler(FSKDbContext context, IQualityService qualityService)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
             this.qualityService = qualityService ?? throw new ArgumentNullException(nameof(qualityService));
         }
-        public async Task<IEnumerable<DashboardPpm>> Handle(GetDashboardPpm request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<DashboardWorkshopPpm>> Handle(GetDashboardWorkshopPpm request, CancellationToken cancellationToken)
         {
             var workshops = await this.context.Workshops
                 .AsNoTracking()
@@ -29,13 +29,13 @@
 
             var groups = items
                 .GroupBy(r => new { WorkshopId = r.WorkshopId, })
-                .Select(g => new DashboardPpm()
+                .Select(g => new DashboardWorkshopPpm()
                 {
                     WorkshopId = g.Key.WorkshopId,
                     Ppm = this.qualityService.GetPpm(g.ToList().Select(x => x.Quantity).Sum(), g.ToList().Select(x => x.DefectQuantity).Sum()),
                 }).ToList();
 
-            var results = workshops.Select(w => new DashboardPpm()
+            var results = workshops.Select(w => new DashboardWorkshopPpm()
             {
                 WorkshopId = w.Id,
                 WorkshopName = w.Name,

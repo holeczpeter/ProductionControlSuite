@@ -70,6 +70,8 @@
   "print": "Drucken",
   "basicdata": "Stammdaten",
   "categoryName": "Fehler Kategorie",
+  "usersCount": "Person",
+  "warning": "Warnung",
   "months": [
     { "January": "Januar" },
     { "February": "Februar" },
@@ -138,8 +140,8 @@
   "qualityreport": {
     "title": "Stückzahlmeldung"
   },
-  "crapcost": "Schrott kostet"
-  
+  "crapcost": "Schrott kostet",
+  "ppm": "PPM"
 }
 
 

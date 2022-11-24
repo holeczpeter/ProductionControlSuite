@@ -2,7 +2,7 @@
 {
     public class DashboardCrapCostChartModel : BaseModel
     {
-        public IEnumerable<DashboardCrapCost> Items { get; set; }
+        public IEnumerable<DashboardWorkshopCrapCost> Items { get; set; }
         public IntervalModel Interval { get; set; }
     }
 }

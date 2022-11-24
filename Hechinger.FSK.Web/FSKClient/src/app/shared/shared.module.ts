@@ -70,6 +70,7 @@ import { TableToolbarComponent } from './table-toolbar/table-toolbar.component';
 import { CategoryPipe } from '../pipes/category.pipe';
 import { WorkshopSearchComponent } from './workshop-search/workshop-search.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { InfoCardComponent } from './info-card/info-card.component';
 @NgModule({
   declarations: [
     
@@ -94,6 +95,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     TableToolbarComponent,
     CategoryPipe,
     WorkshopSearchComponent,
+    InfoCardComponent,
   ],
   imports: [
     CommonModule,
@@ -214,6 +216,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     CategoryPipe,
     WorkshopSearchComponent,
     InfiniteScrollModule,
+    InfoCardComponent,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },

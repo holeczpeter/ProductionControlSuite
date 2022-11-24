@@ -1,6 +1,5 @@
 ﻿using Hechinger.FSK.Application.Features;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace Hechinger.FSK.Web.Controllers
 {
@@ -15,38 +14,32 @@ namespace Hechinger.FSK.Web.Controllers
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        } 
-
-
-        [HttpGet]
-        public async Task<IEnumerable<DashboardPpm>> GetWorkshopPpmData(GetDashboardPpm request, CancellationToken cancellationToken)
-        {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            var results = await this.mediator.Send(request, cancellationToken);
-            sw.Stop();
-            this.logger.LogInformation($"GetWorkshopPpmData: {sw.Elapsed.TotalMilliseconds.ToString()}");
-            return results;
         }
         [HttpGet]
-        public async Task<IEnumerable<DashboardCrapCost>> GetDashboardCrapCost(GetDashboardCrapCost request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<PpmWarning>> GetPpmWarnings(GetPpmWarnings request, CancellationToken cancellationToken)
         {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            var results = await this.mediator.Send(request, cancellationToken);
-            sw.Stop();
-            this.logger.LogInformation($"GetDashboardCrapCost: {sw.Elapsed.TotalMilliseconds.ToString()}");
-            return results;
+            return await this.mediator.Send(request, cancellationToken);
         }
         [HttpGet]
-        public async Task<IEnumerable<ProductionInfo>> GetProductionInformation(GetProductionInformation request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<WorkshopUserInfo>> GetWorkshopUserStats(GetWorkshopUserStats request, CancellationToken cancellationToken)
         {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            var results = await this.mediator.Send(request, cancellationToken);
-            sw.Stop();
-            this.logger.LogInformation($"GetProductionInformation: {sw.Elapsed.TotalMilliseconds.ToString()}");
-            return results;
+            return await this.mediator.Send(request, cancellationToken);
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<DashboardWorkshopPpm>> GetDashboardWorkshopPpm(GetDashboardWorkshopPpm request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+        [HttpGet]
+        public async Task<IEnumerable<DashboardWorkshopCrapCost>> GetDashboardWorkshopCrapCost(GetDashboardWorkshopCrapCost request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+        [HttpGet]
+        public async Task<IEnumerable<WorkshopProduction>> GetWorkshopProduction(GetWorkshopProduction request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
         }
     }
 }

@@ -1,15 +1,15 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetProductionInformation : IRequest<IEnumerable<ProductionInfo>>
+    public class GetWorkshopProduction : IRequest<IEnumerable<WorkshopProduction>>
     {
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
-        public GetProductionInformation()
+        public GetWorkshopProduction()
         {
 
         }
-        public GetProductionInformation(DateTime startDate, DateTime endDate)
+        public GetWorkshopProduction(DateTime startDate, DateTime endDate)
         {
             StartDate = startDate;
             EndDate = endDate;

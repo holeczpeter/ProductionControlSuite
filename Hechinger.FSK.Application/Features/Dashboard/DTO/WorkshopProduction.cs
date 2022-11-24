@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class ProductionInfo : BaseModel
+    public class WorkshopProduction : BaseModel
     {
         public int WorkshopId { get; set; }
         public string WorkshopName { get; set; }

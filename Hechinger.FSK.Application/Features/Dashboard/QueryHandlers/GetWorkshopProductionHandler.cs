@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hechinger.FSK.Application.Features.Dashboard.QueryHandlers
+﻿namespace Hechinger.FSK.Application.Features
 {
-    internal class GetProductionInformationHandler : IRequestHandler<GetProductionInformation, IEnumerable<ProductionInfo>>
+    public class GetWorkshopProductionHandler : IRequestHandler<GetWorkshopProduction, IEnumerable<WorkshopProduction>>
     {
         private readonly FSKDbContext context;
         private readonly IQualityService qualityService;
-        public GetProductionInformationHandler(FSKDbContext context, IQualityService qualityService)
+        public GetWorkshopProductionHandler(FSKDbContext context, IQualityService qualityService)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
             this.qualityService = qualityService ?? throw new ArgumentNullException(nameof(qualityService));
         }
-        public async Task<IEnumerable<ProductionInfo>> Handle(GetProductionInformation request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<WorkshopProduction>> Handle(GetWorkshopProduction request, CancellationToken cancellationToken)
         {
             var workshops = await this.context.Workshops
                 .AsNoTracking()
@@ -42,7 +36,7 @@ namespace Hechinger.FSK.Application.Features.Dashboard.QueryHandlers
                 Quantity = g.ToList().Select(x => x.Quantity).Sum(),
             }).ToList();
             
-            var results = workshops.Select(w => new ProductionInfo()
+            var results = workshops.Select(w => new WorkshopProduction()
             {
                 WorkshopId = w.Id,
                 WorkshopName = w.Name,

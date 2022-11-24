@@ -17,19 +17,7 @@
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
 
-            //var days = await this.context.SummaryCards
-            //            .Where(sc => sc.OperationId == operationId &&
-            //                         sc.Date.Date >= start.Date.Date && sc.Date.Date <= end.Date.Date &&
-            //                         sc.EntityStatus == EntityStatuses.Active)
-            //            .Select(sc => new { OperationId = sc.OperationId, Date = sc.Date, ShiftId = sc.ShiftId, Quantity = sc.Quantity, sc.EntityStatus })
-            //            .GroupBy(sc => new { OperationId = sc.OperationId, Date = sc.Date.Date, Shift = sc.ShiftId })
-            //            .Select(g => new QuantityOperationDayModel()
-            //            {
-            //                OperationId = g.Key.OperationId,
-            //                Date = g.Key.Date,
-            //                ShiftId = g.Key.Shift,
-            //                Quantity = g.ToList().Select(x => x.Quantity).Sum(),
-            //            }).ToListAsync(cancellationToken);
+            
             var items = await this.context.SummaryCardItems
                   .Where(sc =>
                         sc.SummaryCard.OperationId == operationId &&

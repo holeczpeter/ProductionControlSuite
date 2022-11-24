@@ -1,0 +1,32 @@
+$mat-icon-margin-compensation: 1.2;
+$mat-confirm-icon-size: 50px * $mat-icon-margin-compensation;
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: nowrap;
+  align-content: flex-end;
+  align-items: center;
+}
+.header-info {
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+}
+.header-info-icon {
+  font-size: $mat-confirm-icon-size !important;
+  height: $mat-confirm-icon-size !important;
+  width: $mat-confirm-icon-size !important;
+  line-height: $mat-confirm-icon-size !important;
+  color: #5CC953;
+  fill: #5CC953;
+}
+.header-text {
+  color:#A2A2A2;
+}
+.header-number {
+  font-size:18px;
+}
+.interval{
+  margin-top:10px;
+}

@@ -3,9 +3,34 @@
     <app-title class="flex-title-item" [title]="title"></app-title>
   </div>
   <div class="dashboard">
-    <div class="row">
-      <div class="col">
-        <mat-card *ngIf="dashboardPpmChartModel">
+    <div class="summary-grid-container">
+      <div>
+        <app-info-card [summary]="ppmSummary"></app-info-card>
+      </div>
+      <div>
+        <app-info-card [summary]="crapCostSummary"></app-info-card>
+      </div>
+      <div>
+        <app-info-card [summary]="quanitySummary"></app-info-card>
+      </div>
+      <div>
+        <app-info-card [summary]="defectQuantitySummary"></app-info-card>
+      </div>
+    </div>
+    <div class="table-container">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ 'warning' | translate }}</mat-card-title>
+          <mat-card-subtitle>{{subtitle}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <app-ppm-warning-table [ppmWarningList]="ppmWarningList"></app-ppm-warning-table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="grid-chart-container">
+      <div>
+        <mat-card *ngIf="dashboardPpmChartModel" class="chart-card">
           <mat-card-header>
             <mat-card-title>PPM</mat-card-title>
             <mat-card-subtitle>{{subtitle}}</mat-card-subtitle>
@@ -16,8 +41,8 @@
           </mat-card-content>
         </mat-card>
       </div>
-      <div class="col">
-        <mat-card *ngIf="dashboardCrapCostChartModel">
+      <div>
+        <mat-card *ngIf="dashboardCrapCostChartModel" class="chart-card">
           <mat-card-header>
             <mat-card-title>{{ 'crapcost' | translate }}</mat-card-title>
             <mat-card-subtitle>{{subtitle}}</mat-card-subtitle>
@@ -29,8 +54,8 @@
         </mat-card>
       </div>
     </div>
-    <div class="grid-container">
-      <div class="grid-item" *ngFor="let production of dashboardProductionInfoChartModels">
+    <div class="grid-workshop-container">
+      <div class="grid-workshop-item" *ngFor="let production of dashboardProductionInfoChartModels">
         <mat-card>
           <mat-card-header>
             <mat-card-title>{{ production.item.workshopName }}</mat-card-title>

@@ -6,7 +6,7 @@ import {
     ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent
 } from "ng-apexcharts";
 import { Subscription } from "rxjs";
-import { DashboardCrapCost, DashboardCrapCostChartModel } from "../../../../models/generated/generated";
+import { DashboardCrapCostChartModel, DashboardWorkshopCrapCost } from "../../../../models/generated/generated";
 import { ChartService } from "../../../../services/chart/chart.service";
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -30,7 +30,7 @@ export type ChartOptions = {
 })
 export class WorkshopCrapCostChartComponent implements OnInit, OnChanges, OnDestroy {
   @Input() model: DashboardCrapCostChartModel;
-  chartModels: Array<DashboardCrapCost>;
+  chartModels: Array<DashboardWorkshopCrapCost>;
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
   langChangeSubscription: Subscription;

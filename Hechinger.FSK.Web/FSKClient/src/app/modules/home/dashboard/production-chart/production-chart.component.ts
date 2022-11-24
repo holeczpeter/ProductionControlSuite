@@ -9,7 +9,7 @@ import {
     ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent
 } from "ng-apexcharts";
 import { Subscription } from "rxjs";
-import { ProductionInfoChartModel } from "../../../../models/generated/generated";
+import { WorkshopProductionChartModel } from "../../../../models/generated/generated";
 import { ChartService } from "../../../../services/chart/chart.service";
 import { DateService } from "../../../../services/date.service";
 export type ChartOptions = {
@@ -33,7 +33,7 @@ export type ChartOptions = {
   styleUrls: ['./production-chart.component.scss']
 })
 export class ProductionChartComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() model: ProductionInfoChartModel;
+  @Input() model: WorkshopProductionChartModel;
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
   langChangeSubscription: Subscription;

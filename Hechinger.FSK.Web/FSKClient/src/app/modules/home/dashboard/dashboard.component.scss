@@ -1,31 +1,59 @@
 .dashboard {
   width: 82vw;
   padding: 20px;
-  background-color: white;
+  //background-color: white;
 }
-.chart-container {
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-.mat-card{
-  height:500px;
-}
-.production-chart-container {
-  padding: 20px;
-  display: flex;
-  flex-wrap:wrap;
-  gap: 20px;
-}
-.grid-container {
+.summary-grid-container {
   display: grid;
-  grid-template-columns: auto auto auto;
-  padding-top: 20px;
+  grid-template-columns: auto auto auto auto;
   column-gap: 20px;
   row-gap: 20px;
+  padding: 10px;
+}
+.user-card{
+  margin-bottom:20px;
+}
+.table-container {
+  display: grid;
+  column-gap: 20px;
+  row-gap: 20px;
+  padding: 10px;
+}
+.grid-chart-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 20px;
+  row-gap: 20px;
+  padding: 10px;
+}
+.grid-workshop-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  column-gap: 20px;
+  row-gap: 20px;
+  padding: 10px;
 }
 
-.grid-item {
-  max-width:25vw;
+.grid-workshop-item {
+  max-width: 25vw;
+}
+
+.grid-container {
+  grid-template-columns: auto auto;
+  display: grid;
+  gap: 20px;
+  padding: 10px;
+}
+
+.item1 {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+.item2 {
+  grid-column: 2;
+  grid-row: 1;
+}
+.item3 {
+  grid-column: 2;
+  grid-row: 2;
 }

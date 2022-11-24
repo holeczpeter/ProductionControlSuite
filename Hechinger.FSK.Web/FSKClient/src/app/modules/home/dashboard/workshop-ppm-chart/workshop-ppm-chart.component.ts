@@ -6,7 +6,7 @@ import {
     ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent
 } from "ng-apexcharts";
 import { Subscription } from "rxjs";
-import { DashboardPpm, DashboardPpmChartModel } from "../../../../models/generated/generated";
+import { DashboardPpmChartModel, DashboardWorkshopPpm } from "../../../../models/generated/generated";
 import { ChartService } from "../../../../services/chart/chart.service";
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -30,7 +30,7 @@ export type ChartOptions = {
 })
 export class WorkshopPpmChartComponent implements OnInit, OnChanges, OnDestroy {
   @Input() model: DashboardPpmChartModel;
-  chartModels: Array<DashboardPpm>;
+  chartModels: Array<DashboardWorkshopPpm>;
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
   langChangeSubscription: Subscription;

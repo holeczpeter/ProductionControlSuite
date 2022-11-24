@@ -1,15 +1,15 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetDashboardPpm : IRequest<IEnumerable<DashboardPpm>>
+    public class GetDashboardWorkshopCrapCost : IRequest<IEnumerable<DashboardWorkshopCrapCost>>
     {
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
-        public GetDashboardPpm()
+        public GetDashboardWorkshopCrapCost()
         {
 
         }
-        public GetDashboardPpm(DateTime startDate, DateTime endDate)
+        public GetDashboardWorkshopCrapCost(DateTime startDate, DateTime endDate)
         {
             StartDate = startDate;
             EndDate = endDate;
