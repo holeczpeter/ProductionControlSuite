@@ -13,7 +13,6 @@ import { WorkerCompareStatisticsChartComponent } from './worker-compare-statisti
 import { WorkerDefectStatisticsChartComponent } from './worker-defect-statistics/worker-defect-statistics-chart/worker-defect-statistics-chart.component';
 import { DailyQuantityReportComponent } from './quantity-report/daily-quantity-report/daily-quantity-report.component';
 import { OperationQuantityTableComponent } from './quantity-report/shared/operation-quantity-table/operation-quantity-table.component';
-import { SummaryQuantityReportComponent } from './quantity-report/summary-quantity-report/summary-quantity-report.component';
 import { OperationQuantityChartComponent } from './quantity-report/shared/operation-quantity-chart/operation-quantity-chart.component';
 import { WorkerCompareStatisticsTableComponent } from './worker-compare-statistics/worker-compare-statistics-table/worker-compare-statistics-table.component';
 import { WorkerDefectStatisticsTableComponent } from './worker-defect-statistics/worker-defect-statistics-table/worker-defect-statistics-table.component';
@@ -36,7 +35,6 @@ import { OperationCrapCostComponent } from './crap-costs/operation-crap-cost/ope
     WorkerDefectStatisticsChartComponent,
     DailyQuantityReportComponent,
     OperationQuantityTableComponent,
-    SummaryQuantityReportComponent,
     OperationQuantityChartComponent,
     WorkerCompareStatisticsTableComponent,
     WorkerDefectStatisticsTableComponent,

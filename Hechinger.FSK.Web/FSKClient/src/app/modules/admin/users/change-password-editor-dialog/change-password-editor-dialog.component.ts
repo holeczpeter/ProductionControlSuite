@@ -36,17 +36,11 @@ export class ChangePasswordEditorDialogComponent implements OnInit {
      
       newPassword: [null, Validators.compose([
         Validators.required,
-        CustomValidator.patternValidator(/\d/, { hasNumber: true }),
-        CustomValidator.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
-        CustomValidator.patternValidator(/[a-z]/, { hasSmallCase: true }),
-        Validators.minLength(8)])
+        Validators.minLength(4)])
       ],
       newPasswordRe: [null, Validators.compose([
         Validators.required,
-        CustomValidator.patternValidator(/\d/, { hasNumber: true }),
-        CustomValidator.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
-        CustomValidator.patternValidator(/[a-z]/, { hasSmallCase: true }),
-        Validators.minLength(8)])
+        Validators.minLength(4)])
       ],
     });
     
