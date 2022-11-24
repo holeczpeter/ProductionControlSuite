@@ -40,17 +40,11 @@ export class UserEditorDialogComponent implements OnInit {
       roleId: [this.data ? this.data.roleId : '', [Validators.required]],
       password: [{ value: null, disabled: this.data }, Validators.compose([
         Validators.required,
-        CustomValidator.patternValidator(/\d/, { hasNumber: true }),
-        CustomValidator.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
-        CustomValidator.patternValidator(/[a-z]/, { hasSmallCase: true }),
-        Validators.minLength(8)])
+        Validators.minLength(4)])
       ],
       passwordRe: [{ value: null, disabled: this.data },  Validators.compose([
         Validators.required,
-        CustomValidator.patternValidator(/\d/, { hasNumber: true }),
-        CustomValidator.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
-        CustomValidator.patternValidator(/[a-z]/, { hasSmallCase: true }),
-        Validators.minLength(8)])
+        Validators.minLength(4)])
       ],
       languageId: [this.data ? this.data.languageId : '', [Validators.required]],
     });

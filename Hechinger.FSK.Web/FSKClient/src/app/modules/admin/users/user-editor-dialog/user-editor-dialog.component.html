@@ -57,17 +57,8 @@
             <mat-form-field class="col">
               <input matInput [formControlName]="'password'" [placeholder]="'password' | translate" [type]="hide ? 'password' : 'text'" />
               <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-              <mat-error *ngIf="formGroup.get('password')?.hasError('hasNumber')">
-                A jelszónak tartalmaznia kell számot!
-              </mat-error>
-              <mat-error *ngIf="formGroup.get('password')?.hasError('hasCapitalCase')">
-                A jelszónak tartalmaznia kell egy nagybetűs karaktert!
-              </mat-error>
-              <mat-error *ngIf="formGroup.get('password')?.hasError('hasSmallCase')">
-                A jelszónak tartalmaznia kell egy kisbetűs karaktert!
-              </mat-error>
               <mat-error *ngIf="formGroup.get('password')?.hasError('minlength')">
-                A jelszónak legalább 8 karakter hosszúnak kell lennie!
+                A jelszónak legalább 4 karakter hosszúnak kell lennie!
               </mat-error>
               <mat-error *ngIf="formGroup.get('password')?.hasError('required')">
                 {{'password'| translate}} {{'required' | translate}}
@@ -82,17 +73,8 @@
             <mat-form-field class="col">
               <input matInput [formControlName]="'passwordRe'" [placeholder]="'password' | translate" [type]="hideRe ? 'password' : 'text'" />
               <mat-icon matSuffix (click)="hideRe = !hideRe">{{hideRe ? 'visibility_off' : 'visibility'}}</mat-icon>
-              <mat-error *ngIf="formGroup.get('passwordRe')?.hasError('hasNumber')">
-                A jelszónak tartalmaznia kell számot!
-              </mat-error>
-              <mat-error *ngIf="formGroup.get('passwordRe')?.hasError('hasCapitalCase')">
-                A jelszónak tartalmaznia kell egy nagybetűs karaktert!
-              </mat-error>
-              <mat-error *ngIf="formGroup.get('passwordRe')?.hasError('hasSmallCase')">
-                A jelszónak tartalmaznia kell egy kisbetűs karaktert!
-              </mat-error>
               <mat-error *ngIf="formGroup.get('passwordRe')?.hasError('minlength')">
-                A jelszónak legalább 8 karakter hosszúnak kell lennie!
+                A jelszónak legalább 4 karakter hosszúnak kell lennie!
               </mat-error>
               <mat-error *ngIf="formGroup.get('passwordRe')?.hasError('required')">
                 {{'password'| translate}} {{'required' | translate}}
