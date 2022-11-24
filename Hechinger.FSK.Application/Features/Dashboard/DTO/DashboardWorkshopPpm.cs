@@ -4,7 +4,7 @@
     {
         public int WorkshopId { get; set; }
         public string WorkshopName { get; set; }
-        public int Ppm { get; set; }
+        public double Ppm { get; set; }
         
     }
 }

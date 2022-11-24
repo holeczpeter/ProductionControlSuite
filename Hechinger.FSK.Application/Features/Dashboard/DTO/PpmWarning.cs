@@ -10,7 +10,7 @@
         public int ShiftId { get; set; }
         public int Quantity { get; set; }
         public int DefectQuantity { get; set; }
-        public int Ppm { get; set; }
+        public double Ppm { get; set; }
         public int SummaryGoal { get;  set; }
     }
 }

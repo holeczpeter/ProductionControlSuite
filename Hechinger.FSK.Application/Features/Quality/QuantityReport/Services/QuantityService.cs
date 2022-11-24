@@ -16,32 +16,60 @@
                 .Where(p => p.Id == operationId && p.EntityStatus == EntityStatuses.Active)
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
+            //var items = await this.context.SummaryCardItems
+            //     .Where(sc =>
+            //           sc.SummaryCard.OperationId == operationId &&
+            //           sc.SummaryCard.Date.Date >= start.Date.Date && sc.SummaryCard.Date.Date <= end.Date.Date &&
+            //           sc.EntityStatus == EntityStatuses.Active)
+            //     .Select(sc => new
+            //     {
+            //         OperationId = sc.SummaryCard.OperationId,
+            //         Date = sc.SummaryCard.Date,
+            //         ShiftId = sc.SummaryCard.ShiftId,
+            //         Quantity = sc.SummaryCard.Quantity,
+            //         DefectQuantity = sc.Quantity
+            //     }).ToListAsync(cancellationToken);
 
-            var days = await this.context.SummaryCards
-                        .Where(sc => sc.OperationId == operationId &&
-                                     sc.Date.Date >= start.Date.Date && sc.Date.Date <= end.Date.Date &&
-                                     sc.EntityStatus == EntityStatuses.Active)
-                        .Select(sc => new { OperationId = sc.OperationId, Date = sc.Date, ShiftId = sc.ShiftId, Quantity = sc.Quantity, sc.EntityStatus })
-                        .GroupBy(sc => new { OperationId = sc.OperationId, Date = sc.Date.Date, Shift = sc.ShiftId })
-                        .Select(g => new QuantityOperationDayModel()
-                        {
-                            OperationId = g.Key.OperationId,
-                            Date = g.Key.Date,
-                            ShiftId = g.Key.Shift,
-                            Quantity = g.ToList().Select(x => x.Quantity).Sum(),
-
-                        }).ToListAsync(cancellationToken);
-            
+            var cards = await this.context.SummaryCards
+                .Where(sc =>
+                      sc.OperationId == operationId &&
+                      sc.Date.Date >= start.Date.Date && sc.Date.Date <= end.Date.Date &&
+                      sc.EntityStatus == EntityStatuses.Active)
+                .Select(sc => new
+                {
+                    OperationId = sc.OperationId,
+                    Date = sc.Date,
+                    ShiftId = sc.ShiftId,
+                    Quantity = sc.Quantity,
+                    DefectQuantity = sc.DefectQuantity,
+                    
+                }).ToListAsync(cancellationToken);
 
           
+            var days = cards
+                .GroupBy(sc => new { Date = sc.Date.Date, Shift = sc.ShiftId })
+                .Select(g => new QuantityOperationDayModel()
+                {
+                    Date = g.Key.Date,
+                    ShiftId = g.Key.Shift,
+                    Quantity = g.ToList().Select(x => x.Quantity).Sum(),
+                    DefectQuantity = g.ToList().Select(x => x.DefectQuantity).Sum(),
+                    Ppm = this.qualityService.GetPpm(g.ToList().Select(x => x.Quantity).Sum(), g.ToList().Select(x => x.DefectQuantity).Sum()),
+                }).ToList();
 
+
+            //TODO: A DAYS QUERY NEM JÓ
+            //14000
+            //3240
+            //0
+            //más az összdarabszám
             var result = operations.Select(op => new QuantityOperationReportModel()
             {
                 OperationId = op.Id,
                 OperationName = op.Name,
                 OperationCode = op.Code,
                 OperationTranslatedName = !String.IsNullOrEmpty(op.TranslatedName) ? op.TranslatedName : op.Name,
-                Days = days.Where(x => x.OperationId == op.Id),
+                Days = days,
                 Defects = this.context.Defects
                                 .AsNoTracking()
                                 .Where(d => d.EntityStatus == EntityStatuses.Active && d.OperationId == op.Id)
@@ -52,8 +80,7 @@
                                     DefectCode = d.Code,
                                     DefectTranslatedName = !String.IsNullOrEmpty(d.TranslatedName) ? d.TranslatedName : d.Name,
                                     DefectCategory = d.DefectCategory,
-                                    Days = this.context.SummaryCardItems
-                                    .Where(sc =>
+                                    Days = this.context.SummaryCardItems.Where(sc =>
                                                 sc.SummaryCard.Date >= start.Date && sc.SummaryCard.Date <= end.Date &&
                                                 sc.DefectId == d.Id &&
                                                 sc.EntityStatus == EntityStatuses.Active)

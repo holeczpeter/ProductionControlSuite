@@ -19,6 +19,6 @@
         public string DefectCategoryName { get; set; }
         public int Quantity { get; set; }
         public int DefectQuantity { get; set; }
-        public int Ppm { get; set; }
+        public double Ppm { get; set; }
     }
 }
