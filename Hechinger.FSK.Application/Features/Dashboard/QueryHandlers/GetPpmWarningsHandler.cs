@@ -19,6 +19,7 @@
             var items = await this.context.SummaryCardItems
                 .Where(sc => sc.SummaryCard.Date.Date >= request.StartDate.Date.Date &&
                              sc.SummaryCard.Date.Date <= request.EndDate.Date &&
+                             sc.SummaryCard.OperationId == 4811 &&
                              sc.EntityStatus == EntityStatuses.Active)
                 .Select(sc => new
                 {
@@ -32,7 +33,13 @@
                 }).ToListAsync(cancellationToken);
 
             var ppmResults = items
-               .GroupBy(sc => new { OperationId = sc.OperationId, SummaryGoal = sc.SummaryGoal, WorkerCode = sc.WorkerCode, Date = sc.Date.Date, Shift = sc.ShiftId })
+               .GroupBy(sc => new { 
+                   OperationId = sc.OperationId, 
+                   SummaryGoal = sc.SummaryGoal, 
+                   WorkerCode = sc.WorkerCode, 
+                   Date = sc.Date.Date, 
+                   Shift = sc.ShiftId 
+               })
                .Select(g =>
                {
                    var op = this.context.Operations.Where(x => x.Id == g.Key.OperationId).Select(x => new { Name = x.Name, Code = x.Code, TranslatedName = x.TranslatedName }).FirstOrDefault();
@@ -49,8 +56,7 @@
                        DefectQuantity = g.ToList().Select(x => x.DefectQuantity).Sum(),
                        Ppm = this.qualityService.GetPpm(g.ToList().FirstOrDefault().Quantity, g.ToList().Select(x => x.DefectQuantity).Sum()),
                    };
-               }
-              ).ToList();
+               }).ToList();
 
             return ppmResults.Where(x=>x.SummaryGoal <= x.Ppm).OrderByDescending(x=>x.Ppm).ToList();  
 

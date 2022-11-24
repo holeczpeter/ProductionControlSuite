@@ -17,7 +17,7 @@
         public DateTime Date { get; set; }
         public int ShiftId { get; set; }
         public int Quantity { get; set; }
-      
+        public int DefectQuantity { get; set; }
     }
     public class QuantityDefectReportModel : BaseModel
     {
@@ -37,5 +37,6 @@
         public int ShiftId { get; set; }
         public int DefectQuantity { get; set; }
         public int Ppm { get; internal set; }
+        public int Quantity { get; internal set; }
     }
 }
