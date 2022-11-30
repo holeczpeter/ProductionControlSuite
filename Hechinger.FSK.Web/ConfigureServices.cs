@@ -35,7 +35,7 @@ namespace Hechinger.FSK.Web
             services.AddSwaggerGen();
             services.AddSpaStaticFiles();
             services.AddCors(options => options.AddPolicy("CorsPolicy", builder => builder.WithOrigins().AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
-            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "FSK/dist"; });
+            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "FSKClient/dist"; });
             services.AddMvcCore(options => options.Filters.Add(typeof(ValidateModelStateAttribute))).AddControllersAsServices();
             services.Configure<ForwardedHeadersOptions>(options => options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto);
             services.Configure<FormOptions>(options => {
