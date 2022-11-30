@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.createChart();
         this.subtitle = this.chartService.getChartInterval(this.currentInterval);
       });
-    this.intervalPanelService.setViews(this.selectedView, new Date(2022, 2, 1));
+    this.intervalPanelService.setViews(this.selectedView, new Date());
 
   }
   createChart() {

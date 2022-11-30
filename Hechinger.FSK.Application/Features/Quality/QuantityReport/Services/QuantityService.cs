@@ -58,7 +58,9 @@
                 }).ToList();
 
 
-            //TODO: A DAYS QUERY NEM JÓ
+            //TODO: A DAYS QUERY JÓ-E. HA EGY IDŐSZAKBAN NEM MINDEN RÉSZIDŐSZAKBAN volt gyártás, akkor az átlag nem jó:
+            //3200 + 2000 +1000 / 3
+            //3200 + 0 + 0 / 1
             //14000
             //3240
             //0
