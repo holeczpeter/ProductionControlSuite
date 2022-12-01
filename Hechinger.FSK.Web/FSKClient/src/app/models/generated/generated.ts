@@ -102,7 +102,7 @@ export interface DashboardPpmChartModel {
 export interface DashboardWorkshopPpm {
   workshopId: number,
   workshopName: string,
-  ppm: number,
+  ppm: any,
 }
 export interface PpmWarning {
   operationId: number,
@@ -113,7 +113,7 @@ export interface PpmWarning {
   shiftId: number,
   quantity: number,
   defectQuantity: number,
-  ppm: number,
+  ppm: any,
   summaryGoal: number,
 }
 export interface SummaryModel {
@@ -488,7 +488,7 @@ export interface GetCrapCostByWorkshop {
 export interface MonthlyQualityItem {
   year: number,
   month: number,
-  value: number,
+  value: any,
 }
 export interface MonthlyQualityModel {
   year: number,
@@ -553,8 +553,9 @@ export interface QuantityDefectReportModel {
   defectName: string,
   defectTranslatedName: string,
   defectCategory: DefectCategories,
-  ppm: number,
+  quantity: number,
   defectQuantity: number,
+  ppm: any,
   days: Array<QuantityDayReportModel>,
 }
 export interface QuantityOperationDayModel {
@@ -562,12 +563,15 @@ export interface QuantityOperationDayModel {
   date: Date,
   shiftId: number,
   quantity: number,
+  defectQuantity: number,
+  ppm: any,
 }
 export interface QuantityDayReportModel {
   date: Date,
   shiftId: number,
   defectQuantity: number,
-  ppm: number,
+  ppm: any,
+  quantity: number,
 }
 export interface GetQuantityReportByOperation {
   operationId: number,
@@ -596,7 +600,7 @@ export interface DefectStatisticsItem {
   defectCategoryName: string,
   quantity: number,
   defectQuantity: number,
-  ppm: number,
+  ppm: any,
 }
 export interface WorkerStatisticsModel {
   defectId: number,
@@ -611,7 +615,7 @@ export interface WorkerStatisticsItem {
   workerCode: string,
   quantity: number,
   defectQuantity: number,
-  ppm: number,
+  ppm: any,
 }
 export interface GetDefectStatisticsByUser {
   workerCode: string,
