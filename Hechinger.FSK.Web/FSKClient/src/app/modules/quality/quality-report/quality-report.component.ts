@@ -1,7 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatMenu } from '@angular/material/menu';
 import { MatTableDataSource } from '@angular/material/table';
 import { distinctUntilChanged, Subject, Subscription } from 'rxjs';
-import { GetQuantityReportByProduct, IntervalModel, IntervalOption, QuantityOperationReportModel, SelectModel, Views } from '../../../models/generated/generated';
+import { EntityGroupModel, GetQuantityReportByProduct, IntervalModel, IntervalOption, QuantityOperationReportModel, SelectModel, Views } from '../../../models/generated/generated';
+import { TreeItem } from '../../../models/tree-item';
+import { EntityGroupDataService } from '../../../services/data/entity-group-data.service';
 import { QualityDataService } from '../../../services/data/quality-data.service';
 import { IntervalViewService } from '../../../services/interval-view/interval-view.service';
 import { LanguageService } from '../../../services/language/language.service';
@@ -11,13 +14,14 @@ import { LanguageService } from '../../../services/language/language.service';
   templateUrl: './quality-report.component.html',
   styleUrls: ['./quality-report.component.scss']
 })
-export class QualityReportComponent implements OnInit, OnDestroy  {
-  data: Array<QuantityOperationReportModel>;
-  product!: SelectModel;
+export class QualityReportComponent implements OnInit, OnDestroy {
+
+
   protected _onDestroy = new Subject<void>();
   dataSource: MatTableDataSource<any>;
-  columnNames: Array<string> = ['defectCode', 'defectName', 'defectTranslatedName', 'defectCategoryName', 'quantity', 'defectQuantity', 'ppm'];
 
+
+  items: Array<TreeItem<EntityGroupModel>>;
   intervalOptions: Array<IntervalOption> = [
     { name: 'week', value: Views.Week, isDefault: true },
     { name: 'month', value: Views.Month, isDefault: false },
@@ -28,9 +32,10 @@ export class QualityReportComponent implements OnInit, OnDestroy  {
   currentInterval: IntervalModel;
   intervalSubscription: Subscription;
   monthDataSubscription: Subscription;
-  title = "qualityreport.title";
+  title = "defectgroups.title";
   constructor(private readonly qualityDataService: QualityDataService,
     public languageService: LanguageService,
+    private readonly entityGroupDataService: EntityGroupDataService,
     private intervalPanelService: IntervalViewService) {
   }
 
@@ -44,35 +49,27 @@ export class QualityReportComponent implements OnInit, OnDestroy  {
       .subscribe((x: IntervalModel) => {
         this.currentInterval = x;
         this.selectedView = x.selectedView;
-        if (this.product && this.currentInterval ) this.initalize();
+
       });
     this.intervalPanelService.setViews(this.selectedView, this.currentDate);
-    
+    this.entityGroupDataService.getAll().subscribe(results => { console.log(results); this.items = results; });
   }
- 
+
   initalize() {
-    if (this.currentInterval && this.product) {
-      let request: GetQuantityReportByProduct = {
-        productId: this.product.id,
-        startDate: this.currentInterval.startDate,
-        endDate: this.currentInterval.endDate,
-      }
-      this.qualityDataService.getQuantityReportByProduct(request).subscribe(x => {
-        this.data = x;
-        this.createDataSource();
-      });
+    if (this.currentInterval) {
+
     };
   }
   createDataSource() {
-    if (this.data) {
-    }
+
   }
-  onSelectedProduct(event: SelectModel) {
-    this.product = event;
-    this.initalize();
+  onSelect(event: EntityGroupModel) {
+   
   }
   ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
   }
+ 
 }
+

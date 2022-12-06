@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace Hechinger.FSK.Application.Test
 {
-    public class QualityTests
+    public class CrapCostTests
     {
         private IQualityService _qualityService;
         [SetUp]

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 
 namespace Hechinger.FSK.Infrastructure.Persistence
 {
@@ -21,6 +20,8 @@ namespace Hechinger.FSK.Infrastructure.Persistence
         public DbSet<SummaryCardItem> SummaryCardItems { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<Picture> Pictures { get; set; }
+        public DbSet<EntityGroup> EntityGroups { get; set; }
+        public DbSet<EntityGroupRelation> EntityGroupRelations { get; set; }
 
         public IHttpContextAccessor httpContextAccessor;
         public FSKDbContext(DbContextOptions options) : base(options)

@@ -1,7 +1,11 @@
 
 <div class="container-fluid">
   <app-title class="flex-title-item" [title]="title"></app-title>
-  <app-product-search (select)="onSelectedProduct($event)"></app-product-search>
-  <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
+  <ng-container *ngFor="let item of items">
+    <button mat-button [matMenuTriggerFor]="panel.menu">{{item.node.name}}</button>
+    <app-quality-menu #panel [items]="item.children" (select)="onSelect($event)"></app-quality-menu>
+  </ng-container>
+  <app-interval-view [intervalOptions]="intervalOptions"
+                     ></app-interval-view>
 </div>
 

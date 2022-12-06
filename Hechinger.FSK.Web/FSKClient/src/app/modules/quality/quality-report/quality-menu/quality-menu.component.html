@@ -1,0 +1,12 @@
+
+<mat-menu #menu>
+  <ng-container *ngFor="let item of items">
+    <ng-container *ngIf="(item.node.groupType == groupTypes.Group || item.node.groupType == groupTypes.Head)">
+      <button *ngIf="!hasChildren(item); else branch" mat-menu-item>{{item.node.name}}</button>
+      <ng-template #branch>
+        <button mat-menu-item [matMenuTriggerFor]="innerPanel.menu" (click)="onSelect(item.node)">{{item.node.name}}</button>
+        <app-quality-menu #innerPanel [items]="item.children"></app-quality-menu>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+</mat-menu>

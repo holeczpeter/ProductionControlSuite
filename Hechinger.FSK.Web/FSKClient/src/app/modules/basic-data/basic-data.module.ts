@@ -22,6 +22,8 @@ import { DefectGroupWizardComponent } from './defect-groups/defect-group-wizard/
 import { DefectGroupDataEditorComponent } from './defect-groups/defect-group-wizard/defect-group-data-editor/defect-group-data-editor.component';
 import { DefectGroupProductEditorComponent } from './defect-groups/defect-group-wizard/defect-group-product-editor/defect-group-product-editor.component';
 import { DefectGroupContextEditorComponent } from './defect-groups/defect-group-wizard/defect-group-context-editor/defect-group-context-editor.component';
+import { AddGroupDialogComponent } from './defect-groups/add-group-dialog/add-group-dialog.component';
+import { EditGroupDialogComponent } from './defect-groups/edit-group-dialog/edit-group-dialog.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { DefectGroupContextEditorComponent } from './defect-groups/defect-group-
     DefectGroupDataEditorComponent,
     DefectGroupProductEditorComponent,
     DefectGroupContextEditorComponent,
+    AddGroupDialogComponent,
+    EditGroupDialogComponent,
   ],
   imports: [
     CommonModule,

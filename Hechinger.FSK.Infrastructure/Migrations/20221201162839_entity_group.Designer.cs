@@ -4,6 +4,7 @@ using Hechinger.FSK.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hechinger.FSK.Infrastructure.Migrations
 {
     [DbContext(typeof(FSKDbContext))]
-    partial class FSKDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221201162839_entity_group")]
+    partial class entity_group
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,9 +222,6 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.Property<int>("EntityStatus")
                         .HasColumnType("int");
 
-                    b.Property<int>("GroupType")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("datetime2");
 
@@ -233,6 +232,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ParentId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<byte[]>("RowVersion")
@@ -1161,6 +1161,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .WithMany("Children")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
                         .HasConstraintName("FK_ENTITYGROUP_CONNECTION");
 
                     b.Navigation("Parent");

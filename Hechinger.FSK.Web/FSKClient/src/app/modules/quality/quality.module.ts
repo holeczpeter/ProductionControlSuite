@@ -21,6 +21,7 @@ import { CrapCostChartComponent } from './crap-costs/crap-cost-chart/crap-cost-c
 import { ProductCrapCostComponent } from './crap-costs/product-crap-cost/product-crap-cost.component';
 import { WorkshopCrapCostComponent } from './crap-costs/workshop-crap-cost/workshop-crap-cost.component';
 import { OperationCrapCostComponent } from './crap-costs/operation-crap-cost/operation-crap-cost.component';
+import { QualityMenuComponent } from './quality-report/quality-menu/quality-menu.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { OperationCrapCostComponent } from './crap-costs/operation-crap-cost/ope
     CrapCostChartComponent,
     OperationCrapCostComponent,
     ProductCrapCostComponent,
-    WorkshopCrapCostComponent
+    WorkshopCrapCostComponent,
+    QualityMenuComponent
   ],
   imports: [
     CommonModule,

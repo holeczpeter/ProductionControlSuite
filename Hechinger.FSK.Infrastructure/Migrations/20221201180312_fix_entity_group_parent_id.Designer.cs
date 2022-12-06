@@ -4,6 +4,7 @@ using Hechinger.FSK.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hechinger.FSK.Infrastructure.Migrations
 {
     [DbContext(typeof(FSKDbContext))]
-    partial class FSKDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221201180312_fix_entity_group_parent_id")]
+    partial class fix_entity_group_parent_id
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -218,9 +220,6 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("EntityStatus")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GroupType")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModified")

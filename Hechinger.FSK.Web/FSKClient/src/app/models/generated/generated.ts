@@ -1,3 +1,5 @@
+import { TreeItem } from "../tree-item";
+
 export interface EnumModel {
   id: number,
   name: string,
@@ -102,7 +104,7 @@ export interface DashboardPpmChartModel {
 export interface DashboardWorkshopPpm {
   workshopId: number,
   workshopName: string,
-  ppm: number,
+  ppm: any,
 }
 export interface PpmWarning {
   operationId: number,
@@ -113,7 +115,7 @@ export interface PpmWarning {
   shiftId: number,
   quantity: number,
   defectQuantity: number,
-  ppm: number,
+  ppm: any,
   summaryGoal: number,
 }
 export interface SummaryModel {
@@ -231,6 +233,41 @@ export interface RequestParameters {
   isAsc: boolean,
   page: number,
   pageCount: number,
+}
+export interface AddNewTreeItem {
+  tree: Array<any>,
+  parent: TreeItem<EntityGroupModel>,
+}
+export interface EntityGroupModel {
+  id: number,
+  name: string,
+  translatedName: string,
+  parentId: number,
+  isEnabled: boolean,
+  groupType: GroupTypes,
+  relations: Array<EntityGroupRelationModel>,
+}
+export interface EditTreeItem {
+  tree: Array<any>,
+  current: TreeItem<EntityGroupModel>,
+}
+export interface EntityGroupRelationModel {
+  id: number,
+  entityGroupId: number,
+  entityId: number,
+  entityType: EntityTypes,
+}
+export interface GetAllEntityGroups {
+}
+export interface SaveEntityGroup {
+  id: number,
+  name: string,
+  translatedName: string,
+  parentId: number,
+  groupType: GroupTypes,
+  relations: Array<EntityGroupRelationModel>,
+  children: Array<SaveEntityGroup>,
+  collapsed: boolean,
 }
 export interface DefectImport {
   file: any,
@@ -488,7 +525,7 @@ export interface GetCrapCostByWorkshop {
 export interface MonthlyQualityItem {
   year: number,
   month: number,
-  value: number,
+  value: any,
 }
 export interface MonthlyQualityModel {
   year: number,
@@ -553,8 +590,9 @@ export interface QuantityDefectReportModel {
   defectName: string,
   defectTranslatedName: string,
   defectCategory: DefectCategories,
-  ppm: number,
+  quantity: number,
   defectQuantity: number,
+  ppm: any,
   days: Array<QuantityDayReportModel>,
 }
 export interface QuantityOperationDayModel {
@@ -562,12 +600,15 @@ export interface QuantityOperationDayModel {
   date: Date,
   shiftId: number,
   quantity: number,
+  defectQuantity: number,
+  ppm: any,
 }
 export interface QuantityDayReportModel {
   date: Date,
   shiftId: number,
   defectQuantity: number,
-  ppm: number,
+  ppm: any,
+  quantity: number,
 }
 export interface GetQuantityReportByOperation {
   operationId: number,
@@ -596,7 +637,7 @@ export interface DefectStatisticsItem {
   defectCategoryName: string,
   quantity: number,
   defectQuantity: number,
-  ppm: number,
+  ppm: any,
 }
 export interface WorkerStatisticsModel {
   defectId: number,
@@ -611,7 +652,7 @@ export interface WorkerStatisticsItem {
   workerCode: string,
   quantity: number,
   defectQuantity: number,
-  ppm: number,
+  ppm: any,
 }
 export interface GetDefectStatisticsByUser {
   workerCode: string,
@@ -931,6 +972,16 @@ export enum DefectCategories {
   F0 = 0,
   F1 = 1,
   F2 = 2,
+}
+export enum GroupTypes {
+  Group = 0,
+  Head = 1,
+  Item = 2,
+}
+export enum EntityTypes {
+  Product = 0,
+  Operation = 1,
+  Defect = 2,
 }
 export enum MenuTypes {
   Module = 0,

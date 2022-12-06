@@ -60,8 +60,8 @@ export class RoleEditorDialogComponent implements OnInit, AfterViewInit, AfterVi
   goForward(stepper: MatStepper) {
     stepper.next();
   }
-  refreshMenu(event: SelectionModel<TreeItemFlatNode>) {
-    this.accessMenu = [...event.selected.map((x: TreeItemFlatNode) => x.item.node)];
+  refreshMenu(event: SelectionModel<TreeItemFlatNode<RoleMenuItem>>) {
+    this.accessMenu = [...event.selected.map((x: TreeItemFlatNode<RoleMenuItem>) => x.item.node)];
   }
   refreshUsers(event: Array<RoleUserItem>) {
     this.accessUsers = event;

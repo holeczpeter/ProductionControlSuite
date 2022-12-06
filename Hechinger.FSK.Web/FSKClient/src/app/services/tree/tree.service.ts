@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MenuItemModel, MenuTypes } from '../../models/generated/generated';
+import { EntityGroupModel, MenuItemModel, MenuTypes, SaveEntityGroup } from '../../models/generated/generated';
 import { TreeItem } from '../../models/tree-item';
 
 @Injectable({
@@ -18,4 +18,17 @@ export class TreeService {
     return container;
   }
 
+  search(element: TreeItem<EntityGroupModel>, id: number): TreeItem<EntityGroupModel> | null {
+    if (element.node.id == id) return element;
+    else if (element.children != null) {
+      var i;
+      var result = null;
+      for (i = 0; result == null && i < element.children.length; i++) {
+        result = this.search(element.children[i], id);
+      }
+      return result;
+    }
+    return null;
+  }
+ 
 }
