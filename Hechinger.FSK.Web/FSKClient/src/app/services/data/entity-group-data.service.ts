@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EntityGroupModel, Result, SaveEntityGroup } from '../../models/generated/generated';
+import { DeleteEntityGroup, EntityGroupModel, EnumModel, GetGroupTypes, Result, SaveEntityGroup } from '../../models/generated/generated';
 import { TreeItem } from '../../models/tree-item';
 
 @Injectable({
@@ -15,7 +15,9 @@ export class EntityGroupDataService {
   save(request: SaveEntityGroup): Observable<Result> {
     return this.httpClient.post<Result>('/EntityGroup/Save', request)
   }
-  
+  delete(request: DeleteEntityGroup): Observable<Result> {
+    return this.httpClient.post<Result>('/EntityGroup/Delete', request)
+  }
   get(request: any): Observable<any> {
     return this.httpClient.get<any>('/EntityGroup/Get', {
       params:
@@ -27,5 +29,13 @@ export class EntityGroupDataService {
 
   getAll(): Observable<Array<TreeItem<EntityGroupModel>>> {
     return this.httpClient.get<Array<TreeItem<EntityGroupModel>>>('/EntityGroup/GetAll');
+  }
+  getGroupTypes(request: GetGroupTypes): Observable<Array<EnumModel>> {
+    return this.httpClient.get<Array<EnumModel>>('/EntityGroup/GetGroupTypes', {
+      params:
+      {
+        isAll: request.isAll,
+      }
+    });
   }
 }

@@ -235,7 +235,6 @@ export interface RequestParameters {
   pageCount: number,
 }
 export interface AddNewTreeItem {
-  tree: Array<any>,
   parent: TreeItem<EntityGroupModel>,
 }
 export interface EntityGroupModel {
@@ -243,12 +242,13 @@ export interface EntityGroupModel {
   name: string,
   translatedName: string,
   parentId: number,
-  isEnabled: boolean,
   groupType: GroupTypes,
   relations: Array<EntityGroupRelationModel>,
 }
+export interface DeleteEntityGroup {
+  id: number,
+}
 export interface EditTreeItem {
-  tree: Array<any>,
   current: TreeItem<EntityGroupModel>,
 }
 export interface EntityGroupRelationModel {
@@ -259,15 +259,11 @@ export interface EntityGroupRelationModel {
 }
 export interface GetAllEntityGroups {
 }
+export interface GetGroupTypes {
+  isAll: boolean,
+}
 export interface SaveEntityGroup {
-  id: number,
-  name: string,
-  translatedName: string,
-  parentId: number,
-  groupType: GroupTypes,
-  relations: Array<EntityGroupRelationModel>,
-  children: Array<SaveEntityGroup>,
-  collapsed: boolean,
+  current: TreeItem<EntityGroupModel>,
 }
 export interface DefectImport {
   file: any,

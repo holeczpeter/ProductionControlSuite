@@ -4,6 +4,18 @@
     <form [formGroup]="formGroup">
       <div class="row pt-2">
         <mat-form-field class="col">
+          <mat-select [formControlName]="'groupType'" [placeholder]="'defects.defectCategory' | translate" required>
+            <mat-option *ngFor="let option of groupTypes" [value]="option.id">
+              {{ option.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error class="col" *ngIf="formGroup.get('defectCategory')?.hasError('required')">
+            {{'defects.defectCategory'| translate}} {{'required' | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row pt-2">
+        <mat-form-field class="col">
           <input matInput [formControlName]="'name'" [placeholder]="'name' | translate" required />
           <mat-error class="col" *ngIf="formGroup.get('name')?.hasError('required')">
             {{'name'| translate}} {{'required' | translate}}

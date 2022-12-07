@@ -10,7 +10,10 @@ export class DefectGroupDataService {
 
   constructor(private readonly httpClient: HttpClient) { }
 
-  saveDefectGroupContext(request: any): Observable<Result> {
+  save(request: any): Observable<Result> {
+    return this.httpClient.post<Result>('/DefectGroup/SaveDefectGroupContext', request)
+  }
+  delete(request: any): Observable<Result> {
     return this.httpClient.post<Result>('/DefectGroup/SaveDefectGroupContext', request)
   }
   getDefectGroupContext(request: any): Observable<any> {

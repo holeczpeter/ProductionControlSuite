@@ -6,7 +6,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { TranslateService } from '@ngx-translate/core';
-import { AddNewTreeItem, EditTreeItem, EntityGroupModel, EntityGroupRelationModel, GroupTypes } from '../../../models/generated/generated';
+import { AddNewTreeItem, DeleteEntityGroup, EditTreeItem, EntityGroupModel, EntityGroupRelationModel, GroupTypes } from '../../../models/generated/generated';
 import { TreeItem } from '../../../models/tree-item';
 import { TreeItemFlatNode } from '../../../models/tree-item-flat-node';
 import { AccountService } from '../../../services/account.service';
@@ -59,7 +59,7 @@ export class DefectGroupsComponent implements OnInit {
 
   hasNoContent = (_: number, _nodeData: TreeItemFlatNode<EntityGroupModel>) => _nodeData.item.node.name === '';
 
-  isNotItem = (_: number, _nodeData: TreeItemFlatNode<EntityGroupModel>) => _nodeData.item.node.groupType != GroupTypes.Item;
+  allChildrenItem = (_: number, _nodeData: TreeItemFlatNode<EntityGroupModel>) => _nodeData.item.children && _nodeData.item.children.length >0 && _nodeData.item.children.every(x => x.node.groupType == GroupTypes.Group || x.node.groupType == GroupTypes.Head);
 
   transformer = (node: TreeItem<EntityGroupModel>, level: number) => {
     const existingNode = this.nestedNodeMap.get(node);
@@ -189,17 +189,13 @@ export class DefectGroupsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => { });
   }
   addGroupFromNode() {
-    //let data: AddNewTreeItem = {
-    //  parent: null,
-    //  tree: this.results,
-    //};
-    //let dialogRef = this.dialog.open(AddGroupDialogComponent, {
-    //  disableClose: true,
-    //  autoFocus: false,
-    //  data: data,
-    //  minWidth: '600px'
-    //});
-    //dialogRef.afterClosed().subscribe((result) => { if (result) this.ngOnInit() });
+    let dialogRef = this.dialog.open(AddGroupDialogComponent, {
+      disableClose: true,
+      autoFocus: false,
+      data: null,
+      minWidth: '600px'
+    });
+    dialogRef.afterClosed().subscribe((result) => { if (result) this.ngOnInit() });
   }
 
   addGroup(node: TreeItemFlatNode<EntityGroupModel>) {
@@ -207,7 +203,6 @@ export class DefectGroupsComponent implements OnInit {
     if (parentNode) {
       let data: AddNewTreeItem = {
         parent: parentNode,
-        tree: this.results,
       };
       let dialogRef = this.dialog.open(AddGroupDialogComponent, {
         disableClose: true,
@@ -223,7 +218,6 @@ export class DefectGroupsComponent implements OnInit {
     if (parentNode) {
       let data: EditTreeItem = {
         current: parentNode,
-        tree: this.results,
       };
       let dialogRef = this.dialog.open(EditGroupDialogComponent, {
         disableClose: true,
@@ -234,9 +228,7 @@ export class DefectGroupsComponent implements OnInit {
       dialogRef.afterClosed().subscribe((result) => { if (result) this.ngOnInit() });
     }
   }
-  deleteGroup(node: TreeItemFlatNode<EntityGroupModel>) {
-
-  }
+  
   addItem(node: TreeItemFlatNode<EntityGroupModel>) {
    
   }
@@ -245,7 +237,11 @@ export class DefectGroupsComponent implements OnInit {
     
   }
 
-  deleteItem(node: TreeItemFlatNode<EntityGroupModel>) {
-
+  delete(node: TreeItemFlatNode<EntityGroupModel>) {
+    let request: DeleteEntityGroup = { id: node.item.node.id };
+    this.entityGroupDataService.delete(request).subscribe(result => {
+      this.snackBar.open(result);
+      if (result) this.ngOnInit();
+    });
   }
 }

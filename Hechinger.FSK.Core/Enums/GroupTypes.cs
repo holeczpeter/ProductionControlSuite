@@ -5,21 +5,21 @@ namespace Hechinger.FSK.Core.Enums
     public enum GroupTypes
     {
         /// <summary>
-        /// Csoport
+        /// Hibaösszesítő csoport
         /// </summary>
-        [Description("Csoport")]
+        [Description("Hibaösszesítő csoport")]
         Group = 0,
 
         /// <summary>
-        /// Fej
+        /// "Hibaösszesítő"
         /// </summary>
-        [Description("Fej")]
+        [Description("Hibaösszesítő")]
         Head = 1,
 
         /// <summary>
-        /// Elem
+        /// "Hibaösszesítő elem"
         /// </summary>
-        [Description("Elem")]
+        [Description("Hibaösszesítő elem")]
         Item = 2,
     }
 }

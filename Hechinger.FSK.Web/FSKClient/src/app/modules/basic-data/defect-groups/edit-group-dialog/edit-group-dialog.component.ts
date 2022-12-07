@@ -42,18 +42,9 @@ export class EditGroupDialogComponent implements OnInit {
     this.data.current.node.translatedName = this.formGroup.get('translatedName')?.value;
     this.data.current.node.groupType = this.formGroup.get('groupType')?.value;
     this.data.current.node.parentId = this.formGroup.get('parentId')?.value;
-    //let save = this.treeService.copyTree(this.data.current);
     let saveEntityGroup: SaveEntityGroup = {
-      id: this.formGroup.get('id')?.value,
-      name: this.formGroup.get('name')?.value,
-      translatedName: this.formGroup.get('translatedName')?.value,
-      groupType: this.formGroup.get('groupType')?.value.id,
-      children: new Array<SaveEntityGroup>(),
-      collapsed: false,
-      parentId: this.formGroup.get('parentId')?.value.id,
-      relations: new Array<EntityGroupRelationModel>(),
+      current: this.data.current
     };
-    //saveEntityGroup.children = this.treeService.map(this.data.current);
     this.entityGroupDataService.save(saveEntityGroup).subscribe(result => {
       this.snackBar.open(result);
       if (result.isSuccess) this.dialogRef.close(true);
