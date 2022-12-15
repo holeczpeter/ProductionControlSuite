@@ -7,7 +7,7 @@ import { TreeItem } from '../../../../models/tree-item';
 import { DefectGroupDataService } from '../../../../services/data/defect-group-data.service';
 import { EntityGroupDataService } from '../../../../services/data/entity-group-data.service';
 import { ProductDataService } from '../../../../services/data/product-data.service';
-import { DefectGroupContextService } from '../../../../services/defectgroupcontext/defect-group-context.service';
+import { EntityGroupService } from '../../../../services/entity-group/entity-group-service.service';
 import { LanguageService } from '../../../../services/language/language.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
 
@@ -28,7 +28,7 @@ export class DefectGroupWizardComponent implements OnInit {
     private entityGroupDataService: EntityGroupDataService,
     private readonly defectGroupDataService: DefectGroupDataService,
     private readonly productDataService: ProductDataService,
-    public defectGroupContextService: DefectGroupContextService,
+    public entityGroupService: EntityGroupService,
     private readonly snackBar: SnackbarService,
     private readonly changeDetector: ChangeDetectorRef,
     public languageService: LanguageService) {
@@ -36,7 +36,9 @@ export class DefectGroupWizardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isHead = this.data.node.groupType == GroupTypes.Head;
+    if (this.data) this.isHead = this.data.node.groupType == GroupTypes.Head;
+    else this.isHead = true;
+    
     this.refresh();
 
   }
@@ -44,11 +46,11 @@ export class DefectGroupWizardComponent implements OnInit {
    
   }
   refreshTree(event: any) {
-    console.log(this.data)
     this.data = event;
-    this.isHead = this.data.node.groupType == GroupTypes.Head;
+    if (this.data) this.isHead = this.data.node.groupType == GroupTypes.Head;
+    else this.isHead = true;
   }
- 
+  
   goBack(stepper: MatStepper) {
     this.stepper.previous();
   }

@@ -1,13 +1,13 @@
 <form [formGroup]="formGroup" *ngIf="formGroup">
   <div class="row pt-2">
     <mat-form-field class="col">
-      <mat-select [formControlName]="'groupType'" [placeholder]="'defects.defectCategory' | translate" required>
+      <mat-select [formControlName]="'groupType'" [placeholder]="'defectgroups.type' | translate" required>
         <mat-option *ngFor="let option of groupTypes" [value]="option.id">
           {{ option.name }}
         </mat-option>
       </mat-select>
       <mat-error class="col" *ngIf="formGroup.get('defectCategory')?.hasError('required')">
-        {{'defects.defectCategory'| translate}} {{'required' | translate}}
+        {{'defectgroups.type'| translate}} {{'required' | translate}}
       </mat-error>
     </mat-form-field>
   </div>

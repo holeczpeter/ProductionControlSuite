@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class CreateRelationsForTreeHandler : IRequestHandler<SaveEntityGroup, Result<bool>>
+    public class CreateRelationsForTreeHandler : IRequestHandler<CreateRelationsForTree, Result<bool>>
     {
 
         private readonly ITreeService treeService;
@@ -9,7 +9,7 @@
 
             this.treeService = treeService ?? throw new ArgumentNullException(nameof(treeService));
         }
-        public async Task<Result<bool>> Handle(SaveEntityGroup request, CancellationToken cancellationToken)
+        public async Task<Result<bool>> Handle(CreateRelationsForTree request, CancellationToken cancellationToken)
         {
             var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
 

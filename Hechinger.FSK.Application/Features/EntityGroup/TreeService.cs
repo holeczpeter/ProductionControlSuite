@@ -35,7 +35,7 @@
             {
                 var currentRelation = await this.context.EntityGroupRelations.Where(c => c.Id == rel.Id).FirstOrDefaultAsync(cancellationToken);
                 if (currentRelation == null) currentRelation = new EntityGroupRelation();
-                currentRelation.EntityGroupId = rel.EntityGroupId;
+                currentRelation.EntityGroup = currentEntity;
                 currentRelation.EntityId = rel.EntityId;
                 currentRelation.EntityType = rel.EntityType;
                 var currentRelationState = this.context.Entry(currentRelation).State;

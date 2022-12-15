@@ -71,6 +71,8 @@
   "categoryName": "Hiba kategória",
   "usersCount": "fő",
   "warning": "Figyelmeztetések",
+  "operationGroup": "Műveletcsoport",
+  "selected": "Kiválasztott",
   "months": [
     { "January": "Január" },
     { "February": "Február" },
@@ -130,7 +132,9 @@
   "defectgroups": {
     "title": "Hibösszesítők",
     "add": "Új hibösszesítő hozzáadása",
-    "edit": "Hibösszesítő szerkesztése"
+    "edit": "Hibösszesítő szerkesztése",
+    "type": "Hibösszesítő típus"
+
   },
   "workercompare": {
     "title": "Dolgozók összehasonlítása"

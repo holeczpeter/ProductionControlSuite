@@ -72,6 +72,8 @@
   "categoryName": "Fehler Kategorie",
   "usersCount": "Person",
   "warning": "Warnung",
+  "operationGroup": "Operation Gruppe",
+  "selected": "Ausgewählt",
   "months": [
     { "January": "Januar" },
     { "February": "Februar" },
@@ -132,7 +134,8 @@
   "defectgroups": {
     "title": "Fehlersammelkarten",
     "add": "Neue Fehlersammelkarten hinzufügen",
-    "edit": "Fehlersammelkarte bearbeiten"
+    "edit": "Fehlersammelkarte bearbeiten",
+    "type": "Fehlersammelkarte Typ"
   },
   "workercompare": {
     "title": "Arbeiter fehlers meldung"

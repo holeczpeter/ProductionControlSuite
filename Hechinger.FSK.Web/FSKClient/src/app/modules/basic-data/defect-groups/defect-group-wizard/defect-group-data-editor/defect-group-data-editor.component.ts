@@ -1,10 +1,9 @@
 import { EventEmitter, Output } from '@angular/core';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { EntityGroupModel, EntityGroupRelationModel, EnumModel, GetGroupTypes } from '../../../../../models/generated/generated';
+import { EntityGroupModel, EntityGroupRelationModel, EnumModel, GetGroupTypes, GroupTypes } from '../../../../../models/generated/generated';
 import { TreeItem } from '../../../../../models/tree-item';
 import { EntityGroupDataService } from '../../../../../services/data/entity-group-data.service';
-import { DefectGroupContextService } from '../../../../../services/defectgroupcontext/defect-group-context.service';
 import { LanguageService } from '../../../../../services/language/language.service';
 import { SnackbarService } from '../../../../../services/snackbar/snackbar.service';
 import { TreeService } from '../../../../../services/tree/tree.service';
@@ -20,7 +19,7 @@ export class DefectGroupDataEditorComponent implements OnInit, OnChanges {
   @Output() isHead = new EventEmitter<boolean>();
   formGroup: UntypedFormGroup;
   groupTypes!: EnumModel[];
-  constructor(public defectGroupContextService: DefectGroupContextService,
+  constructor(
     private entityGroupDataService: EntityGroupDataService,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly snackBar: SnackbarService,
@@ -39,10 +38,10 @@ export class DefectGroupDataEditorComponent implements OnInit, OnChanges {
      
       this.groupTypes = x;
       this.formGroup = this.formBuilder.group({
-        id: [this.tree.node.id, [Validators.required]],
-        name: [this.tree.node.name, [Validators.required]],
-        translatedName: [this.tree.node.translatedName, [Validators.required]],
-        groupType: [this.tree.node.groupType, [Validators.required]],
+        id: [this.tree ? this.tree.node.id : 0, [Validators.required]],
+        name: [this.tree ? this.tree.node.name : '', [Validators.required]],
+        translatedName: [this.tree ? this.tree.node.translatedName : '', [Validators.required]],
+        groupType: [this.tree ? this.tree.node.groupType : GroupTypes.Group, [Validators.required]],
         parentId: [this.tree ? this.tree.node.parentId : 0],
       });
       

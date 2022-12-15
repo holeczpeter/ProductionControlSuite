@@ -2,13 +2,11 @@ import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
-import { debounceTime, forkJoin, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
+import { debounceTime, forkJoin, ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { DefectEditorModel } from '../../../../models/dialog-models/defect-editor-model';
-import { OperationEditorModel } from '../../../../models/dialog-models/operation-editor-model';
-import { AddDefect, AddOperation, DefectModel, EnumModel, OperationModel, ProductModel, SelectModel, UpdateDefect, UpdateOperation } from '../../../../models/generated/generated';
+import { AddDefect, DefectModel, EnumModel, SelectModel, UpdateDefect } from '../../../../models/generated/generated';
 import { DefectDataService } from '../../../../services/data/defect-data.service';
 import { OperationDataService } from '../../../../services/data/operation-data.service';
-import { ProductDataService } from '../../../../services/data/product-data.service';
 import { LanguageService } from '../../../../services/language/language.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
 

@@ -131,10 +131,23 @@ export class DefectGroupsComponent implements OnInit {
  
 
   addGroupFromNode() {
+    let current: EntityGroupModel = {
+      id: 0,
+      name: '',
+      translatedName: '',
+      groupType: 0,
+      parentId: 0,
+      relations: new Array<EntityGroupRelationModel>(),
+    }
+    let tree = {
+      node: current,
+      children: new Array<any>(),
+      collapsed: false,
+    }
     let dialogRef = this.dialog.open(DefectGroupWizardComponent, {
       disableClose: true,
       autoFocus: false,
-      data: 0,
+      data: tree,
       minWidth: '750px'
     });
     dialogRef.afterClosed().subscribe((result) => {  });

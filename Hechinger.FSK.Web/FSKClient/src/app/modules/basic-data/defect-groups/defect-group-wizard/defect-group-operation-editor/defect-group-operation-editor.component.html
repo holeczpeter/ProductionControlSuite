@@ -1,17 +1,38 @@
-<div class="row">
-   <div class="col-md-6">
-     <div *ngFor="let item of entityRelationTree">
-       <div *ngFor="let i of item.children">
-         {{i.node.code}}
-       </div>
-     </div>
-   </div>
-   <div cdkDropList
-        #doneList="cdkDropList"
-        [cdkDropListData]="done"
-        class="example-list"
-        (cdkDropListDropped)="drop($event)">
-     <div class="example-box" *ngFor="let item of done">{{item.code}}</div>
-   </div>
-
- </div>
+<div cdkDropListGroup *ngIf="tree">
+  <div class="example-container">
+    <h2>{{ 'operations.title' | translate }}</h2>
+    <div cdkDropList
+         [cdkDropListData]="operations"
+         class="example-list"
+         (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let item of operations" cdkDrag> {{item.code}} -  {{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.name : item.translatedName}}</div>
+    </div>
+  </div>
+  <div class="example-container">
+    <ng-container *ngFor="let item of tree.children">
+      <ng-container>
+        <div class="example-container">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="{{'operationGroup' | translate}}" [(ngModel)]='item.node.name' [name]='item.node.name'>
+          </mat-form-field>
+          <div class="flex-container">
+            <div cdkDropList
+                 [cdkDropListData]="item.node.relations"
+                 class="example-list2"
+                 (cdkDropListDropped)="drop($event)">
+              <div class="example-box" *ngFor="let i of item.node.relations" cdkDrag>{{i.code}}</div>
+            </div>
+            <div>
+              <button mat-icon-button (click)="delete(item)" color="primary"><mat-icon>delete</mat-icon></button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+    <div class="row justify-content-center pt-3">
+      <button mat-fab color="primary" (click)="addGroupFromNode()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

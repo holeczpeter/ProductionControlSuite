@@ -35,7 +35,7 @@ export class TreeService {
     element.children.push(child);
     return element;
   }
-  removeChild(element: TreeItem<EntityGroupModel>, child: TreeItem<EntityGroupModel>): TreeItem<EntityGroupModel> | null {
+  removeChild(element: TreeItem<EntityGroupModel>, child: TreeItem<EntityGroupModel>): TreeItem<EntityGroupModel>  {
     var index = element.children.indexOf(child);
     if (index !== -1) {
       element.children.splice(index, 1);

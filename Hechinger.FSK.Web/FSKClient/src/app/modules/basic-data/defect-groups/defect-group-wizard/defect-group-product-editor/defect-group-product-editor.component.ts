@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { EntityGroupModel, EntityGroupRelationModel, EntityTypes, ProductModel } from '../../../../../models/generated/generated';
 import { TreeItem } from '../../../../../models/tree-item';
+import { EntityGroupService } from '../../../../../services/entity-group/entity-group-service.service';
 import { LanguageService } from '../../../../../services/language/language.service';
 
 @Component({
@@ -12,19 +13,21 @@ export class DefectGroupProductEditorComponent implements OnInit, OnChanges {
   @Input() tree: TreeItem<EntityGroupModel>;
   @Output() refreshTree = new EventEmitter<any>();
   productIds: number[];
-  constructor(public languageService: LanguageService) { }
+  constructor(public languageService: LanguageService,
+    private entityGroupService: EntityGroupService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes && changes["tree"]) this.initalize();
   }
   initalize() {
-    this.productIds = this.tree.node.relations.map(x => x.entityId);
+    this.productIds = this.tree ? this.tree.node.relations.map(x => x.entityId) : new Array<number>();
+    this.entityGroupService.refreshProducts(this.productIds);
   }
   ngOnInit() {
   }
  
   onRefreshProducts(product: Array<ProductModel>) {
-   
+    this.entityGroupService.refreshProducts(product.map(x => x.id));
     let products = product as Array<ProductModel>;
     let relations = new Array<EntityGroupRelationModel>();
     products.forEach(x => {

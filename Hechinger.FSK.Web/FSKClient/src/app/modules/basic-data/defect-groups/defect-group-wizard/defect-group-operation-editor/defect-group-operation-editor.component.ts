@@ -7,7 +7,9 @@ import { AccordionConfig } from '../../../../../layout/sidebar/sidebar.component
 import { EntityGroupModel, EntityGroupRelationModel, EntityGroupRelationTree, GroupTypes } from '../../../../../models/generated/generated';
 import { TreeItem } from '../../../../../models/tree-item';
 import { EntityGroupDataService } from '../../../../../services/data/entity-group-data.service';
+import { EntityGroupService } from '../../../../../services/entity-group/entity-group-service.service';
 import { LanguageService } from '../../../../../services/language/language.service';
+import { TreeService } from '../../../../../services/tree/tree.service';
 
 @Component({
   selector: 'app-defect-group-operation-editor',
@@ -20,92 +22,96 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
   entityRelationTree: Array<EntityGroupRelationTree>;
   config: AccordionConfig = { multi: false };
   done = new Array<EntityGroupRelationModel>();
+  operations: EntityGroupRelationModel[];
   public get groupTypes(): typeof GroupTypes {
     return GroupTypes;
   }
-  products: EntityGroupRelationModel[];
-  operations: EntityGroupRelationModel[][];
-  defects: EntityGroupRelationModel[][];
+
   treeControl = new NestedTreeControl<EntityGroupRelationTree>(node => node.children);
   dataSource = new MatTreeNestedDataSource<EntityGroupRelationTree>();
   hasChild = (_: number, node: EntityGroupRelationTree) => !!node.children && node.children.length > 0;
-  constructor(private entityGroupDataService: EntityGroupDataService, public languageService: LanguageService, private cdr: ChangeDetectorRef) { }
+  constructor(private entityGroupDataService: EntityGroupDataService,
+    public languageService: LanguageService,
+    private cdr: ChangeDetectorRef,
+    private entityGroupService: EntityGroupService,
+    private treeService: TreeService) { }
   ngOnInit(): void {
-    console.log(this.tree)
-    let params = new HttpParams();
-    params = params.append('productIds', this.tree.node.relations.map(x => x.entityId.toString()).join(','));
-    console.log(params);
-    this.entityGroupDataService.getEntityRelationsByProducts(params).subscribe(res => {
-     
-      this.entityRelationTree = res;
-      this.done.push(this.entityRelationTree[0].node);
-      this.dataSource.data = this.entityRelationTree;
-      this.createOpLists();
-    })
+    this.entityGroupService.getProductIds().subscribe(x => {
+      let productIds = x.map(u => u.toString()).join(',');
+      let params = new HttpParams();
+      params = params.append('productIds', productIds);
+      params = params.append('groupId', this.tree.node.id);
+      this.entityGroupDataService.getEntityRelationsByProducts(params).subscribe(res => {
+        this.entityRelationTree = res;
+        this.dataSource.data = this.entityRelationTree;
+        this.createOpList();
+
+      })
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes && changes["tree"]) this.initalize();
+    console.log(changes)
+    if (changes && changes["tree"] && this.tree) this.initalize();
   }
 
   initalize() {
+   
+    //let productIds = "";
+    //if (this.tree.node.relations && this.tree.node.relations.length > 0) {
+    //  productIds = this.tree.node.relations.map(x => x.entityId.toString()).join(',');
+    //}
+   
+    //let params = new HttpParams();
+    //params = params.append('productIds', productIds);
+    //this.entityGroupDataService.getEntityRelationsByProducts(params).subscribe(res => {
+    //  this.entityRelationTree = res;
+    //  this.dataSource.data = this.entityRelationTree;
+    //  this.createOpList();
+
+    //})
   }
-  toggle(index: number) {
-    console.log(this.config.multi)
-    if (!this.config.multi) {
-      this.entityRelationTree
-        .filter((item, i) => i !== index && item.collapsed)
-        .forEach(item => (item.collapsed = !item.collapsed));
-    }
-    this.entityRelationTree[index].collapsed = !this.entityRelationTree[index].collapsed;
-  }
-  drop(event: CdkDragDrop<EntityGroupRelationModel[]>) {
+
+  
+  drop(event: CdkDragDrop<any[]>) {
     console.log(event)
     if (event.previousContainer === event.container) {
-      console.log(event.previousContainer)
-      console.log(event.container)
-
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      transferArrayItem(event.previousContainer.data,
+      transferArrayItem(
+        event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex);
+        event.currentIndex,
+      );
     }
+    console.log(this.tree)
+  }
+  
+  addGroupFromNode() {
+    let current: EntityGroupModel = {
+      id: 0,
+      name: '',
+      translatedName: '',
+      groupType: GroupTypes.Item,
+      parentId: this.tree.node.id,
+      relations: new Array<EntityGroupRelationModel>(),
+    }
+    let tree = {
+      node: current,
+      children: new Array<any>(),
+      collapsed: false,
+    }
+    this.tree.children.push(tree);
+  }
+  delete(node: TreeItem<EntityGroupModel>) {
+    this.tree = this.treeService.removeChild(this.tree, node);
+    console.log(this.tree)
+  }
+  createOpList() {
+    this.operations = this.entityRelationTree.flatMap(x => x.children).map(i => i.node);
   }
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
   }
-  
-  createOpLists() {
-    let allOp = this.entityRelationTree.flatMap(x => x.children);
-    let a = this.groupBy(allOp, "order");
-    //let result = allOp.reduce(function (r, a) {
-    //  r[a.node.order] = r[a.node.order] || [];
-    //  r[a.node.order].push(a);
-    //     return r as EntityGroupRelationModel;
-    //  }, Object.create(null));
-    console.log(a);
-    //this.entityRelationTree.forEach(x => {
-    //  //this.products.push(x.node);
-    //  let operations = x.children.map(i => i.node);
-    //  let defects = x.children.flatMap(num => num.children);
-    //  console.log(operations)
-    //  console.log(defects)
-    //});
-  }
-  groupBy(list: EntityGroupRelationTree[], keyGetter:any) {
-    const map = new Map();
-    list.forEach((item) => {
-      const key = keyGetter(item);
-      const collection = map.get(key);
-      if (!collection) {
-        map.set(key, [item]);
-      } else {
-        collection.push(item);
-      }
-    });
-    return map;
- }
-
 }
