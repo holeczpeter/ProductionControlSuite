@@ -15,11 +15,12 @@
       </mat-error>
     </mat-form-field>
   </div>
-  Kiválasztott termékek:
+  <div class="pb-3">
+    Kiválasztott termékek:
+  </div>
   <ul *ngFor="let option of formGroup.get('product')?.value">
     <li> {{option.code}} - {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}</li>
   </ul>
-
 </form>
 
 

@@ -29,11 +29,14 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
   public filtered: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
   protected _onDestroy = new Subject<void>();
   @ViewChild('singleSelect') singleSelect: MatSelect;
+
   currentOperation: OperationModel;
+  code: string;
   get items(): FormArray {
     return this.cardForm.get('items') as FormArray;
   }
 
+  barcodeValue: string;
   constructor(private readonly operationDataService: OperationDataService,
     private readonly shiftsDataService: ShiftDataService,
     private readonly defectsDataService: DefectDataService,
@@ -65,6 +68,7 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
       })
     }
   }
+
   filter(): void {
     if (!this.operations) return;
     let search = this.filterCtrl.value;
@@ -82,6 +86,7 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
     this.cardForm.get("operation")!
       .valueChanges
       .pipe(takeUntil(this.destroy$)).subscribe(value => {
+        this.code = this.cardForm.get('operation')?.value.code
         this.createTable();
       });
     this.cardForm.get("items")!
@@ -135,7 +140,6 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
     this.changeDetectorRef.detectChanges();
   }
   ngAfterViewInit() {
-   
   }
   ngOnDestroy(): void {
     this.destroy$.next(null);

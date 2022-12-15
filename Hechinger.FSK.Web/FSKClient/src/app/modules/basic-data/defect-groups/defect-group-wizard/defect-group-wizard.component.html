@@ -4,21 +4,22 @@
     <mat-step state="perm_data_setting">
       <ng-template matStepLabel>{{'defectgroups.edit'| translate}}</ng-template>
       <ng-template matStepContent>
-        <app-defect-group-data-editor>
+        <app-defect-group-data-editor
+                                      [tree]="data"
+                                      (refreshTree)="refreshTree($event)">
         </app-defect-group-data-editor>
       </ng-template>
     </mat-step>
-    <mat-step state="supervisor_account">
+    <mat-step state="supervisor_account" *ngIf="isHead">
       <ng-template matStepLabel>{{'products.title'| translate}}</ng-template>
-      <app-product-multi-select-search (select)="onRefreshProducts($event)"></app-product-multi-select-search>
+      <app-defect-group-product-editor [tree]="data" (refreshTree)="refreshTree($event)"></app-defect-group-product-editor>
     </mat-step>
-    <mat-step state="playlist_add_check">
+    <mat-step state="playlist_add_check" *ngIf="isHead">
       <ng-template matStepLabel>{{'operations.title'| translate}}</ng-template>
-
+      <app-defect-group-operation-editor [tree]="data" (refreshTree)="refreshTree($event)"></app-defect-group-operation-editor>
     </mat-step>
-    <mat-step state="playlist_add_check">
+    <mat-step state="playlist_add_check" *ngIf="isHead">
       <ng-template matStepLabel>{{'defects.title'| translate}}</ng-template>
-
     </mat-step>
     <ng-template matStepperIcon="perm_data_setting">
       <mat-icon>perm_data_setting</mat-icon>
@@ -30,14 +31,25 @@
       <mat-icon>playlist_add_check</mat-icon>
     </ng-template>
   </mat-stepper>
-
 </mat-dialog-content>
-<div mat-dialog-actions *ngIf="stepper" [ngClass]="stepper.selectedIndex !== 0 ? 'stepper-buttons' : 'stepper-buttons-flex-end'">
-  <ng-container *ngIf="stepper.selectedIndex == 0">
+<div mat-dialog-actions *ngIf="stepper" [ngClass]="stepper.selectedIndex !== 0 &&  isHead ? 'stepper-buttons' : 'stepper-buttons-flex-end'">
+  <ng-container *ngIf="stepper.selectedIndex == 0 && isHead">
     <button mat-raised-button
             color="blue"
             (click)="goForward(stepper)">
       {{ 'next' | translate}}
+    </button>
+  </ng-container>
+  <ng-container *ngIf="stepper.selectedIndex == 0 && !isHead">
+    <button mat-stroked-button
+            color="blue"
+            (click)="onCancel()">
+      {{ 'cancel' | translate }}
+    </button>
+    <button mat-raised-button
+            color="blue"
+            (click)="onSave()">
+      {{ 'save' | translate}}
     </button>
   </ng-container>
   <ng-container *ngIf="stepper.selectedIndex == 1">

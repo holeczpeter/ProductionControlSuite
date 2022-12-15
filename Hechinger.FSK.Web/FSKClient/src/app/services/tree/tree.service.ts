@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { EntityGroupModel, MenuItemModel, MenuTypes, SaveEntityGroup } from '../../models/generated/generated';
+import { EntityGroupModel, EntityGroupRelationModel, MenuItemModel, MenuTypes, SaveEntityGroup } from '../../models/generated/generated';
 import { TreeItem } from '../../models/tree-item';
+import { TreeItemFlatNode } from '../../models/tree-item-flat-node';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class TreeService {
 
     return container;
   }
-
+  
   search(element: TreeItem<EntityGroupModel>, id: number): TreeItem<EntityGroupModel> | null {
     if (element.node.id == id) return element;
     else if (element.children != null) {
@@ -30,5 +31,27 @@ export class TreeService {
     }
     return null;
   }
- 
+  addChild(element: TreeItem<EntityGroupModel>, child: TreeItem<EntityGroupModel>): TreeItem<EntityGroupModel> | null {
+    element.children.push(child);
+    return element;
+  }
+  removeChild(element: TreeItem<EntityGroupModel>, child: TreeItem<EntityGroupModel>): TreeItem<EntityGroupModel> | null {
+    var index = element.children.indexOf(child);
+    if (index !== -1) {
+      element.children.splice(index, 1);
+    }
+    return element;
+  }
+  addRelation(element: TreeItem<EntityGroupModel>, relation: EntityGroupRelationModel): TreeItem<EntityGroupModel> | null {
+    element.node.relations.push(relation);
+    return element;
+  }
+  removeRelation(element: TreeItem<EntityGroupModel>, relation: EntityGroupRelationModel): TreeItem<EntityGroupModel> | null {
+    var index = element.node.relations.indexOf(relation);
+    if (index !== -1) {
+      element.node.relations.splice(index, 1);
+    }
+    return element;
+  }
+  
 }

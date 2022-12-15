@@ -39,7 +39,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { OverlayLoadingDirective } from '../directives/overlay-loading.directive';
@@ -71,6 +70,7 @@ import { CategoryPipe } from '../pipes/category.pipe';
 import { WorkshopSearchComponent } from './workshop-search/workshop-search.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { InfoCardComponent } from './info-card/info-card.component';
+
 @NgModule({
   declarations: [
     
@@ -145,9 +145,7 @@ import { InfoCardComponent } from './info-card/info-card.component';
     NgxPrintModule,
     NgApexchartsModule,
     InfiniteScrollModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts'),
-    }),
+  
   ],
   exports: [
     CommonModule,
@@ -196,7 +194,6 @@ import { InfoCardComponent } from './info-card/info-card.component';
     OverlayLoadingDirective,
     NgxMatSelectSearchModule,
     IntervalViewComponent,
-    NgxEchartsModule,
     EnumPipe,
     ShiftNamePipe,
     CategorySplitPipe,

@@ -253,11 +253,24 @@ export interface EditTreeItem {
 }
 export interface EntityGroupRelationModel {
   id: number,
+  order: number,
+  code: string,
+  name: string,
+  translatedName: string,
   entityGroupId: number,
   entityId: number,
+  parentId: number,
   entityType: EntityTypes,
 }
+export interface EntityGroupRelationTree {
+  node: EntityGroupRelationModel,
+  children: Array<EntityGroupRelationTree>,
+  collapsed: boolean,
+}
 export interface GetAllEntityGroups {
+}
+export interface GetEntityRelationsByProducts {
+  productIds: string,
 }
 export interface GetGroupTypes {
   isAll: boolean,

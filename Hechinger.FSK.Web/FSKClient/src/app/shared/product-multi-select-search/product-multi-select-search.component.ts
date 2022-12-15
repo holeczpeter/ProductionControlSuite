@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { debounceTime, ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { ProductModel, SelectModel } from '../../models/generated/generated';
@@ -10,7 +10,8 @@ import { LanguageService } from '../../services/language/language.service';
   templateUrl: './product-multi-select-search.component.html',
   styleUrls: ['./product-multi-select-search.component.scss']
 })
-export class ProductMultiSelectSearchComponent implements OnInit {
+export class ProductMultiSelectSearchComponent implements OnInit, OnChanges {
+  @Input() productIds: Array<number> = new Array<number>();
   @Output() select = new EventEmitter<Array<ProductModel>>();
   formGroup!: UntypedFormGroup;
   protected products: SelectModel[];
@@ -26,19 +27,29 @@ export class ProductMultiSelectSearchComponent implements OnInit {
     private readonly productDataService: ProductDataService,
     public languageService: LanguageService) { }
 
-  ngOnInit() {
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes)
+    if (changes['productIds'] && this.productIds) this.initalize();
+  }
+  initalize() {
     this.productDataService.getByFilter('').subscribe(products => {
       this.products = products;
+      let currentSelection = this.products.filter(x => this.productIds.includes(x.id));
       this.formGroup = this.formBuilder.group({
-        product: [null, [Validators.required]],
+        product: [currentSelection && currentSelection.length > 0 ? currentSelection: null, [Validators.required]],
       });
-      this.formGroup.valueChanges.subscribe(x => this.select.emit(x));
+      this.formGroup.valueChanges.subscribe(x => {
+        this.select.emit(x.product)
+      });
       this.productFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
         debounceTime(500)).subscribe(filter => {
           this.filterProductsMulti();
         })
       this.filteredProductsMulti.next(this.products.slice());
     });
+  }
+  ngOnInit() {
+
   }
 
   ngAfterViewInit() {

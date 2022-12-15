@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { DeleteEntityGroup, EntityGroupModel, EnumModel, GetGroupTypes, Result, SaveEntityGroup } from '../../models/generated/generated';
+import { catchError, Observable, of } from 'rxjs';
+import { DeleteEntityGroup, EntityGroupModel, EntityGroupRelationModel, EntityGroupRelationTree, EnumModel, GetGroupTypes, Result, SaveEntityGroup } from '../../models/generated/generated';
 import { TreeItem } from '../../models/tree-item';
 
 @Injectable({
@@ -37,5 +37,9 @@ export class EntityGroupDataService {
         isAll: request.isAll,
       }
     });
+  }
+
+  getEntityRelationsByProducts(params: HttpParams): Observable<Array<EntityGroupRelationTree>> {
+    return this.httpClient.get<Array<EntityGroupRelationTree>>('/EntityGroup/GetEntityRelationsByProducts', { params: params });
   }
 }

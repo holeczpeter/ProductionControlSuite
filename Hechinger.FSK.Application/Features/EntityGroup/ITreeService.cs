@@ -5,5 +5,6 @@ namespace Hechinger.FSK.Application.Features
     {
         Task<Result<bool>> Save(TreeItem<EntityGroupModel> item, EntityGroup parent, CancellationToken cancellationToken);
         Task<Result<bool>> Delete(int id, CancellationToken cancellationToken);
+        Task<Result<bool>> CreateRelations(TreeItem<EntityGroupModel> item, EntityGroup parent, CancellationToken cancellationToken);
     }
 }

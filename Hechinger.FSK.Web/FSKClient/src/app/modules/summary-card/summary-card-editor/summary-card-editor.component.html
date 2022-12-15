@@ -1,7 +1,7 @@
 <form [formGroup]="cardForm" *ngIf="cardForm" class="card-form">
   <table width='705' border='0'>
     <td width='705' align='center'>
-      <app-summary-card-header></app-summary-card-header>
+      <app-summary-card-header [code]="code"></app-summary-card-header>
       <br />
       <table width='100%'>
         <tr class="table-row">
@@ -80,7 +80,7 @@
                 {{currentOperation.code}} -
                 {{ (languageService.getCurrentLanguage() | async) == 'hu' ? currentOperation.name : currentOperation.translatedName}}
               </ng-container>
-             
+
             </ng-template>
           </td>
           <td class="text-cell">

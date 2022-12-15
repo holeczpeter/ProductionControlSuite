@@ -5,11 +5,11 @@
   <mat-icon>print
   </mat-icon>
 </button>
-<div class="row preview" *ngIf="printableOperation"  id="print-section">
-  <div *ngFor="let number of [0,1]" class="col item">
+<mat-grid-list cols="2" rowHeight="1:1" *ngIf="printableOperation" id="print-section" class="preview" [gutterSize]="'5px'">
+  <mat-grid-tile *ngFor="let number of [0,1]" class="item">
     <table border='0'>
-      <td  align='center'>
-        <app-summary-card-header></app-summary-card-header>
+      <td align='center'>
+        <app-summary-card-header [code]="code"></app-summary-card-header>
         <br />
         <table cellspacing='0' width='100%'>
           <tr height='28'>
@@ -18,7 +18,7 @@
             </td>
             <td width='20%' style='border-bottom: thin dashed black;'>&nbsp;</td>
             <td align='left' width='13%' style='border-bottom: thin dashed black;'>
-             {{ 'quantity' | translate }}:
+              {{ 'quantity' | translate }}:
             </td>
             <td width='20%' style='border-bottom: thin dashed black;'>&nbsp;</td>
             <td align='left' width='33%' style='border-bottom: thin dashed black;' colspan='4'>
@@ -31,7 +31,7 @@
             </td>
             <td width='20%' style='border-bottom: thin dashed black;'>&nbsp;</td>
             <td align='left' width='13%' style='border-bottom: thin dashed black;'>
-              {{ 'productName' | translate}}: 
+              {{ 'productName' | translate}}:
             </td>
             <td width='20%' style='border-bottom: thin dashed black;' colspan='5'>
               {{ printableOperation.productName }}
@@ -96,10 +96,18 @@
               <td style='border: thin solid black;border-right: thin solid black; ' align='center' width='10%'></td>
             </tr>
           </ng-container>
-         
+
         </table>
       </td>
     </table>
+
+  </mat-grid-tile>
+</mat-grid-list>
+
+
+<!--<div class="preview" *ngIf="printableOperation"  id="print-section">
+  <div *ngFor="let number of [0,1]" class="item">
+
   </div>
-</div>
+</div>-->
 

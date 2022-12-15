@@ -12,6 +12,7 @@ export class SummaryCardPrintViewComponent implements OnInit, OnChanges {
   @Input() operation: SelectModel;
   printableOperation: OperationPrintModel;
   @ViewChild('content') content: ElementRef<HTMLElement>;
+  code: string;
   constructor(private readonly operationDataService: OperationDataService,
     public languageService: LanguageService) { }
     
@@ -21,6 +22,7 @@ export class SummaryCardPrintViewComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['operation'] && this.operation) {
+      this.code = this.operation.code;
       this.operationDataService.getPrint({ id: this.operation.id }).subscribe(result => {
         this.printableOperation = result;
       });

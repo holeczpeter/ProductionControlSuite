@@ -1,8 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { debounceTime, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
-import { SelectModel } from '../../../../../models/generated/generated';
-import { ProductDataService } from '../../../../../services/data/product-data.service';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { EntityGroupModel, EntityGroupRelationModel, EntityTypes, ProductModel } from '../../../../../models/generated/generated';
+import { TreeItem } from '../../../../../models/tree-item';
 import { LanguageService } from '../../../../../services/language/language.service';
 
 @Component({
@@ -10,64 +8,40 @@ import { LanguageService } from '../../../../../services/language/language.servi
   templateUrl: './defect-group-product-editor.component.html',
   styleUrls: ['./defect-group-product-editor.component.scss']
 })
-export class DefectGroupProductEditorComponent implements OnInit {
+export class DefectGroupProductEditorComponent implements OnInit, OnChanges {
+  @Input() tree: TreeItem<EntityGroupModel>;
+  @Output() refreshTree = new EventEmitter<any>();
+  productIds: number[];
+  constructor(public languageService: LanguageService) { }
 
-  formGroup!: UntypedFormGroup;
-  protected products: SelectModel[];
-
-  public productFilterCtrl: FormControl = new FormControl();
-  public filteredBanksMulti: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
-
-  @ViewChild('multiSelect') multiSelect: SelectModel;
-  protected _onDestroy = new Subject<void>();
-
-
-  constructor(private readonly formBuilder: UntypedFormBuilder,
-    private readonly productDataService: ProductDataService,
-    public languageService: LanguageService) { }
-
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes && changes["tree"]) this.initalize();
+  }
+  initalize() {
+    this.productIds = this.tree.node.relations.map(x => x.entityId);
+  }
   ngOnInit() {
-    this.productDataService.getByFilter('').subscribe(products => {
-      this.products = products;
-      this.formGroup = this.formBuilder.group({
-        product: [null, [Validators.required]],
-      });
-      this.formGroup.valueChanges.subscribe(x => console.log(x));
-      this.productFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
-        debounceTime(500)).subscribe(filter => {
-          this.filterProductsMulti();
-        })
-      this.filteredBanksMulti.next(this.products.slice());
-    });
   }
-
-  ngAfterViewInit() {
-   
-  }
-
-  ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
-  }
-
  
-
-  protected filterProductsMulti() {
-    if (!this.products) {
-      return;
-    }
-    let search = this.productFilterCtrl.value;
-    if (!search) {
-      this.filteredBanksMulti.next(this.products.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-      this.productDataService.getByFilter(search).subscribe((result: any) => {
-        this.products = result;
-        this.filteredBanksMulti.next(
-          this.products.filter(bank => bank.name.toLowerCase().indexOf(search) > -1)
-        );
-      });
-    }
+  onRefreshProducts(product: Array<ProductModel>) {
+   
+    let products = product as Array<ProductModel>;
+    let relations = new Array<EntityGroupRelationModel>();
+    products.forEach(x => {
+      let current: EntityGroupRelationModel = {
+        id: 0,
+        order:0,
+        entityId: x.id,
+        name: x.name,
+        parentId: 0,
+        code: x.code,
+        translatedName: x.translatedName,
+        entityType: EntityTypes.Product,
+        entityGroupId:this.tree.node.id
+      };
+      relations.push(current);
+    })
+    this.tree.node.relations = [...relations];
+    this.refreshTree.emit(this.tree);
   }
 }
