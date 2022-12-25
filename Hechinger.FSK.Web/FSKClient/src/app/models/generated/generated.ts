@@ -234,8 +234,11 @@ export interface RequestParameters {
   page: number,
   pageCount: number,
 }
-export interface AddNewTreeItem {
-  parent: TreeItem<EntityGroupModel>,
+export interface DeleteEntityGroup {
+  id: number,
+}
+export interface SaveEntityGroup {
+  current: TreeItem<EntityGroupModel>,
 }
 export interface EntityGroupModel {
   id: number,
@@ -244,12 +247,6 @@ export interface EntityGroupModel {
   parentId: number,
   groupType: GroupTypes,
   relations: Array<EntityGroupRelationModel>,
-}
-export interface DeleteEntityGroup {
-  id: number,
-}
-export interface EditTreeItem {
-  current: TreeItem<EntityGroupModel>,
 }
 export interface EntityGroupRelationModel {
   id: number,
@@ -269,14 +266,20 @@ export interface EntityGroupRelationTree {
 }
 export interface GetAllEntityGroups {
 }
+export interface GetDefectsForRelation {
+  operationIds: string,
+  groupId: number,
+}
 export interface GetEntityRelationsByProducts {
   productIds: string,
+  groupId: number,
 }
 export interface GetGroupTypes {
   isAll: boolean,
 }
-export interface SaveEntityGroup {
-  current: TreeItem<EntityGroupModel>,
+export interface GetOperationsForRelation {
+  productIds: string,
+  groupId: number,
 }
 export interface DefectImport {
   file: any,

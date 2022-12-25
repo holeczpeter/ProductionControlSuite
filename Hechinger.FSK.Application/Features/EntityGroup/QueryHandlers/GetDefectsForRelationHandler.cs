@@ -27,7 +27,7 @@
                                                         Name = o.Name,
                                                         EntityGroupId = 0,
                                                         EntityId = o.Id,
-                                                        EntityType = EntityTypes.Operation,
+                                                        EntityType = EntityTypes.Defect,
                                                         ParentId = o.OperationId,
                                                         TranslatedName = o.TranslatedName,
                                                     }).ToListAsync(cancellationToken);

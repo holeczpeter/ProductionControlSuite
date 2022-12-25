@@ -27,6 +27,7 @@ export class DefectGroupDefectEditorComponent implements OnInit {
   ngOnInit(): void {
     this.entityGroupService.getCurrentTree().subscribe(x => {
       let node = this.treeService.getRelations(x, 2, 0);
+      console.log(node)
       let operationIds = "";
       if (node) {
         operationIds = node?.node.relations.map(x => x.entityId.toString()).join(',');
@@ -35,7 +36,9 @@ export class DefectGroupDefectEditorComponent implements OnInit {
       let params = new HttpParams();
       params = params.append('operationIds', operationIds);
       params = params.append('groupId', this.tree.node.id);
+      console.log(params)
       this.entityGroupDataService.getDefectsForRelation(params).subscribe(res => {
+        console.log(res)
         this.defects = res;
       })
     });
@@ -53,6 +56,7 @@ export class DefectGroupDefectEditorComponent implements OnInit {
         event.currentIndex,
       );
     }
+    console.log(this.tree)
   }
   addGroupFromNode(item: TreeItem<EntityGroupModel>) {
     if (item) {
