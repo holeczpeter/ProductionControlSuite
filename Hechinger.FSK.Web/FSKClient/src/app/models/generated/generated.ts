@@ -967,6 +967,13 @@ export interface GetWorkshop {
 export interface GetWorkshopByFilter {
   filter: string,
 }
+export interface GetGroupReport {
+  entityGroupId: number,
+  startDate: Date,
+  endDate: Date,
+}
+export interface GroupReportModel {
+}
 export enum Views {
   Day = 0,
   Week = 1,

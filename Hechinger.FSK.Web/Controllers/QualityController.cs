@@ -59,5 +59,11 @@ namespace Hechinger.FSK.Web.Controllers
         {
             return await this.mediator.Send(request, cancellationToken);
         }
+
+        [HttpGet]
+        public async Task<GroupReportModel> GetGroupReport(GetGroupReport request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
     }
 }

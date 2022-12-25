@@ -1,9 +1,10 @@
 <div class="container-fluid">
   <app-title class="flex-title-item" [title]="title"></app-title>
   <ng-container *ngFor="let item of items">
-    <button mat-flat-button [matMenuTriggerFor]="panel.menu" color="primary">{{item.node.name}}</button>
+    <button mat-button [matMenuTriggerFor]="panel.menu" >{{item.node.name}}</button>
     <app-quality-menu #panel [items]="item.children" (select)="onSelect($event)"></app-quality-menu>
   </ng-container>
   <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
+  <app-quality-group-report [request]="request"></app-quality-group-report>
 </div>
 

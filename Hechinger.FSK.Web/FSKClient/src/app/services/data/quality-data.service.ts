@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CrapCostOperationModel, CrapCostProductModel, CrapCostWorkshopModel, DefectStatisticModel, GetCrapCostByOperation, GetCrapCostByProduct, GetCrapCostByWorkshop, GetDefectStatisticsByUser, GetMonthlyQualityHistory, GetQuantityReportByOperation, GetQuantityReportByProduct, GetWorkerStatisticsByDefect, MonthlyQualityModel, QuantityOperationReportModel, WorkerStatisticsModel } from '../../models/generated/generated';
+import { CrapCostProductModel, CrapCostWorkshopModel, DefectStatisticModel, GetCrapCostByOperation, GetCrapCostByProduct, GetCrapCostByWorkshop, GetDefectStatisticsByUser, GetGroupReport, GetMonthlyQualityHistory, GetQuantityReportByOperation, GetQuantityReportByProduct, GetWorkerStatisticsByDefect, GroupReportModel, MonthlyQualityModel, QuantityOperationReportModel, WorkerStatisticsModel } from '../../models/generated/generated';
 
 @Injectable({
   providedIn: 'root'
@@ -81,6 +81,16 @@ export class QualityDataService {
       params:
       {
         'workshopId': request.workshopId,
+        'startDate': request.startDate.toDateString(),
+        'endDate': request.endDate.toDateString()
+      }
+    });
+  }
+  getGroupReport(request: GetGroupReport): Observable<GroupReportModel> {
+    return this.httpClient.get<GroupReportModel>('/Quality/GetGroupReport', {
+      params:
+      {
+        'entityGroupId': request.entityGroupId,
         'startDate': request.startDate.toDateString(),
         'endDate': request.endDate.toDateString()
       }
