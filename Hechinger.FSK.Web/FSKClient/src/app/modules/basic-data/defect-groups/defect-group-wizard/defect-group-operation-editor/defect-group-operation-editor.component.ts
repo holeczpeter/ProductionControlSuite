@@ -29,6 +29,7 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
     private cdr: ChangeDetectorRef,
     private entityGroupService: EntityGroupService,
     private treeService: TreeService) { }
+
   ngOnInit(): void {
     this.entityGroupService.getProductIds().subscribe(x => {
       let productIds = x.map(u => u.toString()).join(',');
@@ -56,9 +57,11 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
         event.currentIndex,
       );
     }
+    this.entityGroupService.refreshTree(this.tree);
   }
   
   addGroupFromNode() {
+    
     let current: EntityGroupModel = {
       id: 0,
       name: '',
@@ -72,11 +75,13 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
       children: new Array<any>(),
       collapsed: false,
     }
-    this.tree.children.push(tree);
+    this.treeService.addChild(this.tree, tree);
+    this.entityGroupService.refreshTree(this.tree);
   }
+
   delete(node: TreeItem<EntityGroupModel>) {
     this.tree = this.treeService.removeChild(this.tree, node);
-   
+    this.entityGroupService.refreshTree(this.tree);
   }
   
   ngAfterViewInit(): void {

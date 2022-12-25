@@ -1,4 +1,4 @@
-<div cdkDropListGroup *ngIf="tree">
+<div cdkDropListGroup class="content" *ngIf="tree">
   <div class="example-container">
     <h2>{{ 'operations.title' | translate }}</h2>
     <div cdkDropList
@@ -8,31 +8,45 @@
       <div class="example-box" *ngFor="let item of operations" cdkDrag> {{item.code}} -  {{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.name : item.translatedName}}</div>
     </div>
   </div>
-  <div class="example-container">
-    <ng-container *ngFor="let item of tree.children">
-      <ng-container>
-        <div class="example-container">
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="{{'operationGroup' | translate}}" [(ngModel)]='item.node.name' [name]='item.node.name'>
-          </mat-form-field>
-          <div class="flex-container">
+  <div class="operation-container">
+    <h2>{{ 'operations.title' | translate }}</h2>
+    <ng-container>
+      <table>
+        <tr>
+          <th>Műveletcsoport megnevezése</th>
+          <th>Műveletcsoport elemei</th>
+          <th>Törlés</th>
+        </tr>
+        <tr *ngFor="let item of tree.children">
+          <td>
+            <mat-form-field>
+              <input matInput [(ngModel)]='item.node.name' [name]='item.node.name'>
+            </mat-form-field>
+          </td>
+          <td>
             <div cdkDropList
                  [cdkDropListData]="item.node.relations"
-                 class="example-list2"
+                 class="relation-list"
                  (cdkDropListDropped)="drop($event)">
               <div class="example-box" *ngFor="let i of item.node.relations" cdkDrag>{{i.code}}</div>
             </div>
+          </td>
+          <td>
             <div>
               <button mat-icon-button (click)="delete(item)" color="primary"><mat-icon>delete</mat-icon></button>
             </div>
-          </div>
-        </div>
-      </ng-container>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <div class="row justify-content-center pt-3">
+              <button mat-fab color="primary" (click)="addGroupFromNode()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </table>
     </ng-container>
-    <div class="row justify-content-center pt-3">
-      <button mat-fab color="primary" (click)="addGroupFromNode()">
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
   </div>
 </div>

@@ -21,6 +21,7 @@ export class EntityGroupService {
   refreshTree(tree: TreeItem<EntityGroupModel> ) {
     this.subject.next(tree);
   }
+  
   refreshProducts(productIds: Array<number>) {
     this.productSubject.next(productIds);
   }

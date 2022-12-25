@@ -26,19 +26,18 @@ export class DefectGroupDefectEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.entityGroupService.getCurrentTree().subscribe(x => {
-      let node = this.treeService.getRelations(x, 2, 0);
-      console.log(node)
-      let operationIds = "";
+      let list = new Array<string>();
+      let node = this.treeService.getRelations(x, 1, 0);
       if (node) {
-        operationIds = node?.node.relations.map(x => x.entityId.toString()).join(',');
+        node.children.forEach(child => {
+          list = list.concat(child?.node.relations.map(x => x.entityId.toString()));
+        });
       }
-      
       let params = new HttpParams();
-      params = params.append('operationIds', operationIds);
+      params = params.append('operationIds', list.toString());
       params = params.append('groupId', this.tree.node.id);
-      console.log(params)
+  
       this.entityGroupDataService.getDefectsForRelation(params).subscribe(res => {
-        console.log(res)
         this.defects = res;
       })
     });
@@ -56,7 +55,7 @@ export class DefectGroupDefectEditorComponent implements OnInit {
         event.currentIndex,
       );
     }
-    console.log(this.tree)
+    this.entityGroupService.refreshTree(this.tree);
   }
   addGroupFromNode(item: TreeItem<EntityGroupModel>) {
     if (item) {
@@ -74,10 +73,11 @@ export class DefectGroupDefectEditorComponent implements OnInit {
         collapsed: false,
       }
       item.children.push(tree);
-     
+      this.entityGroupService.refreshTree(this.tree);
     }
   }
   delete(parent: TreeItem<EntityGroupModel>, node: TreeItem<EntityGroupModel>) {
     this.treeService.removeChild(parent, node);
+    this.entityGroupService.refreshTree(this.tree);
   }
 }

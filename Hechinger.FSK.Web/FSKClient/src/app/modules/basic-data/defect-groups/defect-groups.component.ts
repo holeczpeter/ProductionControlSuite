@@ -190,7 +190,7 @@ export class DefectGroupsComponent implements OnInit {
         disableClose: true,
         autoFocus: false,
         data: currentNode,
-        width:'1100px'
+        minWidth:'1400px'
       });
       dialogRef.afterClosed().subscribe((result) => {
         this.initalize(node);

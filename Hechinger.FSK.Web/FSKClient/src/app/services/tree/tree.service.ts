@@ -56,16 +56,4 @@ export class TreeService {
     }
     return element;
   }
-  addRelation(element: TreeItem<EntityGroupModel>, relation: EntityGroupRelationModel): TreeItem<EntityGroupModel> | null {
-    element.node.relations.push(relation);
-    return element;
-  }
-  removeRelation(element: TreeItem<EntityGroupModel>, relation: EntityGroupRelationModel): TreeItem<EntityGroupModel> | null {
-    var index = element.node.relations.indexOf(relation);
-    if (index !== -1) {
-      element.node.relations.splice(index, 1);
-    }
-    return element;
-  }
-  
 }
