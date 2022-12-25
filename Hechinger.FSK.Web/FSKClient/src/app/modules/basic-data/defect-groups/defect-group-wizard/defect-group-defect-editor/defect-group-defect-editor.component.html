@@ -1,1 +1,118 @@
-<p>defect-group-defect-editor works!</p>
+<div cdkDropListGroup>
+  <div class="example-container">
+    <h2>{{ 'defects.title' | translate }}</h2>
+    <div cdkDropList
+         [cdkDropListData]="defects"
+         class="example-list"
+         (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let item of defects" cdkDrag> {{item.code}} -  {{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.name : item.translatedName}}</div>
+    </div>
+  </div>
+
+  <div class="example-container">
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel *ngFor="let item of tree.children">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{item.node.name}} műveletcsoport
+          </mat-panel-title>
+          <mat-panel-description>
+            <div *ngFor="let rel of item.node.relations">
+              {{rel.code}} /
+            </div>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <table>
+          <tr>
+            <th>Hibacsoport megnevezése</th>
+            <th>Hibacsoport elemei</th>
+            <th>Hibacsoport törlése</th>
+          </tr>
+          <tr *ngFor="let child of item.children">
+            <td>
+              <mat-form-field>
+                <input matInput placeholder="{{'defectsGroup' | translate}}" [(ngModel)]='child.node.name' [name]='child.node.name'>
+              </mat-form-field>
+            </td>
+            <td>
+              <div cdkDropList
+                   [cdkDropListData]="child.node.relations"
+                   class="example-list2"
+                   (cdkDropListDropped)="drop($event)">
+                <div class="example-box" *ngFor="let i of child.node.relations" cdkDrag>{{i.code}}</div>
+              </div>
+            </td>
+            <td>
+              <div>
+                <button mat-icon-button (click)="delete(item,child)" color="primary"><mat-icon>delete</mat-icon></button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <div class="row justify-content-center pt-3">
+                <button mat-fab color="primary" (click)="addGroupFromNode(item)">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+
+    <!--<ng-container *ngFor="let item of tree.children">
+      <ng-container>
+        <table>
+          <tr>
+            <th>{{item.node.name}} műveletcsoport</th>
+            <th colspan="2">
+              <div class="flex-container">
+                <div *ngFor="let rel of item.node.relations">
+                  {{rel.code}} /
+                </div>
+              </div>
+            </th>
+          </tr>
+          <tr>
+            <th>Hibacsoport megnevezése</th>
+            <th>Hibacsoport elemei</th>
+            <th>Hibacsoport törlése</th>
+          </tr>
+          <tr *ngFor="let child of item.children">
+            <td>
+              <mat-form-field>
+                <input matInput placeholder="{{'defectsGroup' | translate}}" [(ngModel)]='child.node.name' [name]='child.node.name'>
+              </mat-form-field>
+            </td>
+            <td>
+              <div cdkDropList
+                   [cdkDropListData]="child.node.relations"
+                   class="example-list2"
+                   (cdkDropListDropped)="drop($event)">
+                <div class="example-box" *ngFor="let i of child.node.relations" cdkDrag>{{i.code}}</div>
+              </div>
+            </td>
+            <td>
+              <div>
+                <button mat-icon-button (click)="delete(item,child)" color="primary"><mat-icon>delete</mat-icon></button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <div class="row justify-content-center pt-3">
+                <button mat-fab color="primary" (click)="addGroupFromNode(item)">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </table>
+
+      </ng-container>
+    </ng-container>-->
+  </div>
+</div>
+

@@ -52,7 +52,7 @@ export class QualityReportComponent implements OnInit, OnDestroy {
 
       });
     this.intervalPanelService.setViews(this.selectedView, this.currentDate);
-    this.entityGroupDataService.getAll().subscribe(results => { console.log(results); this.items = results; });
+    this.entityGroupDataService.getAll().subscribe(results => {  this.items = results; });
   }
 
   initalize() {

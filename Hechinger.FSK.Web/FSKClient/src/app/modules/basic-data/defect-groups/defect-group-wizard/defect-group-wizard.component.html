@@ -20,6 +20,7 @@
     </mat-step>
     <mat-step state="playlist_add_check" *ngIf="isHead">
       <ng-template matStepLabel>{{'defects.title'| translate}}</ng-template>
+      <app-defect-group-defect-editor [tree]="data" (refreshTree)="refreshTree($event)"></app-defect-group-defect-editor>
     </mat-step>
     <ng-template matStepperIcon="perm_data_setting">
       <mat-icon>perm_data_setting</mat-icon>

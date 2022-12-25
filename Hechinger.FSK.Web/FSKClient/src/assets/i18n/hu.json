@@ -72,6 +72,7 @@
   "usersCount": "fő",
   "warning": "Figyelmeztetések",
   "operationGroup": "Műveletcsoport",
+  "defectsGroup": "Hibacsoport",
   "selected": "Kiválasztott",
   "months": [
     { "January": "Január" },

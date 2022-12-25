@@ -28,7 +28,6 @@ export class ProductMultiSelectSearchComponent implements OnInit, OnChanges {
     public languageService: LanguageService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
     if (changes['productIds'] && this.productIds) this.initalize();
   }
   initalize() {

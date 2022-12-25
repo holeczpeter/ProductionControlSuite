@@ -48,7 +48,6 @@ export class LayoutComponent implements OnDestroy {
 
   }
   onScroll() {
-    console.log("scroll")
   }
   ngOnDestroy() {
     this.onDestroy$.next(null);

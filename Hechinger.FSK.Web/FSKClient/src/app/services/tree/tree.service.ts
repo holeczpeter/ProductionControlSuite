@@ -31,6 +31,20 @@ export class TreeService {
     }
     return null;
   }
+
+  getRelations(element: TreeItem<EntityGroupModel>, level: number, currentLevel: number): TreeItem<EntityGroupModel> | null {
+    currentLevel++;
+    if (level == currentLevel) return element;
+    if (element.children != null) {
+      var i;
+      var result = null;
+      for (i = 0; result == null && i < element.children.length; i++) {
+        result = this.getRelations(element.children[i], level, currentLevel);
+      }
+      return result;
+    }
+    return null;
+  }
   addChild(element: TreeItem<EntityGroupModel>, child: TreeItem<EntityGroupModel>): TreeItem<EntityGroupModel> | null {
     element.children.push(child);
     return element;

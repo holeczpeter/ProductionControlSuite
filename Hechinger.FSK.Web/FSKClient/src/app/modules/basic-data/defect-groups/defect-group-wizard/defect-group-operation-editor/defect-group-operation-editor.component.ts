@@ -19,17 +19,11 @@ import { TreeService } from '../../../../../services/tree/tree.service';
 export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() tree: TreeItem<EntityGroupModel>;
   @Output() refreshTree = new EventEmitter<any>();
-  entityRelationTree: Array<EntityGroupRelationTree>;
+  entityRelationTree: Array<EntityGroupRelationModel>;
   config: AccordionConfig = { multi: false };
   done = new Array<EntityGroupRelationModel>();
   operations: EntityGroupRelationModel[];
-  public get groupTypes(): typeof GroupTypes {
-    return GroupTypes;
-  }
 
-  treeControl = new NestedTreeControl<EntityGroupRelationTree>(node => node.children);
-  dataSource = new MatTreeNestedDataSource<EntityGroupRelationTree>();
-  hasChild = (_: number, node: EntityGroupRelationTree) => !!node.children && node.children.length > 0;
   constructor(private entityGroupDataService: EntityGroupDataService,
     public languageService: LanguageService,
     private cdr: ChangeDetectorRef,
@@ -41,40 +35,17 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
       let params = new HttpParams();
       params = params.append('productIds', productIds);
       params = params.append('groupId', this.tree.node.id);
-      this.entityGroupDataService.getEntityRelationsByProducts(params).subscribe(res => {
+      this.entityGroupDataService.getOperationsForRelation(params).subscribe(res => {
         this.entityRelationTree = res;
-        this.dataSource.data = this.entityRelationTree;
-        this.createOpList();
-
+        this.operations = this.entityRelationTree;
       })
     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
-    if (changes && changes["tree"] && this.tree) this.initalize();
   }
-
-  initalize() {
-   
-    //let productIds = "";
-    //if (this.tree.node.relations && this.tree.node.relations.length > 0) {
-    //  productIds = this.tree.node.relations.map(x => x.entityId.toString()).join(',');
-    //}
-   
-    //let params = new HttpParams();
-    //params = params.append('productIds', productIds);
-    //this.entityGroupDataService.getEntityRelationsByProducts(params).subscribe(res => {
-    //  this.entityRelationTree = res;
-    //  this.dataSource.data = this.entityRelationTree;
-    //  this.createOpList();
-
-    //})
-  }
-
   
   drop(event: CdkDragDrop<any[]>) {
-    console.log(event)
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -85,7 +56,6 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
         event.currentIndex,
       );
     }
-    console.log(this.tree)
   }
   
   addGroupFromNode() {
@@ -106,11 +76,9 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
   }
   delete(node: TreeItem<EntityGroupModel>) {
     this.tree = this.treeService.removeChild(this.tree, node);
-    console.log(this.tree)
+   
   }
-  createOpList() {
-    this.operations = this.entityRelationTree.flatMap(x => x.children).map(i => i.node);
-  }
+  
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
   }

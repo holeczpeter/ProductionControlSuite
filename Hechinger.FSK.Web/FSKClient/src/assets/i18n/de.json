@@ -73,6 +73,7 @@
   "usersCount": "Person",
   "warning": "Warnung",
   "operationGroup": "Operation Gruppe",
+  "defectsGroup": "Fehler Gruppe",
   "selected": "Ausgewählt",
   "months": [
     { "January": "Januar" },
