@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CrapCostProductModel, CrapCostWorkshopModel, DefectStatisticModel, GetCrapCostByOperation, GetCrapCostByProduct, GetCrapCostByWorkshop, GetDefectStatisticsByUser, GetGroupReport, GetMonthlyQualityHistory, GetQuantityReportByOperation, GetQuantityReportByProduct, GetWorkerStatisticsByDefect, GroupReportModel, MonthlyQualityModel, QuantityOperationReportModel, WorkerStatisticsModel } from '../../models/generated/generated';
+import { CrapCostProductModel, CrapCostWorkshopModel, DefectStatisticModel, GetCrapCostByOperation, GetCrapCostByProduct, GetCrapCostByWorkshop, GetDefectStatisticsByUser, GetGroupReport, GetMonthlyQualityHistory, GetQuantityReportByOperation, GetWorkerStatisticsByDefect, GroupReportModel, MonthlyQualityModel, QuantityOperationReportModel, WorkerStatisticsModel } from '../../models/generated/generated';
 
 @Injectable({
   providedIn: 'root'
@@ -46,16 +46,7 @@ export class QualityDataService {
       }
     });
   }
-  getQuantityReportByProduct(request: GetQuantityReportByProduct): Observable<Array<QuantityOperationReportModel>> {
-    return this.httpClient.get<Array<QuantityOperationReportModel>>('/Quality/GetQuantityReportByProduct', {
-      params:
-      {
-        'productId': request.productId,
-        'startDate': request.startDate.toDateString(),
-        'endDate': request.endDate.toDateString()
-      }
-    });
-  }
+  
   getCrapCostByOperation(request: GetCrapCostByOperation): Observable<CrapCostProductModel> {
     return this.httpClient.get<CrapCostProductModel>('/Quality/GetCrapCostByOperation', {
       params:

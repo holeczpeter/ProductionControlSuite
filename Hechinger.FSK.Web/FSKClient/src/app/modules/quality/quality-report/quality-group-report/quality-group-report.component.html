@@ -1,1 +1,16 @@
-<p>quality-group-report works!</p>
+<ng-container *ngIf="items">
+  <ng-container *ngFor="let i of items">
+    <div>
+      <app-operation-quantity-table [tableModel]="i.tableModel"
+                                    [categories]="categories"
+                                    [shifts]="shifts">
+      </app-operation-quantity-table>
+    </div>
+    <div class="chart">
+      <app-operation-quantity-chart [chartModel]="i.tableModel.model"
+                                    [chartTitle]="i.chartTitle">
+      </app-operation-quantity-chart>
+    </div>
+  </ng-container>
+</ng-container>
+

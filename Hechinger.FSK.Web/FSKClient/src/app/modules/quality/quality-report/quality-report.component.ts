@@ -1,9 +1,7 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatMenu } from '@angular/material/menu';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { BehaviorSubject } from 'rxjs';
-import { distinctUntilChanged, Subject, Subscription } from 'rxjs';
-import { EntityGroupModel, GetGroupReport, GetQuantityReportByProduct, IntervalModel, IntervalOption, QuantityOperationReportModel, SelectModel, Views } from '../../../models/generated/generated';
+import { BehaviorSubject, distinctUntilChanged, Subject, Subscription } from 'rxjs';
+import { EntityGroupModel, GetGroupReport, IntervalModel, IntervalOption, Views } from '../../../models/generated/generated';
 import { TreeItem } from '../../../models/tree-item';
 import { EntityGroupDataService } from '../../../services/data/entity-group-data.service';
 import { QualityDataService } from '../../../services/data/quality-data.service';

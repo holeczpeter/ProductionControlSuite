@@ -627,11 +627,6 @@ export interface GetQuantityReportByOperation {
   startDate: Date,
   endDate: Date,
 }
-export interface GetQuantityReportByProduct {
-  productId: number,
-  startDate: Date,
-  endDate: Date,
-}
 export interface DefectStatisticModel {
   workerCode: string,
   operationCode: string,
@@ -973,6 +968,7 @@ export interface GetGroupReport {
   endDate: Date,
 }
 export interface GroupReportModel {
+  items: Array<QuantityOperationReportModel>,
 }
 export enum Views {
   Day = 0,
