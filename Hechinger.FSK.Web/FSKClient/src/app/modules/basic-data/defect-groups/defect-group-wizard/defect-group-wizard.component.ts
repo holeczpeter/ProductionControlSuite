@@ -23,8 +23,9 @@ export class DefectGroupWizardComponent implements OnInit {
   @ViewChild('mystepper') stepper: MatStepper;
   totalStepsCount!: 3;
   isHead = false;
+  data: TreeItem<EntityGroupModel>;
   constructor(private readonly dialogRef: MatDialogRef<DefectGroupWizardComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: TreeItem<EntityGroupModel>,
+    @Inject(MAT_DIALOG_DATA) public incomingData: TreeItem<EntityGroupModel>,
     private entityGroupDataService: EntityGroupDataService,
     private readonly defectGroupDataService: DefectGroupDataService,
     private readonly productDataService: ProductDataService,
@@ -32,19 +33,26 @@ export class DefectGroupWizardComponent implements OnInit {
     private readonly snackBar: SnackbarService,
     private readonly changeDetector: ChangeDetectorRef,
     public languageService: LanguageService) {
-    this.title = this.data  ? "defectgroups.edit" : "defectgroups.add";
+    this.title = this.incomingData  ? "defectgroups.edit" : "defectgroups.add";
   }
 
   ngOnInit(): void {
-    if (this.data) this.isHead = this.data.node.groupType == GroupTypes.Head;
-    else this.isHead = true;
-    
-    this.refresh();
-
+    if (this.incomingData.node.id != 0) {
+      let request = { id: this.incomingData.node.id };
+      this.entityGroupDataService.get(request).subscribe(x => {
+        console.log(x)
+        this.data = x;
+        if (this.data) this.isHead = this.data.node.groupType == GroupTypes.Head;
+        else this.isHead = true;
+      })
+    }
+    else {
+      this.data = this.incomingData;
+      if (this.data)  this.isHead = this.data.node.groupType == GroupTypes.Head;
+      else this.isHead = true;
+    }
   }
-  refresh() {
-   
-  }
+ 
   refreshTree(event: any) {
     this.data = event;
     if (this.data) this.isHead = this.data.node.groupType == GroupTypes.Head;

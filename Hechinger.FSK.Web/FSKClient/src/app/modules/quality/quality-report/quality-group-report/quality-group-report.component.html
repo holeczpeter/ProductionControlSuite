@@ -1,5 +1,9 @@
-<ng-container *ngIf="items">
-  <ng-container *ngFor="let i of items">
+<ng-container *ngIf="result">
+  <app-quality-group-report-weekly-table [result]="result">
+
+  </app-quality-group-report-weekly-table>
+  <!--<ng-container *ngFor="let i of items">
+
     <div>
       <app-operation-quantity-table [tableModel]="i.tableModel"
                                     [categories]="categories"
@@ -11,6 +15,6 @@
                                     [chartTitle]="i.chartTitle">
       </app-operation-quantity-chart>
     </div>
-  </ng-container>
+  </ng-container>-->
 </ng-container>
 

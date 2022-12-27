@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
-import { DeleteEntityGroup, EntityGroupModel, EntityGroupRelationModel, EntityGroupRelationTree, EnumModel, GetGroupTypes, Result, SaveEntityGroup } from '../../models/generated/generated';
+import { DeleteEntityGroup, EntityGroupModel, EntityGroupRelationModel, EntityGroupRelationTree, EnumModel, GetEntityGroupById, GetGroupTypes, Result, SaveEntityGroup } from '../../models/generated/generated';
 import { TreeItem } from '../../models/tree-item';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class EntityGroupDataService {
   delete(request: DeleteEntityGroup): Observable<Result> {
     return this.httpClient.post<Result>('/EntityGroup/Delete', request)
   }
-  get(request: any): Observable<any> {
+  get(request: GetEntityGroupById): Observable<any> {
     return this.httpClient.get<any>('/EntityGroup/Get', {
       params:
       {

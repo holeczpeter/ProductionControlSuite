@@ -180,6 +180,10 @@ export interface UpdateDefect {
   operationId: number,
   defectCategory: DefectCategories,
 }
+export interface DefectCategoryModel {
+  name: string,
+  category: DefectCategories,
+}
 export interface DefectModel {
   id: number,
   name: string,
@@ -269,6 +273,9 @@ export interface GetAllEntityGroups {
 export interface GetDefectsForRelation {
   operationIds: string,
   groupId: number,
+}
+export interface GetEntityGroupById {
+  id: number,
 }
 export interface GetEntityRelationsByProducts {
   productIds: string,
@@ -968,7 +975,33 @@ export interface GetGroupReport {
   endDate: Date,
 }
 export interface GroupReportModel {
-  items: Array<QuantityOperationReportModel>,
+  items: Array<OperationItem>,
+}
+export interface OperationItem {
+  operationId: number,
+  operationName: string,
+  operationTranslatedName: string,
+  operationCode: string,
+  quantity: number,
+  defects: Array<DefectItem>,
+  weekItems: Array<WeekItem>,
+}
+export interface DefectItem {
+  defectId: number,
+  defectCode: string,
+  defectName: string,
+  defectTranslatedName: string,
+  quantity: number,
+  defectQuantity: number,
+  ppm: any,
+  weekItems: Array<WeekItem>,
+}
+export interface WeekItem {
+  weekNumber: number,
+  defectCategory: DefectCategories,
+  defectQuantity: number,
+  quantity: number,
+  ppm: any,
 }
 export enum Views {
   Day = 0,

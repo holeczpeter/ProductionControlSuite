@@ -5,6 +5,6 @@
     <app-quality-menu #panel [items]="item.children" (select)="onSelect($event)"></app-quality-menu>
   </ng-container>
   <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
-  <app-quality-group-report [request]="request"></app-quality-group-report>
+  <app-quality-group-report [request]="request" [interval]="currentInterval"></app-quality-group-report>
 </div>
 

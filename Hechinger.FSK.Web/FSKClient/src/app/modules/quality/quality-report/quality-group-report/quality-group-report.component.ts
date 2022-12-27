@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { forkJoin } from 'rxjs';
-import { EnumModel, GetGroupReport, GroupReportModel, ShiftModel, Views } from '../../../../models/generated/generated';
+import { EnumModel, GetGroupReport, GroupReportModel, IntervalModel, ShiftModel, Views } from '../../../../models/generated/generated';
 import { QuantityTableModel } from '../../../../models/quantity-table-model';
 import { DefectDataService } from '../../../../services/data/defect-data.service';
 import { ProductDataService } from '../../../../services/data/product-data.service';
@@ -21,10 +21,10 @@ export interface Quality {
 })
 export class QualityGroupReportComponent implements OnInit, OnChanges {
   @Input() request: GetGroupReport;
+  @Input() interval: IntervalModel;
   result: GroupReportModel;
   items: Array<Quality>;
-  shifts: ShiftModel[];
-  categories: EnumModel[];
+
   constructor(private readonly qualityDataService: QualityDataService,
     private readonly formBuilder: UntypedFormBuilder,
     private intervalPanelService: IntervalViewService,
@@ -37,48 +37,33 @@ export class QualityGroupReportComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes["request"] && this.request) this.initalize();
+    if ((changes["request"] && this.request) || (changes["interval"] && this.interval)) this.initalize();
   }
 
   initalize() {
-    console.log(this.request)
-    forkJoin([this.shiftDataServie.getAll(),
-    this.defectDataService.getAllDefectCategories(),
-    this.qualityDataService.getGroupReport(this.request)]).subscribe(([shifts, categories, result]) => {
-      console.log(shifts)
-      console.log(categories)
+    if (this.interval && this.request) {
+    forkJoin([this.qualityDataService.getGroupReport(this.request)]).subscribe(([ result]) => {
+     
       console.log(result)
-      //console.log(interval)
-      this.shifts = shifts;
-      this.categories = categories;
-      this.items = new Array<Quality>();
-      console.log(result)
-      if (result && result.items) {
-        result.items.forEach(x => {
-          let table: QuantityTableModel = {
-            interval: {
-              startDate: new Date(),
-              endDate: new Date(),
-              differenceInCalendarDays: 7,
-              selectedView: Views.Month,
-              currentMonth: 12,
-              currentMonthName: "December",
-              currentYear: 2022,
-              currentWeek: 52,
-            },
-            model: x
-          };
-          let item: Quality = {
-            chartTitle: "title",
-            tableModel: table
-          };
-          this.items.push(item)
-        })
-
-      }
       this.result = result;
-      console.log(this.items)
-    });
+      //this.items = new Array<Quality>();
+      //if (result && result.items) {
+      //  result.items.forEach(x => {
+      //    let table: QuantityTableModel = {
+      //      interval: this.interval,
+      //      model: x
+      //    };
+      //    let item: Quality = {
+      //      chartTitle: "title",
+      //      tableModel: table
+      //    };
+      //    this.items.push(item)
+      //  })
 
+      //}
+      //this.result = result;
+      //console.log(this.items)
+    });
+    }
   }
 }

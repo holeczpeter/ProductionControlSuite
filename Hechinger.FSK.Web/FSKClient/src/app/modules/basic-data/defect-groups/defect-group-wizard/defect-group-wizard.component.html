@@ -1,6 +1,6 @@
 <dialog-header [title]="title" (cancel)="onCancel()"></dialog-header>
 <mat-dialog-content>
-  <mat-stepper orientation="horizontal" #mystepper>
+  <mat-stepper orientation="horizontal" #mystepper *ngIf="data">
     <mat-step state="perm_data_setting">
       <ng-template matStepLabel>{{'defectgroups.edit'| translate}}</ng-template>
       <ng-template matStepContent>
