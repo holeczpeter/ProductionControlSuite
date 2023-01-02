@@ -9,7 +9,6 @@ table {
 }
 
 .th-align-right > div > .mat-sort-header-content {
-
   margin-left: 6px; // restores sort actual arrow margin
   padding-left: 18px;
 }
@@ -29,7 +28,13 @@ table {
 .th-align-center > div > .mat-sort-header-content {
   //margin-left: 16px; // compensates for sort arrow (which is 16px wide total)
 }
+
 td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
   padding-left: 10px !important;
   padding-right: 10px !important;
 }
@@ -44,6 +49,7 @@ td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type, th.mat-header-cell:
     max-width: 150px;
   }
 }
+
 tr.mat-footer-row {
   font-weight: bold;
 }
@@ -53,12 +59,14 @@ tr.mat-footer-row {
   overflow: auto;
   padding-top: 10px;
 }
+
 .mat-paginator {
   left: 0px;
   bottom: 0px;
   position: sticky;
   z-index: 10;
 }
+
 .table-toolbar {
   text-align: right;
 }

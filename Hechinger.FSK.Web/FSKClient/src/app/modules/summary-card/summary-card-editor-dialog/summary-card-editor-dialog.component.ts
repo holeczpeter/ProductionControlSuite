@@ -77,9 +77,11 @@ export class SummaryCardEditorDialogComponent implements OnInit {
       let item: UpdateSummaryCardItem = { id: data.value.id, defectId: data.value.defectId, comment: data.value.comment, quantity: data.value.quantity };
       items.push(item);
     });
+    let currentDate = new Date(Date.UTC(this.cardForm.get('date')?.value.getFullYear(), this.cardForm.get('date')?.value.getMonth(), this.cardForm.get('date')?.value.getDate()));
+
     let model: UpdateSummaryCard = {
       id: this.cardForm.get('id')?.value,
-      date: this.cardForm.get('date')?.value,
+      date: currentDate,
       worker: this.cardForm.get('worker')?.value,
       operationId: this.cardForm.get('operation')?.value.id,
       quantity: this.cardForm.get('quantity')?.value,
@@ -88,7 +90,7 @@ export class SummaryCardEditorDialogComponent implements OnInit {
       userId: this.accountService.getUserId(),
       items: items
     }
-
+    console.log(model)
     this.summaryCardDataService.update(model).subscribe(result => {
       this.snackBar.open(result);
       if (result.isSuccess) {

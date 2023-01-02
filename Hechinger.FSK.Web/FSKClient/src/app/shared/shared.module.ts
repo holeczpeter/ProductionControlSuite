@@ -13,7 +13,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapter, MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -70,6 +70,8 @@ import { CategoryPipe } from '../pipes/category.pipe';
 import { WorkshopSearchComponent } from './workshop-search/workshop-search.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { InfoCardComponent } from './info-card/info-card.component';
+import { MonthPipe } from '../pipes/month.pipe';
+import { LocaleDateAdapterService } from '../services/date/locale-date-adapter.service';
 
 @NgModule({
   declarations: [
@@ -96,6 +98,7 @@ import { InfoCardComponent } from './info-card/info-card.component';
     CategoryPipe,
     WorkshopSearchComponent,
     InfoCardComponent,
+    MonthPipe
   ],
   imports: [
     CommonModule,
@@ -214,6 +217,7 @@ import { InfoCardComponent } from './info-card/info-card.component';
     WorkshopSearchComponent,
     InfiniteScrollModule,
     InfoCardComponent,
+    MonthPipe
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },
@@ -221,6 +225,7 @@ import { InfoCardComponent } from './info-card/info-card.component';
     MatDatepickerModule,
     SnackbarService,
     HttpCancelService,
+    { provide: DateAdapter, useClass: LocaleDateAdapterService },
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],

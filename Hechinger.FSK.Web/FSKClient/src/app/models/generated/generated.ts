@@ -973,8 +973,10 @@ export interface GetGroupReport {
   entityGroupId: number,
   startDate: Date,
   endDate: Date,
+  view: Views,
 }
 export interface GroupReportModel {
+  view: Views,
   items: Array<OperationItem>,
 }
 export interface OperationItem {
@@ -982,9 +984,10 @@ export interface OperationItem {
   operationName: string,
   operationTranslatedName: string,
   operationCode: string,
+  operationCodes: string,
   quantity: number,
   defects: Array<DefectItem>,
-  weekItems: Array<WeekItem>,
+  periodItems: Array<PeriodItem>,
 }
 export interface DefectItem {
   defectId: number,
@@ -994,10 +997,10 @@ export interface DefectItem {
   quantity: number,
   defectQuantity: number,
   ppm: any,
-  weekItems: Array<WeekItem>,
+  periodItems: Array<PeriodItem>,
 }
-export interface WeekItem {
-  weekNumber: number,
+export interface PeriodItem {
+  periodNumber: number,
   defectCategory: DefectCategories,
   defectQuantity: number,
   quantity: number,

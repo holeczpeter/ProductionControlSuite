@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CrapCostProductModel, CrapCostWorkshopModel, DefectStatisticModel, GetCrapCostByOperation, GetCrapCostByProduct, GetCrapCostByWorkshop, GetDefectStatisticsByUser, GetGroupReport, GetMonthlyQualityHistory, GetQuantityReportByOperation, GetWorkerStatisticsByDefect, GroupReportModel, MonthlyQualityModel, QuantityOperationReportModel, WorkerStatisticsModel } from '../../models/generated/generated';
+import { CrapCostProductModel, CrapCostWorkshopModel, DefectStatisticModel, GetCrapCostByOperation, GetCrapCostByProduct, GetCrapCostByWorkshop, GetDefectStatisticsByUser, GetGroupReport, GetMonthlyQualityHistory, GetQuantityReportByOperation, GetWorkerStatisticsByDefect,  GroupReportModel,  MonthlyQualityModel, QuantityOperationReportModel, WorkerStatisticsModel } from '../../models/generated/generated';
 
 @Injectable({
   providedIn: 'root'
@@ -83,8 +83,19 @@ export class QualityDataService {
       {
         'entityGroupId': request.entityGroupId,
         'startDate': request.startDate.toDateString(),
-        'endDate': request.endDate.toDateString()
+        'endDate': request.endDate.toDateString(),
+        'view': request.view.toString()
       }
     });
   }
+  //getGroupReportYearly(request: GetGroupReport): Observable<GroupReportModel> {
+  //  return this.httpClient.get<GroupReportModel>('/Quality/GetGroupReportYearly', {
+  //    params:
+  //    {
+  //      'entityGroupId': request.entityGroupId,
+  //      'startDate': request.startDate.toDateString(),
+  //      'endDate': request.endDate.toDateString()
+  //    }
+  //  });
+  //}
 }

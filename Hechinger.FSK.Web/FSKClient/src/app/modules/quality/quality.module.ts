@@ -24,6 +24,7 @@ import { OperationCrapCostComponent } from './crap-costs/operation-crap-cost/ope
 import { QualityMenuComponent } from './quality-report/quality-menu/quality-menu.component';
 import { QualityGroupReportComponent } from './quality-report/quality-group-report/quality-group-report.component';
 import { QualityGroupReportWeeklyTableComponent } from './quality-report/quality-group-report/quality-group-report-weekly-table/quality-group-report-weekly-table.component';
+import { GualityGroupReportWeeklyChartComponent } from './quality-report/quality-group-report/guality-group-report-weekly-chart/guality-group-report-weekly-chart.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { QualityGroupReportWeeklyTableComponent } from './quality-report/quality
     WorkshopCrapCostComponent,
     QualityMenuComponent,
     QualityGroupReportComponent,
-    QualityGroupReportWeeklyTableComponent
+    QualityGroupReportWeeklyTableComponent,
+    GualityGroupReportWeeklyChartComponent,
   ],
   imports: [
     CommonModule,

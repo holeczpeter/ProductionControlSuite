@@ -7,15 +7,17 @@
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
+        public Views View { get; set; }
         public GetGroupReport()
         {
 
         }
-        public GetGroupReport(int entityGroupId, DateTime startDate, DateTime endDate)
+        public GetGroupReport(int entityGroupId, DateTime startDate, DateTime endDate, Views view)
         {
             EntityGroupId = entityGroupId;
             StartDate = startDate;
             EndDate = endDate;
+            View = view;
         }
     }
 }

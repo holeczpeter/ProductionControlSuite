@@ -104,6 +104,9 @@ export class DateService {
   getMonthName(monthId: number): string {
     return this.months[monthId];
   }
+  getMonthNameByLang(monthId: number, lang: string): string {
+    return lang == 'hu' ? this.hunMonth[monthId - 1] : this.deMonth[monthId - 1];
+  }
   getDayName(day: Date): string {
     var result = this.dayNames[day.getDay()];
     return result;

@@ -111,9 +111,11 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
     
       id: [0],
       order: [d.order],
+      defectCode: [d.code],
       defectId: [d.id],
       defectName: [d.name],
       defectTranslatedName: [d.translatedName],
+      defectCategory: [d.defectCategory],
       quantity: [''],
       comment: [''],
 

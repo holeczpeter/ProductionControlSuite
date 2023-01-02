@@ -15,6 +15,7 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { SharedModule } from './shared/shared.module';
 
 
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

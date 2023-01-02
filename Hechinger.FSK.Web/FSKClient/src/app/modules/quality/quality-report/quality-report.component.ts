@@ -19,8 +19,7 @@ export class QualityReportComponent implements OnInit, OnDestroy {
   request: GetGroupReport;
   items: Array<TreeItem<EntityGroupModel>>;
   intervalOptions: Array<IntervalOption> = [
-    { name: 'week', value: Views.Week, isDefault: true },
-    { name: 'month', value: Views.Month, isDefault: false },
+    { name: 'month', value: Views.Month, isDefault: true },
     { name: 'year', value: Views.Year, isDefault: false },
   ];
   currentDate = new Date();
@@ -47,13 +46,13 @@ export class QualityReportComponent implements OnInit, OnDestroy {
         this.currentInterval = x;
         this.selectedView = x.selectedView;
         if (this.entityGroupId.getValue() != 0) {
-          this.request = { entityGroupId: this.entityGroupId.getValue(), startDate: this.currentInterval.startDate, endDate: this.currentInterval.endDate }
+          this.request = { entityGroupId: this.entityGroupId.getValue(), startDate: this.currentInterval.startDate, endDate: this.currentInterval.endDate, view: this.currentInterval.selectedView }
         }
         
       });
     this.entityGroupId.subscribe(x => {
       if (this.currentInterval) {
-        this.request = { entityGroupId: this.entityGroupId.getValue(), startDate: this.currentInterval.startDate, endDate: this.currentInterval.endDate }
+        this.request = { entityGroupId: this.entityGroupId.getValue(), startDate: this.currentInterval.startDate, endDate: this.currentInterval.endDate, view: this.currentInterval.selectedView  }
       }
      
     });

@@ -22,9 +22,12 @@ export interface Quality {
 export class QualityGroupReportComponent implements OnInit, OnChanges {
   @Input() request: GetGroupReport;
   @Input() interval: IntervalModel;
+  selectedView: Views;
   result: GroupReportModel;
   items: Array<Quality>;
-
+  public get views(): typeof Views {
+    return Views;
+  }
   constructor(private readonly qualityDataService: QualityDataService,
     private readonly formBuilder: UntypedFormBuilder,
     private intervalPanelService: IntervalViewService,
@@ -41,29 +44,11 @@ export class QualityGroupReportComponent implements OnInit, OnChanges {
   }
 
   initalize() {
+    this.selectedView = this.interval.selectedView;
     if (this.interval && this.request) {
-    forkJoin([this.qualityDataService.getGroupReport(this.request)]).subscribe(([ result]) => {
-     
-      console.log(result)
-      this.result = result;
-      //this.items = new Array<Quality>();
-      //if (result && result.items) {
-      //  result.items.forEach(x => {
-      //    let table: QuantityTableModel = {
-      //      interval: this.interval,
-      //      model: x
-      //    };
-      //    let item: Quality = {
-      //      chartTitle: "title",
-      //      tableModel: table
-      //    };
-      //    this.items.push(item)
-      //  })
-
-      //}
-      //this.result = result;
-      //console.log(this.items)
-    });
+      forkJoin([this.qualityDataService.getGroupReport(this.request)]).subscribe(([result]) => {
+        this.result = result;
+      });
     }
   }
 }

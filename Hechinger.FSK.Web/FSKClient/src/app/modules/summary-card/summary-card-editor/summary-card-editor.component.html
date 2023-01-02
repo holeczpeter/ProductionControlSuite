@@ -127,7 +127,8 @@
         <tr formArrayName="items" *ngFor="let item of items.controls; let i = index">
           <ng-container [formGroupName]="i">
             <td class="defect" align='center' width='5%'>{{item.value.order}}</td>
-            <td class="defect" width='60%'>{{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.value.defectName : item.value.defectTranslatedName}}</td>
+            <td class="defect" width='20%'>{{ item.value.defectCode}}</td>
+            <td class="defect" width='40%'>{{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.value.defectName : item.value.defectTranslatedName}}</td>
             <td class="defect" align='center' width='5%'>{{ item.value.defectCategory | category }}</td>
             <td class="defect" align='center' width='20%'>
               <mat-form-field floatLabel="never" class="quantity">
