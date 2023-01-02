@@ -80,7 +80,7 @@ export class ProductsComponent implements OnInit, AfterViewInit{
   }
  
   initalize() {
-    this.productDataService.getAll().subscribe(result => {
+    this.productDataService.getProductsByParameters().subscribe(result => {
       this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
       this.dataSource = new MatTableDataSource<ProductModel>(result.body);
       this.createDinamicallyFormGroup();
@@ -117,7 +117,7 @@ export class ProductsComponent implements OnInit, AfterViewInit{
     this.getAll();
   }
   getAll(): void {
-    this.productDataService.getAll().subscribe((result: any) => {
+    this.productDataService.getProductsByParameters().subscribe((result: any) => {
       this.refreshDataSource(result);
     });
   }

@@ -15,7 +15,7 @@
             var relations = await this.context.EntityGroupRelations
                 .Where(x => (x.EntityGroupId == request.GroupId || group.Contains(x.EntityGroupId)) && x.EntityStatus == EntityStatuses.Active && x.EntityType == EntityTypes.Operation)
                 .Select(x => x.EntityId).ToListAsync(cancellationToken);
-
+            
             var operations = await this.context.Operations.Where(o => productIds.Contains(o.ProductId) &&
                                                                 !relations.Contains(o.Id))
                                                     .Select(o => new EntityGroupRelationModel()

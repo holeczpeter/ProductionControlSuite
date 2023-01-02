@@ -470,6 +470,17 @@ export interface ProductModel {
   operations: Array<OperationModel>,
 }
 export interface GetAllProducts {
+}
+export interface GetProduct {
+  id: number,
+}
+export interface GetProductByFilter {
+  filter: string,
+}
+export interface GetProductContext {
+  id: number,
+}
+export interface GetProductsByParameters {
   parameters: ProductRequestParameters,
 }
 export interface ProductRequestParameters {
@@ -482,15 +493,6 @@ export interface ProductRequestParameters {
   isAsc: boolean,
   page: number,
   pageCount: number,
-}
-export interface GetProduct {
-  id: number,
-}
-export interface GetProductByFilter {
-  filter: string,
-}
-export interface GetProductContext {
-  id: number,
 }
 export interface GetProductsCount {
   parameters: RequestParameters,

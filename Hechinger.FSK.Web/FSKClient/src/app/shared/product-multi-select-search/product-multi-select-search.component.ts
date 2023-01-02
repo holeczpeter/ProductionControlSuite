@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, IterableDiffer, IterableDiffers, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { debounceTime, ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { ProductModel, SelectModel } from '../../models/generated/generated';
@@ -10,30 +10,38 @@ import { LanguageService } from '../../services/language/language.service';
   templateUrl: './product-multi-select-search.component.html',
   styleUrls: ['./product-multi-select-search.component.scss']
 })
-export class ProductMultiSelectSearchComponent implements OnInit, OnChanges {
+export class ProductMultiSelectSearchComponent implements OnInit, DoCheck {
   @Input() productIds: Array<number> = new Array<number>();
   @Output() select = new EventEmitter<Array<ProductModel>>();
   formGroup!: UntypedFormGroup;
-  protected products: SelectModel[];
+  protected products: ProductModel[];
 
   public productFilterCtrl: FormControl = new FormControl();
-  public filteredProductsMulti: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
+  public filteredProductsMulti: ReplaySubject<ProductModel[]> = new ReplaySubject<ProductModel[]>(1);
 
-  @ViewChild('multiSelect') multiSelect: SelectModel;
+  @ViewChild('multiSelect') multiSelect: ProductModel;
   protected _onDestroy = new Subject<void>();
-
+  private _differ: IterableDiffer<any>;
 
   constructor(private readonly formBuilder: UntypedFormBuilder,
     private readonly productDataService: ProductDataService,
-    public languageService: LanguageService) { }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['productIds'] && this.productIds) this.initalize();
+    private differs: IterableDiffers,
+    public languageService: LanguageService) {
+    this._differ = this.differs.find([]).create();
   }
+  ngDoCheck() {
+    var changes = this._differ.diff(this.productIds);
+    if (changes) {
+      this.initalize();
+    }
+  }
+  
   initalize() {
-    this.productDataService.getByFilter('').subscribe(products => {
+    this.productDataService.getAll().subscribe(products => {
+     
       this.products = products;
       let currentSelection = this.products.filter(x => this.productIds.includes(x.id));
+      
       this.formGroup = this.formBuilder.group({
         product: [currentSelection && currentSelection.length > 0 ? currentSelection: null, [Validators.required]],
       });
