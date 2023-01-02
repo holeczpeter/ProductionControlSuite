@@ -66,6 +66,8 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
       id: 0,
       name: '',
       translatedName: '',
+      order: 0,
+      ppmGoal: 0,
       groupType: GroupTypes.Item,
       parentId: this.tree.node.id,
       relations: new Array<EntityGroupRelationModel>(),

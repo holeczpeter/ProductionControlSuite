@@ -15,5 +15,7 @@
         public double OperationTime { get; set; }
         public double Norma { get; set; }
 
+        public int PpmGoal { get; set; }
+
     }
 }

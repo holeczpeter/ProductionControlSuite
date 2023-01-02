@@ -134,6 +134,8 @@ export class DefectGroupsComponent implements OnInit {
     let current: EntityGroupModel = {
       id: 0,
       name: '',
+      order: 0,
+      ppmGoal:0,
       translatedName: '',
       groupType: 0,
       parentId: 0,
@@ -161,6 +163,8 @@ export class DefectGroupsComponent implements OnInit {
         name: '',
         translatedName: '',
         groupType: 0,
+        order: 0,
+        ppmGoal: 0,
         parentId: currentNode.node.id,
         relations: new Array<EntityGroupRelationModel>(),
       }

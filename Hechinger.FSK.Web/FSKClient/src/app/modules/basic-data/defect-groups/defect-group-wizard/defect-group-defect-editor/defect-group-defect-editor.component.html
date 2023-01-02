@@ -24,6 +24,7 @@
         </mat-expansion-panel-header>
         <table>
           <tr>
+            <th>Sorszám</th>
             <th>Hibacsoport megnevezése</th>
             <th>Hibacsoport elemei</th>
             <th>Törlés</th>
@@ -31,9 +32,15 @@
           <tr *ngFor="let child of item.children">
             <td>
               <mat-form-field>
-                <input matInput placeholder="{{'defectsGroup' | translate}}" [(ngModel)]='child.node.name' [name]='child.node.name'>
+                <input matInput placeholder="{{ 'order' | translate}}" required [(ngModel)]='child.node.order' />
               </mat-form-field>
             </td>
+            <td>
+              <mat-form-field>
+                <input matInput placeholder="{{'defectsGroup' | translate}}" [(ngModel)]='child.node.name' [name]='child.node.name' required>
+              </mat-form-field>
+            </td>
+
             <td>
               <div cdkDropList
                    [cdkDropListData]="child.node.relations"

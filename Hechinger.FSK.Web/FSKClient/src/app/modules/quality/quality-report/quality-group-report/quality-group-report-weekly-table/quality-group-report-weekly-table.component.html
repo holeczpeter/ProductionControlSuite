@@ -9,6 +9,7 @@
                  [dataSource]="table.dataSource">
             <ng-container *ngFor="let key of columnsToDisplay; let i = index">
               <ng-container [ngSwitch]="key">
+                <ng-container *ngSwitchCase="'order'" [ngTemplateOutlet]="ordertemplate" [ngTemplateOutletContext]="{ $implicit: key }"></ng-container>
                 <ng-container *ngSwitchCase="'defect'" [ngTemplateOutlet]="defecttemplate" [ngTemplateOutletContext]="{ $implicit: key }"></ng-container>
                 <ng-container *ngSwitchCase="'sum_q_0'" [ngTemplateOutlet]="sumquantitytemplate" [ngTemplateOutletContext]="{ $implicit: key }"></ng-container>
                 <ng-container *ngSwitchCase="'sum_q_1'" [ngTemplateOutlet]="sumquantitytemplate" [ngTemplateOutletContext]="{ $implicit: key }"></ng-container>
@@ -18,6 +19,16 @@
                 <ng-container *ngSwitchCase="'sum_ppm_2'" [ngTemplateOutlet]="sumppmtemplate" [ngTemplateOutletContext]="{ $implicit: key }"></ng-container>
                 <ng-container *ngSwitchDefault [ngTemplateOutlet]="defaultTemplate" [ngTemplateOutletContext]="{ $implicit: key }"></ng-container>
               </ng-container>
+              <ng-template #ordertemplate let key>
+                <ng-container [matColumnDef]="key" sticky>
+                  <th mat-header-cell *matHeaderCellDef class="defect-header">
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element[key] }}
+                  </td>
+
+                </ng-container>
+              </ng-template>
               <ng-template #defecttemplate let key>
                 <ng-container [matColumnDef]="key" sticky>
                   <th mat-header-cell *matHeaderCellDef class="defect-header">
@@ -26,7 +37,7 @@
                   <td mat-cell *matCellDef="let element">
                     {{(languageService.getCurrentLanguage() | async) == 'hu' ?  element[key].name  :  element[key].translatedName }}
                   </td>
-                  <td mat-footer-cell *matFooterCellDef> {{'sum' | translate}} </td>
+
                 </ng-container>
               </ng-template>
               <ng-template #sumquantitytemplate let key>
@@ -38,7 +49,6 @@
                   <td mat-cell *matCellDef="let element" align="center">
                     {{ element[key]  }}
                   </td>
-                  <td mat-footer-cell *matFooterCellDef="let element" align="center"> </td>
                 </ng-container>
               </ng-template>
               <ng-template #sumppmtemplate let key>
@@ -50,7 +60,7 @@
                   <td mat-cell *matCellDef="let element" align="center">
                     {{ element[key]  }}
                   </td>
-                  <td mat-footer-cell *matFooterCellDef="let element" align="center"> {{getTotal()}} </td>
+
                 </ng-container>
               </ng-template>
               <ng-template #defaultTemplate let key>
@@ -62,84 +72,118 @@
                   <td mat-cell *matCellDef="let element" align="center">
                     {{ element[key].value }}
                   </td>
-                  <td mat-footer-cell *matFooterCellDef></td>
-
                 </ng-container>
               </ng-template>
             </ng-container>
-            
-              <!-- Hét header -->
-              <ng-container matColumnDef="header-row-one-start-empty" sticky>
-                
-                <th mat-header-cell *matHeaderCellDef>
-                  <ng-container *ngIf="interval.selectedView == views.Year; else month">
-                    {{'month' | translate}}
+
+            <!-- Hét header -->
+            <ng-container matColumnDef="header-row-one-start-order" sticky>
+              <th mat-header-cell *matHeaderCellDef>
+                {{ 'order' | translate }}
+              </th>
+            </ng-container>
+            <!-- Hét header -->
+            <ng-container matColumnDef="header-row-one-start-period" sticky>
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="2">
+                <ng-container *ngIf="interval.selectedView == views.Year; else month">
+                  {{'month' | translate}}
+                </ng-container>
+                <ng-template #month>
+                  {{'week' | translate}}
+                </ng-template>
+              </th>
+            </ng-container>
+            <ng-container *ngFor="let week of weeksHeader; let i = index">
+              <ng-container [matColumnDef]="week">
+                <th mat-header-cell *matHeaderCellDef [attr.colspan]="3" class="th-align-center">
+                  <ng-container *ngIf="interval.selectedView == views.Year; else weeks">
+                    {{(languageService.getCurrentLanguage() | async) == 'hu' ?  (week | month:'hu')  :  (week | month : 'de')  }}
                   </ng-container>
-                  <ng-template #month>
-                    {{'week' | translate}}
+                  <ng-template #weeks>
+                    {{(languageService.getCurrentLanguage() | async) == 'hu' ?  ''  :  'KW' }}
+                    {{week}}
+                    {{(languageService.getCurrentLanguage() | async) == 'hu' ?  '. hét'  :  '' }}
                   </ng-template>
                 </th>
               </ng-container>
-              <ng-container *ngFor="let week of weeksHeader; let i = index">
-                <ng-container [matColumnDef]="week">
-                 
-                  <th mat-header-cell *matHeaderCellDef [attr.colspan]="3" class="th-align-center">
-                    <ng-container *ngIf="interval.selectedView == views.Year; else weeks">
-                      {{(languageService.getCurrentLanguage() | async) == 'hu' ?  (week | month:'hu')  :  (week | month : 'de')  }}
+            </ng-container>
+            <ng-container matColumnDef="header-row-sum-text">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="6" class="th-align-center"> {{'sum' | translate}} </th>
+            </ng-container>
+            <ng-container matColumnDef="header-row-one-start-empty" sticky>
+              <th mat-header-cell *matHeaderCellDef> </th>
+            </ng-container>
+            <!-- Művelet hét összesítő header -->
+            <ng-container matColumnDef="header-row-operation-group-name-start" sticky>
+              <th mat-header-cell *matHeaderCellDef class="operation-group-name" [attr.colspan]="2"> {{(languageService.getCurrentLanguage() | async) == 'hu' ?  table.operationGroupName  :  table.operationGroupTranslatedName }} </th>
+            </ng-container>
+            <ng-container *ngFor="let header of table.operationWeekSumHeaders; let i = index">
+              <ng-container [matColumnDef]="header.id">
+                <th mat-header-cell *matHeaderCellDef [attr.colspan]="3" class="th-align-center">
+                  {{header.value}}
+                </th>
+              </ng-container>
+            </ng-container>
+            <ng-container matColumnDef="header-row-operation-group-name-end">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="6" class="th-align-center">  {{getSummary(table.operationGroupId)}}  </th>
+            </ng-container>
 
-                    </ng-container>
-                    <ng-template #weeks>
-                      {{(languageService.getCurrentLanguage() | async) == 'hu' ?  ''  :  'KW' }}
-                      {{week}}
-                      {{(languageService.getCurrentLanguage() | async) == 'hu' ?  '. hét'  :  '' }}
-                    </ng-template>
-                  </th>
-                </ng-container>
+            <!-- Művelet category összesítő header -->
+            <ng-container matColumnDef="header-row-operation-group-name-start1" sticky>
+              <th mat-header-cell *matHeaderCellDef> {{table.operationGroupCodes }} </th>
+            </ng-container>
+            <ng-container *ngFor="let header of table.operationCategorySumHeaders; let i = index">
+              <ng-container [matColumnDef]="header.id">
+                <th mat-header-cell *matHeaderCellDef class="th-align-center">
+                  {{header.value}}
+                </th>
               </ng-container>
-              <ng-container matColumnDef="header-row-sum-text">
-                <th mat-header-cell *matHeaderCellDef [attr.colspan]="6" class="th-align-center"> {{'sum' | translate}} </th>
+            </ng-container>
+            <ng-container matColumnDef="footer-row-sum" sticky>
+              <td mat-footer-cell *matFooterCellDef [attr.colspan]="2">
+                {{'sum' | translate}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="footer-row-sum-empty">
+              <td mat-footer-cell *matFooterCellDef [attr.colspan]="getFooterColSpan()">
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="footer-row-goal" sticky>
+              <td mat-footer-cell *matFooterCellDef [attr.colspan]="2">
+                {{'goal' | translate}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="footer-row-goal-empty">
+              <td mat-footer-cell *matFooterCellDef [attr.colspan]="getFooterColSpan()">
+              </td>
+            </ng-container>
+            <ng-container *ngFor="let number of footerTotalColumns; let c = index">
+              <ng-container [matColumnDef]="number">
+                <td mat-footer-cell *matFooterCellDef align="center"  >
+                  {{getTotal(c) }}
+                </td>
               </ng-container>
+            </ng-container>
+            <ng-container *ngFor="let number of footerGoalColumns; let c = index">
+              <ng-container [matColumnDef]="number">
+                <td mat-footer-cell *matFooterCellDef align="center" class=category-goal [style.--background-color]="getCategory(number,1)">
+                  {{getGoal() }}
+                </td>
+              </ng-container>
+            </ng-container>
 
-              <!-- Művelet hét összesítő header -->
-              <ng-container matColumnDef="header-row-operation-group-name-start" sticky>
-                <th mat-header-cell *matHeaderCellDef> {{(languageService.getCurrentLanguage() | async) == 'hu' ?  table.operationGroupName  :  table.operationGroupTranslatedName }} </th>
-              </ng-container>
-              <ng-container *ngFor="let header of table.operationWeekSumHeaders; let i = index">
-                <ng-container [matColumnDef]="header.id">
-                  <th mat-header-cell *matHeaderCellDef [attr.colspan]="3" class="th-align-center">
-                    {{header.value}}
-                  </th>
-                </ng-container>
-              </ng-container>
-              <ng-container matColumnDef="header-row-operation-group-name-end">
-                <th mat-header-cell *matHeaderCellDef [attr.colspan]="6" class="th-align-center">  {{getSummary(table.operationGroupId)}}  </th>
-              </ng-container>
+            <ng-container *ngIf="i==0">
+              <tr mat-header-row *matHeaderRowDef="['header-row-one-start-period'].concat(weeksHeader).concat(['header-row-sum-text']);sticky: true"></tr>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['header-row-operation-group-name-start'].concat(table.operationWeekSumColumns).concat(['header-row-operation-group-name-end']);sticky: true"></tr>
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay;sticky: true"></tr>
+            <tr mat-header-row *matHeaderRowDef="['header-row-one-start-order'].concat(['header-row-operation-group-name-start1']).concat(table.operationCategorySumColumns);sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
 
-              <!-- Művelet category összesítő header -->
-              <ng-container matColumnDef="header-row-operation-group-name-start1" sticky>
-                <th mat-header-cell *matHeaderCellDef> {{table.operationGroupCodes }} </th>
-              </ng-container>
-              <ng-container *ngFor="let header of table.operationCategorySumHeaders; let i = index">
-                <ng-container [matColumnDef]="header.id">
-                  <th mat-header-cell *matHeaderCellDef class="th-align-center">
-                    {{header.value}}
-                  </th>
-                </ng-container>
-              </ng-container>
-
-              <ng-container *ngIf="i==0">
-                <tr mat-header-row *matHeaderRowDef="['header-row-one-start-empty'].concat(weeksHeader).concat(['header-row-sum-text']);sticky: true"></tr>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="['header-row-operation-group-name-start'].concat(table.operationWeekSumColumns).concat(['header-row-operation-group-name-end']);sticky: true"></tr>
-              <tr mat-header-row *matHeaderRowDef="columnsToDisplay;sticky: true"></tr>
-              <tr mat-header-row *matHeaderRowDef="['header-row-operation-group-name-start1'].concat(table.operationCategorySumColumns);sticky: true"></tr>
-              <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
-
-              <ng-container *ngIf="i==tables.length-1">
-                <tr mat-footer-row *matFooterRowDef="displayedColumns;sticky: true"></tr>
-
-              </ng-container>
+            <ng-container *ngIf="i==tables.length-1">
+              <tr mat-footer-row *matFooterRowDef="['footer-row-goal'].concat(['footer-row-goal-empty']).concat(footerGoalColumns);sticky: true" class="example-second-footer-row"></tr>
+              <tr mat-footer-row *matFooterRowDef="['footer-row-sum'].concat(['footer-row-sum-empty']).concat(footerTotalColumns);sticky: true" class="example-second-footer-row"></tr>
+            </ng-container>
           </table>
         </div>
         <!--<app-guality-group-report-weekly-chart [chartModel]="table.operationItem">

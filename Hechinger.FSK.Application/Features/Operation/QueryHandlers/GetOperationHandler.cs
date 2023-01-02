@@ -18,6 +18,7 @@
                 TranslatedName = !String.IsNullOrEmpty(x.TranslatedName) ? x.TranslatedName : x.Name,
                 OperationTime = x.OperationTime,
                 Norma = x.Norma,
+                PpmGoal = x.PpmGoal,
                 ProductId = x.ProductId,
                 ProductName = x.Product.Name,
                 ProductCode = x.Product.Code,

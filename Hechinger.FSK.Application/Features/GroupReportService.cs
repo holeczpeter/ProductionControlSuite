@@ -36,18 +36,27 @@ namespace Hechinger.FSK.Application.Features
             Stopwatch stopWatch = Stopwatch.StartNew();
             var start = request.StartDate;
             var end = request.EndDate;
-            var operationsGroupsId = await context.EntityGroups.Where(x => x.Id == request.EntityGroupId).SelectMany(x => x.Children).Select(x => new
+            var currentGroup = await context.EntityGroups.Where(x => x.Id == request.EntityGroupId).Select(x => new 
+            { 
+                Name = x.Name,
+                TranslatedName = x.TranslatedName,
+                PpmGoal = x.PpmGoal
+
+            }).FirstOrDefaultAsync(cancellationToken);
+            var operationsGroupsId = await context.EntityGroups.Where(x => x.Id == request.EntityGroupId).SelectMany(x => x.Children.Where(c=>c.EntityStatus == EntityStatuses.Active)).Select(x => new
             {
                 Id = x.Id,
                 Name = x.Name,
                 Code = x.Code,
                 TranslatedName = x.TranslatedName,
-                RelationsIds = x.EntityGroupRelations.Select(r => new { Id = r.Id, EntityId = r.EntityId }),
-                Children = x.Children.Select(c => new
+                Order = x.Order,
+                RelationsIds = x.EntityGroupRelations.Where(r => r.EntityStatus == EntityStatuses.Active).Select(r => new { Id = r.Id, EntityId = r.EntityId }),
+                Children = x.Children.Where(c => c.EntityStatus == EntityStatuses.Active).Select(c => new
                 {
                     Id = c.Id,
                     Name = c.Name,
                     Code = c.Code,
+                    Order = c.Order,
                     TranslatedName = c.TranslatedName,
                     RelationsIds = c.EntityGroupRelations.Select(r => new { Id = r.Id, EntityId = r.EntityId }),
                 })
@@ -61,7 +70,7 @@ namespace Hechinger.FSK.Application.Features
             foreach (var op in operationsGroupsId)
             {
                 var operationCodes = this.context.Operations.Where(x => op.RelationsIds.Select(i => i.EntityId).Contains(x.Id)).Select(x => x.Code).ToList();
-                var operationCodeList = operationCodes.Aggregate("", (current, next) => current + ", " + next);
+                var operationCodeList = operationCodes.Aggregate((current, next) => current + ", " + next);
                 var cards = await this.context.SummaryCards
                            .Where(sc =>
                                  op.RelationsIds.Select(r => r.EntityId).Contains(sc.OperationId) &&
@@ -90,6 +99,7 @@ namespace Hechinger.FSK.Application.Features
                     OperationId = op.Id,
                     OperationName = op.Name,
                     OperationCode = op.Code,
+                    Order = op.Order,
                     OperationTranslatedName = !String.IsNullOrEmpty(op.TranslatedName) ? op.TranslatedName : op.Name,
                     PeriodItems = weekItems,
                     OperationCodes = operationCodeList,
@@ -98,6 +108,7 @@ namespace Hechinger.FSK.Application.Features
                         DefectId = d.Id,
                         DefectName = d.Name,
                         DefectCode = d.Code,
+                        Order = d.Order,
                         DefectCategory = this.context.Defects.Where(x=>x.Id == d.Id).Select(x => x.DefectCategory).FirstOrDefault(),
                         DefectTranslatedName = !String.IsNullOrEmpty(d.TranslatedName) ? d.TranslatedName : d.Name,
                         PeriodItems = (from sc in this.context.SummaryCardItems
@@ -130,7 +141,13 @@ namespace Hechinger.FSK.Application.Features
             }
             stopWatch.Stop();
             Console.WriteLine("Elapsed time {0} ms", stopWatch.ElapsedMilliseconds);
-            return new GroupReportModel() { Items = items };
+            return new GroupReportModel() 
+            { 
+                Name = currentGroup.Name,
+                TranslatedName = currentGroup.TranslatedName,
+                PpmGoal = currentGroup.PpmGoal,
+                Items = items 
+            };
         }
 
 

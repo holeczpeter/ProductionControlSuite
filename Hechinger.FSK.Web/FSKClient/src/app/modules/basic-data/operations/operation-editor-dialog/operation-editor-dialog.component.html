@@ -36,6 +36,12 @@
       </div>
       <div class="row pt-2">
         <mat-form-field class="col">
+          <input matInput type="number" [formControlName]="'ppmGoal'" [placeholder]="'goal' | translate" />
+          
+        </mat-form-field>
+      </div>
+      <div class="row pt-2">
+        <mat-form-field class="col">
           <input matInput [formControlName]="'translatedName'" [placeholder]="'translatedName' | translate" required />
           <mat-error class="col" *ngIf="formGroup.get('translatedName')?.hasError('required')">
             {{'translatedName'| translate}} {{'required' | translate}}
@@ -49,7 +55,7 @@
               <ngx-mat-select-search [formControl]="filterCtrl"></ngx-mat-select-search>
             </mat-option>
             <mat-option *ngFor="let option of filtered | async" [value]="option">
-            {{option.code}} - {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
+              {{option.code}} - {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
             </mat-option>
           </mat-select>
           <mat-error *ngIf="formGroup.get('product')?.hasError('required')">

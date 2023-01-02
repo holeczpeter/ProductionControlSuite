@@ -2,6 +2,9 @@
 {
     public class GroupReportModel: BaseModel
     {
+        public string Name { get; set; }
+        public string TranslatedName { get; set; }
+        public int PpmGoal { get; set; }
         public Views View { get; set; }
         public IEnumerable<OperationItem> Items { get; set; }
     }
@@ -16,6 +19,7 @@
         public int Quantity => PeriodItems != null ? PeriodItems.Select(x => x.Quantity).Sum() : 0;
         public IEnumerable<DefectItem> Defects { get; set; } = new List<DefectItem>();
         public IEnumerable<PeriodItem> PeriodItems { get; set; } = new List<PeriodItem>();
+        public int Order { get; internal set; }
     }
     
     public class DefectItem : BaseModel
@@ -29,6 +33,7 @@
         public double Ppm => Quantity != 0 ? Math.Ceiling((1000000 / Convert.ToDouble(Quantity)) * Convert.ToDouble(DefectQuantity)) : 0;
         public IEnumerable<PeriodItem> PeriodItems { get; set; } = new List<PeriodItem>();
         public DefectCategories DefectCategory { get; internal set; }
+        public object Order { get; set; }
     }
     public class PeriodItem : BaseModel
     {

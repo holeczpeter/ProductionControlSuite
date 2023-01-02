@@ -42,12 +42,14 @@ export class DefectGroupDataEditorComponent implements OnInit, OnChanges {
         name: [this.tree ? this.tree.node.name : '', [Validators.required]],
         translatedName: [this.tree ? this.tree.node.translatedName : '', [Validators.required]],
         groupType: [this.tree ? this.tree.node.groupType : GroupTypes.Group, [Validators.required]],
+        ppmGoal: [this.tree ? this.tree.node.ppmGoal : 0],
         parentId: [this.tree ? this.tree.node.parentId : 0],
       });
       
       this.formGroup.valueChanges.subscribe(x => {
         this.tree.node.id = this.formGroup.get('id')?.value;
         this.tree.node.name = this.formGroup.get('name')?.value;
+        this.tree.node.ppmGoal = this.formGroup.get('ppmGoal')?.value;
         this.tree.node.translatedName = this.formGroup.get('translatedName')?.value;
         this.tree.node.groupType = this.formGroup.get('groupType')?.value;
         this.tree.node.parentId = this.formGroup.get('parentId')?.value;

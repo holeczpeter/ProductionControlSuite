@@ -17,6 +17,8 @@
                 ParentId = item.ParentId != null ? item.ParentId.Value : 0,
                 TranslatedName = item.TranslatedName,
                 GroupType = item.GroupType,
+                Order = item.Order,
+                PpmGoal  = item.PpmGoal,
                 Relations = item.EntityGroupRelations.Where(x => x.EntityStatus == EntityStatuses.Active)
                                                     .ToList()
                                                     .Select(relation =>

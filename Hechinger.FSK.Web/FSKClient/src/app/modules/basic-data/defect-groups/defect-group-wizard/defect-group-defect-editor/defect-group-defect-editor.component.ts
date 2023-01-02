@@ -58,12 +58,15 @@ export class DefectGroupDefectEditorComponent implements OnInit {
     this.entityGroupService.refreshTree(this.tree);
   }
   addGroupFromNode(item: TreeItem<EntityGroupModel>) {
+    let order = item.children.length+1;
     if (item) {
       let current: EntityGroupModel = {
         id: 0,
         name: '',
         translatedName: '',
         groupType: GroupTypes.Item,
+        order: order,
+        ppmGoal: 0,
         parentId: item.node.id,
         relations: new Array<EntityGroupRelationModel>(),
       }

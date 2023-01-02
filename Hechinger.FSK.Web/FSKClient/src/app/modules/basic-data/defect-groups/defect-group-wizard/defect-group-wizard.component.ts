@@ -40,7 +40,6 @@ export class DefectGroupWizardComponent implements OnInit {
     if (this.incomingData.node.id != 0) {
       let request = { id: this.incomingData.node.id };
       this.entityGroupDataService.get(request).subscribe(x => {
-        console.log(x)
         this.data = x;
         if (this.data) this.isHead = this.data.node.groupType == GroupTypes.Head;
         else this.isHead = true;

@@ -10,6 +10,9 @@
         public int Order { get; set; }
 
         public string Comment { get; set; }
-        public string DefectTranslatedName { get; internal set; }
+        public string DefectTranslatedName { get; set; }
+        public string DefectCode { get; set; }
+        public DefectCategories DefectCategory { get; set; }
+        public string DefectCategoryName { get; set; }
     }
 }

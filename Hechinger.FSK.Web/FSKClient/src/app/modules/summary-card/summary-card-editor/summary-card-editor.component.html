@@ -111,9 +111,13 @@
           <td align='center' width='5%' class="defect">
             <b>Nr.:</b>
           </td>
+          <td align='center' width='20%' class="defect">
+            <b>{{ 'code' | translate}}</b>
+          </td>
           <td align='center' width='60%' class="defect">
             <b>{{ 'defectName' | translate}}</b>
           </td>
+
           <td align='center' width='5%' class="defect">
             <b>{{ 'categoryName' | translate}}</b>
           </td>
@@ -129,7 +133,7 @@
             <td class="defect" align='center' width='5%'>{{item.value.order}}</td>
             <td class="defect" width='20%'>{{ item.value.defectCode}}</td>
             <td class="defect" width='40%'>{{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.value.defectName : item.value.defectTranslatedName}}</td>
-            <td class="defect" align='center' width='5%'>{{ item.value.defectCategory | category }}</td>
+            <td class="defect" align='center' width='5%'>{{ item?.value.defectCategory | category }}</td>
             <td class="defect" align='center' width='20%'>
               <mat-form-field floatLabel="never" class="quantity">
                 <input matInput type="number" [formControlName]="'quantity'">

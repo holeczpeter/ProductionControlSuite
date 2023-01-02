@@ -20,6 +20,7 @@
         public int Order { get; set; }
         public double Norma { get; set; }
         public IEnumerable<DefectContext> Defects { get; set; } = new List<DefectContext>();
+        public int PpmGoal { get;  set; }
     }
     public class DefectContext : BaseModel
     {

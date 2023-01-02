@@ -48,6 +48,7 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
         name: [this.operation ? this.operation.name : '', [Validators.required]],
         code: [this.operation ? this.operation.code : '', [Validators.required]],
         norma: [this.operation ? this.operation.norma : 0],
+        ppmGoal: [this.operation ? this.operation.ppmGoal : 0],
         operationTime: [this.operation ? this.operation.operationTime : 0],
         translatedName: [this.operation ? this.operation.translatedName : '', [Validators.required]],
         product: [this.operation ? this.products.find(ws => ws.id == this.operation!.productId) : null, [Validators.required]],
@@ -83,6 +84,7 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
       code: this.formGroup.get('code')?.value,
       norma: this.formGroup.get('norma')?.value,
       operationTime: this.formGroup.get('operationTime')?.value,
+      ppmGoal: this.formGroup.get('ppmGoal')?.value,
       translatedName: this.formGroup.get('translatedName')?.value,
       productId: this.formGroup.get('product')?.value.id,
 
@@ -100,6 +102,7 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
       name: this.formGroup.get('name')?.value,
       code: this.formGroup.get('code')?.value,
       norma: this.formGroup.get('norma')?.value,
+      ppmGoal: this.formGroup.get('ppmGoal')?.value,
       operationTime: this.formGroup.get('operationTime')?.value,
       translatedName: this.formGroup.get('translatedName')?.value,
       productId: this.formGroup.get('product')?.value.id,

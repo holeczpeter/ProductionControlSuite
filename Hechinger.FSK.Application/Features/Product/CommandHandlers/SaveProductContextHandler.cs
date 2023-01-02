@@ -48,6 +48,7 @@
                 currentOperation.TranslatedName = operation.TranslatedName;
                 currentOperation.Norma = operation.Norma;
                 currentOperation.OperationTime = operation.OperationTime;
+                currentOperation.PpmGoal = operation.PpmGoal;
                 currentOperation.Product = currentProduct;
                 var operationState = this.context.Entry(currentOperation).State;
                 if (operationState != EntityState.Modified && operationState != EntityState.Unchanged) await this.context.Operations.AddAsync(currentOperation, cancellationToken);

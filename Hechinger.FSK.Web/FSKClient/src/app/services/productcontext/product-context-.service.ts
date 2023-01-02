@@ -68,6 +68,7 @@ export class ProductContextService {
       code: [operation ? operation.code : '', [Validators.required]],
       order: [operation ? operation.order : '', [Validators.required]],
       norma: [operation ? operation.norma : 0],
+      ppmGoal: [operation ? operation.ppmGoal : 0],
       operationTime: [operation ? operation.operationTime : 0],
       translatedName: [operation ? operation.translatedName : '', [Validators.required]],
       defects: this.formBuilder.array(new Array<OperationModel>())

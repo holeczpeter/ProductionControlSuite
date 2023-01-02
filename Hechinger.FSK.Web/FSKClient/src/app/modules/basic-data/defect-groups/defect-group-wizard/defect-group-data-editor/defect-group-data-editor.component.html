@@ -6,7 +6,7 @@
           {{ option.name }}
         </mat-option>
       </mat-select>
-      <mat-error class="col" *ngIf="formGroup.get('defectCategory')?.hasError('required')">
+      <mat-error class="col" *ngIf="formGroup.get('groupType')?.hasError('required')">
         {{'defectgroups.type'| translate}} {{'required' | translate}}
       </mat-error>
     </mat-form-field>
@@ -27,4 +27,12 @@
       </mat-error>
     </mat-form-field>
   </div>
+  <ng-container *ngIf="formGroup.get('groupType')?.value == 1">
+    <div class="row pt-2">
+      <mat-form-field class="col">
+        <input matInput [formControlName]="'ppmGoal'" [placeholder]="'goal' | translate" />
+      </mat-form-field>
+    </div>
+  </ng-container>
+  
 </form>

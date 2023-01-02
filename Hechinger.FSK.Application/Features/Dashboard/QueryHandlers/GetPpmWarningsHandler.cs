@@ -15,22 +15,22 @@
                 .AsNoTracking()
                 .Select(w => new { Id = w.Id, Name = w.Name })
                 .ToListAsync(cancellationToken);
-
-            var items = await this.context.SummaryCardItems
-                .Where(sc => sc.SummaryCard.Date.Date >= request.StartDate.Date.Date &&
-                             sc.SummaryCard.Date.Date <= request.EndDate.Date &&
-                             sc.SummaryCard.OperationId == 4811 &&
-                             sc.EntityStatus == EntityStatuses.Active)
-                .Select(sc => new
-                {
-                    OperationId = sc.SummaryCard.Operation.Id,
-                    WorkerCode = sc.SummaryCard.WorkerCode,
-                    Date = sc.SummaryCard.Date,
-                    ShiftId = sc.SummaryCard.ShiftId,
-                    SummaryGoal = sc.SummaryCard.Operation.PpmGoal,
-                    Quantity = sc.SummaryCard.Quantity,
-                    DefectQuantity = sc.Quantity,
-                }).ToListAsync(cancellationToken);
+            var items = await this.context.SummaryCards
+               .Where(sc => sc.Date.Date >= request.StartDate.Date.Date &&
+                            sc.Date.Date <= request.EndDate.Date &&
+                            sc.OperationId == 4811 &&
+                            sc.EntityStatus == EntityStatuses.Active)
+               .Select(sc => new
+               {
+                   OperationId = sc.Operation.Id,
+                   WorkerCode = sc.WorkerCode,
+                   Date = sc.Date,
+                   ShiftId = sc.ShiftId,
+                   SummaryGoal = sc.Operation.PpmGoal,
+                   Quantity = sc.Quantity,
+                   DefectQuantity = sc.DefectQuantity,
+               }).ToListAsync(cancellationToken);
+          
 
             var ppmResults = items
                .GroupBy(sc => new { 

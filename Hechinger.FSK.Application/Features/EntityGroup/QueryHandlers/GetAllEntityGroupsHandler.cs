@@ -15,6 +15,7 @@
                 Id = item.Id,
                 Name = item.Name,
                 ParentId = item.ParentId != null ? item.ParentId.Value : 0,
+                Order = item.Order,  
                 TranslatedName = item.TranslatedName,
                 GroupType = item.GroupType
             });

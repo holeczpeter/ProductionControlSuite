@@ -14,5 +14,7 @@
         public string ProductTranslatedName { get; set; }
         public bool HasDefect { get;  set; }
         public int Order { get;  set; }
+
+        public int PpmGoal { get; set; }
     }
 }

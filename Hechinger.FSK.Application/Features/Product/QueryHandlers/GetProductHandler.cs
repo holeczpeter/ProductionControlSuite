@@ -23,6 +23,7 @@
                     TranslatedName = !String.IsNullOrEmpty(operation.TranslatedName) ? operation.TranslatedName : operation.Name,
                     Code = operation.Code,    
                     Norma = operation.Norma,
+                    PpmGoal = operation.PpmGoal,
                     OperationTime = operation.OperationTime,    
                 }),  
             }).FirstOrDefaultAsync(cancellationToken);

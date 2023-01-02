@@ -249,8 +249,10 @@ export interface EntityGroupModel {
   name: string,
   translatedName: string,
   parentId: number,
+  order: number,
   groupType: GroupTypes,
   relations: Array<EntityGroupRelationModel>,
+  ppmGoal: number,
 }
 export interface EntityGroupRelationModel {
   id: number,
@@ -328,6 +330,7 @@ export interface AddOperation {
   productId: number,
   operationTime: any,
   norma: any,
+  ppmGoal: number,
 }
 export interface DeleteOperation {
   id: number,
@@ -340,6 +343,7 @@ export interface UpdateOperation {
   productId: number,
   operationTime: any,
   norma: any,
+  ppmGoal: number,
 }
 export interface OperationModel {
   id: number,
@@ -354,6 +358,7 @@ export interface OperationModel {
   productTranslatedName: string,
   hasDefect: boolean,
   order: number,
+  ppmGoal: number,
 }
 export interface OperationPrintModel {
   id: number,
@@ -430,6 +435,7 @@ export interface OperationContext {
   order: number,
   norma: any,
   defects: Array<DefectContext>,
+  ppmGoal: number,
 }
 export interface UpdateProduct {
   id: number,
@@ -829,6 +835,9 @@ export interface SummaryCardItemModel {
   order: number,
   comment: string,
   defectTranslatedName: string,
+  defectCode: string,
+  defectCategory: DefectCategories,
+  defectCategoryName: string,
 }
 export interface SummaryCardModel {
   id: number,
@@ -976,6 +985,9 @@ export interface GetGroupReport {
   view: Views,
 }
 export interface GroupReportModel {
+  name: string,
+  translatedName: string,
+  ppmGoal: number,
   view: Views,
   items: Array<OperationItem>,
 }
@@ -988,6 +1000,7 @@ export interface OperationItem {
   quantity: number,
   defects: Array<DefectItem>,
   periodItems: Array<PeriodItem>,
+  order: number,
 }
 export interface DefectItem {
   defectId: number,
@@ -998,6 +1011,8 @@ export interface DefectItem {
   defectQuantity: number,
   ppm: any,
   periodItems: Array<PeriodItem>,
+  defectCategory: DefectCategories,
+  order: any,
 }
 export interface PeriodItem {
   periodNumber: number,

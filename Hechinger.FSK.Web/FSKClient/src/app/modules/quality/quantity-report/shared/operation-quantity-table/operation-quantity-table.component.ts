@@ -58,7 +58,6 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
     if ((changes['tableModel'] && this.tableModel) || this.shiftChanges || this.categoryChanges) {
       this.interval = this.tableModel.interval;
       this.model = this.tableModel.model;

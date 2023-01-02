@@ -32,7 +32,7 @@ export class OperationsComponent implements OnInit, AfterViewInit {
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array<string> = ['name', 'translatedName', 'code', 'productName', 'productCode', 'norma', 'operationTime', 'copy', 'edit', 'delete']
+  columnNames: Array<string> = ['name', 'translatedName', 'code', 'productName', 'productCode', 'norma', 'operationTime','ppmGoal', 'copy', 'edit', 'delete']
   title = "operations.title";
   filterableColumns: Array<TableColumnModel> = [
     {

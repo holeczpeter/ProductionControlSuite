@@ -61,6 +61,8 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
   filterableColumns: Array<TableColumnModel>;
   weeksHeader: Array<string>;
   periods: Array<number>;
+  footerTotalColumns: Array<string>;
+  footerGoalColumns: Array<string>;
   public get views(): typeof Views {
     return Views;
   }
@@ -125,7 +127,6 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
         this.categories.forEach((c, catIndex) => {
           if (!operationCategorySumColumns.includes(c.id + "_sumq")) {
             const flattened = operation.defects.flatMap(num => num.periodItems).filter(x => x.defectCategory == c.id).map(x => x.defectQuantity).reduce((a, b) => a + b, 0);
-            //let currentModel = operation.periodItems.filter(x => x.defectCategory == c.id).map(x => x.defectQuantity).reduce((a, b) => a + b, 0);
             operationCategorySumHeaders.push({ id: operation.operationId + "_" + c.id + "_sumq", value: flattened });
             operationCategorySumColumns.push(operation.operationId + "_" + c.id + "_sumq");
           }
@@ -133,7 +134,6 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
         this.categories.forEach((c, catIndex) => {
           if (!operationCategorySumColumns.includes(c.id + "_sumpp")) {
             const flattened = operation.defects.flatMap(num => num.periodItems).filter(x => x.defectCategory == c.id).map(x => x.ppm).reduce((a, b) => a + b, 0);
-            //let currentModel = operation.periodItems.filter(x => x.defectCategory == c.id).map(x => x.ppm).reduce((a, b) => a + b, 0);
             operationCategorySumHeaders.push({ id: operation.operationId + "_" + c.id + "_sumpp", value: flattened });
             operationCategorySumColumns.push(operation.operationId + "_" + c.id + "_sumpp");
           }
@@ -142,6 +142,7 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
         //Defects sorok
         operation.defects.forEach(defect => {
           const row = new TableColumn();
+          row['order'] = defect.order;
           row['defect'] = { id: defect.defectId, code: defect.defectCode, name: defect.defectName, translatedName: defect.defectTranslatedName };
           this.periods.forEach(week => {
             let currentValues = defect.periodItems.filter(x => x.periodNumber == week);
@@ -152,8 +153,8 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
           })
           
           this.categories.forEach(c => {
-            row['sum_q_' + c.id] = defect.periodItems.filter(x => x.defectCategory == c.id).map(x => x.defectQuantity).reduce((a, b) => a + b, 0);;
-            row['sum_ppm_' + c.id] = defect.periodItems.filter(x => x.defectCategory == c.id).map(x => x.ppm).reduce((a, b) => a + b, 0);;
+            row['sum_q_' + c.id] = defect.periodItems.filter(x => x.defectCategory == c.id).map(x => x.defectQuantity).reduce((a, b) => a + b, 0);
+            row['sum_ppm_' + c.id] = defect.periodItems.filter(x => x.defectCategory == c.id).map(x => x.ppm).reduce((a, b) => a + b, 0);
           });
           rows.push(row);
 
@@ -203,9 +204,12 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
     this.displayedColumns = [...[]];
     this.categorySumHeaders = [...[]];
     this.categorySumColumns = [...[]];
+    this.footerTotalColumns = [...[]];
+    this.footerGoalColumns = [...[]];
   }
 
   createHeaders() {
+    this.columnsToDisplay.push("order");
     this.columnsToDisplay.push("defect");
     this.periods.forEach(period => {
       if (!this.weeksHeader.includes(period.toString())) this.weeksHeader.push(period.toString());
@@ -218,6 +222,8 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
    
     this.categories.forEach(x => {
       this.columnsToDisplay.push('sum_q_' + x.id);
+      this.footerTotalColumns.push('total_' + x.id);
+      this.footerGoalColumns.push('goal_' + x.id);
     });
     this.categories.forEach(x => {
       this.columnsToDisplay.push('sum_ppm_' + x.id);
@@ -231,19 +237,39 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
     return this.result.items.find(x => x.operationId == operationGroupId)?.quantity;
   }
   getGoal() {
-    return 10;
+    return this.result.ppmGoal;
   }
-  getTotal() {
-    return 20;
+  getTotal(category: number) {
+    return this.result.items.flatMap(x => x.defects.flatMap(d=>d.periodItems).filter(x => x.defectCategory == category).map(i => i.ppm)).reduce((a, b) => a + b, 0);
+    
+  }
+  getFooterColSpan() {
+    return (this.periods.length * 3) + 3;
   }
   trackByFn(index: number, item: any) {
     return index;
   }
   onExport() {
-    var tbl = document.getElementById('id_of_table');
-    var wb = XLSX.utils.table_to_book(tbl, { sheet: "nameofsheet" });
+    let tbl1 = document.getElementsByTagName("table")[0]
+    let tbl2 = document.getElementsByTagName("table")[1]
 
-    XLSX.writeFile(wb, `${this.interval.startDate.toDateString()}_` + `${this.interval.endDate.toDateString()}_` + `${""}` + `.xlsx`);
+    let worksheet_tmp1 = XLSX.utils.table_to_sheet(tbl1);
+    let worksheet_tmp2 = XLSX.utils.table_to_sheet(tbl2);
+
+    let a = XLSX.utils.sheet_to_json(worksheet_tmp1, { header: 1 })
+    let b = XLSX.utils.sheet_to_json(worksheet_tmp2, { header: 1 })
+
+    a = a.concat(['']).concat(b)
+
+    let worksheet = XLSX.utils.json_to_sheet(a, { skipHeader: true })
+
+    const new_workbook = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(new_workbook, worksheet, "worksheet")
+    XLSX.writeFile(new_workbook, 'tmp_file.xls')
+    //var tbl = document.getElementById('id_of_table');
+    //var wb = XLSX.utils.table_to_book(tbl, { sheet: "nameofsheet" });
+
+    //XLSX.writeFile(wb, `${this.interval.startDate.toDateString()}_` + `${this.interval.endDate.toDateString()}_` + `${""}` + `.xlsx`);
   }
   getCategory(categoryId: string, index: number) {
     const myArray = categoryId.split("_");
@@ -251,6 +277,16 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
       case '0': return "#FFCA39";
       case '1': return "#F35B5A";
       case '2': return "#379DDA";
+      default:
+        return "#F35B5A";
+    }
+  }
+  getCategoryById(categoryId: number) {
+    
+    switch (categoryId) {
+      case 0: return "#FFCA39";
+      case 1: return "#F35B5A";
+      case 2: return "#379DDA";
       default:
         return "#F35B5A";
     }

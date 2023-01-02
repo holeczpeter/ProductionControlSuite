@@ -62,6 +62,7 @@ export class ProductWizardEditorComponent implements OnInit, AfterViewInit, Afte
       workshopId: this.productContextService.formGroup.get('workshop')?.value.id,
       operations: this.productContextService.getOperations.value
     };
+   
     this.productDataService.saveProductContext(model).subscribe(result => {
       this.snackBar.open(result);
       if (result.isSuccess) {

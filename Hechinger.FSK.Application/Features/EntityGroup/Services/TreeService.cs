@@ -16,6 +16,8 @@
             if (currentEntity == null) currentEntity = new EntityGroup();
             currentEntity.Name = item.Node.Name;
             currentEntity.TranslatedName = item.Node.TranslatedName;
+            currentEntity.Order = item.Node.Order;
+            currentEntity.PpmGoal = item.Node.PpmGoal;
             currentEntity.Parent = parent;
             currentEntity.ParentId = item.Node.ParentId == 0 ? null : item.Node.ParentId;
             currentEntity.GroupType = item.Node.GroupType;
@@ -99,6 +101,7 @@
                 Name = item.Name,
                 ParentId = item.ParentId != null ? item.ParentId.Value : 0,
                 TranslatedName = item.TranslatedName,
+                Order = item.Order,
                 Relations = item.EntityGroupRelations.Where(x => x.EntityStatus == EntityStatuses.Active)
                                                      .Select(relation => new EntityGroupRelationModel()
                                                      {
@@ -122,6 +125,7 @@
             currentEntity.Name = item.Node.Name;
             currentEntity.TranslatedName = item.Node.TranslatedName;
             currentEntity.Parent = parent;
+            currentEntity.PpmGoal = item.Node.PpmGoal;
             currentEntity.ParentId = item.Node.ParentId == 0 ? null : item.Node.ParentId;
             currentEntity.GroupType = item.Node.GroupType;
 

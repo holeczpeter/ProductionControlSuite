@@ -24,6 +24,7 @@
                     Code = operation.Code,
                     Order = operation.Order,
                     Norma = operation.Norma,
+                    PpmGoal = operation.PpmGoal,
                     OperationTime = operation.OperationTime,
                     Defects = operation.Defects.Where(d => d.EntityStatus == EntityStatuses.Active).Select(defect => new DefectContext() 
                     {
