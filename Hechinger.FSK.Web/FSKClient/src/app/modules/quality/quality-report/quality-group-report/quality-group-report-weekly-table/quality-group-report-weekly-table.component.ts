@@ -17,6 +17,8 @@ import { TableHeader } from '../../../../../models/table-header';
 import { TableColumnModel } from '../../../../../models/table-column-model';
 import eachWeekOfInterval from 'date-fns/eachWeekOfInterval'
 import { TableExportService } from '../../../../../services/table/table-export.service';
+import { MatDialog } from '@angular/material/dialog';
+import { QualityGroupReportChartDialogComponent } from '../quality-group-report-chart-dialog/quality-group-report-chart-dialog.component';
 export interface TableGroupItem {
   operationGroupId: number;
   operationGroupName: string;
@@ -64,12 +66,15 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
   periods: Array<number>;
   footerTotalColumns: Array<string>;
   footerGoalColumns: Array<string>;
+  chartTitle: string | null;
+  summaryChartTitle: string | null;
   public get views(): typeof Views {
     return Views;
   }
 
   constructor(private readonly qualityDataService: QualityDataService,
     private readonly formBuilder: UntypedFormBuilder,
+    private readonly dialog: MatDialog,
     private intervalPanelService: IntervalViewService,
     private productDataService: ProductDataService,
     private readonly defectDataService: DefectDataService,
@@ -179,6 +184,8 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
         this.tables.push(item);
       });
       this.createHeaders();
+      this.chartTitle = this.intervalPanelService.details;
+      this.summaryChartTitle = this.chartTitle + " - " + this.result.name;
     }
   }
   createPeriods() {
@@ -250,6 +257,19 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
   }
   trackByFn(index: number, item: any) {
     return index;
+  }
+  onOpenChart(operationItem: OperationItem) {
+    let chartDialogModel = {
+      operationItem: operationItem,
+      chartTitle: this.chartTitle
+    }
+    let dialogRef = this.dialog.open(QualityGroupReportChartDialogComponent, {
+      disableClose: true,
+      autoFocus: false,
+      data: chartDialogModel,
+      minWidth: '600px'
+    });
+    dialogRef.afterClosed().subscribe();
   }
   onExport() {
     let name = `${this.interval.startDate.toDateString()}_` + `${this.interval.endDate.toDateString()}_` + `${this.result.name}` + `.xls`;

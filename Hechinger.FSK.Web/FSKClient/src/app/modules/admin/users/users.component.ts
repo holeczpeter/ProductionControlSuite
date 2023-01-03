@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DeleteUser, UserModel } from '../../../models/generated/generated';
 import { TableColumnModel } from '../../../models/table-column-model';
 import { AccountService } from '../../../services/account.service';
+import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 import { UserDataService } from '../../../services/data/user-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { CompareService } from '../../../services/sort/sort.service';
@@ -66,6 +67,7 @@ export class UsersComponent implements OnInit {
   constructor(private readonly userDataService: UserDataService,
     private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
+    private readonly confirmDialogService: ConfirmDialogService,
     private readonly snackBar: SnackbarService,
     public translate: TranslateService,
     public sortService: CompareService,
@@ -150,12 +152,17 @@ export class UsersComponent implements OnInit {
   }
   
   onDelete(id: number) {
-    let model: DeleteUser = { id: id };
-    this.userDataService.delete(model).subscribe(result => {
-      this.snackBar.open(result);
-      if (result.isSuccess) this.initalize()
+    this.confirmDialogService.openDeleteConfirm('felhasználót').subscribe(result => {
+      if (result) {
+        let model: DeleteUser = { id: id };
+        this.userDataService.delete(model).subscribe(result => {
+          this.snackBar.open(result);
+          if (result.isSuccess) this.initalize()
 
+        });
+      }
     });
+   
   }
   ngAfterViewInit(): void {
     if (this.dataSource) {

@@ -14,6 +14,7 @@ import { UntypedFormGroup } from '@angular/forms';
 import { CompareService } from '../../../services/sort/sort.service';
 import { TableFilterService } from '../../../services/table/table-filter.service';
 import { TableExportService } from '../../../services/table/table-export.service';
+import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 
 @Component({
   selector: 'app-workshops',
@@ -50,6 +51,7 @@ export class WorkshopsComponent implements OnInit, AfterViewInit {
     private readonly dialog: MatDialog,
     private readonly workshopDataService: WorkshopDataService,
     private readonly snackBar: SnackbarService,
+    private readonly confirmDialogService: ConfirmDialogService,
     public translate: TranslateService,
     public sortService: CompareService,
     public tableFilterService: TableFilterService,
@@ -122,12 +124,17 @@ export class WorkshopsComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }
   onDelete(id: number) {
-    let model: DeleteWorkshop = { id: id };
-    this.workshopDataService.delete(model).subscribe(result => {
-      this.snackBar.open(result);
-      if (result.isSuccess) this.initalize()
+    this.confirmDialogService.openDeleteConfirm('műhelyt').subscribe(result => {
+      if (result) {
+        let model: DeleteWorkshop = { id: id };
+        this.workshopDataService.delete(model).subscribe(result => {
+          this.snackBar.open(result);
+          if (result.isSuccess) this.initalize()
 
+        });
+      }
     });
+    
   }
   ngAfterViewInit(): void {
     if (this.dataSource) {

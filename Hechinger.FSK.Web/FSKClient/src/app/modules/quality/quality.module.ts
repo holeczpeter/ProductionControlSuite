@@ -25,6 +25,8 @@ import { GualityGroupReportWeeklyChartComponent } from './quality-report/quality
 import { QualityReportYearlySummaryComponent } from './quality-report/quality-report-yearly-summary/quality-report-yearly-summary.component';
 import { QualityReportYearlySummaryTableComponent } from './quality-report/quality-report-yearly-summary/quality-report-yearly-summary-table/quality-report-yearly-summary-table.component';
 import { QualityReportYearlySummaryChartComponent } from './quality-report/quality-report-yearly-summary/quality-report-yearly-summary-chart/quality-report-yearly-summary-chart.component';
+import { QualityGroupReportChartDialogComponent } from './quality-report/quality-group-report/quality-group-report-chart-dialog/quality-group-report-chart-dialog.component';
+import { QualityGroupReportSummaryChartComponent } from './quality-report/quality-group-report/quality-group-report-summary-chart/quality-group-report-summary-chart.component';
 
 
 @NgModule({
@@ -51,6 +53,8 @@ import { QualityReportYearlySummaryChartComponent } from './quality-report/quali
     QualityReportYearlySummaryComponent,
     QualityReportYearlySummaryTableComponent,
     QualityReportYearlySummaryChartComponent,
+    QualityGroupReportChartDialogComponent,
+    QualityGroupReportSummaryChartComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,10 @@
+<dialog-header [title]="chartTitle" (cancel)="onCancel()"></dialog-header>
+<mat-dialog-content>
+  <app-guality-group-report-weekly-chart [chartTitle]="chartTitle"
+                                         [chartModel]="operationItem">
+  </app-guality-group-report-weekly-chart>
+</mat-dialog-content>
+<div mat-dialog-actions>
+  <button mat-stroked-button color="blue" (click)="onCancel()">{{'close'| translate}} </button>
+</div>
+

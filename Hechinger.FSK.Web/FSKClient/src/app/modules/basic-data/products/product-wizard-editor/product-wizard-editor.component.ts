@@ -3,7 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatStepper } from '@angular/material/stepper';
 import { forkJoin } from 'rxjs';
-import { GetProductContext, OperationContext, ProductContext, SaveProductContext } from '../../../../models/generated/generated';
+import { GetProductContext, ProductContext, SaveProductContext } from '../../../../models/generated/generated';
+import { ConfirmDialogService } from '../../../../services/confirm-dialog/confirm-dialog-service';
 import { ProductDataService } from '../../../../services/data/product-data.service';
 import { LanguageService } from '../../../../services/language/language.service';
 import { ProductContextService } from '../../../../services/productcontext/product-context-.service';
@@ -23,6 +24,7 @@ export class ProductWizardEditorComponent implements OnInit, AfterViewInit, Afte
  
   constructor(private readonly dialogRef: MatDialogRef<ProductWizardEditorComponent>,
     @Inject(MAT_DIALOG_DATA) public data: number,
+    private readonly confirmDialogService: ConfirmDialogService,
     private readonly productDataService: ProductDataService,
     public productContextService: ProductContextService,
     private readonly snackBar: SnackbarService,
@@ -72,7 +74,8 @@ export class ProductWizardEditorComponent implements OnInit, AfterViewInit, Afte
   }
 
   onCancel() {
-    this.dialogRef.close(false);
+    if (this.productContextService.isChanged()) this.confirmDialogService.confirmClose(this.dialogRef);
+    else this.dialogRef.close(false);
   }
   ngAfterViewInit() {
     this.changeDetector.detectChanges();

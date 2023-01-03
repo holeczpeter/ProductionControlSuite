@@ -10,6 +10,7 @@ import { DefectEditorModel } from '../../../models/dialog-models/defect-editor-m
 import { DefectModel, DeleteDefect } from '../../../models/generated/generated';
 import { TableColumnModel } from '../../../models/table-column-model';
 import { AccountService } from '../../../services/account.service';
+import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 import { DefectDataService } from '../../../services/data/defect-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { CompareService } from '../../../services/sort/sort.service';
@@ -74,6 +75,7 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
   constructor(private readonly defectDataService: DefectDataService,
     private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
+    private readonly confirmDialogService: ConfirmDialogService,
     private readonly snackBar: SnackbarService,
     public translate: TranslateService,
     public compareService: CompareService,
@@ -170,12 +172,17 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }
   onDelete(id: number) {
-    let model: DeleteDefect = { id: id };
-    this.defectDataService.delete(model).subscribe(result => {
-      this.snackBar.open(result);
-      if (result.isSuccess) this.initalize()
+    this.confirmDialogService.openDeleteConfirm('hibát').subscribe(result => {
+      if (result) {
+        let model: DeleteDefect = { id: id };
+        this.defectDataService.delete(model).subscribe(result => {
+          this.snackBar.open(result);
+          if (result.isSuccess) this.initalize()
 
+        });
+      }
     });
+    
   }
   ngAfterViewInit(): void {
     if (this.dataSource) {

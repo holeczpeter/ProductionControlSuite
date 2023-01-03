@@ -3,6 +3,7 @@ import { HttpParams } from '@angular/common/http';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { EntityGroupModel, EntityGroupRelationModel, EntityGroupRelationTree, GroupTypes } from '../../../../../models/generated/generated';
 import { TreeItem } from '../../../../../models/tree-item';
+import { ConfirmDialogService } from '../../../../../services/confirm-dialog/confirm-dialog-service';
 import { EntityGroupDataService } from '../../../../../services/data/entity-group-data.service';
 import { EntityGroupService } from '../../../../../services/entity-group/entity-group-service.service';
 import { LanguageService } from '../../../../../services/language/language.service';
@@ -21,6 +22,7 @@ export class DefectGroupDefectEditorComponent implements OnInit {
   constructor(private entityGroupDataService: EntityGroupDataService,
     public languageService: LanguageService,
     private cdr: ChangeDetectorRef,
+    private readonly confirmDialogService: ConfirmDialogService,
     private entityGroupService: EntityGroupService,
     private treeService: TreeService) { }
 
@@ -80,7 +82,12 @@ export class DefectGroupDefectEditorComponent implements OnInit {
     }
   }
   delete(parent: TreeItem<EntityGroupModel>, node: TreeItem<EntityGroupModel>) {
-    this.treeService.removeChild(parent, node);
-    this.entityGroupService.refreshTree(this.tree);
+    this.confirmDialogService.openDeleteConfirm('hibacsoportot').subscribe(result => {
+      if (result) {
+        this.treeService.removeChild(parent, node);
+        this.entityGroupService.refreshTree(this.tree);
+      }
+    });
+   
   }
 }

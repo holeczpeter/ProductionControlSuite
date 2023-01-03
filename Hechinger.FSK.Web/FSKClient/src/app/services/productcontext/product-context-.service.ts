@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormArray, FormControl, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, forkJoin, of, Subject } from 'rxjs';
 import { DefectContext, EnumModel, OperationContext, OperationModel, ProductContext, WorkshopModel } from '../../models/generated/generated';
+import { ConfirmDialogService } from '../confirm-dialog/confirm-dialog-service';
 import { DefectDataService } from '../data/defect-data.service';
 import { WorkshopDataService } from '../data/workshop-data.service';
 
@@ -28,7 +29,8 @@ export class ProductContextService {
   
   constructor(private readonly formBuilder: UntypedFormBuilder,
     private readonly worksshopDataService: WorkshopDataService,
-    private readonly defectDataService: DefectDataService) {
+    private readonly defectDataService: DefectDataService,
+    private readonly confirmDialogService: ConfirmDialogService) {
     forkJoin([this.getWorkShopsQuery(), this.getCategoriesQuery()]).subscribe(([workshops, categories]) => {
       this.workshopSubject.next(workshops);
       this.categoriesSubject.next(categories);
@@ -48,6 +50,7 @@ export class ProductContextService {
         operations: this.formBuilder.array(new Array<OperationModel>())
       });
       productContext?.operations?.forEach(op => this.addOperation(op));
+      this.formGroup.setOriginalForm();
     });
     
   }
@@ -77,8 +80,13 @@ export class ProductContextService {
     operation?.defects?.forEach(d => this.addDefect(d, operations.length-1));
   }
   removeOperation(i: number) {
-    const remove = this.getOperations;
-    remove.removeAt(i);
+    this.confirmDialogService.openDeleteConfirm('műveletet').subscribe(result => {
+      if (result) {
+        const remove = this.getOperations;
+        remove.removeAt(i);
+      }
+    });
+    
   }
   addDefect(defect: DefectContext | null, opIndex: number) {
     const defects = this.getDefects(opIndex);
@@ -94,7 +102,15 @@ export class ProductContextService {
   }
 
   removeDefect(i: number, opIndex: number) {
-    const remove = this.getDefects(opIndex);
-    remove.removeAt(i);
+    this.confirmDialogService.openDeleteConfirm('hibát').subscribe(result => {
+      if (result) {
+        const remove = this.getDefects(opIndex);
+        remove.removeAt(i);
+      }
+    });
+   
+  }
+  isChanged() {
+    return this.formGroup.isChanged();
   }
 }

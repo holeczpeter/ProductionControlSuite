@@ -13,12 +13,14 @@
     <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="FSKClient\src\app\extensions\formgroup-extensions.ts" />
     <None Remove="FSKClient\src\app\models\file-snippet.ts" />
     <None Remove="FSKClient\src\app\models\generated\crap-cost-table-model.ts" />
     <None Remove="FSKClient\src\app\models\generated\workshop-ppm-model.ts" />
     <None Remove="FSKClient\src\app\models\quantity-chart-model.ts" />
     <None Remove="FSKClient\src\app\models\quantity-table-model.ts" />
     <None Remove="FSKClient\src\app\models\refresh-token-model.ts" />
+    <None Remove="FSKClient\src\app\services\confirm-dialog\confirm-dialog-data-builder.ts" />
     <None Remove="FSKClient\src\app\validators\custom-validator.ts" />
     <None Remove="FSKClient\src\app\validators\password-equality-validator.ts" />
   </ItemGroup>
@@ -98,16 +100,19 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="FSKClient\src\app\models\dialog-models\" />
+    <Folder Include="FSKClient\src\app\models\confirm-dialog-data\" />
     <Folder Include="FSKClient\src\app\services\navigation\" />
     <Folder Include="FSKClient\src\app\services\image\" />
     <Folder Include="FSKClient\src\app\services\chart\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="FSKClient\src\app\extensions\formgroup-extensions.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\models\file-snippet.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\models\crap-cost-table-model.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\models\quantity-chart-model.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\models\quantity-table-model.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\models\refresh-token-model.ts" />
+    <TypeScriptCompile Include="FSKClient\src\app\services\confirm-dialog\confirm-dialog-data-builder.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\validators\custom-validator.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\validators\password-equality-validator.ts" />
   </ItemGroup>

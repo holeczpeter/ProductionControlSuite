@@ -1,14 +1,22 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanDeactivate, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { LoginResults } from '../models/generated/generated';
 import { AccountService } from '../services/account.service';
-
+import { ConfirmDialogService } from '../services/confirm-dialog/confirm-dialog-service';
+export interface HasComponentUnsavedChanges {
+  hasUnsavedChanges(): boolean
+}
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<unknown>, CanLoad {
-  constructor(private accountService: AccountService, private router: Router) { }
+export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<HasComponentUnsavedChanges>, CanLoad {
+  constructor(private accountService: AccountService,
+    private router: Router,
+    private dialog: MatDialog,
+    private confirmDialogService: ConfirmDialogService) { }
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
@@ -43,11 +51,13 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<u
     else return false;
   }
   canDeactivate(
-    component: unknown,
+    component: HasComponentUnsavedChanges,
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true;
+
+    if (!component.hasUnsavedChanges()) return of(true);
+    else return this.confirmDialogService.openConfirmWarning('Biztosan elnavigál? Önnek nem mentett módosításai vannak. A módosításai elvesznek');
   }
   canLoad(
     route: Route,

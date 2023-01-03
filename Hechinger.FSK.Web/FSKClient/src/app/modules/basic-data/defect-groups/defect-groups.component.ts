@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DeleteEntityGroup, EntityGroupModel, EntityGroupRelationModel, GroupTypes } from '../../../models/generated/generated';
 import { TreeItem } from '../../../models/tree-item';
 import { TreeItemFlatNode } from '../../../models/tree-item-flat-node';
+import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 import { EntityGroupDataService } from '../../../services/data/entity-group-data.service';
 import { ProductDataService } from '../../../services/data/product-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
@@ -80,6 +81,7 @@ export class DefectGroupsComponent implements OnInit {
     public tableFilterService: TableFilterService,
     public compareService: CompareService,
     public sortService: SortService,
+    private readonly confirmDialogService: ConfirmDialogService,
     private readonly exportService: TableExportService,
     public paginationService: PaginationService,
     private readonly filterService: DefectFilterService) {
@@ -203,12 +205,17 @@ export class DefectGroupsComponent implements OnInit {
     }
   }
 
-  delete(node: TreeItemFlatNode<EntityGroupModel>) {
-    let request: DeleteEntityGroup = { id: node.item.node.id };
-    this.entityGroupDataService.delete(request).subscribe(result => {
-      this.snackBar.open(result);
-      if (result) this.ngOnInit();
-      this.treeControl.expand(node);
+  delete(node: TreeItemFlatNode<EntityGroupModel>) { 
+    let message = node.item.node.groupType == GroupTypes.Group ? "hibaösszesítő csoportot" : "hibaösszesítőt"
+    this.confirmDialogService.openDeleteConfirm(message).subscribe(result => {
+      if (result) {
+        let request: DeleteEntityGroup = { id: node.item.node.id };
+        this.entityGroupDataService.delete(request).subscribe(result => {
+          this.snackBar.open(result);
+          if (result) this.ngOnInit();
+          this.treeControl.expand(node);
+        });
+      }
     });
   }
 }

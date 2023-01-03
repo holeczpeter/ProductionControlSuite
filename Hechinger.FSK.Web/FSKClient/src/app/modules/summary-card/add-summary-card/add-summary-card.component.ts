@@ -11,8 +11,8 @@ import { SnackbarService } from '../../../services/snackbar/snackbar.service';
   styleUrls: ['./add-summary-card.component.scss']
 })
 export class AddSummaryCardComponent implements OnInit {
-  
   cardForm!: UntypedFormGroup;
+  originalCardForm!: UntypedFormGroup;
   title = "summarycard";
   get items(): FormArray {
     return this.cardForm.get('items') as FormArray;
@@ -26,7 +26,6 @@ export class AddSummaryCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.cardForm = this.formBuilder.group({
       id: [ 0, [Validators.required]],
       date: [ new Date(), [Validators.required]],
@@ -36,7 +35,7 @@ export class AddSummaryCardComponent implements OnInit {
       los: [ ''],
       shiftId: ['', [Validators.required]],
       items: this.formBuilder.array([])
-    });
+    }).setOriginalForm();
     
 
   }
@@ -66,5 +65,8 @@ export class AddSummaryCardComponent implements OnInit {
         this.ngOnInit();
       } 
     });
+  }
+  hasUnsavedChanges(): boolean {
+    return this.cardForm.isChanged();
   }
 }

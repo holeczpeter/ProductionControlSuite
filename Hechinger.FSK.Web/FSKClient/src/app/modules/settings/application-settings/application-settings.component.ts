@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
+import { HasComponentUnsavedChanges } from '../../../guards/auth.guard';
 import { GetUser, GetUserSettings, LanguageModel } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { LanguageDataService } from '../../../services/data/language-data.service';
@@ -14,7 +15,7 @@ import { SnackbarService } from '../../../services/snackbar/snackbar.service';
   templateUrl: './application-settings.component.html',
   styleUrls: ['./application-settings.component.scss']
 })
-export class ApplicationSettingsComponent implements OnInit {
+export class ApplicationSettingsComponent implements OnInit, HasComponentUnsavedChanges {
   languages!: LanguageModel[];
   formGroup!: UntypedFormGroup;
   title = "applicationsettings";
@@ -34,7 +35,7 @@ export class ApplicationSettingsComponent implements OnInit {
         id: [user.id, [Validators.required]],
         languageId: [user.languageId, [Validators.required]],
         pageSize: [user.pageSize, [Validators.required]],
-      });
+      }).setOriginalForm();
     });
   }
   onSave() {
@@ -43,5 +44,8 @@ export class ApplicationSettingsComponent implements OnInit {
       this.snackBar.open(result);
       this.accountService.setPageSize(updateUserSettings.pageSize);
     });
+  }
+  hasUnsavedChanges(): boolean {
+    return this.formGroup.isChanged();
   }
 }

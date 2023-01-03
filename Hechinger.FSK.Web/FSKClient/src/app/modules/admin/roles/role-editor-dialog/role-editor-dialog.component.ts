@@ -4,9 +4,10 @@ import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, Injec
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
-import { forkJoin } from 'rxjs';
+import { BehaviorSubject, forkJoin, Subject } from 'rxjs';
 import { AddRole, GetRole, RoleDetailModel, RoleMenuItem, RoleModel, RoleUserItem, UpdateRole } from '../../../../models/generated/generated';
 import { TreeItemFlatNode } from '../../../../models/tree-item-flat-node';
+import { ConfirmDialogService } from '../../../../services/confirm-dialog/confirm-dialog-service';
 import { RoleDataService } from '../../../../services/data/role-data.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
 
@@ -20,6 +21,9 @@ import { SnackbarService } from '../../../../services/snackbar/snackbar.service'
   },]
 })
 export class RoleEditorDialogComponent implements OnInit, AfterViewInit, AfterViewInit, AfterContentChecked{
+  isModifiedMenus = new BehaviorSubject<boolean>(false);
+  isModifiedUsers = new BehaviorSubject<boolean>(false);
+
   title!: string;
   id: number = 0;
   role!: RoleDetailModel;
@@ -32,6 +36,7 @@ export class RoleEditorDialogComponent implements OnInit, AfterViewInit, AfterVi
     @Inject(MAT_DIALOG_DATA) public data: RoleModel,
     private readonly roleDataService: RoleDataService,
     private readonly formBuilder: UntypedFormBuilder,
+    private readonly confirmDialogService: ConfirmDialogService,
     private readonly changeDetector: ChangeDetectorRef,
     private readonly snackBar: SnackbarService) {
     this.id = this.data ? this.data.id : 0;
@@ -49,7 +54,7 @@ export class RoleEditorDialogComponent implements OnInit, AfterViewInit, AfterVi
         translatedName: [this.role ? this.role.translatedName : '', [Validators.required]],
         code: [this.role ? this.role.code : '', [Validators.required]],
         isDefault: [this.role ? this.role.isDefault : false],
-      });
+      }).setOriginalForm();
     });
   }
  
@@ -61,9 +66,12 @@ export class RoleEditorDialogComponent implements OnInit, AfterViewInit, AfterVi
     stepper.next();
   }
   refreshMenu(event: SelectionModel<TreeItemFlatNode<RoleMenuItem>>) {
+    if (this.accessMenu) this.isModifiedMenus.next(this.compareArray(this.accessMenu, event.selected.map((x: TreeItemFlatNode<RoleMenuItem>) => x.item.node)))
     this.accessMenu = [...event.selected.map((x: TreeItemFlatNode<RoleMenuItem>) => x.item.node)];
   }
+  
   refreshUsers(event: Array<RoleUserItem>) {
+    if (this.accessUsers) this.isModifiedUsers.next(this.compareArray(this.accessUsers, event));
     this.accessUsers = event;
   }
  
@@ -101,9 +109,12 @@ export class RoleEditorDialogComponent implements OnInit, AfterViewInit, AfterVi
       if (result.isSuccess) this.dialogRef.close(true);
     });
   }
-
+  compareArray<T>(accessMenu: T[], arg1: T[]) {
+    return JSON.stringify(accessMenu)  !== JSON.stringify(arg1);
+  }
   onCancel() {
-    this.dialogRef.close(false);
+    if (this.formGroup.isChanged()) this.confirmDialogService.confirmClose(this.dialogRef);
+    else this.dialogRef.close(false);
   }
   ngAfterViewInit() {
     this.changeDetector.detectChanges();

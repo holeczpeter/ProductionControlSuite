@@ -6,6 +6,7 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { AccordionConfig } from '../../../../../layout/sidebar/sidebar.component';
 import { EntityGroupModel, EntityGroupRelationModel, EntityGroupRelationTree, GroupTypes } from '../../../../../models/generated/generated';
 import { TreeItem } from '../../../../../models/tree-item';
+import { ConfirmDialogService } from '../../../../../services/confirm-dialog/confirm-dialog-service';
 import { EntityGroupDataService } from '../../../../../services/data/entity-group-data.service';
 import { EntityGroupService } from '../../../../../services/entity-group/entity-group-service.service';
 import { LanguageService } from '../../../../../services/language/language.service';
@@ -27,6 +28,7 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
   constructor(private entityGroupDataService: EntityGroupDataService,
     public languageService: LanguageService,
     private cdr: ChangeDetectorRef,
+    private readonly confirmDialogService: ConfirmDialogService,
     private entityGroupService: EntityGroupService,
     private treeService: TreeService) { }
 
@@ -82,8 +84,13 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
   }
 
   delete(node: TreeItem<EntityGroupModel>) {
-    this.tree = this.treeService.removeChild(this.tree, node);
-    this.entityGroupService.refreshTree(this.tree);
+    this.confirmDialogService.openDeleteConfirm('műveletcsoportot').subscribe(result => {
+      if (result) {
+        this.tree = this.treeService.removeChild(this.tree, node);
+        this.entityGroupService.refreshTree(this.tree);
+      }
+    });
+    
   }
   
   ngAfterViewInit(): void {

@@ -1,5 +1,15 @@
 import { TreeItem } from "../tree-item";
 
+export interface ConfirmDialogData {
+  title: string,
+  content: string,
+  buttons: Array<ConfirmDialogResult>,
+  type: ConfirmationTypes,
+}
+export interface ConfirmDialogResult {
+  text: string,
+  value: boolean,
+}
 export interface EnumModel {
   id: number,
   name: string,
@@ -995,6 +1005,13 @@ export interface GetWorkshop {
 }
 export interface GetWorkshopByFilter {
   filter: string,
+}
+export enum ConfirmationTypes {
+  Information = 0,
+  Warning = 1,
+  Error = 2,
+  Delete = 3,
+  Success = 4,
 }
 export enum Views {
   Day = 0,

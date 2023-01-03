@@ -3,7 +3,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-
+import '../src/app/extensions/formgroup-extensions';
 if (environment.production) {
   enableProdMode();
 }

@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import { DeleteRole, RoleModel, SetDefaultRole, UserModel } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
+import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 import { RoleDataService } from '../../../services/data/role-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { RoleEditorDialogComponent } from './role-editor-dialog/role-editor-dialog.component';
@@ -28,6 +29,7 @@ export class RolesComponent implements OnInit {
   constructor(private readonly roleDataService: RoleDataService,
     private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
+    private readonly confirmDialogService: ConfirmDialogService,
     private readonly snackBar: SnackbarService,
     public translate: TranslateService) { }
 
@@ -64,12 +66,17 @@ export class RolesComponent implements OnInit {
   }
 
   onDelete(id: number) {
-    let model: DeleteRole = { id: id };
-    this.roleDataService.delete(model).subscribe(result => {
-      this.snackBar.open(result);
-      if (result.isSuccess) this.initalize()
+    this.confirmDialogService.openDeleteConfirm('szerepkört').subscribe(result => {
+      if (result) {
+        let model: DeleteRole = { id: id };
+        this.roleDataService.delete(model).subscribe(result => {
+          this.snackBar.open(result);
+          if (result.isSuccess) this.initalize()
 
+        });
+      }
     });
+    
   }
   onChange(event: MatCheckboxChange, role: RoleModel): void {
     if (event.checked) {

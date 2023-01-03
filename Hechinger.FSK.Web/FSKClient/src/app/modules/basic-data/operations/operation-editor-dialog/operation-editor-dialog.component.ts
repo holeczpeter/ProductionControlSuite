@@ -6,6 +6,7 @@ import { debounceTime, forkJoin, take } from 'rxjs';
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { OperationEditorModel } from '../../../../models/dialog-models/operation-editor-model';
 import { AddOperation, OperationModel, ProductModel, SelectModel, UpdateOperation } from '../../../../models/generated/generated';
+import { ConfirmDialogService } from '../../../../services/confirm-dialog/confirm-dialog-service';
 import { OperationDataService } from '../../../../services/data/operation-data.service';
 import { ProductDataService } from '../../../../services/data/product-data.service';
 import { LanguageService } from '../../../../services/language/language.service';
@@ -31,6 +32,7 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
     private readonly operationDataService: OperationDataService,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly snackBar: SnackbarService,
+    private readonly confirmDialogService: ConfirmDialogService,
     public languageService: LanguageService ) {
     this.operation = data ? data.operationModel : null;
     this.title = this.operation ? "products.edit" : "products.add";
@@ -52,7 +54,7 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
         operationTime: [this.operation ? this.operation.operationTime : 0],
         translatedName: [this.operation ? this.operation.translatedName : '', [Validators.required]],
         product: [this.operation ? this.products.find(ws => ws.id == this.operation!.productId) : null, [Validators.required]],
-      });
+      }).setOriginalForm();
       this.filterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
         debounceTime(500)).subscribe(filter => {
           this.filter();
@@ -114,7 +116,8 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
   }
 
   onCancel() {
-    this.dialogRef.close(false);
+    if (this.formGroup.isChanged())  this.confirmDialogService.confirmClose(this.dialogRef);
+    else this.dialogRef.close(false);
   }
   ngAfterViewInit() {
     

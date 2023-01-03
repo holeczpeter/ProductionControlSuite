@@ -72,6 +72,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { InfoCardComponent } from './info-card/info-card.component';
 import { MonthPipe } from '../pipes/month.pipe';
 import { LocaleDateAdapterService } from '../services/date/locale-date-adapter.service';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { LocaleDateAdapterService } from '../services/date/locale-date-adapter.s
     CategoryPipe,
     WorkshopSearchComponent,
     InfoCardComponent,
-    MonthPipe
+    MonthPipe,
+    ConfirmDialogComponent
   ],
   imports: [
     CommonModule,
@@ -217,7 +219,8 @@ import { LocaleDateAdapterService } from '../services/date/locale-date-adapter.s
     WorkshopSearchComponent,
     InfiniteScrollModule,
     InfoCardComponent,
-    MonthPipe
+    MonthPipe,
+    ConfirmDialogComponent
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },
