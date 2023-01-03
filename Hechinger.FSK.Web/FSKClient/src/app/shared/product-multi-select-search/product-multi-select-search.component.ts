@@ -11,7 +11,7 @@ import { LanguageService } from '../../services/language/language.service';
   styleUrls: ['./product-multi-select-search.component.scss']
 })
 export class ProductMultiSelectSearchComponent implements OnInit, DoCheck {
-  @Input() productIds: Array<number> = new Array<number>();
+  @Input() productIds: Array<number>;
   @Output() select = new EventEmitter<Array<ProductModel>>();
   formGroup!: UntypedFormGroup;
   protected products: ProductModel[];
@@ -30,9 +30,11 @@ export class ProductMultiSelectSearchComponent implements OnInit, DoCheck {
     this._differ = this.differs.find([]).create();
   }
   ngDoCheck() {
+    
     var changes = this._differ.diff(this.productIds);
+    
     if (changes) {
-      this.initalize();
+      
     }
   }
   
@@ -56,7 +58,7 @@ export class ProductMultiSelectSearchComponent implements OnInit, DoCheck {
     });
   }
   ngOnInit() {
-
+    this.initalize();
   }
 
   ngAfterViewInit() {

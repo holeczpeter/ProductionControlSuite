@@ -4,7 +4,10 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
-    
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Company>Holecz Péter</Company>
+    <Authors>$(Company)</Authors>
+    <Copyright>Copyright © $(Authors) $([System.DateTime]::Now.Year)</Copyright>
   </PropertyGroup>
   <PropertyGroup>
     <!-- T4 templates -->

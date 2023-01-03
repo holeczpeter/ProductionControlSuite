@@ -1,72 +1,11 @@
-<div cdkDropListGroup class="content">
-  <div class="example-container">
-    <h2>{{ 'defects.title' | translate }}</h2>
-    <div cdkDropList
-         [cdkDropListData]="defects"
-         class="example-list"
-         (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of defects" cdkDrag> {{item.code}} -  {{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.name : item.translatedName}}</div>
-    </div>
-  </div>
+
   <div class="relation-container">
     <h2>{{ 'defects.title' | translate }}</h2>
     <mat-accordion multi>
-      <mat-expansion-panel *ngFor="let item of tree.children">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{item.node.name}} műveletcsoport
-          </mat-panel-title>
-          <mat-panel-description>
-            <div *ngFor="let rel of item.node.relations">
-              {{rel.code}} /
-            </div>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <table>
-          <tr>
-            <th>Sorszám</th>
-            <th>Hibacsoport megnevezése</th>
-            <th>Hibacsoport elemei</th>
-            <th>Törlés</th>
-          </tr>
-          <tr *ngFor="let child of item.children">
-            <td>
-              <mat-form-field>
-                <input matInput placeholder="{{ 'order' | translate}}" required [(ngModel)]='child.node.order' />
-              </mat-form-field>
-            </td>
-            <td>
-              <mat-form-field>
-                <input matInput placeholder="{{'defectsGroup' | translate}}" [(ngModel)]='child.node.name' [name]='child.node.name' required>
-              </mat-form-field>
-            </td>
-
-            <td>
-              <div cdkDropList
-                   [cdkDropListData]="child.node.relations"
-                   class="defect-relation-list"
-                   (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let i of child.node.relations" cdkDrag>{{i.code}}</div>
-              </div>
-            </td>
-            <td>
-              <div>
-                <button mat-icon-button (click)="delete(item,child)" color="primary"><mat-icon>delete</mat-icon></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="3">
-              <div class="row justify-content-center pt-3">
-                <button mat-fab color="primary" (click)="addGroupFromNode(item)">
-                  <mat-icon>add</mat-icon>
-                </button>
-              </div>
-            </td>
-          </tr>
-        </table>
-      </mat-expansion-panel>
+      <ng-container *ngFor="let item of tree.children">
+        <app-defect-group-defect-item [item]="item"></app-defect-group-defect-item>
+      </ng-container>
     </mat-accordion>
   </div>
-</div>
+
 

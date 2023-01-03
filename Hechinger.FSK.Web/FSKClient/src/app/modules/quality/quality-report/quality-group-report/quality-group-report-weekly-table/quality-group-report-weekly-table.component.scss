@@ -40,7 +40,10 @@ th.mat-header-cell:first-child, td.mat-cell:first-child,td.mat-footer-cell:first
   white-space: normal;
   word-wrap: break-word;
 }
-
+.order {
+  max-width: 60px !important;
+  min-width: 60px !important;
+}
 .category-header {
   max-width: 60px !important;
   min-width: 60px !important;

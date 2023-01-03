@@ -1,5 +1,10 @@
 import { TreeItem } from "../tree-item";
 
+export interface ApplicationInfo {
+  version: string,
+  copyRight: string,
+  enviromentName: string,
+}
 export interface ConfirmDialogData {
   title: string,
   content: string,
@@ -248,10 +253,7 @@ export interface RequestParameters {
   page: number,
   pageCount: number,
 }
-export interface DeleteEntityGroup {
-  id: number,
-}
-export interface SaveEntityGroup {
+export interface CreateEntityGroup {
   current: TreeItem<EntityGroupModel>,
 }
 export interface EntityGroupModel {
@@ -263,6 +265,12 @@ export interface EntityGroupModel {
   groupType: GroupTypes,
   relations: Array<EntityGroupRelationModel>,
   ppmGoal: number,
+}
+export interface DeleteEntityGroup {
+  id: number,
+}
+export interface SaveEntityGroup {
+  current: TreeItem<EntityGroupModel>,
 }
 export interface EntityGroupRelationModel {
   id: number,
@@ -1050,5 +1058,9 @@ export enum EntityStatuses {
   Active = 1,
   Deleted = 2,
   InActive = 3,
+}
+export enum EnvironmentTypes {
+  TEST = 0,
+  PROD = 1,
 }
 

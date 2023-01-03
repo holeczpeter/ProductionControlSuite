@@ -10,6 +10,7 @@ import { TreeItem } from '../../models/tree-item';
 export class EntityGroupService {
   private subject = new Subject<TreeItem<EntityGroupModel>>();
   public getCurrentTree() {
+    console.log("get")
     return this.subject.asObservable();
   }
   private productSubject = new BehaviorSubject<Array<number>>(new Array<number>());

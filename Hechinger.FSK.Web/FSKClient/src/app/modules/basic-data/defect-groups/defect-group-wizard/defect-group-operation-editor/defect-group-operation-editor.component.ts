@@ -34,6 +34,7 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
 
   ngOnInit(): void {
     this.entityGroupService.getProductIds().subscribe(x => {
+     
       let productIds = x.map(u => u.toString()).join(',');
       let params = new HttpParams();
       params = params.append('productIds', productIds);
@@ -41,8 +42,45 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
       this.entityGroupDataService.getOperationsForRelation(params).subscribe(res => {
         this.entityRelationTree = res;
         this.operations = this.entityRelationTree;
+        //this.createChildren();
       })
     });
+  }
+  createChildren() {
+    if (this.operations) {
+      let max = Math.max(...this.operations.map(x => Number(x.code.slice(-2))));
+      console.log(max)
+      for (var i = 1; i < max; i++) {
+        let char = "0" + i.toString();
+        let ops = this.operations.filter(x => x.code.slice(-2) == char);
+        if (ops && ops.length > 0) {
+          let currentRelations = new Array<EntityGroupRelationModel>();
+          ops.forEach(op => {
+            currentRelations.push(op);
+          });
+
+          let current: EntityGroupModel = {
+            id: 0,
+            name: ops[0] != null ? ops[0].name : "",
+            translatedName: ops[0] != null ? ops[0].translatedName : "",
+            order: i,
+            ppmGoal: 0,
+            groupType: GroupTypes.Item,
+            parentId: this.tree.node.id,
+            relations: currentRelations,
+          }
+          let tree = {
+            node: current,
+            children: new Array<any>(),
+            collapsed: false,
+          }
+          this.treeService.addChild(this.tree, tree);
+        }
+
+      }
+      this.entityGroupService.refreshTree(this.tree);
+    }
+    
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -63,7 +101,6 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
   }
   
   addGroupFromNode() {
-    
     let current: EntityGroupModel = {
       id: 0,
       name: '',
@@ -90,7 +127,6 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
         this.entityGroupService.refreshTree(this.tree);
       }
     });
-    
   }
   
   ngAfterViewInit(): void {

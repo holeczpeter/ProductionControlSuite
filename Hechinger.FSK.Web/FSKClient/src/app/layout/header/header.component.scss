@@ -1,18 +1,58 @@
+$mat-primary-color: #4798BE;
+$mat-blue-color: #14416A;
+$mat-orange-color: #E3762F;
+$mat-accent-color: #E3762F;
+$mat-warn-color: #F35B5A;
+$mat-disabled-color: #DBDCDC;
+mat-toolbar-row {
+  background-color: #14416A;
+  color:white;
+  height:70px !important;
+}
 .example-spacer {
   flex: 1 1 auto;
 }
-.lang {
+.language {
+    font-weight:500;
+  font-size: 16px;
   padding-left: 5px;
+  padding-right: 5px;
+  letter-spacing:1.5px;
+}
+.lang {
+  font-weight: 500;
+  font-size: 16px;
+  padding-left: 5px;
+  padding-right: 5px;
   z-index: 1000;
+  letter-spacing: 1.5px;
 }
 
+.login-name {
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  letter-spacing: 1px !important;
+}
 .lang:hover {
   cursor: pointer;
 }
+.logo-span {
+  display: inline-block;
+}
+
 .center-span {
   text-align: center;
   display: inline-block;
   width: 100%;
+}
+.divider{
+    margin-top:10px;
+}
+.menu-info {
+  width:200px;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 10px;
 }
 .logo {
   width:200px;
@@ -22,3 +62,205 @@
   letter-spacing: 1px;
   text-transform: uppercase;
 }
+a {
+  letter-spacing: 1px;
+  color: white;
+  text-decoration: none;
+}
+
+.logo-container {
+  float: left;
+  cursor: pointer;
+  height: auto;
+  margin: auto;
+  padding-right: 10px;
+}
+
+.header {
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 145px;
+  display: block;
+  font-family: "Roboto";
+  letter-spacing: 2px;
+}
+
+.names {
+  margin-left: 10px;
+  vertical-align: middle;
+  letter-spacing: 1px;
+
+  p {
+    margin: auto;
+    line-height: 24px;
+    vertical-align: middle;
+  }
+
+ 
+}
+.header-main {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+.header-alt {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+}
+/*button.primary-dark:hover {
+  background-color: $mat-primary-color;
+  color: #FFFFFF;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.active {
+  background-color: $mat-orange-color;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #FFFFFF;
+}
+
+.profile-container {
+  margin: auto;
+  float: right;
+  display: flex;
+  height: 45px;
+  align-items: center;
+}
+
+
+.header-info {
+  padding: 20px;
+  display: flex;
+}
+
+.header-nav {
+  width: 100%;
+  display: flex;
+}
+
+.profile-name {
+  letter-spacing: 2px;
+  font-size: 18px;
+  padding: 0 0 0 20px;
+}
+
+.message-icon {
+}
+
+
+.mat-stroked-button {
+  border: none;
+  font-weight: bold;
+  font-size: 14px;
+  color: #FFFFFF;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+}
+
+.mat-icon {
+  transition: 0.5s;
+  transform: rotate(0deg);
+}
+
+
+
+
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.mat-toolbar-row, .mat-toolbar-single-row {
+  height: auto;
+}
+
+.padnull {
+  padding: 0;
+}
+
+.logoContainer {
+  overflow: hidden;
+}
+
+img {
+  width: 100%;
+}
+
+
+.navbar {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.menubuttons {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+
+.logoButton {
+  width: 100px;
+  white-space: pre-line;
+  margin: 1px 1px 1px 0px;
+}
+
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+.mat-toolbar-row {
+  padding: 0px;
+}
+
+.collogo {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.coltoolbar {
+  padding-left: 0px;
+}
+
+.title {
+  color: #3f51b5;
+}
+
+.flex-container-menu {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-content: stretch
+}
+
+.flex-container-menu div {
+  padding: 10px;
+}
+
+.collapsed-button {
+  min-width: 200px;
+}
+
+
+
+
+

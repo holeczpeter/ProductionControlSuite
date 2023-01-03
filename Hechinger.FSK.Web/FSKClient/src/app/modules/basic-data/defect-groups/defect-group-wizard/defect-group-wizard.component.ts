@@ -24,6 +24,7 @@ export class DefectGroupWizardComponent implements OnInit {
   totalStepsCount!: 3;
   isHead = false;
   data: TreeItem<EntityGroupModel>;
+  selectedIndex= 0;
   constructor(private readonly dialogRef: MatDialogRef<DefectGroupWizardComponent>,
     @Inject(MAT_DIALOG_DATA) public incomingData: TreeItem<EntityGroupModel>,
     private entityGroupDataService: EntityGroupDataService,
@@ -41,6 +42,7 @@ export class DefectGroupWizardComponent implements OnInit {
       let request = { id: this.incomingData.node.id };
       this.entityGroupDataService.get(request).subscribe(x => {
         this.data = x;
+        this.entityGroupService.refreshTree(this.data);
         if (this.data) this.isHead = this.data.node.groupType == GroupTypes.Head;
         else this.isHead = true;
       })
@@ -57,7 +59,9 @@ export class DefectGroupWizardComponent implements OnInit {
     if (this.data) this.isHead = this.data.node.groupType == GroupTypes.Head;
     else this.isHead = true;
   }
-  
+  public onStepChange(event: any): void {
+    this.selectedIndex = event.selectedIndex;
+  }
   goBack(stepper: MatStepper) {
     this.stepper.previous();
   }

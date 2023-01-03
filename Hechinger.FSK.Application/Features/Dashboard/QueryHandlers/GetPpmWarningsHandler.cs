@@ -18,7 +18,6 @@
             var items = await this.context.SummaryCards
                .Where(sc => sc.Date.Date >= request.StartDate.Date.Date &&
                             sc.Date.Date <= request.EndDate.Date &&
-                            sc.OperationId == 4811 &&
                             sc.EntityStatus == EntityStatuses.Active)
                .Select(sc => new
                {

@@ -98,7 +98,6 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
   createTable() {
     this.setInitial();
     if (this.interval && this.result && this.categories) {
-      console.log(this.result);
       this.createPeriods();
       
       this.result.items.forEach(operation => {
@@ -265,7 +264,7 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
       disableClose: true,
       autoFocus: false,
       data: chartDialogModel,
-      minWidth: '600px'
+      minWidth: '900px'
     });
     dialogRef.afterClosed().subscribe();
   }

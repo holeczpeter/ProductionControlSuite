@@ -30,7 +30,8 @@
                                                         EntityType = EntityTypes.Defect,
                                                         ParentId = o.OperationId,
                                                         TranslatedName = o.TranslatedName,
-                                                    }).ToListAsync(cancellationToken);
+                                                    }).OrderBy(x=>x.Order)
+                                                    .ToListAsync(cancellationToken);
             return operations;
 
         }

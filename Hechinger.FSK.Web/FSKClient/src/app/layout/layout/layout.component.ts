@@ -27,6 +27,7 @@ export class LayoutComponent implements OnDestroy {
 
   constructor(private router: Router,
     private readonly navigationService: NavigationService,
+   
     public spinnerService: SpinnerService) {
   
     this.router.events.pipe(takeUntil(this.onDestroy$)).subscribe((x) => {
