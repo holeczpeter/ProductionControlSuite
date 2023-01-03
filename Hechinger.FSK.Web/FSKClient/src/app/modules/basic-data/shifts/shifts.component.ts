@@ -105,7 +105,7 @@ export class ShiftsComponent implements OnInit, AfterViewInit {
   }
   onExport() {
     this.translate.get(this.title).subscribe(title => {
-      this.exportService.export(this.dataSource, this.filterableColumns, title);
+      this.exportService.exportFromDataSource(this.dataSource, this.filterableColumns, title);
     });
   }
   onAdd() {

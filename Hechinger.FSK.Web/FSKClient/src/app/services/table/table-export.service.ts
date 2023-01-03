@@ -15,7 +15,7 @@ export class TableExportService {
     });
   }
 
-  export<T>(dataSource: MatTableDataSource<T>, columnNames: Array<TableColumnModel>, fileName?: string): void {
+  exportFromDataSource<T>(dataSource: MatTableDataSource<T>, columnNames: Array<TableColumnModel>, fileName?: string): void {
     let data = null;
     if (dataSource.sort) data = dataSource.sortData(dataSource.filteredData, dataSource.sort);
     else data = dataSource.filteredData;
@@ -43,5 +43,35 @@ export class TableExportService {
 
     /* save to file */
     XLSX.writeFile(wb, `${fileName}.xlsx`);
+  }
+  exportFromInnerHTML(tbls: HTMLCollectionOf<HTMLTableElement>, name: string) {
+    var uri = 'data:application/vnd.ms-excel;base64,',
+      template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>',
+      base64 = function (s: any) {
+        return window.btoa(unescape(encodeURIComponent(s)))
+      },
+      format = function (s: any, c: any) {
+        return s.replace(/{(\w+)}/g, function (m: any, p: any) {
+          return c[p];
+        })
+      }
+
+    var element = "";
+    
+    for (var i = 0; i < tbls.length; i++) {
+      element += tbls[i].innerHTML;
+    }
+    var ctx = {
+      worksheet: name || '',
+      table: element
+    };
+
+
+    var link = document.createElement("a");
+    link.download = name;
+    link.href = uri + base64(format(template, ctx))
+    console.log(link)
+    link.click();
+
   }
 }

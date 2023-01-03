@@ -16,6 +16,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TableHeader } from '../../../../../models/table-header';
 import { TableColumnModel } from '../../../../../models/table-column-model';
 import eachWeekOfInterval from 'date-fns/eachWeekOfInterval'
+import { TableExportService } from '../../../../../services/table/table-export.service';
 export interface TableGroupItem {
   operationGroupId: number;
   operationGroupName: string;
@@ -73,6 +74,7 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
     private productDataService: ProductDataService,
     private readonly defectDataService: DefectDataService,
     public languageService: LanguageService,
+    private readonly tableExportService: TableExportService,
     private readonly shiftDataServie: ShiftDataService,) { }
 
   ngOnInit(): void {
@@ -250,27 +252,11 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
     return index;
   }
   onExport() {
-    let tbl1 = document.getElementsByTagName("table")[0]
-    let tbl2 = document.getElementsByTagName("table")[1]
-
-    let worksheet_tmp1 = XLSX.utils.table_to_sheet(tbl1);
-    let worksheet_tmp2 = XLSX.utils.table_to_sheet(tbl2);
-
-    let a = XLSX.utils.sheet_to_json(worksheet_tmp1, { header: 1 })
-    let b = XLSX.utils.sheet_to_json(worksheet_tmp2, { header: 1 })
-
-    a = a.concat(['']).concat(b)
-
-    let worksheet = XLSX.utils.json_to_sheet(a, { skipHeader: true })
-
-    const new_workbook = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(new_workbook, worksheet, "worksheet")
-    XLSX.writeFile(new_workbook, 'tmp_file.xls')
-    //var tbl = document.getElementById('id_of_table');
-    //var wb = XLSX.utils.table_to_book(tbl, { sheet: "nameofsheet" });
-
-    //XLSX.writeFile(wb, `${this.interval.startDate.toDateString()}_` + `${this.interval.endDate.toDateString()}_` + `${""}` + `.xlsx`);
+    let name = `${this.interval.startDate.toDateString()}_` + `${this.interval.endDate.toDateString()}_` + `${this.result.name}` + `.xls`;
+    var tbls = document.getElementsByTagName("table");
+    this.tableExportService.exportFromInnerHTML(tbls, name);
   }
+  
   getCategory(categoryId: string, index: number) {
     const myArray = categoryId.split("_");
     switch (myArray[index]) {

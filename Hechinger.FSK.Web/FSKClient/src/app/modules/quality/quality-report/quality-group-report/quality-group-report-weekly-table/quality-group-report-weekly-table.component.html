@@ -5,7 +5,7 @@
     <ng-container *ngFor="let table of tables; let i = index">
       <div>
         <div>
-          <table mat-table id="id_of_table"
+          <table mat-table id="i"
                  [dataSource]="table.dataSource">
             <ng-container *ngFor="let key of columnsToDisplay; let i = index">
               <ng-container [ngSwitch]="key">
