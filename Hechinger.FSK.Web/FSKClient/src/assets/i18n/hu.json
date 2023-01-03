@@ -74,6 +74,8 @@
   "operationGroup": "Műveletcsoport",
   "defectsGroup": "Hibacsoport",
   "selected": "Kiválasztott",
+  "yearsummary": "Éves összegzés",
+  "groupreport": "Hibaösszesítő",
   "months": [
     { "January": "Január" },
     { "February": "Február" },

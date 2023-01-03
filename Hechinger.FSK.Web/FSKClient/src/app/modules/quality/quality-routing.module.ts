@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { OperationCrapCostComponent } from './crap-costs/operation-crap-cost/operation-crap-cost.component';
 import { ProductCrapCostComponent } from './crap-costs/product-crap-cost/product-crap-cost.component';
 import { WorkshopCrapCostComponent } from './crap-costs/workshop-crap-cost/workshop-crap-cost.component';
-import { QualityHistoryMonthlyComponent } from './quality-history-monthly/quality-history-monthly.component';
 import { QualityReportComponent } from './quality-report/quality-report.component';
 import { DailyQuantityReportComponent } from './quantity-report/daily-quantity-report/daily-quantity-report.component';
 import { WorkerCompareStatisticsComponent } from './worker-compare-statistics/worker-compare-statistics.component';
@@ -20,11 +19,7 @@ const routes: Routes = [
     component: QualityReportComponent,
 
   },
-  {
-    path: 'quality-history-monthly',
-    component: QualityHistoryMonthlyComponent,
-
-  },
+  
   {
     path: 'crap-cost/operation',
     component: OperationCrapCostComponent,

@@ -3,17 +3,18 @@ import { Component, DoCheck, Input, IterableDiffer, IterableDiffers, OnDestroy, 
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
-import { DefectCategories, MonthlyQualityModel } from '../../../../models/generated/generated';
-import { DateService } from '../../../../services/date.service';
-import { QualityMonthlyTable } from '../quality-history-monthly.component';
-import * as XLSX from 'xlsx';
+import { DefectCategories, GroupReportYearlySummaryModel } from '../../../../../models/generated/generated';
+import { DateService } from '../../../../../services/date.service';
+import { TableExportService } from '../../../../../services/table/table-export.service';
+import { QualityMonthlyTable } from '../quality-report-yearly-summary.component';
+
 @Component({
-  selector: 'app-quality-history-monthly-table',
-  templateUrl: './quality-history-monthly-table.component.html',
-  styleUrls: ['./quality-history-monthly-table.component.scss']
+  selector: 'app-quality-report-yearly-summary-table',
+  templateUrl: './quality-report-yearly-summary-table.component.html',
+  styleUrls: ['./quality-report-yearly-summary-table.component.scss']
 })
-export class QualityHistoryMonthlyTableComponent implements OnInit, DoCheck, OnDestroy {
-  @Input() items: Array<MonthlyQualityModel>;
+export class QualityReportYearlySummaryTableComponent implements OnInit, DoCheck, OnDestroy {
+  @Input() items: Array<GroupReportYearlySummaryModel>;
   categories = DefectCategories;
   dataSource: MatTableDataSource<QualityMonthlyTable> = new MatTableDataSource([]);
   columnNames: Array<string> = ['month', 'f0', 'f1', 'f2'];
@@ -23,13 +24,14 @@ export class QualityHistoryMonthlyTableComponent implements OnInit, DoCheck, OnD
   constructor(private differs: IterableDiffers,
     private readonly dateService: DateService,
     private readonly datePipe: DatePipe,
+    private readonly tableExportService: TableExportService,
     public translateService: TranslateService) {
     this._differ = this.differs.find([]).create(this.trackByFn);
-    
+
   }
-   
+
   ngOnInit(): void {
-    
+
   }
   ngDoCheck() {
     var changes = this._differ.diff(this.items);
@@ -80,14 +82,12 @@ export class QualityHistoryMonthlyTableComponent implements OnInit, DoCheck, OnD
     else return 0;
   }
   onExport() {
-    if (this.items) {
-      let first = this.items[0];
-      var tbl = document.getElementById('table');
-      var tbl = document.getElementById('table');
-      var wb = XLSX.utils.table_to_book(tbl, { sheet: `${first.year}_` + `${first.productCode}` });
-      XLSX.writeFile(wb, `${first.year}_` + `${first.productCode}` + `.xlsx`);
+    let first = this.items[0];
+    let name = `${first.year}_` + `${first.productCode}` + `.xls`;
+    var tbl = document.getElementById("table");
+    if (tbl) {
+      this.tableExportService.exportTableFromInnerHTML(tbl, name);
     }
-    
   }
   trackByFn(index: number, item: any) {
     return index;

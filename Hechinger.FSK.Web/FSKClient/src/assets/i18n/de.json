@@ -75,6 +75,8 @@
   "operationGroup": "Operation Gruppe",
   "defectsGroup": "Fehler Gruppe",
   "selected": "Ausgewählt",
+  "yearsummary": "Qualitätsverlauf monatlich",
+  "groupreport": "Qualitätsmeldung",
   "months": [
     { "January": "Januar" },
     { "February": "Februar" },

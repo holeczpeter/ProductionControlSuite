@@ -1,10 +1,22 @@
 <div class="container-fluid">
   <app-title class="flex-title-item" [title]="title"></app-title>
   <ng-container *ngFor="let item of items">
-    <button mat-button [matMenuTriggerFor]="panel.menu" >{{item.node.name}}</button>
+    <button mat-button [matMenuTriggerFor]="panel.menu">{{item.node.name}}</button>
     <app-quality-menu #panel [items]="item.children" (select)="onSelect($event)"></app-quality-menu>
   </ng-container>
-  <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
-  <app-quality-group-report [request]="request" [interval]="currentInterval"></app-quality-group-report>
+  <mat-tab-group (selectedTabChange)="tabChanged($event)">
+    <mat-tab [label]="'groupreport'| translate">
+      <div class="container-inside">
+        <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
+        <app-quality-group-report [request]="request" [interval]="currentInterval"></app-quality-group-report>
+      </div>
+    </mat-tab>
+    <mat-tab [label]="'yearsummary' | translate">
+      <div class="container-inside">
+        <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
+        <app-quality-report-yearly-summary [request]="request" [interval]="currentInterval"></app-quality-report-yearly-summary>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>
 

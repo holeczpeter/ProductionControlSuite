@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿
+using System.Diagnostics;
 using System.Globalization;
 
 namespace Hechinger.FSK.Application.Features
@@ -36,14 +37,14 @@ namespace Hechinger.FSK.Application.Features
             Stopwatch stopWatch = Stopwatch.StartNew();
             var start = request.StartDate;
             var end = request.EndDate;
-            var currentGroup = await context.EntityGroups.Where(x => x.Id == request.EntityGroupId).Select(x => new 
-            { 
+            var currentGroup = await context.EntityGroups.Where(x => x.Id == request.EntityGroupId).Select(x => new
+            {
                 Name = x.Name,
                 TranslatedName = x.TranslatedName,
                 PpmGoal = x.PpmGoal
 
             }).FirstOrDefaultAsync(cancellationToken);
-            var operationsGroupsId = await context.EntityGroups.Where(x => x.Id == request.EntityGroupId).SelectMany(x => x.Children.Where(c=>c.EntityStatus == EntityStatuses.Active)).Select(x => new
+            var operationsGroupsId = await context.EntityGroups.Where(x => x.Id == request.EntityGroupId).SelectMany(x => x.Children.Where(c => c.EntityStatus == EntityStatuses.Active)).Select(x => new
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -83,7 +84,7 @@ namespace Hechinger.FSK.Application.Features
                                ShiftId = sc.ShiftId,
                                Quantity = sc.Quantity,
                                DefectQuantity = sc.DefectQuantity,
-                             
+
                            }).ToListAsync(cancellationToken);
                 var weekItems = (from c in cards
                                  group c by groupRule(c.Date) into g
@@ -109,7 +110,7 @@ namespace Hechinger.FSK.Application.Features
                         DefectName = d.Name,
                         DefectCode = d.Code,
                         Order = d.Order,
-                        DefectCategory = this.context.Defects.Where(x=>x.Id == d.Id).Select(x => x.DefectCategory).FirstOrDefault(),
+                        DefectCategory = this.context.Defects.Where(x => x.Id == d.Id).Select(x => x.DefectCategory).FirstOrDefault(),
                         DefectTranslatedName = !String.IsNullOrEmpty(d.TranslatedName) ? d.TranslatedName : d.Name,
                         PeriodItems = (from sc in this.context.SummaryCardItems
                                        where
@@ -141,15 +142,83 @@ namespace Hechinger.FSK.Application.Features
             }
             stopWatch.Stop();
             Console.WriteLine("Elapsed time {0} ms", stopWatch.ElapsedMilliseconds);
-            return new GroupReportModel() 
-            { 
+            return new GroupReportModel()
+            {
                 Name = currentGroup.Name,
                 TranslatedName = currentGroup.TranslatedName,
                 PpmGoal = currentGroup.PpmGoal,
-                Items = items 
+                Items = items
             };
         }
 
+        public async Task<IEnumerable<GroupReportYearlySummaryModel>> GetYearlySummary(GetGroupReportYearlySummary request, CancellationToken cancellationToken)
+        {
+            var startDate = new DateTime(request.Year, 1, 1);
+            var endDate = new DateTime(request.Year, 12, 31);
+            var currentGroup = await context.EntityGroups.Where(x => x.Id == request.EntityGroupId).Select(x => new
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Code = x.Code,
+                TranslatedName = x.TranslatedName,
+                PpmGoal = x.PpmGoal
 
+            }).FirstOrDefaultAsync(cancellationToken);
+            var operationsGroupsId = await context.EntityGroups.Where(x => x.Id == request.EntityGroupId).SelectMany(x => x.Children.Where(c => c.EntityStatus == EntityStatuses.Active)).Select(x => new
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Code = x.Code,
+                TranslatedName = x.TranslatedName,
+                Order = x.Order,
+                RelationsIds = x.EntityGroupRelations.Where(r => r.EntityStatus == EntityStatuses.Active).Select(r => new { Id = r.Id, EntityId = r.EntityId }),
+                Children = x.Children.Where(c => c.EntityStatus == EntityStatuses.Active).Select(c => new
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Code = c.Code,
+                    Order = c.Order,
+                    TranslatedName = c.TranslatedName,
+                    RelationsIds = c.EntityGroupRelations.Select(r => new { Id = r.Id, EntityId = r.EntityId }),
+                })
+            }).ToListAsync(cancellationToken);
+            var currentItems = new List<SummaryCardDailyItem>();
+            foreach (var op in operationsGroupsId)
+            {
+                var items = await (from c in this.context.SummaryCards
+                                   join i in this.context.SummaryCardItems on c.Id equals i.SummaryCardId
+                                   where c.Date.Date >= startDate &&
+                                         c.Date <= endDate &&
+                                         op.RelationsIds.Select(r => r.EntityId).Contains(c.OperationId) &&
+                                         c.EntityStatus == EntityStatuses.Active &&
+                                         i.EntityStatus == EntityStatuses.Active
+                                   select new SummaryCardDailyItem()
+                                   {
+
+                                       Date = c.Date,
+                                       Quantity = c.Quantity,
+                                       DefectQuantity = i.Quantity,
+                                       Category = i.Defect.DefectCategory
+                                   }
+                           ).ToListAsync(cancellationToken);
+                currentItems.AddRange(items);   
+                
+            }
+            var groups = currentItems.GroupBy(p => new { Category = p.Category }).Select(g => new GroupReportYearlySummaryModel
+            {
+                Year = request.Year,
+                Category = g.Key.Category,
+                CategoryName = g.Key.Category.GetDescription(),
+                Items = g.GroupBy(x => new { Year = x.Date.Year, Month = x.Date.Month }).Select(a => new GroupReportYearlySummaryItem()
+                {
+                    Year = a.Key.Year,
+                    Month = a.Key.Month,
+                    Value = this.qualityService.GetPpm(a.Sum(z => z.Quantity), a.Sum(c => c.DefectQuantity))
+                }).ToList(),
+
+            });
+
+            return groups.OrderBy(x => x.Category).ToList();
+        }
     }
 }

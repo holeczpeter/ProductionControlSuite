@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { BehaviorSubject, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 import { EntityGroupModel, GetGroupReport, IntervalModel, IntervalOption, Views } from '../../../models/generated/generated';
 import { TreeItem } from '../../../models/tree-item';
@@ -22,6 +23,7 @@ export class QualityReportComponent implements OnInit, OnDestroy {
     { name: 'month', value: Views.Month, isDefault: true },
     { name: 'year', value: Views.Year, isDefault: false },
   ];
+  
   currentDate = new Date();
   selectedView: Views;
   currentInterval: IntervalModel;
@@ -59,13 +61,12 @@ export class QualityReportComponent implements OnInit, OnDestroy {
     this.intervalPanelService.setViews(this.selectedView, this.currentDate);
     this.entityGroupDataService.getAll().subscribe(results => {  this.items = results; });
   }
-
-  initalize() {
-    
+  tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
+    if (tabChangeEvent.index) {
+      this.intervalPanelService.setViews(Views.Year, this.currentDate);
+    }
   }
-  createDataSource() {
-
-  }
+ 
   onSelect(event: EntityGroupModel) {
     this.entityGroupId.next(event.id);
   }

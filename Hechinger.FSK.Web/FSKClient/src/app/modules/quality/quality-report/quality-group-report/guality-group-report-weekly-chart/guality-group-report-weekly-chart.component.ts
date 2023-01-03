@@ -2,10 +2,10 @@ import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/cor
 import { TranslateService } from '@ngx-translate/core';
 import { ChartComponent } from 'ng-apexcharts';
 import { Subscription } from 'rxjs';
-import { OperationItem, QuantityOperationReportModel } from '../../../../../models/generated/generated';
+import { OperationItem } from '../../../../../models/generated/generated';
 import { QuantityChartModel } from '../../../../../models/quantity-chart-model';
 import { ChartService } from '../../../../../services/chart/chart.service';
-import { ChartOptions } from '../../../quality-history-monthly/quality-history-monthy-chart/quality-history-monthy-chart.component';
+import { ChartOptions } from '../../quality-report-yearly-summary/quality-report-yearly-summary-chart/quality-report-yearly-summary-chart.component';
 
 @Component({
   selector: 'app-guality-group-report-weekly-chart',

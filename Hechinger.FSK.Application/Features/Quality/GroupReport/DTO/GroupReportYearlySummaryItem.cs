@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class MonthlyQualityItem : BaseModel
+    public class GroupReportYearlySummaryItem : BaseModel
     {
         public int Year { get; set; }
         public int Month { get; set; }

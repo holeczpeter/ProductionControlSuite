@@ -1,21 +1,9 @@
-<ng-container *ngIf="result">
-  <app-quality-group-report-weekly-table [result]="result" [interval]="interval">
+<div>
+  <ng-container *ngIf="result">
+    <app-quality-group-report-weekly-table [result]="result" [interval]="interval">
+    </app-quality-group-report-weekly-table>
+  </ng-container>
+</div>
 
-  </app-quality-group-report-weekly-table>
- 
-  <!--<ng-container *ngFor="let i of items">
 
-    <div>
-      <app-operation-quantity-table [tableModel]="i.tableModel"
-                                    [categories]="categories"
-                                    [shifts]="shifts">
-      </app-operation-quantity-table>
-    </div>
-    <div class="chart">
-      <app-operation-quantity-chart [chartModel]="i.tableModel.model"
-                                    [chartTitle]="i.chartTitle">
-      </app-operation-quantity-chart>
-    </div>
-  </ng-container>-->
-</ng-container>
 

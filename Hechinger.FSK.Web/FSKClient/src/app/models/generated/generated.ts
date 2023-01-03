@@ -549,58 +549,74 @@ export interface GetCrapCostByWorkshop {
   startDate: Date,
   endDate: Date,
 }
-export interface MonthlyQualityItem {
+export interface GroupReportModel {
+  name: string,
+  translatedName: string,
+  ppmGoal: number,
+  view: Views,
+  items: Array<OperationItem>,
+}
+export interface OperationItem {
+  operationId: number,
+  operationName: string,
+  operationTranslatedName: string,
+  operationCode: string,
+  operationCodes: string,
+  quantity: number,
+  defects: Array<DefectItem>,
+  periodItems: Array<PeriodItem>,
+  order: number,
+}
+export interface DefectItem {
+  defectId: number,
+  defectCode: string,
+  defectName: string,
+  defectTranslatedName: string,
+  quantity: number,
+  defectQuantity: number,
+  ppm: any,
+  periodItems: Array<PeriodItem>,
+  defectCategory: DefectCategories,
+  order: any,
+}
+export interface PeriodItem {
+  periodNumber: number,
+  defectCategory: DefectCategories,
+  defectQuantity: number,
+  quantity: number,
+  ppm: any,
+}
+export interface GroupReportYearlySummaryItem {
   year: number,
   month: number,
   value: any,
 }
-export interface MonthlyQualityModel {
+export interface GroupReportYearlySummaryModel {
   year: number,
   productName: string,
   productTranslatedName: string,
   productCode: string,
   category: DefectCategories,
   categoryName: string,
-  items: Array<MonthlyQualityItem>,
+  items: Array<GroupReportYearlySummaryItem>,
   goal: number,
   avarage: any,
 }
-export interface QualityAssuranceProductModel {
-  productId: number,
-  productName: string,
-  productCode: string,
-  operations: Array<QualityAssuranceOperationItemModel>,
-}
-export interface QualityAssuranceOperationItemModel {
-  operationId: number,
-  operationName: string,
-  operationCode: string,
-  quantity: number,
-  defects: Array<QualityAssuranceDefectModel>,
-}
-export interface QualityAssuranceDefectModel {
-  defectId: number,
-  defectName: string,
-  defectCode: string,
-  category: DefectCategories,
-  models: Array<QualityAssuranceModel>,
-  sumQuantity: number,
-  sumPPM: number,
-}
-export interface QualityAssuranceModel {
+export interface SummaryCardDailyItem {
   date: Date,
-  month: number,
   quantity: number,
+  defectQuantity: number,
+  category: DefectCategories,
 }
-export interface GetMonthlyQualityHistory {
-  productId: number,
-  year: number,
-}
-export interface GetQualityAssurance {
-  productId: number,
+export interface GetGroupReport {
+  entityGroupId: number,
   startDate: Date,
   endDate: Date,
   view: Views,
+}
+export interface GetGroupReportYearlySummary {
+  entityGroupId: number,
+  year: number,
 }
 export interface QuantityOperationReportModel {
   operationId: number,
@@ -979,49 +995,6 @@ export interface GetWorkshop {
 }
 export interface GetWorkshopByFilter {
   filter: string,
-}
-export interface GetGroupReport {
-  entityGroupId: number,
-  startDate: Date,
-  endDate: Date,
-  view: Views,
-}
-export interface GroupReportModel {
-  name: string,
-  translatedName: string,
-  ppmGoal: number,
-  view: Views,
-  items: Array<OperationItem>,
-}
-export interface OperationItem {
-  operationId: number,
-  operationName: string,
-  operationTranslatedName: string,
-  operationCode: string,
-  operationCodes: string,
-  quantity: number,
-  defects: Array<DefectItem>,
-  periodItems: Array<PeriodItem>,
-  order: number,
-}
-export interface DefectItem {
-  defectId: number,
-  defectCode: string,
-  defectName: string,
-  defectTranslatedName: string,
-  quantity: number,
-  defectQuantity: number,
-  ppm: any,
-  periodItems: Array<PeriodItem>,
-  defectCategory: DefectCategories,
-  order: any,
-}
-export interface PeriodItem {
-  periodNumber: number,
-  defectCategory: DefectCategories,
-  defectQuantity: number,
-  quantity: number,
-  ppm: any,
 }
 export enum Views {
   Day = 0,

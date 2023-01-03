@@ -14,16 +14,7 @@ namespace Hechinger.FSK.Web.Controllers
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        [HttpGet]
-        public async Task<QualityAssuranceProductModel> Get(GetQualityAssurance request, CancellationToken cancellationToken)
-        {
-            return await this.mediator.Send(request, cancellationToken);
-        }
-        [HttpGet]
-        public async Task<IEnumerable<MonthlyQualityModel>> GetMonthlyQualityHistory(GetMonthlyQualityHistory request, CancellationToken cancellationToken)
-        {
-            return await this.mediator.Send(request, cancellationToken);
-        }
+       
         [HttpGet]
         public async Task<WorkerStatisticsModel> GetWorkerStatisticsByDefect(GetWorkerStatisticsByDefect request, CancellationToken cancellationToken)
         {
@@ -61,10 +52,10 @@ namespace Hechinger.FSK.Web.Controllers
         {
             return await this.mediator.Send(request, cancellationToken);
         }
-        //[HttpGet]
-        //public async Task<GroupReportMonthlyModel> GetGroupReportMonthly(GetGroupReportMonthly request, CancellationToken cancellationToken)
-        //{
-        //    return await this.mediator.Send(request, cancellationToken);
-        //}
+        [HttpGet]
+        public async Task<IEnumerable<GroupReportYearlySummaryModel>> GetGroupReportYearlySummary(GetGroupReportYearlySummary request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
     }
 }
