@@ -104,26 +104,29 @@ namespace Hechinger.FSK.Application.Features
                     OperationTranslatedName = !String.IsNullOrEmpty(op.TranslatedName) ? op.TranslatedName : op.Name,
                     PeriodItems = weekItems,
                     OperationCodes = operationCodeList,
-                    Defects = op.Children.Select(d => new DefectItem()
+                    Defects = op.Children.Select(d =>
                     {
-                        DefectId = d.Id,
-                        DefectName = d.Name,
-                        DefectCode = d.Code,
-                        Order = d.Order,
-                        DefectCategory = this.context.Defects.Where(x => x.Id == d.Id).Select(x => x.DefectCategory).FirstOrDefault(),
-                        DefectTranslatedName = !String.IsNullOrEmpty(d.TranslatedName) ? d.TranslatedName : d.Name,
-                        PeriodItems = (from sc in this.context.SummaryCardItems
-                                       where
-                                       sc.SummaryCard.Date >= start.Date && sc.SummaryCard.Date <= end.Date &&
-                                       d.RelationsIds.Select(r => r.EntityId).Contains(sc.DefectId) &&
-                                       sc.EntityStatus == EntityStatuses.Active
-                                       select new
-                                       {
-                                           Date = sc.SummaryCard.Date,
-                                           Quantity = sc.SummaryCard.Quantity,
-                                           DefectQuantity = sc.Quantity,
-                                           Category = sc.Defect.DefectCategory
-                                       }).ToList()
+                        var category = this.context.Defects.Where(x => d.RelationsIds.Select(x=>x.EntityId).Contains(x.Id)).Select(x =>x.DefectCategory).FirstOrDefault();
+                        return new DefectItem()
+                        {
+                            DefectId = d.Id,
+                            DefectName = d.Name,
+                            DefectCode = d.Code,
+                            Order = d.Order,
+                            DefectCategory = category,
+                            DefectTranslatedName = !String.IsNullOrEmpty(d.TranslatedName) ? d.TranslatedName : d.Name,
+                            PeriodItems = (from sc in this.context.SummaryCardItems
+                                           where
+                                           sc.SummaryCard.Date >= start.Date && sc.SummaryCard.Date <= end.Date &&
+                                           d.RelationsIds.Select(r => r.EntityId).Contains(sc.DefectId) &&
+                                           sc.EntityStatus == EntityStatuses.Active
+                                           select new
+                                           {
+                                               Date = sc.SummaryCard.Date,
+                                               Quantity = sc.SummaryCard.Quantity,
+                                               DefectQuantity = sc.Quantity,
+                                               Category = sc.Defect.DefectCategory
+                                           }).ToList()
                                      .GroupBy(i => new { Week = groupRule(i.Date), Category = i.Category })
                                      .Select(g => new PeriodItem()
                                      {
@@ -136,6 +139,8 @@ namespace Hechinger.FSK.Application.Features
 
 
                                      }).ToList(),
+                        };
+                        
                     }).ToList()
                 };
                 items.Add(item);

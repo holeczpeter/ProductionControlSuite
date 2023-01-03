@@ -1,6 +1,7 @@
 <div>
   <app-table-toolbar (btnClick)="onExport()">
   </app-table-toolbar>
+  <h3>{{title | translate}}: {{result.name}}</h3>
   <div class="responsive-table-container">
     <ng-container *ngFor="let table of tables; let i = index">
 

@@ -31,7 +31,7 @@ export class GualityGroupReportWeeklyChartComponent implements OnInit {
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['chartModel'] && this.chartModel) {
-      console.log(this.chartModel)
+    
       this.chartModels = this.chartModel.defects.sort((a, b) => b.ppm - a.ppm).map(x => {
         let item: QuantityChartModel = {
           id: x.defectId,
@@ -43,6 +43,7 @@ export class GualityGroupReportWeeklyChartComponent implements OnInit {
         }
         return item;
       });
+
       this.createChart(this.translateService.currentLang);
     }
   }
@@ -53,6 +54,7 @@ export class GualityGroupReportWeeklyChartComponent implements OnInit {
     const categories = lang == 'hu' ? this.chartModels.map(x => x.name) : this.chartModels.map(x => x.translatedName);
  
     const data = this.chartModels.map(x => { return { x: x.name, y: x.value, fillColor: this.chartService.getColor(x.category) } });
+    console.log(data)
     let xAxisName = this.translateService.instant('defectName');
     this.chartOptions = {
       series: [

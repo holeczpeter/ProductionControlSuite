@@ -1,23 +1,20 @@
-import { OnChanges } from '@angular/core';
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { getWeek } from 'date-fns';
+import eachWeekOfInterval from 'date-fns/eachWeekOfInterval';
 import { EnumModel, GroupReportModel, IntervalModel, OperationItem, QuantityOperationReportModel, Views } from '../../../../../models/generated/generated';
+import { TableColumn } from '../../../../../models/table-column';
+import { TableColumnModel } from '../../../../../models/table-column-model';
+import { TableHeader } from '../../../../../models/table-header';
 import { DefectDataService } from '../../../../../services/data/defect-data.service';
 import { ProductDataService } from '../../../../../services/data/product-data.service';
 import { QualityDataService } from '../../../../../services/data/quality-data.service';
 import { ShiftDataService } from '../../../../../services/data/shift-data.service';
 import { IntervalViewService } from '../../../../../services/interval-view/interval-view.service';
 import { LanguageService } from '../../../../../services/language/language.service';
-import { addDays, getWeek } from 'date-fns';
-import format from 'date-fns/fp/format';
-import * as XLSX from 'xlsx';
-import { TableColumn } from '../../../../../models/table-column';
-import { MatTableDataSource } from '@angular/material/table';
-import { TableHeader } from '../../../../../models/table-header';
-import { TableColumnModel } from '../../../../../models/table-column-model';
-import eachWeekOfInterval from 'date-fns/eachWeekOfInterval'
 import { TableExportService } from '../../../../../services/table/table-export.service';
-import { MatDialog } from '@angular/material/dialog';
 import { QualityGroupReportChartDialogComponent } from '../quality-group-report-chart-dialog/quality-group-report-chart-dialog.component';
 export interface TableGroupItem {
   operationGroupId: number;
@@ -42,7 +39,7 @@ export interface TableGroupItem {
 export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges {
   @Input() result: GroupReportModel;
   @Input() interval: IntervalModel;
-
+  title = "defectgroups.title";
   tables: TableGroupItem[];
   categories: EnumModel[];
   model: QuantityOperationReportModel;
@@ -101,6 +98,7 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
   createTable() {
     this.setInitial();
     if (this.interval && this.result && this.categories) {
+      console.log(this.result);
       this.createPeriods();
       
       this.result.items.forEach(operation => {
@@ -124,7 +122,6 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
           this.categories.forEach((c, catIndex) => {
             if (!operationCategorySumColumns.includes(operation.operationId + "_" + week.toString() + "_" + c.id + "_sum")) {
               const flattened = operation.defects.flatMap(num => num.periodItems).filter(x => x.defectCategory == c.id && x.periodNumber == week).map(x => x.defectQuantity).reduce((a, b) => a + b, 0);
-              //let currentModel = operation.periodItems.find(x => x.periodNumber == week && x.defectCategory == c.id);
               operationCategorySumHeaders.push({ id: operation.operationId + "_" + week.toString() + "_" + c.id + "_sum", value: flattened })
               operationCategorySumColumns.push(operation.operationId + "_" + week.toString() + "_" + c.id + "_sum");
             }
@@ -140,7 +137,8 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
         });
         this.categories.forEach((c, catIndex) => {
           if (!operationCategorySumColumns.includes(c.id + "_sumpp")) {
-            const flattened = operation.defects.flatMap(num => num.periodItems).filter(x => x.defectCategory == c.id).map(x => x.ppm).reduce((a, b) => a + b, 0);
+            const arr = operation.defects.flatMap(num => num.periodItems).filter(x => x.defectCategory == c.id);
+            const flattened = arr.map(x => x.ppm).reduce((a, b) => a + b, 0);
             operationCategorySumHeaders.push({ id: operation.operationId + "_" + c.id + "_sumpp", value: flattened });
             operationCategorySumColumns.push(operation.operationId + "_" + c.id + "_sumpp");
           }
@@ -160,8 +158,8 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
           })
           
           this.categories.forEach(c => {
-            row['sum_q_' + c.id] = defect.periodItems.filter(x => x.defectCategory == c.id).map(x => x.defectQuantity).reduce((a, b) => a + b, 0);
-            row['sum_ppm_' + c.id] = defect.periodItems.filter(x => x.defectCategory == c.id).map(x => x.ppm).reduce((a, b) => a + b, 0);
+            row['sum_q_' + c.id] = defect.defectCategory == c.id ? defect.defectQuantity : 0;
+            row['sum_ppm_' + c.id] = defect.defectCategory == c.id ? defect.ppm : 0;
           });
           rows.push(row);
 
@@ -249,7 +247,7 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
     return this.result.ppmGoal;
   }
   getTotal(category: number) {
-    return this.result.items.flatMap(x => x.defects.flatMap(d=>d.periodItems).filter(x => x.defectCategory == category).map(i => i.ppm)).reduce((a, b) => a + b, 0);
+    return this.result.items.flatMap(x => x.defects.filter(x => x.defectCategory == category).map(i => i.ppm)).reduce((a, b) => a + b, 0);
     
   }
   getFooterColSpan() {
