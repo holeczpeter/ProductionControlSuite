@@ -1,3 +1,20 @@
+import { TreeItem } from "../tree-item";
+
+export interface ApplicationInfo {
+  version: string,
+  copyRight: string,
+  enviromentName: string,
+}
+export interface ConfirmDialogData {
+  title: string,
+  content: string,
+  buttons: Array<ConfirmDialogResult>,
+  type: ConfirmationTypes,
+}
+export interface ConfirmDialogResult {
+  text: string,
+  value: boolean,
+}
 export interface EnumModel {
   id: number,
   name: string,
@@ -178,6 +195,10 @@ export interface UpdateDefect {
   operationId: number,
   defectCategory: DefectCategories,
 }
+export interface DefectCategoryModel {
+  name: string,
+  category: DefectCategories,
+}
 export interface DefectModel {
   id: number,
   name: string,
@@ -232,6 +253,61 @@ export interface RequestParameters {
   page: number,
   pageCount: number,
 }
+export interface CreateEntityGroup {
+  current: TreeItem<EntityGroupModel>,
+}
+export interface EntityGroupModel {
+  id: number,
+  name: string,
+  translatedName: string,
+  parentId: number,
+  order: number,
+  groupType: GroupTypes,
+  relations: Array<EntityGroupRelationModel>,
+  ppmGoal: number,
+}
+export interface DeleteEntityGroup {
+  id: number,
+}
+export interface SaveEntityGroup {
+  current: TreeItem<EntityGroupModel>,
+}
+export interface EntityGroupRelationModel {
+  id: number,
+  order: number,
+  code: string,
+  name: string,
+  translatedName: string,
+  entityGroupId: number,
+  entityId: number,
+  parentId: number,
+  entityType: EntityTypes,
+}
+export interface EntityGroupRelationTree {
+  node: EntityGroupRelationModel,
+  children: Array<EntityGroupRelationTree>,
+  collapsed: boolean,
+}
+export interface GetAllEntityGroups {
+}
+export interface GetDefectsForRelation {
+  operationIds: string,
+  groupId: number,
+}
+export interface GetEntityGroupById {
+  id: number,
+}
+export interface GetEntityRelationsByProducts {
+  productIds: string,
+  groupId: number,
+}
+export interface GetGroupTypes {
+  isAll: boolean,
+}
+export interface GetOperationsForRelation {
+  productIds: string,
+  groupId: number,
+}
 export interface DefectImport {
   file: any,
 }
@@ -272,6 +348,7 @@ export interface AddOperation {
   productId: number,
   operationTime: any,
   norma: any,
+  ppmGoal: number,
 }
 export interface DeleteOperation {
   id: number,
@@ -284,6 +361,7 @@ export interface UpdateOperation {
   productId: number,
   operationTime: any,
   norma: any,
+  ppmGoal: number,
 }
 export interface OperationModel {
   id: number,
@@ -298,6 +376,7 @@ export interface OperationModel {
   productTranslatedName: string,
   hasDefect: boolean,
   order: number,
+  ppmGoal: number,
 }
 export interface OperationPrintModel {
   id: number,
@@ -374,6 +453,7 @@ export interface OperationContext {
   order: number,
   norma: any,
   defects: Array<DefectContext>,
+  ppmGoal: number,
 }
 export interface UpdateProduct {
   id: number,
@@ -408,6 +488,17 @@ export interface ProductModel {
   operations: Array<OperationModel>,
 }
 export interface GetAllProducts {
+}
+export interface GetProduct {
+  id: number,
+}
+export interface GetProductByFilter {
+  filter: string,
+}
+export interface GetProductContext {
+  id: number,
+}
+export interface GetProductsByParameters {
   parameters: ProductRequestParameters,
 }
 export interface ProductRequestParameters {
@@ -420,15 +511,6 @@ export interface ProductRequestParameters {
   isAsc: boolean,
   page: number,
   pageCount: number,
-}
-export interface GetProduct {
-  id: number,
-}
-export interface GetProductByFilter {
-  filter: string,
-}
-export interface GetProductContext {
-  id: number,
 }
 export interface GetProductsCount {
   parameters: RequestParameters,
@@ -485,58 +567,74 @@ export interface GetCrapCostByWorkshop {
   startDate: Date,
   endDate: Date,
 }
-export interface MonthlyQualityItem {
+export interface GroupReportModel {
+  name: string,
+  translatedName: string,
+  ppmGoal: number,
+  view: Views,
+  items: Array<OperationItem>,
+}
+export interface OperationItem {
+  operationId: number,
+  operationName: string,
+  operationTranslatedName: string,
+  operationCode: string,
+  operationCodes: string,
+  quantity: number,
+  defects: Array<DefectItem>,
+  periodItems: Array<PeriodItem>,
+  order: number,
+}
+export interface DefectItem {
+  defectId: number,
+  defectCode: string,
+  defectName: string,
+  defectTranslatedName: string,
+  quantity: number,
+  defectQuantity: number,
+  ppm: any,
+  periodItems: Array<PeriodItem>,
+  defectCategory: DefectCategories,
+  order: any,
+}
+export interface PeriodItem {
+  periodNumber: number,
+  defectCategory: DefectCategories,
+  defectQuantity: number,
+  quantity: number,
+  ppm: any,
+}
+export interface GroupReportYearlySummaryItem {
   year: number,
   month: number,
   value: any,
 }
-export interface MonthlyQualityModel {
+export interface GroupReportYearlySummaryModel {
   year: number,
   productName: string,
   productTranslatedName: string,
   productCode: string,
   category: DefectCategories,
   categoryName: string,
-  items: Array<MonthlyQualityItem>,
+  items: Array<GroupReportYearlySummaryItem>,
   goal: number,
   avarage: any,
 }
-export interface QualityAssuranceProductModel {
-  productId: number,
-  productName: string,
-  productCode: string,
-  operations: Array<QualityAssuranceOperationItemModel>,
-}
-export interface QualityAssuranceOperationItemModel {
-  operationId: number,
-  operationName: string,
-  operationCode: string,
-  quantity: number,
-  defects: Array<QualityAssuranceDefectModel>,
-}
-export interface QualityAssuranceDefectModel {
-  defectId: number,
-  defectName: string,
-  defectCode: string,
-  category: DefectCategories,
-  models: Array<QualityAssuranceModel>,
-  sumQuantity: number,
-  sumPPM: number,
-}
-export interface QualityAssuranceModel {
+export interface SummaryCardDailyItem {
   date: Date,
-  month: number,
   quantity: number,
+  defectQuantity: number,
+  category: DefectCategories,
 }
-export interface GetMonthlyQualityHistory {
-  productId: number,
-  year: number,
-}
-export interface GetQualityAssurance {
-  productId: number,
+export interface GetGroupReport {
+  entityGroupId: number,
   startDate: Date,
   endDate: Date,
   view: Views,
+}
+export interface GetGroupReportYearlySummary {
+  entityGroupId: number,
+  year: number,
 }
 export interface QuantityOperationReportModel {
   operationId: number,
@@ -575,11 +673,6 @@ export interface QuantityDayReportModel {
 }
 export interface GetQuantityReportByOperation {
   operationId: number,
-  startDate: Date,
-  endDate: Date,
-}
-export interface GetQuantityReportByProduct {
-  productId: number,
   startDate: Date,
   endDate: Date,
 }
@@ -778,6 +871,9 @@ export interface SummaryCardItemModel {
   order: number,
   comment: string,
   defectTranslatedName: string,
+  defectCode: string,
+  defectCategory: DefectCategories,
+  defectCategoryName: string,
 }
 export interface SummaryCardModel {
   id: number,
@@ -918,6 +1014,13 @@ export interface GetWorkshop {
 export interface GetWorkshopByFilter {
   filter: string,
 }
+export enum ConfirmationTypes {
+  Information = 0,
+  Warning = 1,
+  Error = 2,
+  Delete = 3,
+  Success = 4,
+}
 export enum Views {
   Day = 0,
   Week = 1,
@@ -936,6 +1039,16 @@ export enum DefectCategories {
   F1 = 1,
   F2 = 2,
 }
+export enum GroupTypes {
+  Group = 0,
+  Head = 1,
+  Item = 2,
+}
+export enum EntityTypes {
+  Product = 0,
+  Operation = 1,
+  Defect = 2,
+}
 export enum MenuTypes {
   Module = 0,
   MainMenu = 1,
@@ -945,5 +1058,9 @@ export enum EntityStatuses {
   Active = 1,
   Deleted = 2,
   InActive = 3,
+}
+export enum EnvironmentTypes {
+  TEST = 0,
+  PROD = 1,
 }
 

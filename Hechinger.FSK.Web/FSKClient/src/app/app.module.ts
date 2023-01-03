@@ -1,6 +1,7 @@
 import { DatePipe, LowerCasePipe } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -13,6 +14,7 @@ import { HeaderComponent } from './layout/header/header.component';
 import { LayoutComponent } from './layout/layout/layout.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { SharedModule } from './shared/shared.module';
+
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -42,9 +44,15 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         deps: [HttpClient]
       }
     }),
+   
     SharedModule,
   ],
-  providers: [DatePipe, LowerCasePipe],
+  providers: [DatePipe, LowerCasePipe,
+  {
+    provide: MAT_DIALOG_DEFAULT_OPTIONS,
+    useValue: { panelClass: 'app-dialog' },
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

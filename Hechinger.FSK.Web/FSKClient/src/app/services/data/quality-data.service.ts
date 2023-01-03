@@ -1,18 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CrapCostOperationModel, CrapCostProductModel, CrapCostWorkshopModel, DefectStatisticModel, GetCrapCostByOperation, GetCrapCostByProduct, GetCrapCostByWorkshop, GetDefectStatisticsByUser, GetMonthlyQualityHistory, GetQuantityReportByOperation, GetQuantityReportByProduct, GetWorkerStatisticsByDefect, MonthlyQualityModel, QuantityOperationReportModel, WorkerStatisticsModel } from '../../models/generated/generated';
+import { CrapCostProductModel, CrapCostWorkshopModel, DefectStatisticModel, GetCrapCostByOperation, GetCrapCostByProduct, GetCrapCostByWorkshop, GetDefectStatisticsByUser, GetGroupReport, GetGroupReportYearlySummary, GetQuantityReportByOperation, GetWorkerStatisticsByDefect, GroupReportModel, GroupReportYearlySummaryModel, QuantityOperationReportModel, WorkerStatisticsModel } from '../../models/generated/generated';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QualityDataService {
   constructor(private readonly httpClient: HttpClient) { }
-
-
-  getMonthlyQualityHistory(request: GetMonthlyQualityHistory): Observable<Array<MonthlyQualityModel>> {
-    return this.httpClient.get<Array<MonthlyQualityModel>>('/Quality/GetMonthlyQualityHistory', { params: { productId: request.productId, year: request.year } });
-  }
 
   getDefectStatisticsByUser(request: GetDefectStatisticsByUser): Observable<DefectStatisticModel> {
     return this.httpClient.get<DefectStatisticModel>('/Quality/GetDefectStatisticsByUser', {
@@ -46,16 +41,7 @@ export class QualityDataService {
       }
     });
   }
-  getQuantityReportByProduct(request: GetQuantityReportByProduct): Observable<Array<QuantityOperationReportModel>> {
-    return this.httpClient.get<Array<QuantityOperationReportModel>>('/Quality/GetQuantityReportByProduct', {
-      params:
-      {
-        'productId': request.productId,
-        'startDate': request.startDate.toDateString(),
-        'endDate': request.endDate.toDateString()
-      }
-    });
-  }
+  
   getCrapCostByOperation(request: GetCrapCostByOperation): Observable<CrapCostProductModel> {
     return this.httpClient.get<CrapCostProductModel>('/Quality/GetCrapCostByOperation', {
       params:
@@ -86,4 +72,25 @@ export class QualityDataService {
       }
     });
   }
+  getGroupReport(request: GetGroupReport): Observable<GroupReportModel> {
+    return this.httpClient.get<GroupReportModel>('/Quality/GetGroupReport', {
+      params:
+      {
+        'entityGroupId': request.entityGroupId,
+        'startDate': request.startDate.toDateString(),
+        'endDate': request.endDate.toDateString(),
+        'view': request.view.toString()
+      }
+    });
+  }
+  getGroupReportYearlySummary(request: GetGroupReportYearlySummary): Observable<Array<GroupReportYearlySummaryModel>> {
+    return this.httpClient.get<Array<GroupReportYearlySummaryModel>>('/Quality/GetGroupReportYearlySummary',
+      {
+        params: {
+          entityGroupId: request.entityGroupId,
+          year: request.year
+        }
+      });
+  }
+  
 }

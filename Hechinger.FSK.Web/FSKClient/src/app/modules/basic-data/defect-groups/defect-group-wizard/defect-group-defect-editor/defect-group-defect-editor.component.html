@@ -1,0 +1,11 @@
+
+  <div class="relation-container">
+    <h2>{{ 'defects.title' | translate }}</h2>
+    <mat-accordion multi>
+      <ng-container *ngFor="let item of tree.children">
+        <app-defect-group-defect-item [item]="item"></app-defect-group-defect-item>
+      </ng-container>
+    </mat-accordion>
+  </div>
+
+

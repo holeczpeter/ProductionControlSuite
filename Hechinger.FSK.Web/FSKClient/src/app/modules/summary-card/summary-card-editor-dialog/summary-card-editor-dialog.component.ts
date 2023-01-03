@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { concatMap, forkJoin, map } from 'rxjs';
 import { SelectModel, SummaryCardDetailModel, SummaryCardItemModel, UpdateSummaryCard, UpdateSummaryCardItem } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
+import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
 import { SummaryCardDataService } from '../../../services/data/summary-card-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
@@ -22,6 +23,7 @@ export class SummaryCardEditorDialogComponent implements OnInit {
   }
   constructor(private readonly dialogRef: MatDialogRef<SummaryCardEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: number,
+    private readonly confirmDialogService: ConfirmDialogService,
     private readonly summaryCardDataService: SummaryCardDataService,
     private readonly operationDataService: OperationDataService,
     private readonly formBuilder: UntypedFormBuilder,
@@ -53,6 +55,7 @@ export class SummaryCardEditorDialogComponent implements OnInit {
           items: this.formBuilder.array([])
         });
         this.summaryCard.items.forEach((d: SummaryCardItemModel) => this.addRow(d));
+        this.cardForm.setOriginalForm();
       });
 
 
@@ -63,6 +66,8 @@ export class SummaryCardEditorDialogComponent implements OnInit {
     const row = this.formBuilder.group({
       'id': [d.id],
       'order': [d.order],
+      'defectCode': [d.defectCode],
+      'defectCategory': [d.defectCategory],
       'defectId': [d.defectId],
       'defectName': [d.defectName],
       'quantity': [d.quantity],
@@ -77,9 +82,13 @@ export class SummaryCardEditorDialogComponent implements OnInit {
       let item: UpdateSummaryCardItem = { id: data.value.id, defectId: data.value.defectId, comment: data.value.comment, quantity: data.value.quantity };
       items.push(item);
     });
+    
+    let date = new Date(this.cardForm.get('date')?.value);
+    let currentDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+
     let model: UpdateSummaryCard = {
       id: this.cardForm.get('id')?.value,
-      date: this.cardForm.get('date')?.value,
+      date: currentDate,
       worker: this.cardForm.get('worker')?.value,
       operationId: this.cardForm.get('operation')?.value.id,
       quantity: this.cardForm.get('quantity')?.value,
@@ -88,7 +97,7 @@ export class SummaryCardEditorDialogComponent implements OnInit {
       userId: this.accountService.getUserId(),
       items: items
     }
-
+  
     this.summaryCardDataService.update(model).subscribe(result => {
       this.snackBar.open(result);
       if (result.isSuccess) {
@@ -99,6 +108,7 @@ export class SummaryCardEditorDialogComponent implements OnInit {
     });
   }
   onCancel() {
-    this.dialogRef.close(this.isSaved);
+    if (this.cardForm.isChanged()) this.confirmDialogService.confirmClose(this.dialogRef);
+    else this.dialogRef.close(this.isSaved);
   }
 }

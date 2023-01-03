@@ -1,7 +1,7 @@
 $mat-icon-margin-compensation: 1.2;
 $mat-icon-size: 14px * $mat-icon-margin-compensation;
 $mat-confirm-icon-size: 100px * $mat-icon-margin-compensation;
-
+$mat-header-icon-size: 24px;
 .mat-icon {
   font-size: $mat-icon-size !important;
   width: $mat-icon-size !important;
@@ -35,7 +35,12 @@ $mat-confirm-icon-size: 100px * $mat-icon-margin-compensation;
   width: $mat-confirm-icon-size !important;
   line-height: $mat-confirm-icon-size !important;
 }
-
+.header-icon {
+  font-size: $mat-header-icon-size !important;
+  height: $mat-header-icon-size !important;
+  width: $mat-header-icon-size !important;
+  line-height: $mat-header-icon-size !important;
+}
 .sidebar-icon {
   color: #FFFFFF;
   font-size: 14px;

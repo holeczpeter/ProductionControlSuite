@@ -9,6 +9,7 @@ import { debounceTime } from 'rxjs';
 import { DeleteSummaryCard, SummaryCardModel } from '../../../models/generated/generated';
 import { TableColumnModel } from '../../../models/table-column-model';
 import { AccountService } from '../../../services/account.service';
+import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 import { SummaryCardDataService } from '../../../services/data/summary-card-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { CompareService } from '../../../services/sort/sort.service';
@@ -102,6 +103,7 @@ export class SummaryCardsComponent implements OnInit {
     public tableFilterService: TableFilterService,
     public compareService: CompareService,
     public sortService: SortService,
+    private readonly confirmDialogService: ConfirmDialogService,
     private readonly exportService: TableExportService,
     public paginationService: PaginationService,
     private readonly filterService: DefectFilterService) {
@@ -164,12 +166,17 @@ export class SummaryCardsComponent implements OnInit {
   }
   
   onDelete(id: number) {
-    let model: DeleteSummaryCard = { id: id };
-    this.summaryCardDataService.delete(model).subscribe(result => {
-      this.snackBar.open(result);
-      if (result.isSuccess) this.initalize()
+    this.confirmDialogService.openDeleteConfirm('hibagyűjtőt').subscribe(result => {
+      if (result) {
+        let model: DeleteSummaryCard = { id: id };
+        this.summaryCardDataService.delete(model).subscribe(result => {
+          this.snackBar.open(result);
+          if (result.isSuccess) this.initalize()
 
+        });
+      }
     });
+   
   }
 }
 

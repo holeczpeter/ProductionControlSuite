@@ -195,6 +195,120 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.ToTable("Defects");
                 });
 
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.EntityGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<string>("Creator")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GroupType")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifier")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PpmGoal")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<string>("TranslatedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntityStatus");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("EntityGroups");
+                });
+
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.EntityGroupRelation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<string>("Creator")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<int>("EntityGroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EntityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EntityStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EntityType")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifier")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntityGroupId");
+
+                    b.HasIndex("EntityStatus");
+
+                    b.ToTable("EntityGroupRelations");
+                });
+
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Language", b =>
                 {
                     b.Property<int>("Id")
@@ -1047,6 +1161,29 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.Navigation("Operation");
                 });
 
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.EntityGroup", b =>
+                {
+                    b.HasOne("Hechinger.FSK.Core.Entities.EntityGroup", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("FK_ENTITYGROUP_CONNECTION");
+
+                    b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.EntityGroupRelation", b =>
+                {
+                    b.HasOne("Hechinger.FSK.Core.Entities.EntityGroup", "EntityGroup")
+                        .WithMany("EntityGroupRelations")
+                        .HasForeignKey("EntityGroupId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_GROUPRELATION_CONNECTION");
+
+                    b.Navigation("EntityGroup");
+                });
+
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.MenuRole", b =>
                 {
                     b.HasOne("Hechinger.FSK.Core.Entities.Menu", "Menu")
@@ -1207,6 +1344,13 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.Navigation("Pictures");
 
                     b.Navigation("SummaryCardItems");
+                });
+
+            modelBuilder.Entity("Hechinger.FSK.Core.Entities.EntityGroup", b =>
+                {
+                    b.Navigation("Children");
+
+                    b.Navigation("EntityGroupRelations");
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Language", b =>

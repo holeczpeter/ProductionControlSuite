@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { addDays } from 'date-fns';
 import format from 'date-fns/fp/format';
 import * as XLSX from 'xlsx';
-import { EnumModel, IntervalModel, QuantityOperationReportModel, ShiftModel } from '../../../../../models/generated/generated';
+import { EnumModel, IntervalModel, OperationItem, QuantityOperationReportModel, ShiftModel } from '../../../../../models/generated/generated';
 import { QuantityTableModel } from '../../../../../models/quantity-table-model';
 import { TableColumn } from '../../../../../models/table-column';
 import { TableColumnModel } from '../../../../../models/table-column-model';
@@ -193,6 +193,7 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
   trackByFn(index: number, item: any) {
     return index;
   }
+  
   onExport() {
     var tbl = document.getElementById('id_of_table');
     var wb = XLSX.utils.table_to_book(tbl, { sheet: "nameofsheet" });

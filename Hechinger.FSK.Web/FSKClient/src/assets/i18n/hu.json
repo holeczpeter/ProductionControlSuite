@@ -1,6 +1,9 @@
 {
+  "lang": "Nyelv",
+  "exit": "Kilépés",
   "save": "Mentés",
   "cancel": "Mégsem",
+  "close": "Bezár",
   "back": "Vissza",
   "next": "Következő",
   "nextandsave": "Mentés és folytatás",
@@ -71,6 +74,11 @@
   "categoryName": "Hiba kategória",
   "usersCount": "fő",
   "warning": "Figyelmeztetések",
+  "operationGroup": "Műveletcsoport",
+  "defectsGroup": "Hibacsoport",
+  "selected": "Kiválasztott",
+  "yearsummary": "Éves összegzés",
+  "groupreport": "Hibaösszesítő",
   "months": [
     { "January": "Január" },
     { "February": "Február" },
@@ -130,7 +138,9 @@
   "defectgroups": {
     "title": "Hibösszesítők",
     "add": "Új hibösszesítő hozzáadása",
-    "edit": "Hibösszesítő szerkesztése"
+    "edit": "Hibösszesítő szerkesztése",
+    "type": "Hibösszesítő típus"
+
   },
   "workercompare": {
     "title": "Dolgozók összehasonlítása"

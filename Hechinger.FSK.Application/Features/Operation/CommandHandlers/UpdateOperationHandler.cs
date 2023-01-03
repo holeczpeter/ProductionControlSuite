@@ -30,7 +30,7 @@
                 current.Norma = request.Norma;
                 current.OperationTime = request.OperationTime;
                 current.Product = currentProduct;
-
+                current.PpmGoal = request.PpmGoal;  
                 await context.SaveChangesAsync(cancellationToken);
 
                 result.Message = "A művelet sikeresen módosítva";

@@ -21,7 +21,13 @@ import { DefectGroupsComponent } from './defect-groups/defect-groups.component';
 import { DefectGroupWizardComponent } from './defect-groups/defect-group-wizard/defect-group-wizard.component';
 import { DefectGroupDataEditorComponent } from './defect-groups/defect-group-wizard/defect-group-data-editor/defect-group-data-editor.component';
 import { DefectGroupProductEditorComponent } from './defect-groups/defect-group-wizard/defect-group-product-editor/defect-group-product-editor.component';
-import { DefectGroupContextEditorComponent } from './defect-groups/defect-group-wizard/defect-group-context-editor/defect-group-context-editor.component';
+import { DefectGroupOperationEditorComponent } from './defect-groups/defect-group-wizard/defect-group-operation-editor/defect-group-operation-editor.component';
+import { DefectGroupDefectEditorComponent } from './defect-groups/defect-group-wizard/defect-group-defect-editor/defect-group-defect-editor.component';
+import { DefectGroupOperationChildComponent } from './defect-groups/defect-group-wizard/defect-group-operation-editor/defect-group-operation-child/defect-group-operation-child.component';
+import { DefectGroupDefectChildComponent } from './defect-groups/defect-group-wizard/defect-group-defect-editor/defect-group-defect-child/defect-group-defect-child.component';
+import { DefectGroupDefectItemComponent } from './defect-groups/defect-group-wizard/defect-group-defect-editor/defect-group-defect-item/defect-group-defect-item.component';
+
+
 
 @NgModule({
   declarations: [
@@ -43,7 +49,11 @@ import { DefectGroupContextEditorComponent } from './defect-groups/defect-group-
     DefectGroupWizardComponent,
     DefectGroupDataEditorComponent,
     DefectGroupProductEditorComponent,
-    DefectGroupContextEditorComponent,
+    DefectGroupOperationEditorComponent,
+    DefectGroupDefectEditorComponent,
+    DefectGroupOperationChildComponent,
+    DefectGroupDefectChildComponent,
+    DefectGroupDefectItemComponent,
   ],
   imports: [
     CommonModule,

@@ -50,9 +50,15 @@ namespace Hechinger.FSK.Web.Controllers
            
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery]ProductRequestParameters request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ProductModel>> GetAll(GetAllProducts request, CancellationToken cancellationToken)
         {
-            var result = await this.mediator.Send(new GetAllProducts(request), cancellationToken);
+            return await this.mediator.Send(request, cancellationToken);
+
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetProductsByParameters([FromQuery]ProductRequestParameters request, CancellationToken cancellationToken)
+        {
+            var result = await this.mediator.Send(new GetProductsByParameters(request), cancellationToken);
             var count = await this.mediator.Send(new GetProductsCount(request), cancellationToken);
             var paginationMetadata = new
             {

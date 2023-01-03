@@ -21,6 +21,7 @@ import { SortService } from '../../../services/table/sort.service';
 import { PaginationService } from '../../../services/table/pagination.service';
 import { DefectFilterService } from '../../../services/table/defect-filter.service';
 import { ProductWizardEditorComponent } from './product-wizard-editor/product-wizard-editor.component';
+import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -68,6 +69,7 @@ export class ProductsComponent implements OnInit, AfterViewInit{
     public tableFilterService: TableFilterService,
     public compareService: CompareService,
     public sortService: SortService,
+    private readonly confirmDialogService: ConfirmDialogService,
     private readonly exportService: TableExportService,
     public paginationService: PaginationService,
     private readonly filterService: DefectFilterService) {
@@ -80,7 +82,7 @@ export class ProductsComponent implements OnInit, AfterViewInit{
   }
  
   initalize() {
-    this.productDataService.getAll().subscribe(result => {
+    this.productDataService.getProductsByParameters().subscribe(result => {
       this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
       this.dataSource = new MatTableDataSource<ProductModel>(result.body);
       this.createDinamicallyFormGroup();
@@ -117,13 +119,13 @@ export class ProductsComponent implements OnInit, AfterViewInit{
     this.getAll();
   }
   getAll(): void {
-    this.productDataService.getAll().subscribe((result: any) => {
+    this.productDataService.getProductsByParameters().subscribe((result: any) => {
       this.refreshDataSource(result);
     });
   }
   onExport() {
     this.translate.get(this.title).subscribe(title => {
-      this.exportService.export(this.dataSource, this.filterableColumns, title);
+      this.exportService.exportFromDataSource(this.dataSource, this.filterableColumns, title);
     });
     
   }
@@ -182,11 +184,15 @@ export class ProductsComponent implements OnInit, AfterViewInit{
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }
   onDelete(id: number) {
-    let model: DeleteProduct = { id: id };
-    this.productDataService.delete(model).subscribe(result => {
-      this.snackBar.open(result);
-      if (result.isSuccess) this.initalize()
+    this.confirmDialogService.openDeleteConfirm('terméket').subscribe(result => {
+      if (result) {
+        let model: DeleteProduct = { id: id };
+        this.productDataService.delete(model).subscribe(result => {
+          this.snackBar.open(result);
+          if (result.isSuccess) this.initalize()
 
+        });
+      }
     });
   }
   

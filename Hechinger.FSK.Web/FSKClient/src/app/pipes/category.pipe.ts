@@ -4,9 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'category'
 })
 export class CategoryPipe implements PipeTransform {
-
   transform(value: number): string {
-   
     switch (value) {
       case 0: return "F0";
       case 1: return "F1";

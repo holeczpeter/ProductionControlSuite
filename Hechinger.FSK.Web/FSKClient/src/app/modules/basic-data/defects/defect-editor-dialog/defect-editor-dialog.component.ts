@@ -2,13 +2,12 @@ import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
-import { debounceTime, forkJoin, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
+import { debounceTime, forkJoin, ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { DefectEditorModel } from '../../../../models/dialog-models/defect-editor-model';
-import { OperationEditorModel } from '../../../../models/dialog-models/operation-editor-model';
-import { AddDefect, AddOperation, DefectModel, EnumModel, OperationModel, ProductModel, SelectModel, UpdateDefect, UpdateOperation } from '../../../../models/generated/generated';
+import { AddDefect, DefectModel, EnumModel, SelectModel, UpdateDefect } from '../../../../models/generated/generated';
+import { ConfirmDialogService } from '../../../../services/confirm-dialog/confirm-dialog-service';
 import { DefectDataService } from '../../../../services/data/defect-data.service';
 import { OperationDataService } from '../../../../services/data/operation-data.service';
-import { ProductDataService } from '../../../../services/data/product-data.service';
 import { LanguageService } from '../../../../services/language/language.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
 
@@ -33,6 +32,7 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
     private readonly operationDataService: OperationDataService,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly snackBar: SnackbarService,
+    private readonly confirmDialogService: ConfirmDialogService,
     public languageService: LanguageService) {
     this.defect = data ? data.defectModel : null;
     this.title = this.defect ? "defects.edit" : "defects.add";
@@ -54,7 +54,7 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
         translatedName: [this.defect ? this.defect.translatedName : '', [Validators.required]],
         defectCategory: [this.defect ? this.defect.defectCategory : '', [Validators.required]],
         operation: [this.defect ? this.operations.find(ws => ws.id == this.defect!.operationId) : null, [Validators.required]],
-      });
+      }).setOriginalForm();
       this.filterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
         debounceTime(500)).subscribe(filter => {
           this.filter();
@@ -114,7 +114,8 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
   }
 
   onCancel() {
-    this.dialogRef.close(false);
+    if (this.formGroup.isChanged()) this.confirmDialogService.confirmClose(this.dialogRef);
+    else this.dialogRef.close(false);
   }
   ngAfterViewInit() {
 

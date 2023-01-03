@@ -1,8 +1,8 @@
 import { RoleMenuItem } from "./generated/generated";
 import { TreeItem } from "./tree-item";
 
-export class TreeItemFlatNode {
-  item!: TreeItem<RoleMenuItem>
+export class TreeItemFlatNode<T> {
+  item!: TreeItem<T>
   level!: number;
   expandable!: boolean;
 }

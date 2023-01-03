@@ -2,9 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { QualityRoutingModule } from './quality-routing.module';
-import { QualityHistoryMonthlyComponent } from './quality-history-monthly/quality-history-monthly.component';
-import { QualityHistoryMonthyChartComponent } from './quality-history-monthly/quality-history-monthy-chart/quality-history-monthy-chart.component';
-import { QualityHistoryMonthlyTableComponent } from './quality-history-monthly/quality-history-monthly-table/quality-history-monthly-table.component';
 import { SharedModule } from '../../shared/shared.module';
 import { WorkerCompareStatisticsComponent } from './worker-compare-statistics/worker-compare-statistics.component';
 import { WorkerDefectStatisticsComponent } from './worker-defect-statistics/worker-defect-statistics.component';
@@ -21,13 +18,19 @@ import { CrapCostChartComponent } from './crap-costs/crap-cost-chart/crap-cost-c
 import { ProductCrapCostComponent } from './crap-costs/product-crap-cost/product-crap-cost.component';
 import { WorkshopCrapCostComponent } from './crap-costs/workshop-crap-cost/workshop-crap-cost.component';
 import { OperationCrapCostComponent } from './crap-costs/operation-crap-cost/operation-crap-cost.component';
+import { QualityMenuComponent } from './quality-report/quality-menu/quality-menu.component';
+import { QualityGroupReportComponent } from './quality-report/quality-group-report/quality-group-report.component';
+import { QualityGroupReportWeeklyTableComponent } from './quality-report/quality-group-report/quality-group-report-weekly-table/quality-group-report-weekly-table.component';
+import { GualityGroupReportWeeklyChartComponent } from './quality-report/quality-group-report/guality-group-report-weekly-chart/guality-group-report-weekly-chart.component';
+import { QualityReportYearlySummaryComponent } from './quality-report/quality-report-yearly-summary/quality-report-yearly-summary.component';
+import { QualityReportYearlySummaryTableComponent } from './quality-report/quality-report-yearly-summary/quality-report-yearly-summary-table/quality-report-yearly-summary-table.component';
+import { QualityReportYearlySummaryChartComponent } from './quality-report/quality-report-yearly-summary/quality-report-yearly-summary-chart/quality-report-yearly-summary-chart.component';
+import { QualityGroupReportChartDialogComponent } from './quality-report/quality-group-report/quality-group-report-chart-dialog/quality-group-report-chart-dialog.component';
+import { QualityGroupReportSummaryChartComponent } from './quality-report/quality-group-report/quality-group-report-summary-chart/quality-group-report-summary-chart.component';
 
 
 @NgModule({
   declarations: [
-    QualityHistoryMonthyChartComponent,
-    QualityHistoryMonthlyTableComponent,
-    QualityHistoryMonthlyComponent,
     WorkerCompareStatisticsComponent,
     WorkerDefectStatisticsComponent,
     QualityReportComponent,
@@ -42,7 +45,16 @@ import { OperationCrapCostComponent } from './crap-costs/operation-crap-cost/ope
     CrapCostChartComponent,
     OperationCrapCostComponent,
     ProductCrapCostComponent,
-    WorkshopCrapCostComponent
+    WorkshopCrapCostComponent,
+    QualityMenuComponent,
+    QualityGroupReportComponent,
+    QualityGroupReportWeeklyTableComponent,
+    GualityGroupReportWeeklyChartComponent,
+    QualityReportYearlySummaryComponent,
+    QualityReportYearlySummaryTableComponent,
+    QualityReportYearlySummaryChartComponent,
+    QualityGroupReportChartDialogComponent,
+    QualityGroupReportSummaryChartComponent,
   ],
   imports: [
     CommonModule,

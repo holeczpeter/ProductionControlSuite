@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { HasComponentUnsavedChanges } from '../../../guards/auth.guard';
 import { AccountService } from '../../../services/account.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { SpinnerService } from '../../../services/spinner/spinner.service';
@@ -14,7 +15,7 @@ import { passwordEqualityValidator } from '../../../validators/password-equality
   templateUrl: './password-settings.component.html',
   styleUrls: ['./password-settings.component.scss']
 })
-export class PasswordSettingsComponent implements OnInit, OnDestroy {
+export class PasswordSettingsComponent implements OnInit, OnDestroy, HasComponentUnsavedChanges {
   title = "changepassword";
   formGroup!: UntypedFormGroup;
   hideOld = true;
@@ -44,6 +45,7 @@ export class PasswordSettingsComponent implements OnInit, OnDestroy {
     this.formGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.formGroup.setValidators(passwordEqualityValidator())
     });
+    this.formGroup.setOriginalForm();
   }
   onSubmit() {
     this.accountService.changeTemporaryPassword(this.formGroup.getRawValue()).subscribe(x => {
@@ -55,5 +57,8 @@ export class PasswordSettingsComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.destroy$.next(null);
-  } 
+  }
+  hasUnsavedChanges(): boolean {
+    return this.formGroup.isChanged();
+  }
 }

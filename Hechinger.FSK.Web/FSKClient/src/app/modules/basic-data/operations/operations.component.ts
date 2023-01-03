@@ -10,6 +10,7 @@ import { OperationEditorModel } from '../../../models/dialog-models/operation-ed
 import { DeleteOperation, DeleteProduct, OperationModel } from '../../../models/generated/generated';
 import { TableColumnModel } from '../../../models/table-column-model';
 import { AccountService } from '../../../services/account.service';
+import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
 import { ProductDataService } from '../../../services/data/product-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
@@ -32,7 +33,7 @@ export class OperationsComponent implements OnInit, AfterViewInit {
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array<string> = ['name', 'translatedName', 'code', 'productName', 'productCode', 'norma', 'operationTime', 'copy', 'edit', 'delete']
+  columnNames: Array<string> = ['name', 'translatedName', 'code', 'productName', 'productCode', 'norma', 'operationTime','ppmGoal', 'copy', 'edit', 'delete']
   title = "operations.title";
   filterableColumns: Array<TableColumnModel> = [
     {
@@ -71,6 +72,7 @@ export class OperationsComponent implements OnInit, AfterViewInit {
   totalCount!: number;
   constructor(private readonly operationDataService: OperationDataService,
     private readonly productDataService: ProductDataService,
+    private readonly confirmDialogService: ConfirmDialogService,
     private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
     private readonly snackBar: SnackbarService,
@@ -130,7 +132,7 @@ export class OperationsComponent implements OnInit, AfterViewInit {
   }
   onExport() {
     this.translate.get(this.title).subscribe(title => {
-      this.exportService.export(this.dataSource, this.filterableColumns, title);
+      this.exportService.exportFromDataSource(this.dataSource, this.filterableColumns, title);
     });
 
   }
@@ -170,11 +172,15 @@ export class OperationsComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }
   onDelete(id: number) {
-    let model: DeleteOperation = { id: id };
-    this.operationDataService.delete(model).subscribe(result => {
-      this.snackBar.open(result);
-      if (result.isSuccess) this.initalize()
+    this.confirmDialogService.openDeleteConfirm('műveletet').subscribe(result => {
+      if (result) {
+        let model: DeleteOperation = { id: id };
+        this.operationDataService.delete(model).subscribe(result => {
+          this.snackBar.open(result);
+          if (result.isSuccess) this.initalize()
 
+        });
+      }
     });
   }
   ngAfterViewInit(): void {

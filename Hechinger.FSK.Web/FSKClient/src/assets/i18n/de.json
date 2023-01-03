@@ -1,6 +1,9 @@
 {
+  "lang": "Sprache",
+  "exit": "Ausfahrt",
   "save": "Speichern",
   "cancel": "Absage",
+  "close": "Schließen",
   "back": "Zurück",
   "next": "Nächste",
   "nextandsave": "Speichern und nächste",
@@ -72,6 +75,11 @@
   "categoryName": "Fehler Kategorie",
   "usersCount": "Person",
   "warning": "Warnung",
+  "operationGroup": "Operation Gruppe",
+  "defectsGroup": "Fehler Gruppe",
+  "selected": "Ausgewählt",
+  "yearsummary": "Qualitätsverlauf monatlich",
+  "groupreport": "Qualitätsmeldung",
   "months": [
     { "January": "Januar" },
     { "February": "Februar" },
@@ -132,7 +140,8 @@
   "defectgroups": {
     "title": "Fehlersammelkarten",
     "add": "Neue Fehlersammelkarten hinzufügen",
-    "edit": "Fehlersammelkarte bearbeiten"
+    "edit": "Fehlersammelkarte bearbeiten",
+    "type": "Fehlersammelkarte Typ"
   },
   "workercompare": {
     "title": "Arbeiter fehlers meldung"

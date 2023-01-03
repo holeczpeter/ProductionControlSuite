@@ -1,7 +1,7 @@
 <form [formGroup]="cardForm" *ngIf="cardForm" class="card-form">
   <table width='705' border='0'>
     <td width='705' align='center'>
-      <app-summary-card-header></app-summary-card-header>
+      <app-summary-card-header [code]="code"></app-summary-card-header>
       <br />
       <table width='100%'>
         <tr class="table-row">
@@ -80,7 +80,7 @@
                 {{currentOperation.code}} -
                 {{ (languageService.getCurrentLanguage() | async) == 'hu' ? currentOperation.name : currentOperation.translatedName}}
               </ng-container>
-             
+
             </ng-template>
           </td>
           <td class="text-cell">
@@ -111,9 +111,13 @@
           <td align='center' width='5%' class="defect">
             <b>Nr.:</b>
           </td>
+          <td align='center' width='20%' class="defect">
+            <b>{{ 'code' | translate}}</b>
+          </td>
           <td align='center' width='60%' class="defect">
             <b>{{ 'defectName' | translate}}</b>
           </td>
+
           <td align='center' width='5%' class="defect">
             <b>{{ 'categoryName' | translate}}</b>
           </td>
@@ -127,8 +131,9 @@
         <tr formArrayName="items" *ngFor="let item of items.controls; let i = index">
           <ng-container [formGroupName]="i">
             <td class="defect" align='center' width='5%'>{{item.value.order}}</td>
-            <td class="defect" width='60%'>{{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.value.defectName : item.value.defectTranslatedName}}</td>
-            <td class="defect" align='center' width='5%'>{{ item.value.defectCategory | category }}</td>
+            <td class="defect" width='20%'>{{ item.value.defectCode}}</td>
+            <td class="defect" width='40%'>{{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.value.defectName : item.value.defectTranslatedName}}</td>
+            <td class="defect" align='center' width='5%'>{{ item?.value.defectCategory | category }}</td>
             <td class="defect" align='center' width='20%'>
               <mat-form-field floatLabel="never" class="quantity">
                 <input matInput type="number" [formControlName]="'quantity'">

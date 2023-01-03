@@ -4,7 +4,10 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
-    
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Company>Holecz Péter</Company>
+    <Authors>$(Company)</Authors>
+    <Copyright>Copyright © $(Authors) $([System.DateTime]::Now.Year)</Copyright>
   </PropertyGroup>
   <PropertyGroup>
     <!-- T4 templates -->
@@ -13,12 +16,14 @@
     <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="FSKClient\src\app\extensions\formgroup-extensions.ts" />
     <None Remove="FSKClient\src\app\models\file-snippet.ts" />
     <None Remove="FSKClient\src\app\models\generated\crap-cost-table-model.ts" />
     <None Remove="FSKClient\src\app\models\generated\workshop-ppm-model.ts" />
     <None Remove="FSKClient\src\app\models\quantity-chart-model.ts" />
     <None Remove="FSKClient\src\app\models\quantity-table-model.ts" />
     <None Remove="FSKClient\src\app\models\refresh-token-model.ts" />
+    <None Remove="FSKClient\src\app\services\confirm-dialog\confirm-dialog-data-builder.ts" />
     <None Remove="FSKClient\src\app\validators\custom-validator.ts" />
     <None Remove="FSKClient\src\app\validators\password-equality-validator.ts" />
   </ItemGroup>
@@ -67,23 +72,13 @@
     </Content>
   </ItemGroup>
 
+  
   <ItemGroup>
     <None Update="FSKClient\src\app\models\generated\generated.ts">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>generated.tt</DependentUpon>
     </None>
-    <None Update="FSKClient\src\app\modules\account\generated.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>generated.ts</LastGenOutput>
-    </None>
-    <None Update="FSKClient\src\app\modules\account\generated.ts">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>generated.tt</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Update="FSKClient\src\app\models\generated\generated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>generated.ts</LastGenOutput>
@@ -99,11 +94,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   
-    <TypeScriptCompile Update="FSKClient\src\app\models\generated\generated.ts">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>generated.tt</DependentUpon>
-    </TypeScriptCompile>
+    
     <TypeScriptCompile Update="FSKClient\src\app\models\generated\generated.ts">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -112,16 +103,19 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="FSKClient\src\app\models\dialog-models\" />
+    <Folder Include="FSKClient\src\app\models\confirm-dialog-data\" />
     <Folder Include="FSKClient\src\app\services\navigation\" />
     <Folder Include="FSKClient\src\app\services\image\" />
     <Folder Include="FSKClient\src\app\services\chart\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="FSKClient\src\app\extensions\formgroup-extensions.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\models\file-snippet.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\models\crap-cost-table-model.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\models\quantity-chart-model.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\models\quantity-table-model.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\models\refresh-token-model.ts" />
+    <TypeScriptCompile Include="FSKClient\src\app\services\confirm-dialog\confirm-dialog-data-builder.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\validators\custom-validator.ts" />
     <TypeScriptCompile Include="FSKClient\src\app\validators\password-equality-validator.ts" />
   </ItemGroup>

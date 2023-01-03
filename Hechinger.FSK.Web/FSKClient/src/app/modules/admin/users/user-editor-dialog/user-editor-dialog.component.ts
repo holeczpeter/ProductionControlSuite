@@ -3,6 +3,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { forkJoin } from 'rxjs';
 import { AddUser, LanguageModel, RoleModel, UpdateUser, UserModel, WorkshopUserItem } from '../../../../models/generated/generated';
+import { ConfirmDialogService } from '../../../../services/confirm-dialog/confirm-dialog-service';
 import { LanguageDataService } from '../../../../services/data/language-data.service';
 import { RoleDataService } from '../../../../services/data/role-data.service';
 import { UserDataService } from '../../../../services/data/user-data.service';
@@ -29,6 +30,7 @@ export class UserEditorDialogComponent implements OnInit {
     private readonly languageDataService: LanguageDataService,
     private readonly roleDataService: RoleDataService,
     private readonly formBuilder: UntypedFormBuilder,
+    private readonly confirmDialogService: ConfirmDialogService,
     private readonly snackBar: SnackbarService) {
     this.title = this.data ? "users.edit" : "users.add";
     this.id = this.data ? this.data.id : 0;
@@ -52,6 +54,7 @@ export class UserEditorDialogComponent implements OnInit {
       this.formGroup.get('password')!.clearValidators();
       this.formGroup.get('passwordRe')!.clearValidators()
     }
+    this.formGroup.setOriginalForm();
     
     
   }
@@ -106,6 +109,7 @@ export class UserEditorDialogComponent implements OnInit {
   }
 
   onCancel() {
-    this.dialogRef.close(false);
+    if (this.formGroup.isChanged()) this.confirmDialogService.confirmClose(this.dialogRef);
+    else this.dialogRef.close(false);
   }
 }

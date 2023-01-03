@@ -1,7 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { distinctUntilChanged, Subject, Subscription } from 'rxjs';
-import { GetQuantityReportByProduct, IntervalModel, IntervalOption, QuantityOperationReportModel, SelectModel, Views } from '../../../models/generated/generated';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { BehaviorSubject, distinctUntilChanged, Subject, Subscription } from 'rxjs';
+import { EntityGroupModel, GetGroupReport, IntervalModel, IntervalOption, Views } from '../../../models/generated/generated';
+import { TreeItem } from '../../../models/tree-item';
+import { EntityGroupDataService } from '../../../services/data/entity-group-data.service';
 import { QualityDataService } from '../../../services/data/quality-data.service';
 import { IntervalViewService } from '../../../services/interval-view/interval-view.service';
 import { LanguageService } from '../../../services/language/language.service';
@@ -11,31 +14,31 @@ import { LanguageService } from '../../../services/language/language.service';
   templateUrl: './quality-report.component.html',
   styleUrls: ['./quality-report.component.scss']
 })
-export class QualityReportComponent implements OnInit, OnDestroy  {
-  data: Array<QuantityOperationReportModel>;
-  product!: SelectModel;
+export class QualityReportComponent implements OnInit, OnDestroy {
   protected _onDestroy = new Subject<void>();
   dataSource: MatTableDataSource<any>;
-  columnNames: Array<string> = ['defectCode', 'defectName', 'defectTranslatedName', 'defectCategoryName', 'quantity', 'defectQuantity', 'ppm'];
-
+  request: GetGroupReport;
+  items: Array<TreeItem<EntityGroupModel>>;
   intervalOptions: Array<IntervalOption> = [
-    { name: 'week', value: Views.Week, isDefault: true },
-    { name: 'month', value: Views.Month, isDefault: false },
+    { name: 'month', value: Views.Month, isDefault: true },
     { name: 'year', value: Views.Year, isDefault: false },
   ];
+  
   currentDate = new Date();
   selectedView: Views;
   currentInterval: IntervalModel;
   intervalSubscription: Subscription;
   monthDataSubscription: Subscription;
-  title = "qualityreport.title";
+  title = "defectgroups.title";
+  entityGroupId = new BehaviorSubject<number>(0);
+
   constructor(private readonly qualityDataService: QualityDataService,
     public languageService: LanguageService,
+    private readonly entityGroupDataService: EntityGroupDataService,
     private intervalPanelService: IntervalViewService) {
   }
 
   ngOnInit(): void {
-
     this.selectedView = this.intervalOptions.find(x => x.isDefault)!.value;
     if (this.monthDataSubscription) this.monthDataSubscription.unsubscribe();
     if (this.intervalSubscription) this.intervalSubscription.unsubscribe();
@@ -44,35 +47,33 @@ export class QualityReportComponent implements OnInit, OnDestroy  {
       .subscribe((x: IntervalModel) => {
         this.currentInterval = x;
         this.selectedView = x.selectedView;
-        if (this.product && this.currentInterval ) this.initalize();
+        if (this.entityGroupId.getValue() != 0) {
+          this.request = { entityGroupId: this.entityGroupId.getValue(), startDate: this.currentInterval.startDate, endDate: this.currentInterval.endDate, view: this.currentInterval.selectedView }
+        }
+        
       });
-    this.intervalPanelService.setViews(this.selectedView, this.currentDate);
-    
-  }
- 
-  initalize() {
-    if (this.currentInterval && this.product) {
-      let request: GetQuantityReportByProduct = {
-        productId: this.product.id,
-        startDate: this.currentInterval.startDate,
-        endDate: this.currentInterval.endDate,
+    this.entityGroupId.subscribe(x => {
+      if (this.currentInterval) {
+        this.request = { entityGroupId: this.entityGroupId.getValue(), startDate: this.currentInterval.startDate, endDate: this.currentInterval.endDate, view: this.currentInterval.selectedView  }
       }
-      this.qualityDataService.getQuantityReportByProduct(request).subscribe(x => {
-        this.data = x;
-        this.createDataSource();
-      });
-    };
+     
+    });
+    this.intervalPanelService.setViews(this.selectedView, this.currentDate);
+    this.entityGroupDataService.getAll().subscribe(results => {  this.items = results; });
   }
-  createDataSource() {
-    if (this.data) {
+  tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
+    if (tabChangeEvent.index) {
+      this.intervalPanelService.setViews(Views.Year, this.currentDate);
     }
   }
-  onSelectedProduct(event: SelectModel) {
-    this.product = event;
-    this.initalize();
+ 
+  onSelect(event: EntityGroupModel) {
+    this.entityGroupId.next(event.id);
   }
   ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
   }
+ 
 }
+

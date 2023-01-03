@@ -12,7 +12,7 @@ namespace Hechinger.FSK.Application.Common
     {
         public static string TokenSecret = "GENERÁLT TITKOS STRING, EZ PEDIG EGY KIS L:l";
         public static string ExpirationInMinutes = "00:30:00";
-
+        
         private static string appURL;
         public static string AppURL
         {
@@ -21,9 +21,19 @@ namespace Hechinger.FSK.Application.Common
                 return appURL;
             }
         }
+        private static string environtmentInformation;
+
+        public static string EnvirontmentInformation
+        {
+            get
+            {
+                return environtmentInformation;
+            }
+        }
         public static void SetConfiguration(IConfiguration configuration)
         {
             appURL = configuration["URL"];
+            environtmentInformation = configuration["Environment"];
         }
 
     }

@@ -1,0 +1,6 @@
+<div cdkDropList
+     [cdkDropListData]="item.node.relations"
+     class="relation-list"
+     (cdkDropListDropped)="drop($event)">
+  <div class="example-box" *ngFor="let i of item.node.relations" cdkDrag>{{i.code}}</div>
+</div>

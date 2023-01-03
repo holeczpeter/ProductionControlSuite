@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AddShift, ShiftModel, UpdateShift } from '../../../../models/generated/generated';
+import { ConfirmDialogService } from '../../../../services/confirm-dialog/confirm-dialog-service';
 import { ShiftDataService } from '../../../../services/data/shift-data.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
 
@@ -17,6 +18,7 @@ export class ShiftEditorDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: ShiftModel,
     private readonly shiftDataService: ShiftDataService,
     private readonly formBuilder: UntypedFormBuilder,
+    private readonly confirmDialogService: ConfirmDialogService,
     private readonly snackBar: SnackbarService) {
     this.title = data ? "shifts.edit" : "shifts.add";
     this.formGroup = this.formBuilder.group({
@@ -27,7 +29,7 @@ export class ShiftEditorDialogComponent implements OnInit {
       translatedShortName: [this.data ? this.data.translatedShortName : '', [Validators.required]],
       start: [this.data ? this.data.start : '00:00', [Validators.pattern('^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'), Validators.required]],
       end: [this.data ? this.data.end : '00:00', [Validators.pattern('^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'), Validators.required]],
-    });
+    }).setOriginalForm();
   }
 
   ngOnInit(): void {
@@ -70,7 +72,8 @@ export class ShiftEditorDialogComponent implements OnInit {
   }
 
   onCancel() {
-    this.dialogRef.close(false);
+    if (this.formGroup.isChanged()) this.confirmDialogService.confirmClose(this.dialogRef);
+    else this.dialogRef.close(false);
   }
 }
 

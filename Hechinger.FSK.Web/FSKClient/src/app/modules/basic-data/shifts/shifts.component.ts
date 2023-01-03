@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DeleteWorkshop, ShiftModel, WorkshopModel } from '../../../models/generated/generated';
 import { TableColumnModel } from '../../../models/table-column-model';
 import { AccountService } from '../../../services/account.service';
+import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 import { ShiftDataService } from '../../../services/data/shift-data.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { CompareService } from '../../../services/sort/sort.service';
@@ -55,6 +56,7 @@ export class ShiftsComponent implements OnInit, AfterViewInit {
     private readonly dialog: MatDialog,
     private readonly snackBar: SnackbarService,
     public translate: TranslateService,
+    private readonly confirmDialogService: ConfirmDialogService,
     public sortService: CompareService,
     public tableFilterService: TableFilterService,
     private readonly exportService: TableExportService) { }
@@ -105,7 +107,7 @@ export class ShiftsComponent implements OnInit, AfterViewInit {
   }
   onExport() {
     this.translate.get(this.title).subscribe(title => {
-      this.exportService.export(this.dataSource, this.filterableColumns, title);
+      this.exportService.exportFromDataSource(this.dataSource, this.filterableColumns, title);
     });
   }
   onAdd() {
@@ -127,12 +129,17 @@ export class ShiftsComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }
   onDelete(id: number) {
-    let model: DeleteWorkshop = { id: id };
-    this.shiftDataService.delete(model).subscribe(result => {
-      this.snackBar.open(result);
-      if (result.isSuccess) this.initalize()
+    this.confirmDialogService.openDeleteConfirm('műveletet').subscribe(result => {
+      if (result) {
+        let model: DeleteWorkshop = { id: id };
+        this.shiftDataService.delete(model).subscribe(result => {
+          this.snackBar.open(result);
+          if (result.isSuccess) this.initalize()
 
+        });
+      }
     });
+   
   }
   ngAfterViewInit(): void {
     if (this.dataSource) {

@@ -2,13 +2,13 @@ import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angula
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatStepper } from '@angular/material/stepper';
-import { forkJoin } from 'rxjs';
-import { ProductContext, ProductModel } from '../../../../models/generated/generated';
+import { EntityGroupModel, GroupTypes, ProductModel, SaveEntityGroup } from '../../../../models/generated/generated';
+import { TreeItem } from '../../../../models/tree-item';
 import { DefectGroupDataService } from '../../../../services/data/defect-group-data.service';
+import { EntityGroupDataService } from '../../../../services/data/entity-group-data.service';
 import { ProductDataService } from '../../../../services/data/product-data.service';
-import { DefectGroupContextService } from '../../../../services/defectgroupcontext/defect-group-context.service';
+import { EntityGroupService } from '../../../../services/entity-group/entity-group-service.service';
 import { LanguageService } from '../../../../services/language/language.service';
-import { ProductContextService } from '../../../../services/productcontext/product-context-.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
 
 @Component({
@@ -22,32 +22,45 @@ export class DefectGroupWizardComponent implements OnInit {
   @ViewChild('singleSelect') singleSelect: MatSelect;
   @ViewChild('mystepper') stepper: MatStepper;
   totalStepsCount!: 3;
+  isHead = false;
+  data: TreeItem<EntityGroupModel>;
+  selectedIndex= 0;
   constructor(private readonly dialogRef: MatDialogRef<DefectGroupWizardComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: number,
+    @Inject(MAT_DIALOG_DATA) public incomingData: TreeItem<EntityGroupModel>,
+    private entityGroupDataService: EntityGroupDataService,
     private readonly defectGroupDataService: DefectGroupDataService,
     private readonly productDataService: ProductDataService,
-    public defectGroupContextService: DefectGroupContextService,
+    public entityGroupService: EntityGroupService,
     private readonly snackBar: SnackbarService,
     private readonly changeDetector: ChangeDetectorRef,
     public languageService: LanguageService) {
-    this.title = this.data > 0 ? "defectgroups.edit" : "defectgroups.add";
+    this.title = this.incomingData  ? "defectgroups.edit" : "defectgroups.add";
   }
 
   ngOnInit(): void {
-    this.refresh(this.data);
-
+    if (this.incomingData.node.id != 0) {
+      let request = { id: this.incomingData.node.id };
+      this.entityGroupDataService.get(request).subscribe(x => {
+        this.data = x;
+        this.entityGroupService.refreshTree(this.data);
+        if (this.data) this.isHead = this.data.node.groupType == GroupTypes.Head;
+        else this.isHead = true;
+      })
+    }
+    else {
+      this.data = this.incomingData;
+      if (this.data)  this.isHead = this.data.node.groupType == GroupTypes.Head;
+      else this.isHead = true;
+    }
   }
-  refresh(productId: number) {
-    let request: any = {
-      id: productId,
-    };
-    forkJoin([this.defectGroupDataService.getDefectGroupContext(request)]).subscribe(([product]) => {
-      this.context = product;
-      this.defectGroupContextService.buildForm(this.context);
-    });
+ 
+  refreshTree(event: any) {
+    this.data = event;
+    if (this.data) this.isHead = this.data.node.groupType == GroupTypes.Head;
+    else this.isHead = true;
   }
-  onRefreshProducts(event: Array<ProductModel>) {
-    console.log(event)
+  public onStepChange(event: any): void {
+    this.selectedIndex = event.selectedIndex;
   }
   goBack(stepper: MatStepper) {
     this.stepper.previous();
@@ -56,6 +69,13 @@ export class DefectGroupWizardComponent implements OnInit {
     this.stepper.next();
   }
   onSave() {
+    let saveEntityGroup: SaveEntityGroup = {
+      current: this.data
+    };
+    this.entityGroupDataService.save(saveEntityGroup).subscribe(result => {
+      this.snackBar.open(result);
+      if (result.isSuccess) this.dialogRef.close(true);
+    });
   }
   onCancel() {
     this.dialogRef.close(false);

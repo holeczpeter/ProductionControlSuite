@@ -3,8 +3,9 @@ import { AfterViewInit } from '@angular/core';
 import { ChangeDetectorRef, Component, EventEmitter, Input, IterableDiffer, IterableDiffers, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { MenuItemModel } from '../../models/generated/generated';
+import { ApplicationInfo, MenuItemModel } from '../../models/generated/generated';
 import { TreeItem } from '../../models/tree-item';
+import { ApplicationService } from '../../services/data/application.service';
 import { MenuDataService } from '../../services/data/menu-data.service';
 import { LanguageService } from '../../services/language/language.service';
 export type AccordionConfig = {
@@ -22,7 +23,9 @@ export class SidebarComponent implements OnInit, DoCheck, AfterViewInit {
   submenucount!: number;
   config: AccordionConfig = { multi: false };
   currentLang!: string;
+  applicationInformation: ApplicationInfo;
   constructor(private readonly menudataService: MenuDataService,
+    private readonly applicationService: ApplicationService,
     private differs: IterableDiffers,
     private readonly router: Router,
     private cdr: ChangeDetectorRef,
@@ -32,7 +35,9 @@ export class SidebarComponent implements OnInit, DoCheck, AfterViewInit {
     
 
   ngOnInit(): void {
-   
+    this.applicationService.get().subscribe(appInfo => {
+      this.applicationInformation = appInfo;
+    });
   }
   ngDoCheck(): void {
     var changes = this._differ.diff(this.sidebarMenuItems);

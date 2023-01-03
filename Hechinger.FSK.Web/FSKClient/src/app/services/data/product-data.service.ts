@@ -53,8 +53,11 @@ export class ProductDataService {
       }
     });
   }
-  getAll(): Observable<any> {
-    return this.httpClient.get<any>('/Product/GetAll', {
+  getAll(): Observable<Array<ProductModel>> {
+    return this.httpClient.get<Array<ProductModel>>('/Product/GetAll');
+  }
+  getProductsByParameters(): Observable<any> {
+    return this.httpClient.get<any>('/Product/GetProductsByParameters', {
       params:
       {
         code: this.filterService.getValue('code'),

@@ -14,6 +14,9 @@
         <div class="company-text">
           <h3 class="regular"> {{ companyName  }} </h3>
         </div>
+        <div class="environment">
+          <h3 class="bold"> FSK {{applicationInformation?.enviromentName }} rendszer </h3>
+        </div>
         <router-outlet>
         </router-outlet>
         <span><a (click)="setLanguage('hu', $event)" class="lang">hu</a></span>
@@ -22,8 +25,8 @@
     </mat-card>
   </div>
   <div class="version">
-    <!--<div class="version-number"><h3 class="regular">Verzió: {{applicationInformation?.version}}</h3></div>
-    <div><h3 class="regular">{{applicationInformation?.copyRight}}</h3></div>-->
+    <div class="version-number"><h3 class="regular">Verzió: {{applicationInformation?.version}}</h3></div>
+    <div><h3 class="regular">{{applicationInformation?.copyRight}}</h3></div>
   </div>
 </div>
 

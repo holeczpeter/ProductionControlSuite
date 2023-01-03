@@ -14,16 +14,7 @@ namespace Hechinger.FSK.Web.Controllers
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        [HttpGet]
-        public async Task<QualityAssuranceProductModel> Get(GetQualityAssurance request, CancellationToken cancellationToken)
-        {
-            return await this.mediator.Send(request, cancellationToken);
-        }
-        [HttpGet]
-        public async Task<IEnumerable<MonthlyQualityModel>> GetMonthlyQualityHistory(GetMonthlyQualityHistory request, CancellationToken cancellationToken)
-        {
-            return await this.mediator.Send(request, cancellationToken);
-        }
+       
         [HttpGet]
         public async Task<WorkerStatisticsModel> GetWorkerStatisticsByDefect(GetWorkerStatisticsByDefect request, CancellationToken cancellationToken)
         {
@@ -34,11 +25,7 @@ namespace Hechinger.FSK.Web.Controllers
         {
             return await this.mediator.Send(request, cancellationToken);
         }
-        [HttpGet]
-        public async Task<IEnumerable<QuantityOperationReportModel>> GetQuantityReportByProduct(GetQuantityReportByProduct request, CancellationToken cancellationToken)
-        {
-            return await this.mediator.Send(request, cancellationToken);
-        }
+        
         [HttpGet]
         public async Task<QuantityOperationReportModel> GetQuantityReportByOperation(GetQuantityReportByOperation request, CancellationToken cancellationToken)
         {
@@ -56,6 +43,17 @@ namespace Hechinger.FSK.Web.Controllers
         }
         [HttpGet]
         public async Task<CrapCostWorkshopModel> GetCrapCostByWorkshop(GetCrapCostByWorkshop request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+
+        [HttpGet]
+        public async Task<GroupReportModel> GetGroupReport(GetGroupReport request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+        [HttpGet]
+        public async Task<IEnumerable<GroupReportYearlySummaryModel>> GetGroupReportYearlySummary(GetGroupReportYearlySummary request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
         }
