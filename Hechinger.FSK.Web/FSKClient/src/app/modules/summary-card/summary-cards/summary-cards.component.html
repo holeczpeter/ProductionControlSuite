@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="flex-title">
-    <app-title [title]="title"></app-title>
+    <app-title [title]="title" [contentTemplate]="tooltipTemplate"></app-title>
   </div>
   <div class="responsive-table-container">
     <table mat-table [dataSource]="dataSource"
@@ -100,4 +100,14 @@
  
 </div>
 
-
+<ng-template #tooltipTemplate>
+  <div class="headerrow">
+    <h3>Hibagyűjtő lapok</h3>
+  </div>
+  <div style="display: flex; flex-direction: column">
+    <span>Ezen az oldalon böngészhetőek a korábban rögzített hibagyűjtő lapok</span>
+    <span>Szerkesztés: Az aktuális hibagyűjtő lap módosítására van lehetőség</span>
+    <span>Törlés: Az aktuális hibagyűjtő lap törlésére van lehetőség</span>
+    <br>
+  </div>
+</ng-template>

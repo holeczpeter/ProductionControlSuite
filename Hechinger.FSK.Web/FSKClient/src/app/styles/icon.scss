@@ -2,6 +2,7 @@ $mat-icon-margin-compensation: 1.2;
 $mat-icon-size: 14px * $mat-icon-margin-compensation;
 $mat-confirm-icon-size: 100px * $mat-icon-margin-compensation;
 $mat-header-icon-size: 24px;
+$mat-tooltip-icon-size: 18px * $mat-icon-margin-compensation;
 .mat-icon {
   font-size: $mat-icon-size !important;
   width: $mat-icon-size !important;
@@ -40,6 +41,12 @@ $mat-header-icon-size: 24px;
   height: $mat-header-icon-size !important;
   width: $mat-header-icon-size !important;
   line-height: $mat-header-icon-size !important;
+}
+.tooltip-icon {
+  font-size: $mat-tooltip-icon-size !important;
+  height: $mat-tooltip-icon-size !important;
+  width: $mat-tooltip-icon-size !important;
+  line-height: $mat-tooltip-icon-size !important;
 }
 .sidebar-icon {
   color: #FFFFFF;

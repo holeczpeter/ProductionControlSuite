@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-title',
@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class TitleComponent implements OnInit,OnChanges {
   @Input() title!: string;
   translateTitle!: string;
+  @Input() contentTemplate: TemplateRef<any>;
   constructor(public translate: TranslateService) { }
    
 

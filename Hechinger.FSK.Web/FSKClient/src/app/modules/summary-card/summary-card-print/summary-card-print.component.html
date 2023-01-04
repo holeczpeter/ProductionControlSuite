@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="flex-title">
-    <app-title class="flex-title-item" [title]="title"></app-title>
+    <app-title class="flex-title-item" [title]="title" [contentTemplate]="tooltipTemplate"></app-title>
   </div>
   <form [formGroup]="formGroup" *ngIf="formGroup">
     <mat-form-field class="col">
@@ -21,3 +21,13 @@
     <app-summary-card-print-view [operation]="formGroup.get('operation')?.value"></app-summary-card-print-view>
   </ng-container>
 </div>
+
+<ng-template #tooltipTemplate>
+  <div class="headerrow">
+    <h3>Nyomtatás</h3>
+  </div>
+  <div style="display: flex; flex-direction: column">
+    <span>A műveletkód kiválasztása után nyomtatható az aktuális hibagyűjtő lap</span>
+    <br>
+  </div>
+</ng-template>

@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="flex-title">
-    <app-title class="flex-title-item" [title]="title"></app-title>
+    <app-title class="flex-title-item" [title]="title" [contentTemplate]="tooltipTemplate"></app-title>
   </div>
   <ng-container *ngIf="dataSource && treeControl">
     <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
@@ -46,3 +46,12 @@
  </div>
 
 
+<ng-template #tooltipTemplate>
+  <div class="headerrow">
+    <h3>Hibaösszesítők</h3>
+  </div>
+  <div style="display: flex; flex-direction: column">
+    <span>A Hibaösszesítők menürendszerének és termékcsoportok, műveletcsoportok, illetve hibacsoportok létrehozása, módosítása varázsló segítségével</span>
+    <br>
+  </div>
+</ng-template>

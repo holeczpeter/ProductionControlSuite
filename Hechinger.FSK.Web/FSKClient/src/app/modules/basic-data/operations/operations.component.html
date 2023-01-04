@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="flex-title">
-    <app-title class="flex-title-item" [title]="title"></app-title>
+    <app-title class="flex-title-item" [title]="title" [contentTemplate]="tooltipTemplate"></app-title>
     <button mat-flat-button (click)="onAdd()" color="primary"> {{'add' | translate}} </button>
   </div>
   <app-table-toolbar (btnClick)="onExport()">
@@ -100,3 +100,16 @@
     </mat-paginator>
   </div>
 </div>
+<ng-template #tooltipTemplate>
+  <div class="headerrow">
+    <h3>Műveletek</h3>
+  </div>
+  <div style="display: flex; flex-direction: column">
+    <span>A rögzített műveletek listája</span>
+    <span>Hozzáadás: Új művelet létrehozása és termékhez rendelése</span>
+    <span>Szerkesztés: Az adott művelet adatainak módosítása</span>
+    <span>Törlés: Az adott művelet törlése. <strong>Figyelem, csak olyan művelet törölhető, amelyhez nem tartoznak hibák</strong></span>
+    <span>Exportálás: Lista exportálása xlsx formátumban</span>
+    <br>
+  </div>
+</ng-template>

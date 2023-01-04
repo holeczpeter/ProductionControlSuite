@@ -1,6 +1,6 @@
 <div class="container-fluid">
-  <div class="flex-title">
-    <app-title class="flex-title-item" [title]="title"></app-title>
+  <div class="title">
+    <app-title class="flex-title-item" [title]="title" [contentTemplate]="tooltipTemplate"></app-title>
   </div>
   <div class="dashboard">
     <div class="summary-grid-container">
@@ -71,3 +71,18 @@
   </div>
 </div>
 
+<ng-template #tooltipTemplate>
+  <div class="headerrow">
+    <h3>Dashboard: Az aktuális hét statisztikái</h3>
+  </div>
+  <div style="display: flex; flex-direction: column">
+    <span>PPM: Összesített PPM érték az aktuális hétre</span>
+    <span>Selejtköltség: Összesített selejtköltség érték az aktuális hétre</span>
+    <span>Darabszám: Összesített gyártott darabszám az aktuális hétre</span>
+    <span>Hibás darabszám: Az adott hétre vonatkozó keletkezett hibás darabok összege</span>
+    <span>Figyelmeztetések: A PPM célt meghaladó műveletek listája</span>
+    <span>Műhelyek - PPM: Az adott hétre vonatkozó PPM értékek műhelyenként</span>
+    <span>Műhelyek - selejtköltség: Az adott hétre vonatkozó selejtköltség értékek műhelyenként</span>
+    <br>
+  </div>
+</ng-template>

@@ -1,1 +1,10 @@
-<h1>{{translateTitle | translate}}</h1>
+<div class="title-container">
+  <h1>{{translateTitle | translate}}</h1>
+  <mat-icon appTooltip
+            class="tooltip-icon"
+            color="primary"
+            [contentTemplate]="contentTemplate">
+    info
+  </mat-icon>
+</div>
+

@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="flex-title">
-    <app-title class="flex-title-item" [title]="title"></app-title>
+    <app-title class="flex-title-item" [title]="title" [contentTemplate]="tooltipTemplate"></app-title>
     <button mat-flat-button (click)="onAdd()" color="primary"> {{'add' | translate}} </button>
   </div>
   <app-table-toolbar (btnClick)="onExport()">
@@ -66,3 +66,16 @@
                    showFirstLastButtons></mat-paginator>
   </div>
 </div>
+<ng-template #tooltipTemplate>
+  <div class="headerrow">
+    <h3>Műhelyek</h3>
+  </div>
+  <div style="display: flex; flex-direction: column">
+    <span>A rögzített műhelyek listája</span>
+    <span>Hozzáadás: Új műhely létrehozása</span>
+    <span>Szerkesztés: Az adott műhely adatainak módosítása</span>
+    <span>Törlés: Az adott műhely törlése. <strong>Figyelem, csak olyan műhely törölhető, amelyhez nem tartoznak termékek</strong></span>
+    <span>Exportálás: Lista exportálása xlsx formátumban</span>
+    <br>
+  </div>
+</ng-template>

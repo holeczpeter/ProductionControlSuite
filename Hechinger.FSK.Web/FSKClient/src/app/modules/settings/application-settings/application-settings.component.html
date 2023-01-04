@@ -1,6 +1,6 @@
 <div class="container-fluid" *ngIf="formGroup">
   <div class="flex-title">
-    <app-title [title]="title"></app-title>
+    <app-title [title]="title" [contentTemplate]="tooltipTemplate"></app-title>
   </div>
   <div class="container-inside">
     <mat-list>
@@ -39,3 +39,13 @@
     <button mat-flat-button (click)="onSave()" color="primary"> {{'save' | translate}} </button>
   </div>
 </div>
+<ng-template #tooltipTemplate>
+  <div class="headerrow">
+    <h3>Alkalmazás beállítások</h3>
+  </div>
+  <div style="display: flex; flex-direction: column">
+    <span>Nyelv: A rendszer alapértelmezett nyelvének személyes beállítása</span>
+    <span>Táblázat: Beállítható, hogy a táblázatok hány darab találatot jelenítsenek meg oldalanként a rendszerben</span>
+    <br>
+  </div>
+</ng-template>

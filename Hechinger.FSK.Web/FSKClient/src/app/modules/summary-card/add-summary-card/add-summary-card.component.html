@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="flex-title">
-    <app-title [title]="title"></app-title>
+    <app-title [title]="title" [contentTemplate]="tooltipTemplate"></app-title>
     <button mat-flat-button (click)="onSave()"
             [disabled]="cardForm && !cardForm.valid"
             color="primary">
@@ -9,4 +9,14 @@
   </div>
   <app-summary-card-editor [cardForm]="cardForm"></app-summary-card-editor>
 </div>
+<ng-template #tooltipTemplate>
+  <div class="headerrow">
+    <h3>Hibagyűjtő lapok felvitele</h3>
+  </div>
+  <div style="display: flex; flex-direction: column">
+    <span>Ezen az oldalon rögzíthetőek a hibagyűjtő lapok</span>
+    <span>A műveletkód kézi vagy vonalkódolvasó segítségével vihető be, eztuán megjelenik az aktuális hibalista</span>
+    <br>
+  </div>
+</ng-template>
 

@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="flex-title">
-    <app-title class="flex-title-item" [title]="title"></app-title>
+    <app-title class="flex-title-item" [title]="title" [contentTemplate]="tooltipTemplate"></app-title>
   </div>
   <div class="container-inside">
     <app-operation-search (select)="onSelectedOperation($event)">
@@ -22,3 +22,13 @@
     </div>
   </div>
 </div>
+
+<ng-template #tooltipTemplate>
+  <div class="headerrow">
+    <h3>Darabszám jelentés</h3>
+  </div>
+  <div style="display: flex; flex-direction: column">
+    <span>A kiválaszott műveletre vonatkozó gyártott és hibás darabszámok, ppm értékek tekinthetőek meg műszakonkénti bontásban, kiválasztott időintervallumra</span>
+    <br>
+  </div>
+</ng-template>

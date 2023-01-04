@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="flex-title">
-    <app-title class="flex-title-item" [title]="title"></app-title>
+    <app-title class="flex-title-item" [title]="title" [contentTemplate]="tooltipTemplate"></app-title>
     <button mat-flat-button (click)="onAdd()" color="primary"> {{'add' | translate}} </button>
   </div>
   <app-table-toolbar (btnClick)="onExport()">
@@ -77,3 +77,14 @@
                    showFirstLastButtons></mat-paginator>
   </div>
 </div>
+<ng-template #tooltipTemplate>
+  <div class="headerrow">
+    <h3>Műszakok</h3>
+  </div>
+  <div style="display: flex; flex-direction: column">
+    <span>A rendszer által használt műszakok listája</span>
+    <span>A műszakok megjelennek a hibagyűjtő lapokok</span>
+    <span>A műszakok megjelennek a Darabszámjelentés kimutatásaiban</span>
+    <br>
+  </div>
+</ng-template>

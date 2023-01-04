@@ -73,6 +73,8 @@ import { InfoCardComponent } from './info-card/info-card.component';
 import { MonthPipe } from '../pipes/month.pipe';
 import { LocaleDateAdapterService } from '../services/date/locale-date-adapter.service';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { TooltipComponent } from './tooltip/tooltip.component';
+import { TooltipDirective } from '../directives/tooltip.directive';
 
 @NgModule({
   declarations: [
@@ -100,7 +102,9 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     WorkshopSearchComponent,
     InfoCardComponent,
     MonthPipe,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    TooltipComponent,
+    TooltipDirective
   ],
   imports: [
     CommonModule,
@@ -220,7 +224,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     InfiniteScrollModule,
     InfoCardComponent,
     MonthPipe,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    TooltipComponent,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },
