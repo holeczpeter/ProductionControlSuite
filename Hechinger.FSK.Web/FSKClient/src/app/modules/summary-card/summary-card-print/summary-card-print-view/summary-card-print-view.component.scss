@@ -4,41 +4,46 @@
 }
 
 .preview-content {
- 
-  page-break-after: always;
+  break-inside: avoid;
+  break-after: page;
 }
 .main-table {
-  page-break-inside: avoid;
-  page-break-after: always;
+  break-inside: avoid;
+  //page-break-after: always;
 }
 .inside-row {
-  page-break-inside: avoid;
-  page-break-after: auto;
+  break-inside: avoid;
+  break-after: auto;
 }
 .break-item {
-  page-break-before: always;
-  page-break-inside: auto;
-  page-break-after: always;
-  display:none;
+  break-before: page;
+  break-inside: auto;
+  break-after: page;
+ 
 }
 .item {
-  page-break-before: always;
+  break-before: page;
   page-break-inside: auto;
-  page-break-after: always;
+  break-after: page;
+}
+.visible {
+  display: block;
+}
+.hidden {
+  display: none;
 }
 @media print {
   @page {
     size: A4 landscape;
     margin: 10mm 10mm 10mm 10mm;
   }
- 
-  .printMe {
-    display: block;
-  }
   .preview-content {
-    column-count: 1;
-    -webkit-column-count: 1;
-    -moz-column-count: 1;
+    column-count: 2;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+  }
+  .hidden {
+    display: block;
   }
   .item {
     display: block;

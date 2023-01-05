@@ -6,10 +6,13 @@
     print
   </mat-icon>
 </button>
-<div *ngIf="printableOperation" id="print-section" class="preview-content">
+<div *ngIf="printableOperation" id="print-section"
+     class="preview-content">
   <div *ngFor="let number of [0,1]; index as i;"
-       [ngClass]="i > 0 ? 'item': 'break-item'"
-       >
+       [class.item]="printableOperation?.defects.length <= 8"
+       [class.break-item]="printableOperation?.defects.length > 8"
+       [class.visible]="i == 0"
+       [class.hidden]="i > 0">
       <table border='0'  class="main-table">
         <td align='center'>
           <app-summary-card-header [code]="code"></app-summary-card-header>
