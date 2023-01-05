@@ -50,6 +50,7 @@
   "defectName": "Hiba megnevezés",
   "order": "Nr",
   "quantity": "Darabszám",
+  "shortQuantity": "db",
   "defectQuantity": "Hibás darabszám",
   "comment": "Megjegyzés",
   "date": "Dátum",

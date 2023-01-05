@@ -50,6 +50,7 @@
   "defectName": "Fehler",
   "order": "Nr",
   "quantity": "Stückzahl",
+  "shortQuantity": "St.",
   "defectQuantity": "Fehler stückzahl",
   "comment": "Note",
   "date": "Daten",

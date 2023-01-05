@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetProductsByParametersHandler : IRequestHandler<GetProductsByParameters, IEnumerable<ProductModel>>
+    public class GetProductsByParametersHandler : IRequestHandler<GetProductsByParameters, ParameterResult<ProductModel>>
     {
         private readonly FSKDbContext context;
         private readonly IPermissionService permissionService;
@@ -9,10 +9,10 @@
             this.context = context ?? throw new ArgumentNullException(nameof(context));
             this.permissionService = permissionService ?? throw new ArgumentNullException(nameof(permissionService));
         }
-        public async Task<IEnumerable<ProductModel>> Handle(GetProductsByParameters request, CancellationToken cancellationToken)
+        public async Task<ParameterResult<ProductModel>> Handle(GetProductsByParameters request, CancellationToken cancellationToken)
         {
             var permittedProducts = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
-            return await context.Products
+            var products = context.Products
                 .Where(x => x.EntityStatus == EntityStatuses.Active && permittedProducts.Contains(x.WorkshopId))
                 .Select(x => new ProductModel()
                 {
@@ -23,12 +23,15 @@
                     WorkshopId = x.Workshop.Id,
                     WorkshopName = x.Workshop.Name,
 
-                })
-                .FilterProduct(request.Parameters)
-                .OrderBy(request.Parameters.OrderBy, request.Parameters.IsAsc)
+                }).FilterProduct(request.Parameters);
+
+            var count = await  products.CountAsync(cancellationToken);
+            var result = await products.OrderBy(request.Parameters.OrderBy, request.Parameters.IsAsc)
                 .Skip(request.Parameters.PageCount * (request.Parameters.Page - 1))
                 .Take(request.Parameters.PageCount)
                 .ToListAsync(cancellationToken);
+
+            return new ParameterResult<ProductModel>() { Count = count, Result = result };
         }
     }
 }

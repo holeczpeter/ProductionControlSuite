@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetProductsByParameters : IRequest<IEnumerable<ProductModel>>
+    public class GetProductsByParameters : IRequest<ParameterResult<ProductModel>>
     {
         public ProductRequestParameters Parameters { get; set; }
 

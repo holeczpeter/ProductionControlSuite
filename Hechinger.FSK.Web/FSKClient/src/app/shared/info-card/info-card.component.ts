@@ -14,6 +14,7 @@ export class InfoCardComponent implements OnInit, OnChanges{
   subtitle: string;
   value: string;
   color: string;
+  currency: string;
   constructor() { }
     
 
@@ -26,6 +27,7 @@ export class InfoCardComponent implements OnInit, OnChanges{
       this.subtitle = this.summary.subtitle;
       this.value = this.summary.value;
       this.color = this.summary.color;
+      this.currency = this.summary.currency;
     }
   }
   getColor() {

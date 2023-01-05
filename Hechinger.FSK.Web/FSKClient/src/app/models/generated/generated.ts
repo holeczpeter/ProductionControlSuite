@@ -136,6 +136,7 @@ export interface PpmWarning {
 export interface SummaryModel {
   title: string,
   value: string,
+  currency: string,
   icon: string,
   subtitle: string,
   color: string,
@@ -212,6 +213,10 @@ export interface DefectModel {
   operationTranslatedName: string,
   defectCategoryName: string,
 }
+export interface ParameterResult {
+  count: number,
+  result: Array<any>,
+}
 export interface GetAllDefectByParameters {
   parameters: DefectRequestParameters,
 }
@@ -243,17 +248,7 @@ export interface GetDefectsByOperation {
   operationId: number,
 }
 export interface GetDefectsCount {
-  parameters: RequestParameters,
-}
-export interface RequestParameters {
-  lang: string,
-  code: string,
-  name: string,
-  translatedName: string,
-  orderBy: string,
-  isAsc: boolean,
-  page: number,
-  pageCount: number,
+  parameters: DefectRequestParameters,
 }
 export interface CreateEntityGroup {
   current: TreeItem<EntityGroupModel>,
@@ -430,6 +425,16 @@ export interface GetOperationsByProduct {
 }
 export interface GetOperationsCount {
   parameters: RequestParameters,
+}
+export interface RequestParameters {
+  lang: string,
+  code: string,
+  name: string,
+  translatedName: string,
+  orderBy: string,
+  isAsc: boolean,
+  page: number,
+  pageCount: number,
 }
 export interface AddProduct {
   name: string,
@@ -898,8 +903,10 @@ export interface GetAllSummaryCardsByParameters {
   parameters: SummaryCardRequestParameters,
 }
 export interface SummaryCardRequestParameters {
-  date: string,
-  created: string,
+  date?: any,
+  created?: any,
+  startDate: Date,
+  endDate: Date,
   operationCode: string,
   operationName: string,
   operationTranslatedName: string,

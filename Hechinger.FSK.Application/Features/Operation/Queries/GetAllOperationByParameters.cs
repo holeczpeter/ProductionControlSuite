@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetAllOperationByParameters : IRequest<IEnumerable<OperationModel>>
+    public class GetAllOperationByParameters : IRequest<ParameterResult<OperationModel>>
     {
         public OperationRequestParameters Parameters { get; set; }
 

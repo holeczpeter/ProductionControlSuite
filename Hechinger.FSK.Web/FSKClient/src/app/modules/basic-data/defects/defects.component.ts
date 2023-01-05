@@ -90,7 +90,7 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
   }
 
   initalize() {
-    this.defectDataService.getAllDefectByParameters().subscribe(result => {
+    this.defectDataService.getAllDefectByParameters(null).subscribe(result => {
       this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
       this.dataSource = new MatTableDataSource<DefectModel>(result.body);
       this.createDinamicallyFormGroup();
@@ -127,13 +127,18 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
     this.getAll();
   }
   getAll(): void {
-    this.defectDataService.getAllDefectByParameters().subscribe((result: any) => {
+    this.defectDataService.getAllDefectByParameters(null).subscribe((result: any) => {
         this.refreshDataSource(result);
       });
   }
   onExport() {
-    this.translate.get(this.title).subscribe(title => {
-      this.exportService.exportFromDataSource(this.dataSource, this.filterableColumns, title);
+    this.defectDataService.getAllDefectByParameters(this.totalCount).subscribe((result: any) => {
+      this.translate.get(this.title).subscribe(title => {
+        this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
+        let dataSource = new MatTableDataSource<DefectModel>(result.body);
+        dataSource.sort = this.sort;
+        this.exportService.exportFromDataSource(dataSource, this.filterableColumns, title);
+      });
     });
   }
   onAdd() {

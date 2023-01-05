@@ -50,7 +50,8 @@ export class OperationDataService {
       }
     });
   }
-  getAllOperationByParameters(): Observable<any> {
+  getAllOperationByParameters(totalCount: number | null): Observable<any> {
+    let count = totalCount != null ? totalCount : this.paginationService.pageCount;
     return this.httpClient.get<any>('/Operation/GetAllOperationByParameters', {
       params:
       {
@@ -62,7 +63,7 @@ export class OperationDataService {
         orderBy: this.sortService.orderBy,
         isAsc: this.sortService.isAsc,
         page: this.paginationService.page,
-        pageCount: this.paginationService.pageCount,
+        pageCount: count,
       }, observe: 'response'
     });
   }

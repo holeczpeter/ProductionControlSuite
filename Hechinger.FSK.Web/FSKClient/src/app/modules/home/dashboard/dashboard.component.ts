@@ -104,6 +104,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       icon: "bar_chart",
       subtitle: this.subtitle != null ? this.subtitle : "",
       color: "#F35B5A",
+      currency: "PPM",
     }
   }
 
@@ -114,6 +115,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       icon: "euro",
       subtitle: this.subtitle != null ? this.subtitle : "",
       color: "#379DDA",
+      currency: "Euro",
     }
   }
 
@@ -126,6 +128,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       icon: "show_chart",
       subtitle: this.subtitle != null ? this.subtitle : "",
       color: "#5CC953",
+      currency: "shortQuantity",
     }
   }
   getSummaryDefectQuantity(): SummaryModel {
@@ -137,6 +140,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       icon: "query_stats",
       subtitle: this.subtitle != null ? this.subtitle : "",
       color: "#F35B5A",
+      currency: "shortQuantity",
     }
   }
   ngOnInit(): void {

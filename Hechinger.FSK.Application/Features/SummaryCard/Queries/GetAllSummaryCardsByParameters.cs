@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetAllSummaryCardsByParameters : IRequest<IEnumerable<SummaryCardModel>>
+    public class GetAllSummaryCardsByParameters : IRequest<ParameterResult<SummaryCardModel>>
     {
         public SummaryCardRequestParameters Parameters { get; set; }
 

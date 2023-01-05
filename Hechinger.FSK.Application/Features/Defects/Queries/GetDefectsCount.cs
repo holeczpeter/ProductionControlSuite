@@ -2,9 +2,9 @@
 {
     public class GetDefectsCount : IRequest<int>
     {
-        public RequestParameters Parameters { get; set; }
+        public DefectRequestParameters Parameters { get; set; }
 
-        public GetDefectsCount(RequestParameters parameters)
+        public GetDefectsCount(DefectRequestParameters parameters)
         {
             this.Parameters = parameters;
         }

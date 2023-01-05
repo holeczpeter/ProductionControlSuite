@@ -1,3 +1,4 @@
+import { OnDestroy } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -5,12 +6,13 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime } from 'rxjs';
-import { DeleteSummaryCard, SummaryCardModel } from '../../../models/generated/generated';
+import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
+import { DeleteSummaryCard, IntervalModel, IntervalOption, SummaryCardModel, Views } from '../../../models/generated/generated';
 import { TableColumnModel } from '../../../models/table-column-model';
 import { AccountService } from '../../../services/account.service';
 import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 import { SummaryCardDataService } from '../../../services/data/summary-card-data.service';
+import { IntervalViewService } from '../../../services/interval-view/interval-view.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { CompareService } from '../../../services/sort/sort.service';
 import { DefectFilterService } from '../../../services/table/defect-filter.service';
@@ -25,10 +27,20 @@ import { SummaryCardEditorDialogComponent } from '../summary-card-editor-dialog/
   templateUrl: './summary-cards.component.html',
   styleUrls: ['./summary-cards.component.scss']
 })
-export class SummaryCardsComponent implements OnInit {
+export class SummaryCardsComponent implements OnInit, OnDestroy {
   dataSource!: MatTableDataSource<SummaryCardModel>;
   pageSize = this.accountService.getPageSize();
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
+  intervalOptions: Array<IntervalOption> = [
+    { name: 'day', value: Views.Day, isDefault: true },
+    { name: 'week', value: Views.Week, isDefault: false },
+    { name: 'month', value: Views.Month, isDefault: false },
+    { name: 'year', value: Views.Year, isDefault: false },
+  ];
+  currentDate = new Date();
+  selectedView: Views;
+  currentInterval: IntervalModel;
+  intervalSubscription: Subscription;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   columnNames: Array<string> = ['date', 'shiftName','workerName', 'operationCode', 'operationName', 'quantity', 'userName', 'created', 'edit','delete']
@@ -47,7 +59,7 @@ export class SummaryCardsComponent implements OnInit {
       columnDef: 'shiftNameFilter'
     },
     {
-      name: 'workerName',
+      name: 'worker',
       displayName: 'Dolgozó',
       exportable: true,
       columnDef: 'workerNameFilter'
@@ -97,6 +109,7 @@ export class SummaryCardsComponent implements OnInit {
   totalCount!: number;
   constructor(private readonly summaryCardDataService: SummaryCardDataService,
     private readonly accountService: AccountService,
+    private readonly intervalPanelService: IntervalViewService,
     private readonly dialog: MatDialog,
     private readonly snackBar: SnackbarService,
     public translate: TranslateService,
@@ -108,13 +121,23 @@ export class SummaryCardsComponent implements OnInit {
     public paginationService: PaginationService,
     private readonly filterService: DefectFilterService) {
   }
+  
 
   ngOnInit(): void {
-    this.initalize();
+    this.selectedView = this.intervalOptions.find(x => x.isDefault)!.value;
+    if (this.intervalSubscription) this.intervalSubscription.unsubscribe();
+    this.intervalSubscription = this.intervalPanelService.getCurrentIntervalModel()
+      .pipe(distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)))
+      .subscribe((x: IntervalModel) => {
+        this.currentInterval = x;
+        this.selectedView = x.selectedView;
+        this.initalize();
+      });
+    this.intervalPanelService.setViews(this.selectedView, this.currentDate);
   }
 
   initalize() {
-    this.summaryCardDataService.getAllSummaryCardsByParameters().subscribe(result => {
+    this.summaryCardDataService.getAllSummaryCardsByParameters(this.currentInterval,null).subscribe(result => {
       this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
       this.dataSource = new MatTableDataSource<SummaryCardModel>(result.body);
       this.createDinamicallyFormGroup();
@@ -150,11 +173,20 @@ export class SummaryCardsComponent implements OnInit {
     this.getAll();
   }
   getAll(): void {
-    this.summaryCardDataService.getAllSummaryCardsByParameters().subscribe((result: any) => {
+    this.summaryCardDataService.getAllSummaryCardsByParameters(this.currentInterval,null).subscribe((result: any) => {
       this.refreshDataSource(result);
     });
   }
- 
+  onExport() {
+    this.summaryCardDataService.getAllSummaryCardsByParameters(this.currentInterval,this.totalCount).subscribe((result: any) => {
+      this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
+      let dataSource = new MatTableDataSource<SummaryCardModel>(result.body);
+      dataSource.sort = this.sort;
+      this.translate.get(this.title).subscribe(title => {
+        this.exportService.exportFromDataSource(dataSource, this.filterableColumns, title);
+      });
+    });
+  }
   onEdit(data: SummaryCardModel) {
     let dialogRef = this.dialog.open(SummaryCardEditorDialogComponent, {
       disableClose: true,
@@ -177,6 +209,9 @@ export class SummaryCardsComponent implements OnInit {
       }
     });
    
+  }
+  ngOnDestroy(): void {
+    this.filterForm.reset();
   }
 }
 

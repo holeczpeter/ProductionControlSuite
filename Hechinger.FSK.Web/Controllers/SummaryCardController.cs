@@ -40,7 +40,7 @@ namespace Hechinger.FSK.Web.Controllers
         public async Task<IActionResult> GetAllSummaryCardsByParameters([FromQuery]SummaryCardRequestParameters request, CancellationToken cancellationToken)
         {
             var result = await this.mediator.Send(new GetAllSummaryCardsByParameters(request), cancellationToken);
-            var count = await this.mediator.Send(new GetOperationsCount(request), cancellationToken);
+            var count = result.Count;
             var paginationMetadata = new
             {
                 totalCount = count,
@@ -50,7 +50,7 @@ namespace Hechinger.FSK.Web.Controllers
             };
 
             HttpContext.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationMetadata));
-            return Ok(result);
+            return Ok(result.Result);
         }
         [HttpGet]
         public async Task<IEnumerable<SummaryCardModel>> GetAllSummaryCards(GetAllSummaryCards request, CancellationToken cancellationToken)

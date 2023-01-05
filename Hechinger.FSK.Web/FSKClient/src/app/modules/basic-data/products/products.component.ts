@@ -82,7 +82,7 @@ export class ProductsComponent implements OnInit, AfterViewInit{
   }
  
   initalize() {
-    this.productDataService.getProductsByParameters().subscribe(result => {
+    this.productDataService.getProductsByParameters(null).subscribe(result => {
       this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
       this.dataSource = new MatTableDataSource<ProductModel>(result.body);
       this.createDinamicallyFormGroup();
@@ -119,15 +119,21 @@ export class ProductsComponent implements OnInit, AfterViewInit{
     this.getAll();
   }
   getAll(): void {
-    this.productDataService.getProductsByParameters().subscribe((result: any) => {
+    this.productDataService.getProductsByParameters(null).subscribe((result: any) => {
       this.refreshDataSource(result);
     });
   }
   onExport() {
-    this.translate.get(this.title).subscribe(title => {
-      this.exportService.exportFromDataSource(this.dataSource, this.filterableColumns, title);
+    this.productDataService.getProductsByParameters(this.totalCount).subscribe((result: any) => {
+      this.translate.get(this.title).subscribe(title => {
+        this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
+        let dataSource = new MatTableDataSource<ProductModel>(result.body);
+        dataSource.sort = this.sort;
+        this.translate.get(this.title).subscribe(title => {
+          this.exportService.exportFromDataSource(dataSource, this.filterableColumns, title);
+        });
+      });
     });
-    
   }
   onAdd() {
     let dialogRef = this.dialog.open(ProductEditorDialogComponent, {

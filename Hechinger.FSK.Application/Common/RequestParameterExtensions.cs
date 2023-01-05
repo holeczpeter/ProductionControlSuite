@@ -48,36 +48,81 @@ namespace Hechinger.FSK.Application.Common
                           (x.TranslatedName.StartsWith(queryParameters.TranslatedName) || string.IsNullOrEmpty(queryParameters.TranslatedName)) &&
                           (x.ProductName.StartsWith(queryParameters.ProductName) || string.IsNullOrEmpty(queryParameters.ProductName)) &&
                           (x.ProductTranslatedName.StartsWith(queryParameters.ProductTranslatedName) || string.IsNullOrEmpty(queryParameters.ProductName)) &&
-                          (x.ProductCode.StartsWith(queryParameters.ProductCode) || string.IsNullOrEmpty(queryParameters.ProductCode)) ;
+                          (x.ProductCode.StartsWith(queryParameters.ProductCode) || string.IsNullOrEmpty(queryParameters.ProductCode));
 
             return query.Where(exp);
         }
         public static IQueryable<DefectModel> FilterDefect(this IQueryable<DefectModel> query, DefectRequestParameters queryParameters)
         {
             Expression<Func<DefectModel, bool>> exp = x =>
-                          (x.Code.StartsWith(queryParameters.Code) || string.IsNullOrEmpty(queryParameters.Code)) &&
-                          (x.Name.StartsWith(queryParameters.Name) || string.IsNullOrEmpty(queryParameters.Name)) &&
-                          (x.TranslatedName.StartsWith(queryParameters.TranslatedName) || string.IsNullOrEmpty(queryParameters.TranslatedName)) &&
-                          (x.OperationCode.StartsWith(queryParameters.OperationCode) || string.IsNullOrEmpty(queryParameters.OperationCode)) &&
-                          (x.OperationName.StartsWith(queryParameters.OperationName) || string.IsNullOrEmpty(queryParameters.OperationName)) &&
-                          (x.OperationTranslatedName.StartsWith(queryParameters.OperationTranslatedName) || string.IsNullOrEmpty(queryParameters.OperationTranslatedName)) &&
-                          (x.DefectCategoryName.StartsWith(queryParameters.DefectCategoryName) || string.IsNullOrEmpty(queryParameters.DefectCategoryName));
+                         (x.Code.StartsWith(queryParameters.Code) || string.IsNullOrEmpty(queryParameters.Code)) &&
+                         (x.Name.StartsWith(queryParameters.Name) || string.IsNullOrEmpty(queryParameters.Name)) &&
+                         (x.TranslatedName.StartsWith(queryParameters.TranslatedName) || string.IsNullOrEmpty(queryParameters.TranslatedName)) &&
+                         (x.OperationCode.StartsWith(queryParameters.OperationCode) || string.IsNullOrEmpty(queryParameters.OperationCode)) &&
+                         (x.OperationName.StartsWith(queryParameters.OperationName) || string.IsNullOrEmpty(queryParameters.OperationName)) &&
+                         (x.OperationTranslatedName.StartsWith(queryParameters.OperationTranslatedName) || string.IsNullOrEmpty(queryParameters.OperationTranslatedName));
+            var filtered = query.Where(exp);
 
-            return query.Where(exp);
+            if (queryParameters.DefectCategoryName == "F0" || queryParameters.DefectCategoryName == "F1" || queryParameters.DefectCategoryName == "F2")
+            {
+                var currentCategoryFilter = (queryParameters.DefectCategoryName) switch
+                {
+                    var x when x == ("F0") => DefectCategories.F0,
+                    var x when x == ("F1") => DefectCategories.F1,
+                    var x when x == ("F2") => DefectCategories.F2,
+                    _ => DefectCategories.F0,
+                };
+                Expression<Func<DefectModel, bool>> exp2 = x =>
+                         (x.DefectCategory == currentCategoryFilter);
+                filtered = filtered.Where(exp2);
+            }
+            return filtered;
         }
+
         public static IQueryable<SummaryCardModel> FilterSummaryCard(this IQueryable<SummaryCardModel> query, SummaryCardRequestParameters queryParameters)
         {
-            Expression<Func<SummaryCardModel, bool>> exp = x =>
-                          (x.Created.ToString() == queryParameters.Created || string.IsNullOrEmpty(queryParameters.Created)) &&
-                          (x.Date.ToString() ==  queryParameters.Date || string.IsNullOrEmpty(queryParameters.Date)) &&
+            Expression<Func<SummaryCardModel, bool>> exp;
+            var isDate = queryParameters.Date != null;
+            var isCreated = queryParameters.Created != null;
+            exp = (isDate, isCreated) switch
+            {
+                var x when
+                    x == (true, true) => exp = x =>
+                         (x.Created.Date == queryParameters.Created.Value.Date) &&
+                         (x.Date.Date == queryParameters.Date.Value.Date) &&
+                         (x.UserName.StartsWith(queryParameters.UserName) || string.IsNullOrEmpty(queryParameters.UserName)) &&
+                         (x.OperationCode.StartsWith(queryParameters.OperationCode) || string.IsNullOrEmpty(queryParameters.OperationCode)) &&
+                         (x.OperationName.StartsWith(queryParameters.OperationName) || string.IsNullOrEmpty(queryParameters.OperationName)) &&
+                         (x.ShiftName.StartsWith(queryParameters.ShiftName) || string.IsNullOrEmpty(queryParameters.ShiftName)) &&
+                         (x.Quantity.ToString() == queryParameters.Quantity || string.IsNullOrEmpty(queryParameters.Quantity)) &&
+                         (x.WorkerName.StartsWith(queryParameters.WorkerName) || string.IsNullOrEmpty(queryParameters.WorkerName)),
+                var x when x == (true, false) => exp = x =>
+                         (x.Date.Date == queryParameters.Date.Value.Date) &&
+                         (x.UserName.StartsWith(queryParameters.UserName) || string.IsNullOrEmpty(queryParameters.UserName)) &&
+                         (x.OperationCode.StartsWith(queryParameters.OperationCode) || string.IsNullOrEmpty(queryParameters.OperationCode)) &&
+                         (x.OperationName.StartsWith(queryParameters.OperationName) || string.IsNullOrEmpty(queryParameters.OperationName)) &&
+                         (x.ShiftName.StartsWith(queryParameters.ShiftName) || string.IsNullOrEmpty(queryParameters.ShiftName)) &&
+                         (x.Quantity.ToString() == queryParameters.Quantity || string.IsNullOrEmpty(queryParameters.Quantity)) &&
+                         (x.WorkerName.StartsWith(queryParameters.WorkerName) || string.IsNullOrEmpty(queryParameters.WorkerName)),
+                var x when x == (false, true) => exp = x =>
+                         (x.Created.Date == queryParameters.Created.Value.Date) &&
+                         (x.UserName.StartsWith(queryParameters.UserName) || string.IsNullOrEmpty(queryParameters.UserName)) &&
+                         (x.OperationCode.StartsWith(queryParameters.OperationCode) || string.IsNullOrEmpty(queryParameters.OperationCode)) &&
+                         (x.OperationName.StartsWith(queryParameters.OperationName) || string.IsNullOrEmpty(queryParameters.OperationName)) &&
+                         (x.ShiftName.StartsWith(queryParameters.ShiftName) || string.IsNullOrEmpty(queryParameters.ShiftName)) &&
+                         (x.Quantity.ToString() == queryParameters.Quantity || string.IsNullOrEmpty(queryParameters.Quantity)) &&
+                         (x.WorkerName.StartsWith(queryParameters.WorkerName) || string.IsNullOrEmpty(queryParameters.WorkerName)),
+
+                _ => exp = x =>
                           (x.UserName.StartsWith(queryParameters.UserName) || string.IsNullOrEmpty(queryParameters.UserName)) &&
                           (x.OperationCode.StartsWith(queryParameters.OperationCode) || string.IsNullOrEmpty(queryParameters.OperationCode)) &&
                           (x.OperationName.StartsWith(queryParameters.OperationName) || string.IsNullOrEmpty(queryParameters.OperationName)) &&
                           (x.ShiftName.StartsWith(queryParameters.ShiftName) || string.IsNullOrEmpty(queryParameters.ShiftName)) &&
                           (x.Quantity.ToString() == queryParameters.Quantity || string.IsNullOrEmpty(queryParameters.Quantity)) &&
-                          (x.WorkerName.StartsWith(queryParameters.WorkerName) || string.IsNullOrEmpty(queryParameters.WorkerName));
-
+                          (x.WorkerName.StartsWith(queryParameters.WorkerName) || string.IsNullOrEmpty(queryParameters.WorkerName))
+            };
             return query.Where(exp);
         }
+
     }
 }

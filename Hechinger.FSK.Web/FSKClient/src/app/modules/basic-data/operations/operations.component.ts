@@ -1,3 +1,4 @@
+import { DataSource } from '@angular/cdk/collections';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -88,13 +89,13 @@ export class OperationsComponent implements OnInit, AfterViewInit {
     this.initalize();
   }
   initalize() {
-    this.operationDataService.getAllOperationByParameters().subscribe(result => {
+    this.operationDataService.getAllOperationByParameters(null).subscribe(result => {
       this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
       this.dataSource = new MatTableDataSource<OperationModel>(result.body);
       this.createDinamicallyFormGroup();
       this.filterForm.valueChanges.pipe(
         debounceTime(500)).subscribe(x => {
-          this.getAll();
+          this.getByParameters();
         })
       this.dataSource.sort = this.sort;
     });
@@ -117,25 +118,30 @@ export class OperationsComponent implements OnInit, AfterViewInit {
     if (sortProperty) {
       const isAsc = sort.direction === 'asc';
       this.sortService.sort(sortProperty, isAsc);
-      this.getAll();
+      this.getByParameters();
     }
   }
 
   switchPage(event: PageEvent): void {
     this.paginationService.change(event);
-    this.getAll();
+    this.getByParameters();
   }
-  getAll(): void {
-    this.operationDataService.getAllOperationByParameters().subscribe((result: any) => {
+  getByParameters(): void {
+    this.operationDataService.getAllOperationByParameters(null).subscribe((result: any) => {
       this.refreshDataSource(result);
     });
   }
   onExport() {
-
-    this.translate.get(this.title).subscribe(title => {
-      this.exportService.exportFromDataSource(this.dataSource, this.filterableColumns, title);
+    this.operationDataService.getAllOperationByParameters(this.totalCount).subscribe((result: any) => {
+      this.translate.get(this.title).subscribe(title => {
+        this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
+        let dataSource = new MatTableDataSource<OperationModel>(result.body);
+        dataSource.sort = this.sort;
+        this.translate.get(this.title).subscribe(title => {
+          this.exportService.exportFromDataSource(dataSource, this.filterableColumns, title);
+        });
+      });
     });
-
   }
   onAdd() {
     let dialogRef = this.dialog.open(OperationEditorDialogComponent, {

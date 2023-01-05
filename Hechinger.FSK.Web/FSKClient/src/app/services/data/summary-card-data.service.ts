@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { AddSummaryCard, OperationModel, Result, SummaryCardDetailModel, SummaryCardModel, UpdateSummaryCard } from '../../models/generated/generated';
+import { AddSummaryCard, IntervalModel, OperationModel, Result, SummaryCardDetailModel, SummaryCardModel, UpdateSummaryCard } from '../../models/generated/generated';
 import { DefectFilterService } from '../table/defect-filter.service';
 import { PaginationService } from '../table/pagination.service';
 import { SortService } from '../table/sort.service';
@@ -40,13 +40,18 @@ export class SummaryCardDataService {
   getAll(): Observable<Array<SummaryCardModel>> {
     return this.httpClient.get<Array<SummaryCardModel>>('/SummaryCard/GetAll');
   }
-  getAllSummaryCardsByParameters(): Observable<any> {
+  getAllSummaryCardsByParameters(interval: IntervalModel, totalCount: number | null): Observable<any> {
+    let date = this.filterService.getValue('date') != null ? new Date(this.filterService.getValue('date')).toDateString() : "";
+    let created = this.filterService.getValue('created') != null ? new Date(this.filterService.getValue('created')).toDateString() : "";
+    let count = totalCount != null ? totalCount : this.paginationService.pageCount;
     return this.httpClient.get<any>('/SummaryCard/GetAllSummaryCardsByParameters', {
       params:
       {
+        startDate: interval.startDate.toDateString(),
+        endDate: interval.endDate.toDateString(),
         lang: this.translateService.currentLang,
-        date: this.filterService.getValue('date'),
-        created: this.filterService.getValue('created'),
+        date: date,
+        created: created,
         operationCode: this.filterService.getValue('operationCode'),
         operationName: this.filterService.getValue('operationName'),
         userName: this.filterService.getValue('userName'),
@@ -56,7 +61,7 @@ export class SummaryCardDataService {
         orderBy: this.sortService.orderBy,
         isAsc: this.sortService.isAsc,
         page: this.paginationService.page,
-        pageCount: this.paginationService.pageCount,
+        pageCount: count,
       }, observe: 'response'
     });
   }

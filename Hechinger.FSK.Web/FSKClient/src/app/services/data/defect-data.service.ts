@@ -49,7 +49,8 @@ export class DefectDataService {
   getAll(): Observable<Array<DefectModel>> {
     return this.httpClient.get<Array<DefectModel>>('/Defect/GetAll');
   }
-  getAllDefectByParameters(): Observable<any> {
+  getAllDefectByParameters(totalCount: number | null): Observable<any> {
+    let count = totalCount != null ? totalCount : this.paginationService.pageCount;
     return this.httpClient.get<any>('/Defect/GetAllDefectByParameters',{
       params:
       {
@@ -62,7 +63,7 @@ export class DefectDataService {
         orderBy: this.sortService.orderBy,
         isAsc: this.sortService.isAsc,
         page: this.paginationService.page,
-        pageCount: this.paginationService.pageCount,
+        pageCount: count,
       }, observe: 'response'
     });
   }

@@ -48,7 +48,7 @@ namespace Hechinger.FSK.Web.Controllers
         public async Task<IActionResult> GetAllOperationByParameters([FromQuery] OperationRequestParameters request, CancellationToken cancellationToken)
         {
             var result = await this.mediator.Send(new GetAllOperationByParameters(request), cancellationToken);
-            var count = await this.mediator.Send(new GetOperationsCount(request), cancellationToken);
+            var count = result.Count;
             var paginationMetadata = new
             {
                 totalCount = count,
@@ -58,7 +58,8 @@ namespace Hechinger.FSK.Web.Controllers
             };
 
             HttpContext.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationMetadata));
-            return Ok(result);
+            return Ok(result.Result);
+            
         }
         [HttpGet]
         public async Task<IEnumerable<OperationModel>> GetAll(GetAllOperation request, CancellationToken cancellationToken)

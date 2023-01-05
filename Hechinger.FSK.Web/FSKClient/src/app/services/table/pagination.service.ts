@@ -20,7 +20,9 @@ export class PaginationService {
   get pageCount(): number {
     return this.paginationModel.pageSize;
   }
-
+  get allItemsLength(): number {
+    return this.paginationModel.allItemsLength;
+  }
   constructor(private readonly accountService: AccountService) {
     this.paginationModel = new PaginationModel(accountService);
   }

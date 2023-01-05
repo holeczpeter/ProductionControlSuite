@@ -1,7 +1,12 @@
 ﻿using Hechinger.FSK.Application.Common;
 using Hechinger.FSK.Application.Common.Models;
 using Hechinger.FSK.Application.Features;
+using Hechinger.FSK.Core.Enums;
+using Hechinger.FSK.Core.Helpers;
+using Hechinger.FSK.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace Hechinger.FSK.Web.Controllers
 {
@@ -9,8 +14,14 @@ namespace Hechinger.FSK.Web.Controllers
     public class DefectController : ControllerBase
     {
         private readonly IMediator mediator;
-
-        public DefectController(IMediator mediator) => this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        private readonly FSKDbContext context;
+        private readonly IPermissionService permissionService;
+        public DefectController(IMediator mediator, FSKDbContext context, IPermissionService permissionService)
+        {
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.permissionService = permissionService ?? throw new ArgumentNullException(nameof(permissionService));
+        }
 
 
         [HttpPost]
@@ -37,8 +48,9 @@ namespace Hechinger.FSK.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllDefectByParameters([FromQuery]DefectRequestParameters request, CancellationToken cancellationToken)
         {
+            
             var result = await this.mediator.Send(new GetAllDefectByParameters(request), cancellationToken);
-            var count = await this.mediator.Send(new GetDefectsCount(request), cancellationToken);
+            var count = result.Count;
             var paginationMetadata = new
             {
                 totalCount = count,
@@ -48,7 +60,7 @@ namespace Hechinger.FSK.Web.Controllers
             };
 
             HttpContext.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationMetadata));
-            return Ok(result);
+            return Ok(result.Result);
         }
         [HttpGet]
         public async Task<IEnumerable<DefectModel>> GetAll(GetAllDefects request, CancellationToken cancellationToken)

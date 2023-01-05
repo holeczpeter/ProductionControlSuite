@@ -56,7 +56,8 @@ export class ProductDataService {
   getAll(): Observable<Array<ProductModel>> {
     return this.httpClient.get<Array<ProductModel>>('/Product/GetAll');
   }
-  getProductsByParameters(): Observable<any> {
+  getProductsByParameters(totalCount: number | null): Observable<any> {
+    let count = totalCount != null ? totalCount : this.paginationService.pageCount;
     return this.httpClient.get<any>('/Product/GetProductsByParameters', {
       params:
       {
@@ -67,7 +68,7 @@ export class ProductDataService {
         orderBy: this.sortService.orderBy,
         isAsc: this.sortService.isAsc,
         page: this.paginationService.page,
-        pageCount: this.paginationService.pageCount,
+        pageCount: count,
       }, observe: 'response'
     });
   }

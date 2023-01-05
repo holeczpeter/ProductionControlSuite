@@ -16,7 +16,7 @@ namespace Hechinger.FSK.Application.Common.Models
         public string OrderBy { get; set; }
         public bool IsAsc { get; set; }
 
-        private const int maxPageCount = 100;
+        private const int maxPageCount = int.MaxValue;
         public int Page { get; set; } = 1;
         private int _pageCount = maxPageCount;
         public int PageCount

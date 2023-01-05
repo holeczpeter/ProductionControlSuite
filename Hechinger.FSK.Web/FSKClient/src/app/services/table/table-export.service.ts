@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
@@ -9,7 +10,9 @@ import { LanguageService } from '../language/language.service';
 })
 export class TableExportService {
   currentLang: string;
-  constructor(private languageService: LanguageService, private translateService: TranslateService) {
+  constructor(private languageService: LanguageService,
+    private datePipe: DatePipe,
+    private translateService: TranslateService) {
     this.languageService.getCurrentLanguage().subscribe(lang => {
       if(lang) this.currentLang = lang;
     });
@@ -17,19 +20,30 @@ export class TableExportService {
 
   exportFromDataSource<T>(dataSource: MatTableDataSource<T>, columnNames: Array<TableColumnModel>, fileName?: string): void {
     let data = null;
+  
     if (dataSource.sort) data = dataSource.sortData(dataSource.filteredData, dataSource.sort);
     else data = dataSource.filteredData;
+  
     let array = new Array<any>();
    
     data.forEach(row => {
       const myObj: { [key: string]: any } = { }
       for (const [key, value] of Object.entries(row)) {
+        let currentValue: string | null = value;
+        if (key == 'date') {
+          let currentDate = new Date(value);
+          currentValue  = this.datePipe.transform(currentDate, 'yyyy.MM.dd');
+        }
+        if (key == 'created') {
+          let currentDate = new Date(value);
+          currentValue = this.datePipe.transform(currentDate, 'yyyy.MM.dd : HH:mm');
+        }
         
         let currentDisplay = columnNames.find(column => column.name == key)?.displayName;
   
         if (currentDisplay) {
           this.translateService.get(key).subscribe(translated => {
-            myObj[translated] = value;
+            myObj[translated] = currentValue;
           })
         } 
       }

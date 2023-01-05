@@ -1,6 +1,6 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetAllDefectByParameters : IRequest<IEnumerable<DefectModel>>
+    public class GetAllDefectByParameters : IRequest<ParameterResult<DefectModel>>
     {
         public DefectRequestParameters Parameters { get; set; }
 
