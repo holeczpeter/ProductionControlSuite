@@ -1,16 +1,57 @@
 .preview {
   background: white;
-  padding: 20px;
+  
 }
 
-
+.preview-content {
+ 
+  page-break-after: always;
+}
+.main-table {
+  page-break-inside: avoid;
+  page-break-after: always;
+}
+.inside-row {
+  page-break-inside: avoid;
+  page-break-after: auto;
+}
+.break-item {
+  page-break-before: always;
+  page-break-inside: auto;
+  page-break-after: always;
+  display:none;
+}
+.item {
+  page-break-before: always;
+  page-break-inside: auto;
+  page-break-after: always;
+}
 @media print {
   @page {
     size: A4 landscape;
     margin: 10mm 10mm 10mm 10mm;
   }
-  body {
-    min-width: auto !important;
+ 
+  .printMe {
+    display: block;
   }
+  .preview-content {
+    column-count: 1;
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+  }
+  .item {
+    display: block;
+    column-count: 2;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+  }
+  .break-item {
+    display:block;
+    column-count: 2;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+  }
+  
 }
 
