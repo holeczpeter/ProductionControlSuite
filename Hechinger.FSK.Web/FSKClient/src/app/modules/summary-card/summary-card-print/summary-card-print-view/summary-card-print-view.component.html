@@ -7,13 +7,20 @@
   </mat-icon>
 </button>
 <div *ngIf="printableOperation" id="print-section"
-     class="preview-content">
+     >
   <div *ngFor="let number of [0,1]; index as i;"
-       [class.item]="printableOperation?.defects.length <= 8"
-       [class.break-item]="printableOperation?.defects.length > 8"
-       [class.visible]="i == 0"
-       [class.hidden]="i > 0">
-      <table border='0'  class="main-table">
+       [ngClass]="printableOperation?.defects.length <= 8 ? 'item': 'break-item'">
+    <!--<ng-container *ngIf="i>0">
+      <div class="divider">
+
+
+        <mat-divider vertical style="height:100px"></mat-divider>
+      </div>
+    </ng-container>-->
+
+    <div class="preview-content">
+      
+      <table border='0' class="main-table">
         <td align='center'>
           <app-summary-card-header [code]="code"></app-summary-card-header>
           <br />
@@ -84,7 +91,7 @@
                 <b>{{ 'defectName' | translate}}</b>
               </td>
               <td align='center' width='5%' style='border: thin solid black;'>
-                <b>{{ 'defectName' | translate}}</b>
+                <b>{{ 'categoryName' | translate}}</b>
               </td>
               <td align='center' width='20%' style='border: thin solid black;'>
                 <b>{{ 'defectQuantity' | translate }}</b>
@@ -105,6 +112,8 @@
           </table>
         </td>
       </table>
+    </div>
+      
   </div>
 </div>
 
