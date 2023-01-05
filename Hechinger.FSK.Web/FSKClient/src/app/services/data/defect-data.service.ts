@@ -46,8 +46,11 @@ export class DefectDataService {
       }
     });
   }
-  getAll(): Observable<any> {
-    return this.httpClient.get<any>('/Defect/GetAll',{
+  getAll(): Observable<Array<DefectModel>> {
+    return this.httpClient.get<Array<DefectModel>>('/Defect/GetAll');
+  }
+  getAllDefectByParameters(): Observable<any> {
+    return this.httpClient.get<any>('/Defect/GetAllDefectByParameters',{
       params:
       {
         code: this.filterService.getValue('code'),

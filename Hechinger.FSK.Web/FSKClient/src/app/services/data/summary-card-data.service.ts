@@ -37,9 +37,11 @@ export class SummaryCardDataService {
       }
     });
   }
-
-  getAll(): Observable<any> {
-    return this.httpClient.get<any>('/SummaryCard/GetAll', {
+  getAll(): Observable<Array<SummaryCardModel>> {
+    return this.httpClient.get<Array<SummaryCardModel>>('/SummaryCard/GetAll');
+  }
+  getAllSummaryCardsByParameters(): Observable<any> {
+    return this.httpClient.get<any>('/SummaryCard/GetAllSummaryCardsByParameters', {
       params:
       {
         lang: this.translateService.currentLang,

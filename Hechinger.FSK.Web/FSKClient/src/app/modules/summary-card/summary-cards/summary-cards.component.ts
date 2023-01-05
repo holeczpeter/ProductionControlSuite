@@ -114,7 +114,7 @@ export class SummaryCardsComponent implements OnInit {
   }
 
   initalize() {
-    this.summaryCardDataService.getAll().subscribe(result => {
+    this.summaryCardDataService.getAllSummaryCardsByParameters().subscribe(result => {
       this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
       this.dataSource = new MatTableDataSource<SummaryCardModel>(result.body);
       this.createDinamicallyFormGroup();
@@ -150,7 +150,7 @@ export class SummaryCardsComponent implements OnInit {
     this.getAll();
   }
   getAll(): void {
-    this.summaryCardDataService.getAll().subscribe((result: any) => {
+    this.summaryCardDataService.getAllSummaryCardsByParameters().subscribe((result: any) => {
       this.refreshDataSource(result);
     });
   }

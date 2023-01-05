@@ -1,15 +1,15 @@
 ﻿namespace Hechinger.FSK.Application.Features
 {
-    public class GetAllSummaryCardHandler : IRequestHandler<GetAllSummaryCards, IEnumerable<SummaryCardModel>>
+    public class GetAllSummaryCardsByParametersHandler : IRequestHandler<GetAllSummaryCardsByParameters, IEnumerable<SummaryCardModel>>
     {
         private readonly FSKDbContext context;
         private readonly IPermissionService permissionService;
-        public GetAllSummaryCardHandler(FSKDbContext context, IPermissionService permissionService)
+        public GetAllSummaryCardsByParametersHandler(FSKDbContext context, IPermissionService permissionService)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
             this.permissionService = permissionService ?? throw new ArgumentNullException(nameof(permissionService));
         }
-        public async Task<IEnumerable<SummaryCardModel>> Handle(GetAllSummaryCards request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SummaryCardModel>> Handle(GetAllSummaryCardsByParameters request, CancellationToken cancellationToken)
         {
             var permittedOperations = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
             return await this.context.SummaryCards.Where(x => x.EntityStatus == EntityStatuses.Active && permittedOperations.Contains(x.Operation.Product.WorkshopId))

@@ -90,7 +90,7 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
   }
 
   initalize() {
-    this.defectDataService.getAll().subscribe(result => {
+    this.defectDataService.getAllDefectByParameters().subscribe(result => {
       this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
       this.dataSource = new MatTableDataSource<DefectModel>(result.body);
       this.createDinamicallyFormGroup();
@@ -127,7 +127,7 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
     this.getAll();
   }
   getAll(): void {
-    this.defectDataService.getAll().subscribe((result: any) => {
+    this.defectDataService.getAllDefectByParameters().subscribe((result: any) => {
         this.refreshDataSource(result);
       });
   }

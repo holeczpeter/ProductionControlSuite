@@ -212,7 +212,7 @@ export interface DefectModel {
   operationTranslatedName: string,
   defectCategoryName: string,
 }
-export interface GetAllDefect {
+export interface GetAllDefectByParameters {
   parameters: DefectRequestParameters,
 }
 export interface DefectRequestParameters {
@@ -230,6 +230,8 @@ export interface DefectRequestParameters {
   pageCount: number,
 }
 export interface GetAllDefectCategories {
+}
+export interface GetAllDefects {
 }
 export interface GetDefect {
   id: number,
@@ -397,6 +399,8 @@ export interface DefectPrintModel {
   defectCategory: DefectCategories,
 }
 export interface GetAllOperation {
+}
+export interface GetAllOperationByParameters {
   parameters: OperationRequestParameters,
 }
 export interface OperationRequestParameters {
@@ -889,6 +893,8 @@ export interface SummaryCardModel {
   quantity: number,
 }
 export interface GetAllSummaryCards {
+}
+export interface GetAllSummaryCardsByParameters {
   parameters: SummaryCardRequestParameters,
 }
 export interface SummaryCardRequestParameters {

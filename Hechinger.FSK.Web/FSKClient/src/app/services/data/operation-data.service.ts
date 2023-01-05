@@ -50,8 +50,8 @@ export class OperationDataService {
       }
     });
   }
-  getAll(): Observable<any> {
-    return this.httpClient.get<any>('/Operation/GetAll',{
+  getAllOperationByParameters(): Observable<any> {
+    return this.httpClient.get<any>('/Operation/GetAllOperationByParameters', {
       params:
       {
         code: this.filterService.getValue('code'),
@@ -65,6 +65,9 @@ export class OperationDataService {
         pageCount: this.paginationService.pageCount,
       }, observe: 'response'
     });
+  }
+  getAll(): Observable<Array<OperationModel>> {
+    return this.httpClient.get<Array<OperationModel>>('/Operation/GetAll');
   }
   getPrint(request: GetOperationPrint): Observable<OperationPrintModel> {
     return this.httpClient.get<OperationPrintModel>('/Operation/GetPrint', {

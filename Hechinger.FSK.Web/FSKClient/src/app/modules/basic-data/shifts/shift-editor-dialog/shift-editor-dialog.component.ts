@@ -27,8 +27,8 @@ export class ShiftEditorDialogComponent implements OnInit {
       shortName: [this.data ? this.data.shortName : '', [Validators.required]],
       translatedName: [this.data ? this.data.translatedName : '', [Validators.required]],
       translatedShortName: [this.data ? this.data.translatedShortName : '', [Validators.required]],
-      start: [this.data ? this.data.start : '00:00', [Validators.pattern('^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'), Validators.required]],
-      end: [this.data ? this.data.end : '00:00', [Validators.pattern('^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'), Validators.required]],
+      start: [this.data ? this.data.start : '00:00', Validators.required],
+      end: [this.data ? this.data.end : '00:00',  Validators.required],
     }).setOriginalForm();
   }
 

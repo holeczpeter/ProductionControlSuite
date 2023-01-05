@@ -45,9 +45,9 @@ namespace Hechinger.FSK.Web.Controllers
             return await this.mediator.Send(request, cancellationToken);
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] OperationRequestParameters request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllOperationByParameters([FromQuery] OperationRequestParameters request, CancellationToken cancellationToken)
         {
-            var result = await this.mediator.Send(new GetAllOperation(request), cancellationToken);
+            var result = await this.mediator.Send(new GetAllOperationByParameters(request), cancellationToken);
             var count = await this.mediator.Send(new GetOperationsCount(request), cancellationToken);
             var paginationMetadata = new
             {
@@ -59,6 +59,11 @@ namespace Hechinger.FSK.Web.Controllers
 
             HttpContext.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationMetadata));
             return Ok(result);
+        }
+        [HttpGet]
+        public async Task<IEnumerable<OperationModel>> GetAll(GetAllOperation request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
         }
         [HttpGet]
         public async Task<OperationPrintModel> GetPrint(GetOperationPrint request, CancellationToken cancellationToken)

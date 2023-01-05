@@ -35,9 +35,9 @@ namespace Hechinger.FSK.Web.Controllers
             return await this.mediator.Send(request, cancellationToken);
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery]DefectRequestParameters request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllDefectByParameters([FromQuery]DefectRequestParameters request, CancellationToken cancellationToken)
         {
-            var result = await this.mediator.Send(new GetAllDefect(request), cancellationToken);
+            var result = await this.mediator.Send(new GetAllDefectByParameters(request), cancellationToken);
             var count = await this.mediator.Send(new GetDefectsCount(request), cancellationToken);
             var paginationMetadata = new
             {
@@ -49,6 +49,11 @@ namespace Hechinger.FSK.Web.Controllers
 
             HttpContext.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginationMetadata));
             return Ok(result);
+        }
+        [HttpGet]
+        public async Task<IEnumerable<DefectModel>> GetAll(GetAllDefects request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
         }
 
         [HttpGet]

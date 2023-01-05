@@ -88,7 +88,7 @@ export class OperationsComponent implements OnInit, AfterViewInit {
     this.initalize();
   }
   initalize() {
-    this.operationDataService.getAll().subscribe(result => {
+    this.operationDataService.getAllOperationByParameters().subscribe(result => {
       this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
       this.dataSource = new MatTableDataSource<OperationModel>(result.body);
       this.createDinamicallyFormGroup();
@@ -126,11 +126,12 @@ export class OperationsComponent implements OnInit, AfterViewInit {
     this.getAll();
   }
   getAll(): void {
-    this.operationDataService.getAll().subscribe((result: any) => {
+    this.operationDataService.getAllOperationByParameters().subscribe((result: any) => {
       this.refreshDataSource(result);
     });
   }
   onExport() {
+
     this.translate.get(this.title).subscribe(title => {
       this.exportService.exportFromDataSource(this.dataSource, this.filterableColumns, title);
     });

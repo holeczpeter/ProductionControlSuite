@@ -29,7 +29,7 @@
       <mat-form-field class="col">
         <input matInput [formControlName]="'translatedShortName'" [placeholder]="'translatedShortName' | translate" required />
         <mat-error class="col" *ngIf="formGroup.get('translatedShortName')?.hasError('required')">
-          {{'shortName'| translate}} {{'required' | translate}}
+          {{'translatedShortName'| translate}} {{'required' | translate}}
         </mat-error>
       </mat-form-field>
     </div>

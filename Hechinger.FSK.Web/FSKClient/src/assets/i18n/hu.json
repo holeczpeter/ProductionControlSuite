@@ -40,6 +40,7 @@
   "start": "Kezdés",
   "end": "Vége",
   "translatedName": "Német megnevezés",
+  "translatedShortName": "Rövid német megnevezés",
   "workshopName": "Műhely megnevezés",
   "productName": "Termék megnevezés",
   "productCode": "Termékkód",
