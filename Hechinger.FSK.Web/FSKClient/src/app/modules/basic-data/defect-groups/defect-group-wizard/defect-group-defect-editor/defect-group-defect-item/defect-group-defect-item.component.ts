@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { distinctUntilChanged } from 'rxjs';
 import { EntityGroupModel, EntityGroupRelationModel, EntityGroupRelationTree, GroupTypes } from '../../../../../../models/generated/generated';
 import { TreeItem } from '../../../../../../models/tree-item';
@@ -20,6 +21,10 @@ export class DefectGroupDefectItemComponent implements OnInit, OnChanges {
   @Output() refreshTree = new EventEmitter<any>();
   entityRelationTree: Array<EntityGroupRelationModel>;
   defects = new Array<EntityGroupRelationModel>();
+  dataSource: MatTableDataSource<any>;
+  columnsToDisplay = ['name', 'relation', 'delete'];
+  expandedElement: TreeItem<EntityGroupModel> | null;
+
   constructor(private entityGroupDataService: EntityGroupDataService,
     public languageService: LanguageService,
     private readonly confirmDialogService: ConfirmDialogService,
@@ -33,7 +38,7 @@ export class DefectGroupDefectItemComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     //console.log(this.item)
     if (changes["item"] && this.item) {
-      //console.log(this.item)
+      this.dataSource = new MatTableDataSource(this.item.children);
       let list = new Array<string>();
       list = list.concat(this.item?.node.relations.map((x: any) => x.entityId.toString()));
       let params = new HttpParams();

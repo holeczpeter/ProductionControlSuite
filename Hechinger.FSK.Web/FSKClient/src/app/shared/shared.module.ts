@@ -78,6 +78,7 @@ import { TooltipDirective } from '../directives/tooltip.directive';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { InitialAvatarComponent } from './initial-avatar/initial-avatar.component';
 
+
 @NgModule({
   declarations: [
     
@@ -108,7 +109,7 @@ import { InitialAvatarComponent } from './initial-avatar/initial-avatar.componen
     TooltipComponent,
     TooltipDirective,
     PersonalInfoComponent,
-    InitialAvatarComponent
+    InitialAvatarComponent,
   ],
   imports: [
     CommonModule,

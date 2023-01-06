@@ -11,26 +11,19 @@
       </ng-template>
     </mat-step>
     <mat-step state="supervisor_account" *ngIf="isHead">
-      <ng-template matStepLabel>{{'products.title'| translate}}</ng-template>
+      <ng-template matStepLabel>{{'products.select'| translate}}</ng-template>
       <app-defect-group-product-editor [tree]="data" (refreshTree)="refreshTree($event)"></app-defect-group-product-editor>
     </mat-step>
     <mat-step state="playlist_add_check" *ngIf="isHead">
-      <ng-template matStepLabel>{{'operations.title'| translate}}</ng-template>
+      <ng-template matStepLabel>{{'table.edit'| translate}}</ng-template>
         <app-defect-group-operation-editor [tree]="data">
         </app-defect-group-operation-editor>
-    </mat-step>
-    <mat-step state="playlist_add_check" *ngIf="isHead">
-      <ng-template matStepLabel>{{'defects.title'| translate}}</ng-template>
-      <app-defect-group-defect-editor [tree]="data" (refreshTree)="refreshTree($event)"></app-defect-group-defect-editor>
     </mat-step>
     <ng-template matStepperIcon="perm_data_setting">
       <mat-icon>perm_data_setting</mat-icon>
     </ng-template>
     <ng-template matStepperIcon="supervisor_account">
       <mat-icon>supervisor_account</mat-icon>
-    </ng-template>
-    <ng-template matStepperIcon="playlist_add_check">
-      <mat-icon>playlist_add_check</mat-icon>
     </ng-template>
   </mat-stepper>
 </mat-dialog-content>
@@ -74,22 +67,11 @@
     </button>
     <button mat-raised-button
             color="blue"
-            (click)="goForward(stepper)">
-      {{ 'next' | translate}}
-    </button>
-  </ng-container>
-  <ng-container *ngIf="stepper.selectedIndex == 3">
-    <button mat-stroked-button
-            color="blue"
-            (click)="goBack(stepper)">
-      {{ 'back' | translate }}
-    </button>
-    <button mat-raised-button
-            color="blue"
             (click)="onSave()">
       {{ 'save' | translate}}
     </button>
   </ng-container>
+  
 </div>
 
 

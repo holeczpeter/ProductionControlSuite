@@ -103,7 +103,8 @@
   "products": {
     "title": "Produkte",
     "add": "Neue hinzufügen",
-    "edit": "Produkt bearbeiten"
+    "edit": "Produkt bearbeiten",
+    "select": "Produkt wählen"
   },
 
   "shifts": {
@@ -149,6 +150,9 @@
   },
   "qualityreport": {
     "title": "Stückzahlmeldung"
+  },
+  "table": {
+    "edit": "Tabelle bearbeiten"
   },
   "crapcost": "Schrott kostet",
   "ppm": "PPM"

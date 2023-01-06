@@ -103,7 +103,8 @@
   "products": {
     "title": "Termékek",
     "add": "Új termék hozzáadása",
-    "edit": "Termék szerkesztése"
+    "edit": "Termék szerkesztése",
+    "select": "Termékek kiválasztása"
   },
   "shifts": {
     "title": "Műszakok",
@@ -149,6 +150,9 @@
   },
   "qualityreport": {
     "title": "Darabszám jelentés"
+  },
+  "table": {
+    "edit": "Táblázat összeállítása"
   },
   "crapcost": "Selejtköltség",
   "ppm": "PPM"

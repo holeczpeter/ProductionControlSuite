@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import { EntityGroupModel, EntityGroupRelationModel, MenuItemModel, MenuTypes, SaveEntityGroup } from '../../models/generated/generated';
 import { TreeItem } from '../../models/tree-item';
 import { TreeItemFlatNode } from '../../models/tree-item-flat-node';
+import { EntityGroupService } from '../entity-group/entity-group-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TreeService {
+  constructor(private readonly entityGroupService: EntityGroupService) {
 
+  }
   getSubMenuItems(treeNode: TreeItem<MenuItemModel>, container?: Array<MenuItemModel>): Array<MenuItemModel> {
     if (!container)
       container = new Array<MenuItemModel>();
@@ -51,9 +55,14 @@ export class TreeService {
   }
   removeChild(element: TreeItem<EntityGroupModel>, child: TreeItem<EntityGroupModel>): TreeItem<EntityGroupModel>  {
     var index = element.children.indexOf(child);
+    console.log(element)
+    console.log(child)
     if (index !== -1) {
+      console.log(index)
       element.children.splice(index, 1);
     }
     return element;
   }
+
+  
 }

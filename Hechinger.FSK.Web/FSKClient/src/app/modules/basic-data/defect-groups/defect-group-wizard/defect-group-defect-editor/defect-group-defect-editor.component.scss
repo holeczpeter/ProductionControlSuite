@@ -1,13 +1,16 @@
+table {
+  height: fit-content;
+}
 .content {
   display: flex;
-  overflow: auto;
 }
 .example-container {
-  min-width:200px;
+  min-width: 200px;
   max-width: 100%;
   margin: 0 25px 25px 0;
   display: inline-block;
   vertical-align: top;
+  padding-top: 10px;
 }
 .relation-container {
   max-width: 100%;
@@ -77,4 +80,22 @@ td, th, tr {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
+}
+.edit {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  padding-top: 10px;
+}
+.info-box {
+  display: flex;
+  flex-wrap:wrap;
+  gap: 10px;
+  color: #FF9237;
+}
+.new-defect{
+  width: fit-content;
+}
+td {
+  padding-top: 10px;
 }
