@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, UntypedFormArray, UntypedFormGroup } from '@angular/forms';
 import { EntityGroupModel, EntityGroupRelationModel, EntityTypes, ProductModel } from '../../../../../models/generated/generated';
 import { TreeItem } from '../../../../../models/tree-item';
 import { EntityGroupService } from '../../../../../services/entity-group/entity-group-service.service';
@@ -13,8 +14,9 @@ export class DefectGroupProductEditorComponent implements OnInit, OnChanges {
   @Input() tree: TreeItem<EntityGroupModel>;
   @Output() refreshTree = new EventEmitter<any>();
   productIds: number[];
-  constructor(public languageService: LanguageService,
-    private entityGroupService: EntityGroupService) { }
+  treeForm: UntypedFormGroup;
+  constructor(public languageService: LanguageService, private formBuilder: FormBuilder,
+    public entityGroupService: EntityGroupService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes && changes["tree"]) this.initalize();
@@ -46,5 +48,7 @@ export class DefectGroupProductEditorComponent implements OnInit, OnChanges {
     })
     this.tree.node.relations = [...relations];
     this.refreshTree.emit(this.tree);
+    //this.treeForm = this.entityGroupService.treeForm;
   }
+  
 }

@@ -1,2 +1,20 @@
 <app-product-multi-select-search [productIds]="productIds"
                                  (select)="onRefreshProducts($event)"></app-product-multi-select-search>
+<!--<ng-container *ngIf="entityGroupService.treeForm">
+  <form class="tree" [formGroup]="entityGroupService.treeForm">
+    <ng-template #recursiveList let-controls let-prefix="prefix">
+      <ng-container *ngFor="let item of controls; let i = index">
+        <div class="tree-item" [formGroup]="entityGroupService.treeForm.get(prefix + i)">
+          <input type="text" formControlName="id">
+        </div>
+        <div class="sub-tree" *ngIf="entityGroupService.getChildren(item)?.value?.length">
+          <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: entityGroupService.getChildren(item).value, prefix: prefix + i + '.children.'  }"></ng-container>
+        </div>
+      </ng-container>
+    </ng-template>
+    <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: entityGroupService.getChildren(treeForm)?.value, prefix: 'children.' }"></ng-container>
+  </form>
+
+  <pre>{{entityGroupService.treeForm.value | json}}</pre>
+</ng-container>-->
+

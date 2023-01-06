@@ -28,9 +28,12 @@ export class DefectGroupDefectItemComponent implements OnInit, OnChanges {
     
 
   ngOnInit(): void {
+    this.entityGroupService.getCurrentTree().subscribe(x => { console.log(x) })
   }
   ngOnChanges(changes: SimpleChanges): void {
+    //console.log(this.item)
     if (changes["item"] && this.item) {
+      //console.log(this.item)
       let list = new Array<string>();
       list = list.concat(this.item?.node.relations.map((x: any) => x.entityId.toString()));
       let params = new HttpParams();
@@ -38,6 +41,7 @@ export class DefectGroupDefectItemComponent implements OnInit, OnChanges {
       params = params.append('groupId', this.item.node.id);
 
       this.entityGroupDataService.getDefectsForRelation(params).subscribe(res => {
+       // const difference = res.filter(x => !this.item?.node.relations.map((x: EntityGroupRelationModel) => x.entityId).includes(x.entityId);
         this.defects = res;
       })
     }

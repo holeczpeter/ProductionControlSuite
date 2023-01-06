@@ -53,19 +53,20 @@ export class RoleMenuEditorComponent implements OnInit, OnChanges {
           this.modules.push(module);
         });
         this.resfreshSelectionTree.emit(this.checklistSelection);
-      
+
       });
     }
   }
-  getLevel = (node: TreeItemFlatNode<RoleMenuItem>) => node.level;
+  getLevel = (node: TreeItemFlatNode<RoleMenuItem>) =>   node.level ;
 
   isExpandable = (node: TreeItemFlatNode<RoleMenuItem>) => node.expandable;
 
   getChildren = (node: TreeItem<RoleMenuItem>): TreeItem<RoleMenuItem>[] => node.children;
 
   hasChild = (_: number, _nodeData: TreeItemFlatNode<RoleMenuItem>) => _nodeData.expandable;
-
+  
   transformer = (node: TreeItem<RoleMenuItem>, level: number) => {
+    
     const existingNode = this.nestedNodeMap.get(node);
     const flatNode = existingNode && existingNode.item === node
       ? existingNode
@@ -156,5 +157,8 @@ export class RoleMenuEditorComponent implements OnInit, OnChanges {
     }
     return null;
   }
-  
+  getParentType(node: TreeItemFlatNode<RoleMenuItem>, treeControl: FlatTreeControl<TreeItemFlatNode<RoleMenuItem>>) {
+    let parent = this.getParentNode(node, treeControl);
+    return parent?.item.node.type;
+  }
 }

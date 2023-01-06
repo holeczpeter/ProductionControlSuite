@@ -1,16 +1,19 @@
-.mat-tree-node {
-    padding-left:60px;
-  /*gap: 10px;*/
+
+.module {
 }
-/*mat-card {
-  width: 200px;
-  margin-bottom: 15px;
-  margin-left: 15px;
+.main {
+  padding-left: 60px !important;
 }
-.flex-container {
-  margin-top: 40px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+.sub {
+  padding-left: 80px !important;
 }
-*/
+.sub2 {
+  padding-left: 120px !important;
+}
+.main-with-icon {
+  padding-left: 40px !important;
+}
+
+.sub-with-icon {
+  padding-left: 60px !important;
+}
