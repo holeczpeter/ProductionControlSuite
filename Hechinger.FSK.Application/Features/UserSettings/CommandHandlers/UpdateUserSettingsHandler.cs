@@ -26,6 +26,7 @@ namespace Hechinger.FSK.Application.Features
             
             user.PageSize = request.PageSize;
             user.LanguageId = request.LanguageId;
+            user.AvatarType = request.AvatarType;
 
             await context.SaveChangesAsync(cancellationToken);
 

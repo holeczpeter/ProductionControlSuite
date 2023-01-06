@@ -20,6 +20,9 @@ export class ApplicationSettingsComponent implements OnInit, HasComponentUnsaved
   formGroup!: UntypedFormGroup;
   title = "applicationsettings";
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
+  imageSrcMale = 'assets/images/avatar_male.png';
+  imageSrcFemale = 'assets/images/avatar_female.png';
+  imageSrcDefault = 'assets/images/avatar_default.png';
   constructor(private readonly userSettingsService: UserSettingsService,
     private readonly accountService: AccountService,
     private readonly formBuilder: UntypedFormBuilder,
@@ -35,14 +38,18 @@ export class ApplicationSettingsComponent implements OnInit, HasComponentUnsaved
         id: [user.id, [Validators.required]],
         languageId: [user.languageId, [Validators.required]],
         pageSize: [user.pageSize, [Validators.required]],
+        avatarType: [user.avatarType, Validators.required]
       }).setOriginalForm();
     });
+   
   }
   onSave() {
     let updateUserSettings = this.formGroup.getRawValue();
+    
     this.userSettingsService.updateUserSettings(updateUserSettings).subscribe(result => {
       this.snackBar.open(result);
       this.accountService.setPageSize(updateUserSettings.pageSize);
+      this.accountService.setAvatar(updateUserSettings.avatarType);
     });
   }
   hasUnsavedChanges(): boolean {

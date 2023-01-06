@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ApplicationInfo, MenuItemModel } from '../../models/generated/generated';
 import { TreeItem } from '../../models/tree-item';
+import { AccountService } from '../../services/account.service';
 import { ApplicationService } from '../../services/data/application.service';
 import { MenuDataService } from '../../services/data/menu-data.service';
 import { LanguageService } from '../../services/language/language.service';
@@ -24,6 +25,7 @@ export class SidebarComponent implements OnInit, DoCheck, AfterViewInit {
   config: AccordionConfig = { multi: false };
   currentLang!: string;
   applicationInformation: ApplicationInfo;
+  imageSrc = 'assets/images/logo.png';
   constructor(private readonly menudataService: MenuDataService,
     private readonly applicationService: ApplicationService,
     private differs: IterableDiffers,

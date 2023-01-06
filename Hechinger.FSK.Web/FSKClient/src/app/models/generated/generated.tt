@@ -48,8 +48,13 @@
 
     // ----------Ez előtt kell összegyűjteni azokat az elemeket, amiket szeretnénk generálni.----------
     itemsToGenerate = itemsToGenerate.Distinct();
+
+   
+    WriteLine("import " + "{ " + "TreeItem" +" }" + " from " + "'" + "../tree-item" + "'" + ";");
     
-    
+ 
+
+
     // Itt állítjuk össze hogyan állítsuk össze a végterméket
     // NOTE(BP): Kész, classokat interface-ként exportáljuk 
     foreach (CodeClass cc in itemsToGenerate.OfType<CodeClass>().GroupBy(x=>x.FullName).Select(y => y.First())){

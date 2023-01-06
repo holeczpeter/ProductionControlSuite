@@ -1,0 +1,14 @@
+<div class="info-container">
+  <ng-container *ngIf="avatarType != 0;else default">
+    <img [src]="imageSrc" alt="Avatar" class="avatar">
+  </ng-container>
+  <ng-template #default><app-initial-avatar></app-initial-avatar></ng-template>
+  <div class="menu-info">{{name}}</div>
+  <div class="menu-info">{{code}}</div>
+  <div class="menu-info">{{lang}}</div>
+  <div class="menu-info">
+    {{(languageService.getCurrentLanguage() | async) == 'hu' ? roleName : roleTranslatedName}}
+  </div>
+    <mat-divider class="divider"></mat-divider>
+  </div>
+

@@ -6,6 +6,7 @@
       </button>
     </div>
   </div>
+
   <div class="accordion">
     <ng-template #recursiveRenderer let-menu let-position="idx">
       <ng-container [ngSwitch]="menu?.node?.type">
@@ -22,7 +23,7 @@
 
             </div>
             <ng-container *ngIf="menu.collapsed;else more">
-              <mat-icon class="menu-item-icon menu-item-arrow" >arrow_back_ios</mat-icon>
+              <mat-icon class="menu-item-icon menu-item-arrow">arrow_back_ios</mat-icon>
             </ng-container>
             <ng-template #more>
               <mat-icon class="menu-item-icon menu-item-arrow">arrow_forward_ios</mat-icon>
@@ -58,7 +59,8 @@
     </ng-container>
 
   </div>
-  <!--<img class="logo" [src]="logo" />-->
+  <img class="logo" [src]="imageSrc" class="logo" />
+  
   <div class="version">
     <div>Verzió: {{applicationInformation?.version}}</div>
     <div>{{applicationInformation?.copyRight}}</div>

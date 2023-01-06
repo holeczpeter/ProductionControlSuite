@@ -26,16 +26,14 @@
     </div>
     
     <mat-menu #beforeMenu="matMenu" xPosition="before">
-      <div class="menu-info">{{name}}</div>
-      <div class="menu-info">{{code}}</div>
-      <mat-divider class="divider"></mat-divider>
-      
+      <app-personal-info></app-personal-info>
+
       <button *ngFor="let menu of personalSettingsModule"
               [routerLink]="[menu.node.path]"
               mat-menu-item>
         <mat-icon>{{menu.node.icon}}</mat-icon>
         <span>{{ (languageService.getCurrentLanguage() | async) === 'hu' ? menu.node.title : menu.node.translatedTitle}}</span>
-        
+
       </button>
       <button (click)="onLogout()" mat-menu-item>
         <mat-icon>exit_to_app</mat-icon>

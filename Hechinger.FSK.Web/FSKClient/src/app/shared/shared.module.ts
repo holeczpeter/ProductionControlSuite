@@ -75,6 +75,8 @@ import { LocaleDateAdapterService } from '../services/date/locale-date-adapter.s
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { TooltipDirective } from '../directives/tooltip.directive';
+import { PersonalInfoComponent } from './personal-info/personal-info.component';
+import { InitialAvatarComponent } from './initial-avatar/initial-avatar.component';
 
 @NgModule({
   declarations: [
@@ -104,7 +106,9 @@ import { TooltipDirective } from '../directives/tooltip.directive';
     MonthPipe,
     ConfirmDialogComponent,
     TooltipComponent,
-    TooltipDirective
+    TooltipDirective,
+    PersonalInfoComponent,
+    InitialAvatarComponent
   ],
   imports: [
     CommonModule,
@@ -226,6 +230,8 @@ import { TooltipDirective } from '../directives/tooltip.directive';
     MonthPipe,
     ConfirmDialogComponent,
     TooltipComponent,
+    PersonalInfoComponent,
+    InitialAvatarComponent
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },

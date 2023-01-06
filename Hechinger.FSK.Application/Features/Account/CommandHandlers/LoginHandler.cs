@@ -32,9 +32,12 @@ namespace Hechinger.FSK.Application.Features
                 Id = currentUser.Id,
                 Code = currentUser.Code,
                 Name = currentUser.FullName,
+                RoleName = currentUser.Role.Name,
+                RoleTranslatedName = currentUser.Role.TranslatedName,
             };
             result.LanguageCode = currentUser.Language.Code;
             result.PageSize = currentUser.PageSize;
+            result.AvatarType = currentUser.AvatarType;
             return result;
         }
     }

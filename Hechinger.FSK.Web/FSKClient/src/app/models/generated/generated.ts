@@ -1,5 +1,4 @@
-import { TreeItem } from "../tree-item";
-
+import { TreeItem } from '../tree-item';
 export interface ApplicationInfo {
   version: string,
   copyRight: string,
@@ -85,12 +84,15 @@ export interface UserDataModel {
   loginStatus: LoginResults,
   pageSize: number,
   languageCode: string,
+  avatarType: AvatarTypes,
   accessMenu: Array<any>,
 }
 export interface UserInfo {
   id: number,
   code: string,
   name: string,
+  roleName: string,
+  roleTranslatedName: string,
 }
 export interface UserTokenInfo {
   userId: number,
@@ -985,11 +987,13 @@ export interface UpdateUserSettings {
   id: number,
   languageId: number,
   pageSize: number,
+  avatarType: AvatarTypes,
 }
 export interface UserSettingsModel {
   id: number,
   languageId: number,
   pageSize: number,
+  avatarType: AvatarTypes,
 }
 export interface GetUserSettings {
   id: number,
@@ -1046,6 +1050,10 @@ export enum LoginResults {
   IsNotValidPassword = 2,
   NotExistUser = 3,
   TokenError = 4,
+}
+export enum AvatarTypes {
+  Male = 0,
+  Female = 1,
 }
 export enum DefectCategories {
   F0 = 0,

@@ -2,12 +2,17 @@
   <div class="flex-title">
     <app-title [title]="title" [contentTemplate]="tooltipTemplate"></app-title>
   </div>
+ 
   <div class="container-inside">
     <mat-list>
       <form [formGroup]="formGroup">
-        <div mat-subheader> {{'language'| translate}}</div>
+        <div mat-subheader>
+          <div class="sub-header">
+            <mat-icon mat-list-icon>language</mat-icon>
+            <div>{{'language'| translate}}</div>
+          </div>
+        </div>
         <mat-list-item>
-          <mat-icon mat-list-icon>language</mat-icon>
           <mat-form-field class="col-3 pt-3">
             <mat-select [formControlName]="'languageId'"
                         [placeholder]="'language' | translate" required>
@@ -21,9 +26,13 @@
           </mat-form-field>
         </mat-list-item>
         <mat-divider></mat-divider>
-        <div mat-subheader>{{'spreadsheet'| translate}}</div>
+        <div mat-subheader>
+          <div class="sub-header">
+            <mat-icon mat-list-icon>list</mat-icon>
+            <div>{{'spreadsheet'| translate}}</div>
+          </div>
+        </div>
         <mat-list-item>
-          <mat-icon mat-list-icon>list</mat-icon>
           <mat-form-field class="col-3 pt-3">
             <mat-select [formControlName]="'pageSize'" [placeholder]="'Találatok oldalanként'">
               <mat-option *ngFor="let option of pageSizeOptions"
@@ -33,10 +42,48 @@
             </mat-select>
           </mat-form-field>
         </mat-list-item>
+        <mat-divider></mat-divider>
+        <div mat-subheader>
+          <div class="sub-header">
+            <mat-icon mat-list-icon>account_circle</mat-icon>
+            <div>Avatar</div>
+          </div>
+        </div>
+        <div class="avatar-group">
+          <mat-list-item>
+            <div class="avatar-container">
+              <div class="avatar-item">
+                <app-initial-avatar></app-initial-avatar>
+
+                <label>
+                  <input type="radio" [value]="0" [formControlName]="'avatarType'">
+                  Default
+                </label>
+              </div>
+              <div class="avatar-item">
+                <img [src]="imageSrcMale" alt="Avatar" class="avatar">
+                <label>
+                  <input type="radio" [value]="1" [formControlName]="'avatarType'">
+                  1
+                </label>
+              </div>
+              <div class="avatar-item">
+                <img [src]="imageSrcFemale" alt="Avatar" class="avatar">
+                <label>
+                  <input type="radio" [value]="2" [formControlName]="'avatarType'">
+                  2
+                </label>
+              </div>
+            </div>
+          </mat-list-item>
+        </div>
+        <mat-divider></mat-divider>
       </form>
     </mat-list>
+    <div class="save-button">
+      <button mat-flat-button (click)="onSave()" color="primary"> {{'save' | translate}} </button>
+    </div>
 
-    <button mat-flat-button (click)="onSave()" color="primary"> {{'save' | translate}} </button>
   </div>
 </div>
 <ng-template #tooltipTemplate>

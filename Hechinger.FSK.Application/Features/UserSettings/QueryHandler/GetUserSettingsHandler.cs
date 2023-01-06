@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hechinger.FSK.Application.Features
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class GetUserSettingsHandler : IRequestHandler<GetUserSettings, UserSettingsModel>
     {
@@ -20,6 +14,7 @@ namespace Hechinger.FSK.Application.Features
                 Id = u.Id,
                 PageSize = u.PageSize,
                 LanguageId = u.Language.Id,
+                AvatarType = u.AvatarType
 
             }).FirstOrDefaultAsync(cancellationToken);
         }

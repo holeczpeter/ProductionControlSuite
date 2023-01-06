@@ -13,6 +13,10 @@ import { TreeService } from './tree/tree.service';
   providedIn: 'root'
 })
 export class AccountService {
+  avatarSubject = new BehaviorSubject<number>(Number(this.getAvatar()));
+  public getavatar(): Observable<number> {
+    return this.avatarSubject.asObservable();
+  }
   isLogin: boolean = false;
   isLoggedInSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
   public isLoggedInObservable(): Observable<boolean> {
@@ -35,6 +39,7 @@ export class AccountService {
       if (result) {
         if (result.loginStatus == LoginResults.Success || result.loginStatus == LoginResults.IsTemporaryPassword) {
           localStorage.setItem('userData', JSON.stringify(result));
+          this.setAvatar(result.avatarType);
           this.setLanguage(result)
           this.accesMenus.next(result.accessMenu);
           let paths = new Array<string>();
@@ -84,6 +89,7 @@ export class AccountService {
       let userData = JSON.parse(storage);
       userData.token = token;
       userData.refreshToken = refreshtoken;
+      console.log(userData)
       localStorage.setItem('userData', JSON.stringify(userData));
     }
   }
@@ -131,6 +137,27 @@ export class AccountService {
     if (storage != null) return (JSON.parse(storage) as UserDataModel).languageCode;
     else return "";
   }
+  getAvatar(): string {
+    let storage = localStorage.getItem('userData');
+    if (storage != null) return (JSON.parse(storage) as UserDataModel).avatarType.toString();
+    else return "";
+  }
+  getRoleName(): string {
+    let storage = localStorage.getItem('userData');
+    if (storage != null) return (JSON.parse(storage) as UserDataModel).userInfo.roleName;
+    else return "";
+  }
+  getRoleTranslatedName(): string {
+    let storage = localStorage.getItem('userData');
+
+    if (storage != null) {
+      let r = (JSON.parse(storage) as UserDataModel);
+      let name = r.userInfo.roleTranslatedName;
+      console.log(name)
+      return name;
+    } 
+    else return "";
+  }
   isAuthenticated() {
     return !!localStorage.getItem('userData');
   }
@@ -154,6 +181,17 @@ export class AccountService {
       let userData = JSON.parse(storage) as UserDataModel;
       userData.pageSize = pageSize;
       localStorage.setItem("userData", JSON.stringify(userData));
+    }
+    
+  }
+  setAvatar(avatarType: number) {
+    let storage = localStorage.getItem('userData');
+    if (storage) {
+      let userData = JSON.parse(storage) as UserDataModel;
+      
+      userData.avatarType = avatarType;
+      localStorage.setItem("userData", JSON.stringify(userData));
+      this.avatarSubject.next(avatarType);
     }
     
   }

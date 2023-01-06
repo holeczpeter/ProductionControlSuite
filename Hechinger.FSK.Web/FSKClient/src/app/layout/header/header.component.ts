@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
   panelOpenState = false;
   modules!: Array<TreeItem<MenuItemModel>>;
   applicationInformation: ApplicationInfo;
-    personalSettingsModule: TreeItem<MenuItemModel>[];
+  personalSettingsModule: TreeItem<MenuItemModel>[];
   constructor(public languageService: LanguageService,
     private readonly accountService: AccountService,
     private readonly applicationService: ApplicationService,
@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
     this.navigationService.getMenuItems().subscribe(modules => {
       this.modules = modules.filter(y => y.node.type === MenuTypes.Module);
       this.personalSettingsModule = this.modules.flatMap(x => x.children).filter(i => i.node.path.includes('/settings'))
-      console.log(this.personalSettingsModule)
+     
     });
   }
 

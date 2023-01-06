@@ -1,0 +1,6 @@
+<ng-container *ngIf="hu && de">
+  <div class="initial-avatar">
+    {{(languageService.getCurrentLanguage() | async) == 'hu' ? hu : de}}
+  </div>
+</ng-container>
+
