@@ -87,7 +87,22 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>generated.ts</LastGenOutput>
     </None>
+    <None Update="FSKClient\src\assets\background.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="FSKClient\src\assets\fonts\Roboto\Roboto-Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FSKClient\src\assets\images\avatar_default.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FSKClient\src\assets\images\avatar_female.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FSKClient\src\assets\images\avatar_male.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FSKClient\src\assets\images\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="FSKClient\src\assets\wallpaper01.jpg">
