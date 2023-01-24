@@ -5,7 +5,7 @@
   <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
   <app-table-toolbar (btnClick)="onExport()">
   </app-table-toolbar>
-  <div class="responsive-table-container">
+  <div class="responsive-table-container" *ngIf="dataSource">
     <table mat-table [dataSource]="dataSource"
            *ngIf="filterForm"
            class="w-100"
