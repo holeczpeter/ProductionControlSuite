@@ -8,8 +8,7 @@
       </div>
       <div cdkDropList
            [cdkDropListData]="operations"
-           class="example-list"
-           (cdkDropListDropped)="entityGroupService.drop($event,entityGroupService.treeForm,false)">
+           class="example-list">
         <div class="example-box" *ngFor="let item of operations" cdkDrag> {{item.code}} -  {{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.name : item.translatedName}}</div>
       </div>
     </div>

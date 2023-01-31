@@ -19,4 +19,7 @@ export class DefectGroupDefectChildComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
   }
+  delete(index: number) {
+    this.entityGroupService.removeRelationToParent(this.item, index);
+  }
 }

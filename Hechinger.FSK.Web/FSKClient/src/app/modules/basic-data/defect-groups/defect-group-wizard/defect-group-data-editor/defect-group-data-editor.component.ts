@@ -9,7 +9,7 @@ import { LanguageService } from '../../../../../services/language/language.servi
 })
 export class DefectGroupDataEditorComponent implements OnInit {
   constructor(public entityGroupService: EntityGroupService, public languageService: LanguageService) { }
-
+  
   ngOnInit(): void {
     
   }

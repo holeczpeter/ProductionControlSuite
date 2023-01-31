@@ -32,6 +32,7 @@ export class EntityGroupService {
     return this.treeForm.get('node')?.get('relations') as FormArray;
   }
   getRelationByCurrentForm(form: UntypedFormGroup): FormArray {
+    console.log(form)
     return form.get('node')?.get('relations') as FormArray;
   }
 
@@ -177,6 +178,7 @@ export class EntityGroupService {
 
   removeRelationToParent(parent: UntypedFormGroup, i: number) {
     const remove = this.getRelationByCurrentForm(parent);
+    console.log(remove)
     remove.removeAt(i);
   }
 

@@ -10,7 +10,7 @@
     <div cdkDropList
          [cdkDropListData]="defects"
          class="example-list"
-         (cdkDropListDropped)="entityGroupService.drop($event,tree,false)">
+        >
       <div class="example-box" *ngFor="let item of defects" cdkDrag> {{item.code}} -  {{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.name : item.translatedName}}</div>
     </div>
   </div>

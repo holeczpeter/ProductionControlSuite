@@ -36,16 +36,19 @@ export class DefectGroupDefectEditorComponent implements OnInit, OnChanges {
           params = params.append('operationIds', operationsIds);
           params = params.append('groupId', this.entityGroupService.treeForm.get('id')?.value);
           this.entityGroupDataService.getDefectsForRelation(params).subscribe(res => {
-            let a = new Array<EntityGroupRelationModel>();
-            let children = this.entityGroupService.getChildrenByCurrentForm(this.tree) as FormArray;
-          
-            for (let control of children.controls) {
-              let fg = control as UntypedFormGroup;
-              let currentRel = this.entityGroupService.getRelationByCurrentForm(fg).value;
-              currentRel.forEach((i: EntityGroupRelationModel) => { a.push(i) });
+            if (res) {
+              let a = new Array<EntityGroupRelationModel>();
+              let children = this.entityGroupService.getChildrenByCurrentForm(this.tree) as FormArray;
+
+              for (let control of children.controls) {
+                let fg = control as UntypedFormGroup;
+                let currentRel = this.entityGroupService.getRelationByCurrentForm(fg).value;
+                currentRel.forEach((i: EntityGroupRelationModel) => { a.push(i) });
+              }
+              const difference = res.filter(x => !a.map((x: EntityGroupRelationModel) => x.entityId).includes(x.entityId));
+              this.defects = difference;
             }
-            const difference = res.filter(x => !a.map((x: EntityGroupRelationModel) => x.entityId).includes(x.entityId));
-            this.defects = difference;
+           
             //console.log(this.defects)
           })
         }
