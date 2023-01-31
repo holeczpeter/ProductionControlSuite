@@ -27,29 +27,36 @@ export class DefectGroupDefectEditorComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['tree'] && this.tree) {
-
+      this.entityGroupService.getOperationChanged().subscribe(x => {
+        console.log('opchanged')
+        if (x) {
+          let operations = this.entityGroupService.getRelationByCurrentForm(this.tree).value;
+          let operationsIds = operations.map((x: EntityGroupRelationModel) => x.entityId).map((u: number) => u.toString()).join(',');
+          let params = new HttpParams();
+          params = params.append('operationIds', operationsIds);
+          params = params.append('groupId', this.entityGroupService.treeForm.get('id')?.value);
+          this.entityGroupDataService.getDefectsForRelation(params).subscribe(res => {
+            let a = new Array<EntityGroupRelationModel>();
+            let children = this.entityGroupService.getChildrenByCurrentForm(this.tree) as FormArray;
+          
+            for (let control of children.controls) {
+              let fg = control as UntypedFormGroup;
+              let currentRel = this.entityGroupService.getRelationByCurrentForm(fg).value;
+              currentRel.forEach((i: EntityGroupRelationModel) => { a.push(i) });
+            }
+            const difference = res.filter(x => !a.map((x: EntityGroupRelationModel) => x.entityId).includes(x.entityId));
+            this.defects = difference;
+            //console.log(this.defects)
+          })
+        }
+      });
       this.dataSource = new MatTableDataSource((this.entityGroupService.getChildrenByCurrentForm(this.tree) as FormArray).controls);
       
     }
   }
 
   ngOnInit(): void {
-    this.entityGroupService.getOperationChanged().subscribe(x => {
-      if (x) {
-        let operations = this.entityGroupService.getRelationByCurrentForm(this.tree).value;
-        let operationsIds = operations.map((x: EntityGroupRelationModel) => x.entityId).map((u: number) => u.toString()).join(',');
-        let ops = this.entityGroupService.getRelationByCurrentForm(this.tree);
-        let params = new HttpParams();
-        params = params.append('operationIds', operationsIds);
-        params = params.append('groupId', this.entityGroupService.treeForm.get('id')?.value);
-
-        this.entityGroupDataService.getDefectsForRelation(params).subscribe(res => {
-          //console.log(res)
-          //const difference = res.filter(x => !this.item?.node.relations.map((x: EntityGroupRelationModel) => x.entityId).includes(x.entityId);
-          this.defects = res;
-        })
-      }
-    });
+    
   }
 
   addGroupFromNode() {

@@ -188,6 +188,9 @@ export class EntityGroupService {
   }
 
   drop(event: CdkDragDrop<EntityGroupRelationModel[]>, parent: UntypedFormGroup, isRelation: boolean) {
+    console.log(event)
+    console.log(parent)
+    console.log(isRelation)
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {

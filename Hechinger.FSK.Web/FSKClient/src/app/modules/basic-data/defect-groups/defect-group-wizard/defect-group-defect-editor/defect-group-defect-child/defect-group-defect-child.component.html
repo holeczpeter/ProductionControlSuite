@@ -1,8 +1,14 @@
 
-<div cdkDropList 
+<div cdkDropList
+     
      [cdkDropListData]="item.get('node').value.relations"
      class="relation-list"
      (cdkDropListDropped)="entityGroupService.drop($event,item,true)">
-  <div class="example-box" *ngFor="let i of item.get('node').value.relations" cdkDrag>{{i.code}}</div>
+  <ng-container *ngFor="let rel of item.get('node').value.relations; let i = index">
+
+    <div class="example-box" ng-attr-id="{{ 'object-' + i }}"
+         cdkDrag>{{rel.code}}</div>
+  </ng-container>
+  
 </div>
 
