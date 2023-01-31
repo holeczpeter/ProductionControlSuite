@@ -1,38 +1,39 @@
-<form [formGroup]="formGroup" *ngIf="formGroup">
-  <div class="row pt-2">
-    <mat-form-field class="col">
-      <mat-select [formControlName]="'groupType'" [placeholder]="'defectgroups.type' | translate" required>
-        <mat-option *ngFor="let option of groupTypes" [value]="option.id">
-          {{ option.name }}
-        </mat-option>
-      </mat-select>
-      <mat-error class="col" *ngIf="formGroup.get('groupType')?.hasError('required')">
-        {{'defectgroups.type'| translate}} {{'required' | translate}}
-      </mat-error>
-    </mat-form-field>
-  </div>
-  <div class="row pt-2">
-    <mat-form-field class="col">
-      <input matInput [formControlName]="'name'" [placeholder]="'name' | translate" required />
-      <mat-error class="col" *ngIf="formGroup.get('name')?.hasError('required')">
-        {{'name'| translate}} {{'required' | translate}}
-      </mat-error>
-    </mat-form-field>
-  </div>
-  <div class="row pt-2">
-    <mat-form-field class="col">
-      <input matInput [formControlName]="'translatedName'" [placeholder]="'translatedName' | translate" required />
-      <mat-error class="col" *ngIf="formGroup.get('translatedName')?.hasError('required')">
-        {{'translatedName'| translate}} {{'required' | translate}}
-      </mat-error>
-    </mat-form-field>
-  </div>
-  <ng-container *ngIf="formGroup.get('groupType')?.value == 1">
+<form [formGroup]="entityGroupService.treeForm" *ngIf="entityGroupService.treeForm">
+  <ng-container formGroupName="node">
     <div class="row pt-2">
       <mat-form-field class="col">
-        <input matInput [formControlName]="'ppmGoal'" [placeholder]="'goal' | translate" />
+        <mat-select [formControlName]="'groupType'" [placeholder]="'defectgroups.type' | translate" required>
+          <mat-option *ngFor="let option of entityGroupService.groupTypes | async" [value]="option.id">
+            {{ option.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error class="col" *ngIf="entityGroupService.treeForm.get('node').get('groupType')?.hasError('required')">
+          {{'defectgroups.type'| translate}} {{'required' | translate}}
+        </mat-error>
       </mat-form-field>
     </div>
+    <div class="row pt-2">
+      <mat-form-field class="col">
+        <input matInput [formControlName]="'name'" [placeholder]="'name' | translate" required />
+        <mat-error class="col" *ngIf="entityGroupService.treeForm.get('node').get('name')?.hasError('required')">
+          {{'name'| translate}} {{'required' | translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row pt-2">
+      <mat-form-field class="col">
+        <input matInput [formControlName]="'translatedName'" [placeholder]="'translatedName' | translate" required />
+        <mat-error class="col" *ngIf="entityGroupService.treeForm.get('node').get('translatedName')?.hasError('required')">
+          {{'translatedName'| translate}} {{'required' | translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <ng-container *ngIf="entityGroupService.treeForm.get('node').get('groupType')?.value == 1">
+      <div class="row pt-2">
+        <mat-form-field class="col">
+          <input matInput [formControlName]="'ppmGoal'" [placeholder]="'goal' | translate" />
+        </mat-form-field>
+      </div>
+    </ng-container>
   </ng-container>
-  
 </form>

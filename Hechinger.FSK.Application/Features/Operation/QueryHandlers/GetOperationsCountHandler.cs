@@ -14,9 +14,7 @@
         public async Task<int> Handle(GetOperationsCount request, CancellationToken cancellationToken)
         {
             var permittedOperation = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
-            return await context.Operations
-                .Where(x => x.EntityStatus == EntityStatuses.Active && permittedOperation.Contains(x.Product.WorkshopId))
-                .CountAsync(cancellationToken);
+            return await context.Operations.Where(x => x.EntityStatus == EntityStatuses.Active && permittedOperation.Contains(x.Product.WorkshopId)).CountAsync(cancellationToken);
         }
     }
 }

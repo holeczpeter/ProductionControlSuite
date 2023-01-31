@@ -29,7 +29,7 @@
                     OperationCode = x.Operation.Code,
                     OperationName = x.Operation.Name,
 
-                }).OrderBy(x=>x.Order).ToListAsync();
+                }).OrderBy(x=>x.Order).ToListAsync(cancellationToken);
         }
     }
 }

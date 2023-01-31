@@ -17,9 +17,15 @@ namespace Hechinger.FSK.Core.Enums
         Head = 1,
 
         /// <summary>
-        /// "Hibaösszesítő elem"
+        /// "Hibaösszesítő művelet fej"
         /// </summary>
-        [Description("Hibaösszesítő elem")]
-        Item = 2,
+        [Description("Hibaösszesítő művelet fej")]
+        OperationItem = 2,
+
+        /// <summary>
+        /// "Hibaösszesítő hiba fej"
+        /// </summary>
+        [Description("Hibaösszesítő hiba fej")]
+        DefectItem = 3,
     }
 }

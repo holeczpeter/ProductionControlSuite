@@ -42,6 +42,9 @@ export class EntityGroupDataService {
   getEntityRelationsByProducts(params: HttpParams): Observable<Array<EntityGroupRelationTree>> {
     return this.httpClient.get<Array<EntityGroupRelationTree>>('/EntityGroup/GetEntityRelationsByProducts', { params: params });
   }
+  getProductsForRelation(params: HttpParams): Observable<Array<EntityGroupRelationModel>> {
+    return this.httpClient.get<Array<EntityGroupRelationModel>>('/EntityGroup/GetProductsForRelation', { params: params });
+  }
   getOperationsForRelation(params: HttpParams): Observable<Array<EntityGroupRelationModel>> {
     return this.httpClient.get<Array<EntityGroupRelationModel>>('/EntityGroup/GetOperationsForRelation', { params: params });
   }

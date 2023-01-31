@@ -9,13 +9,13 @@
         }
         public async Task<IEnumerable<LanguageModel>> Handle(GetAllLanguages request, CancellationToken cancellationToken)
         {
-            return await this.context.Languages.Where(x => x.EntityStatus == EntityStatuses.Active).Select(language =>
-            new LanguageModel()
-            {
-                Id = language.Id,
-                Name = language.Name,
-                TranslatedName = language.TranslatedName,
-            }).ToListAsync(cancellationToken);
+            return await this.context.Languages.Where(x => x.EntityStatus == EntityStatuses.Active)
+                .Select(language => new LanguageModel()
+                {
+                    Id = language.Id,
+                    Name = language.Name,
+                    TranslatedName = language.TranslatedName,
+                }).ToListAsync(cancellationToken);
         }
     }
 }

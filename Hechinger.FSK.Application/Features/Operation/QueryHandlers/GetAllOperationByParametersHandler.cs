@@ -3,12 +3,10 @@
     public class GetAllOperationByParametersHandler : IRequestHandler<GetAllOperationByParameters, ParameterResult<OperationModel>>
     {
         private readonly FSKDbContext context;
-        private readonly IOperationCache cache;
         private readonly IPermissionService permissionService;
-        public GetAllOperationByParametersHandler(FSKDbContext context, IOperationCache cache, IPermissionService permissionService)
+        public GetAllOperationByParametersHandler(FSKDbContext context, IPermissionService permissionService)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
-            this.cache = cache ?? throw new ArgumentNullException(nameof(cache));
             this.permissionService = permissionService ?? throw new ArgumentNullException(nameof(permissionService));
         }
         public async Task<ParameterResult<OperationModel>> Handle(GetAllOperationByParameters request, CancellationToken cancellationToken)

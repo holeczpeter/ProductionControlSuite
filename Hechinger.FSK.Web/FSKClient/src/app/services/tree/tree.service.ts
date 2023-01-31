@@ -55,10 +55,7 @@ export class TreeService {
   }
   removeChild(element: TreeItem<EntityGroupModel>, child: TreeItem<EntityGroupModel>): TreeItem<EntityGroupModel>  {
     var index = element.children.indexOf(child);
-    console.log(element)
-    console.log(child)
     if (index !== -1) {
-      console.log(index)
       element.children.splice(index, 1);
     }
     return element;

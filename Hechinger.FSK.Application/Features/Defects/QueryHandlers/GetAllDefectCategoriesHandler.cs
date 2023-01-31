@@ -4,10 +4,9 @@ namespace Hechinger.FSK.Application.Features
 {
     public class GetAllDefectCategoriesHandler : IRequestHandler<GetAllDefectCategories, IEnumerable<EnumModel>>
     {
-        private readonly FSKDbContext context;
-        public GetAllDefectCategoriesHandler(FSKDbContext context)
+        
+        public GetAllDefectCategoriesHandler()
         {
-            this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
         public async Task<IEnumerable<EnumModel>> Handle(GetAllDefectCategories request, CancellationToken cancellationToken)
         {

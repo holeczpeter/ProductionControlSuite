@@ -89,7 +89,6 @@ export class AccountService {
       let userData = JSON.parse(storage);
       userData.token = token;
       userData.refreshToken = refreshtoken;
-      console.log(userData)
       localStorage.setItem('userData', JSON.stringify(userData));
     }
   }
@@ -149,11 +148,9 @@ export class AccountService {
   }
   getRoleTranslatedName(): string {
     let storage = localStorage.getItem('userData');
-
     if (storage != null) {
       let r = (JSON.parse(storage) as UserDataModel);
       let name = r.userInfo.roleTranslatedName;
-      console.log(name)
       return name;
     } 
     else return "";

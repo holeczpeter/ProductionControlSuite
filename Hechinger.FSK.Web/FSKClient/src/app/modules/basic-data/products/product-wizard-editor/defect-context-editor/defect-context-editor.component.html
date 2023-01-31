@@ -11,8 +11,6 @@
               {{productContextService.getOperations.controls[i].get('code')?.value}}
             </mat-panel-description>
           </mat-expansion-panel-header>
-
-     
           <div formArrayName="defects">
             <div *ngFor="let defect of productContextService.getDefects(i).controls; let j = index"
                  [formGroupName]="j">
@@ -73,7 +71,6 @@
               </div>
               <mat-divider></mat-divider>
             </div>
-            
             <div class="row justify-content-center">
               <button mat-fab color="primary" (click)="productContextService.addDefect(null,i)">
                 <mat-icon>add</mat-icon>
@@ -84,60 +81,6 @@
       </ng-container>
     </mat-accordion>
     </div>
-
-
-    <!--<div formArrayName="operations">
-      <div *ngFor="let item of productContextService.getOperations.controls; let i = index" [formGroupName]="i">
-       
-      </div>
-    </div>-->
-
-
-
 </form>
 
-
-<!--<mat-accordion *ngIf="formGroup">
-  <form [formGroup]="formformGroup">
-    <div formArrayName="operations">
-      <div *ngFor="let operation of getOperations.controls; let i = index"
-           [formGroupName]="i">
-        
-        <div formArrayName="daySchedule">
-          <div *ngFor="let scheduleEvent of getDaySchedule(i).controls; let j = index"
-               [formGroupName]="j">
-            <input type="text"
-                   formControlName="time"
-                   placeholder="Enter the event's scheduled time" />
-
-            <input type="text"
-                   formControlName="name"
-                   placeholder="Enter the event's name" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
-<pre>
-{{form?.value|json}}
-</pre>
-
-
-  <ng-container *ngFor="let operation of productContext.operations">
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{operation.name}}
-        </mat-panel-title>
-        <mat-panel-description>
-          {{operation.code}}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <app-defect-context-element-editor [operation]="operation"
-                                         [categories]="categories"
-                                         (resfreshOperation)="refreshOperation($event)">
-      </app-defect-context-element-editor>
-    </mat-expansion-panel>
-  </ng-container>
-</mat-accordion>-->
 

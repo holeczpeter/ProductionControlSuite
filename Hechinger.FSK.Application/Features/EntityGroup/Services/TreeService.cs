@@ -116,11 +116,7 @@
 
         }
 
-        public async Task<Result<bool>> CreateRelations(TreeItem<EntityGroupModel> item, EntityGroup parent, CancellationToken cancellationToken)
-        {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
-            return result;
-        }
+       
     }
 
 

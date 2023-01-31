@@ -43,6 +43,11 @@ namespace Hechinger.FSK.Web.Controllers
             return await this.mediator.Send(request, cancellationToken);
         }
         [HttpGet]
+        public async Task<IEnumerable<EntityGroupRelationModel>> GetProductsForRelation(GetProductsForRelation request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+        [HttpGet]
         public async Task<IEnumerable<EntityGroupRelationModel>> GetOperationsForRelation(GetOperationsForRelation request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);

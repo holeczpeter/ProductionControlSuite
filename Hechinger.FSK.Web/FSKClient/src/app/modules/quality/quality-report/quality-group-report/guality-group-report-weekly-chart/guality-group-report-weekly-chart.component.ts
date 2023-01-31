@@ -52,9 +52,7 @@ export class GualityGroupReportWeeklyChartComponent implements OnInit {
   createChart(lang: string) {
     let operationName = this.translateService.currentLang == 'hu' ? this.chartModel.operationName : this.chartModel.operationTranslatedName;
     const categories = lang == 'hu' ? this.chartModels.map(x => x.name) : this.chartModels.map(x => x.translatedName);
- 
     const data = this.chartModels.map(x => { return { x: x.name, y: x.value, fillColor: this.chartService.getColor(x.category) } });
-    console.log(data)
     let xAxisName = this.translateService.instant('defectName');
     this.chartOptions = {
       series: [

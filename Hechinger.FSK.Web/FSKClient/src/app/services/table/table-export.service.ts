@@ -81,8 +81,7 @@ export class TableExportService {
     };
     var link = document.createElement("a");
     link.download = name;
-    link.href = uri + base64(format(template, ctx))
-    console.log(link)
+    link.href = uri + base64(format(template, ctx));
     link.click();
 
   }
@@ -103,8 +102,7 @@ export class TableExportService {
     };
     var link = document.createElement("a");
     link.download = name;
-    link.href = uri + base64(format(template, ctx))
-    console.log(link)
+    link.href = uri + base64(format(template, ctx));
     link.click();
 
   }

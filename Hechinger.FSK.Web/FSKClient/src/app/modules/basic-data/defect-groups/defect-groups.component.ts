@@ -88,8 +88,6 @@ export class DefectGroupsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  
-   
     this.initalize(null);
   }
   initalize(expandedElement: TreeItemFlatNode<EntityGroupModel> | null) {
@@ -133,6 +131,7 @@ export class DefectGroupsComponent implements OnInit {
  
 
   addGroupFromNode() {
+    
     let current: EntityGroupModel = {
       id: 0,
       name: '',
@@ -154,7 +153,10 @@ export class DefectGroupsComponent implements OnInit {
       data: tree,
       minWidth: '750px'
     });
-    dialogRef.afterClosed().subscribe((result) => {  });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.initalize(null);
+      
+    });
   }
 
   addToGroup(node: TreeItemFlatNode<EntityGroupModel>) {
@@ -183,7 +185,7 @@ export class DefectGroupsComponent implements OnInit {
           minWidth: '750px'
         });
         dialogRef.afterClosed().subscribe((result) => {
-          this.initalize(node);
+          this.initalize(null);
           this.treeControl.expand(node);
         });
       }

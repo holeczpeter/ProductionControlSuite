@@ -281,6 +281,7 @@ export interface EntityGroupRelationModel {
   entityId: number,
   parentId: number,
   entityType: EntityTypes,
+  selected: boolean,
 }
 export interface EntityGroupRelationTree {
   node: EntityGroupRelationModel,
@@ -305,6 +306,10 @@ export interface GetGroupTypes {
 }
 export interface GetOperationsForRelation {
   productIds: string,
+  groupId: number,
+}
+export interface GetProductsForRelation {
+  filter: string,
   groupId: number,
 }
 export interface DefectImport {
@@ -1052,8 +1057,9 @@ export enum LoginResults {
   TokenError = 4,
 }
 export enum AvatarTypes {
-  Male = 0,
-  Female = 1,
+  Default = 1,
+  Male = 1,
+  Female = 2,
 }
 export enum DefectCategories {
   F0 = 0,
@@ -1063,7 +1069,8 @@ export enum DefectCategories {
 export enum GroupTypes {
   Group = 0,
   Head = 1,
-  Item = 2,
+  OperationItem = 2,
+  DefectItem = 3,
 }
 export enum EntityTypes {
   Product = 0,

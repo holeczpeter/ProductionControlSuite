@@ -10,7 +10,7 @@
         public async Task<IEnumerable<TreeItem<EntityGroupModel>>> Handle(GetAllEntityGroups request, CancellationToken cancellationToken)
         {
 
-            var groups =  this.context.EntityGroups.Where(x => x.EntityStatus == EntityStatuses.Active).ToList().Select(item => new EntityGroupModel()
+            var groups = await  this.context.EntityGroups.Where(x => x.EntityStatus == EntityStatuses.Active).Select(item => new EntityGroupModel()
             {
                 Id = item.Id,
                 Name = item.Name,
@@ -18,7 +18,7 @@
                 Order = item.Order,  
                 TranslatedName = item.TranslatedName,
                 GroupType = item.GroupType
-            });
+            }).ToListAsync(cancellationToken);
 
             var result = groups.GenerateTree(i => i.Id, i => i.ParentId);
             return result;

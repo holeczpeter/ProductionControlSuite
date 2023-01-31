@@ -28,7 +28,9 @@
                 current.Code = request.Code;
                 current.TranslatedName = request.TranslatedName;
                 current.Workshop = currentWorkShop;
+
                 await context.SaveChangesAsync(cancellationToken);
+
                 result.Message = "A termék sikeresen módosítva";
                 result.IsSuccess = true;
                 result.Entities = current.Id;

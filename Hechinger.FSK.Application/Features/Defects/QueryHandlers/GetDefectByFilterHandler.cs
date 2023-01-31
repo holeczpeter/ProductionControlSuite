@@ -13,8 +13,6 @@
 
         public async Task<IEnumerable<SelectModel>> Handle(GetDefectByFilter request, CancellationToken cancellationToken)
         {
-
-
             var permittedDefects = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
             return await context.Defects
                 .Where(x => x.EntityStatus == EntityStatuses.Active &&

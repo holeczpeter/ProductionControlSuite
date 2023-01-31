@@ -23,7 +23,7 @@
             
             
             //Menu
-            var currentMenuRole = this.context.MenuRoles.Where(x => x.RoleId == currentRole.Id && x.EntityStatus == EntityStatuses.Active).ToList();
+            var currentMenuRole = await this.context.MenuRoles.Where(x => x.RoleId == currentRole.Id && x.EntityStatus == EntityStatuses.Active).ToListAsync(cancellationToken);
             var deletedMenuIds = currentMenuRole.Select(x => x.MenuId).Except(request.Menu.Select(x => x.Id));
             var deletedMenu = currentMenuRole.Where(x => deletedMenuIds.Contains(x.MenuId));
             this.context.MenuRoles.RemoveRange(deletedMenu);

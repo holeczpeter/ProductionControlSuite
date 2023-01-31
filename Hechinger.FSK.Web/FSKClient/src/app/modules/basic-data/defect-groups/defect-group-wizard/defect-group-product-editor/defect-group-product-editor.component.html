@@ -1,20 +1,27 @@
-<app-product-multi-select-search [productIds]="productIds"
-                                 (select)="onRefreshProducts($event)"></app-product-multi-select-search>
-<!--<ng-container *ngIf="entityGroupService.treeForm">
-  <form class="tree" [formGroup]="entityGroupService.treeForm">
-    <ng-template #recursiveList let-controls let-prefix="prefix">
-      <ng-container *ngFor="let item of controls; let i = index">
-        <div class="tree-item" [formGroup]="entityGroupService.treeForm.get(prefix + i)">
-          <input type="text" formControlName="id">
-        </div>
-        <div class="sub-tree" *ngIf="entityGroupService.getChildren(item)?.value?.length">
-          <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: entityGroupService.getChildren(item).value, prefix: prefix + i + '.children.'  }"></ng-container>
-        </div>
-      </ng-container>
-    </ng-template>
-    <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: entityGroupService.getChildren(treeForm)?.value, prefix: 'children.' }"></ng-container>
-  </form>
-
-  <pre>{{entityGroupService.treeForm.value | json}}</pre>
-</ng-container>-->
-
+<form [formGroup]="entityGroupService.treeForm" *ngIf="entityGroupService.treeForm && entityGroupService.treeForm.get('node')">
+  <ng-container formGroupName="node">
+    <div class="row pt-2">
+      <mat-form-field class="col">
+        <mat-select [formControlName]="'product'"
+                    [placeholder]="'products.title' | translate"
+                    [multiple]="true"
+                    #multiSelect
+                    required
+                    panelClass="myPanelClass">
+          <mat-option>
+            <ngx-mat-select-search [formControl]="productFilterCtrl"> </ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let option of filteredProductsMulti | async ; trackBy: trackById" [value]="option">
+            {{option.code}} - {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="pb-3">
+      {{'selected' | translate}} {{'products.title'  | translate | lowercase}}
+    </div>
+    <ul *ngFor="let option of entityGroupService.treeForm.get('node').get('product')?.value">
+      <li> {{option.code}} - {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}</li>
+    </ul>
+  </ng-container>
+</form>

@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angula
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatStepper } from '@angular/material/stepper';
+import { BehaviorSubject } from 'rxjs';
+import { startWith } from 'rxjs';
 import { EntityGroupModel, GroupTypes, ProductModel, SaveEntityGroup } from '../../../../models/generated/generated';
 import { TreeItem } from '../../../../models/tree-item';
 import { DefectGroupDataService } from '../../../../services/data/defect-group-data.service';
@@ -22,7 +24,7 @@ export class DefectGroupWizardComponent implements OnInit {
   @ViewChild('singleSelect') singleSelect: MatSelect;
   @ViewChild('mystepper') stepper: MatStepper;
   totalStepsCount!: 3;
-  isHead = false;
+  isHead: boolean = false;
   data: TreeItem<EntityGroupModel>;
   selectedIndex= 0;
   constructor(private readonly dialogRef: MatDialogRef<DefectGroupWizardComponent>,
@@ -38,27 +40,17 @@ export class DefectGroupWizardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.incomingData.node.id != 0) {
-      let request = { id: this.incomingData.node.id };
-      this.entityGroupDataService.get(request).subscribe(x => {
-        this.data = x;
-        this.entityGroupService.refreshTree(this.data);
-        if (this.data) this.isHead = this.data.node.groupType == GroupTypes.Head;
-        else this.isHead = true;
-      })
-    }
-    else {
-      this.data = this.incomingData;
-      if (this.data)  this.isHead = this.data.node.groupType == GroupTypes.Head;
-      else this.isHead = true;
-    }
+    let request = { id: this.incomingData.node.id };
+    this.entityGroupDataService.get(request).subscribe(x => {
+      this.data = x;
+      if (this.data) this.entityGroupService.refreshTree(this.data);
+      else this.entityGroupService.refreshTree(this.incomingData);
+      this.entityGroupService.treeForm.get('node')?.get('groupType')?.valueChanges.pipe(startWith(this.entityGroupService.treeForm.get('node')?.get('groupType')?.value)).subscribe(x => {
+        this.isHead = x == GroupTypes.Head;
+      });
+    });
   }
- 
-  refreshTree(event: any) {
-    this.data = event;
-    if (this.data) this.isHead = this.data.node.groupType == GroupTypes.Head;
-    else this.isHead = true;
-  }
+  
   public onStepChange(event: any): void {
     this.selectedIndex = event.selectedIndex;
   }
@@ -70,8 +62,9 @@ export class DefectGroupWizardComponent implements OnInit {
   }
   onSave() {
     let saveEntityGroup: SaveEntityGroup = {
-      current: this.data
+      current: this.entityGroupService.treeForm.getRawValue()
     };
+    console.log(saveEntityGroup)
     this.entityGroupDataService.save(saveEntityGroup).subscribe(result => {
       this.snackBar.open(result);
       if (result.isSuccess) this.dialogRef.close(true);

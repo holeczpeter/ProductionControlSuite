@@ -13,9 +13,8 @@
         {
             var permittedProduct = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
             return await context.Products
-                .Where(x =>
-                        x.EntityStatus == EntityStatuses.Active &&
-                        permittedProduct.Contains(x.WorkshopId))
+                .Where(x => x.EntityStatus == EntityStatuses.Active &&
+                            permittedProduct.Contains(x.WorkshopId))
                 .Select(x => new ProductModel()
                 {
                     Id = x.Id,
@@ -24,8 +23,7 @@
                     TranslatedName = !String.IsNullOrEmpty(x.TranslatedName) ? x.TranslatedName : x.Name,
                     WorkshopId = x.Workshop.Id,
                     WorkshopName = x.Workshop.Name,
-                })
-                .ToListAsync(cancellationToken);
+                }).ToListAsync(cancellationToken);
         }
     }
 }

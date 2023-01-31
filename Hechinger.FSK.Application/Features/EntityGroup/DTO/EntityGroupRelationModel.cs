@@ -13,5 +13,7 @@ namespace Hechinger.FSK.Application.Features
         public int EntityId { get; set; }
         public int ParentId { get; set; }
         public EntityTypes EntityType { get; set; }
+
+        public bool Selected { get; set; }
     }
 }

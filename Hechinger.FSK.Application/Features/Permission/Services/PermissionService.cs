@@ -19,7 +19,7 @@ namespace Hechinger.FSK.Application.Features
                           w.EntityStatus == EntityStatuses.Active &&
                           u.UserId.ToString() == userId
                           select w.Id).ToListAsync(cancellationToken);
-            //return await this.context.WorkShopUsers.Where(x => x.UserId == userId && x.EntityStatus == EntityStatuses.Active).Select(x => x.WorkShopId).ToListAsync(cancellationToken);
+            
         }
         public async Task<IEnumerable<int>> GetPermissionToProducts(CancellationToken cancellationToken)
         {
@@ -32,8 +32,6 @@ namespace Hechinger.FSK.Application.Features
                           p.EntityStatus == EntityStatuses.Active &&
                           u.UserId.ToString() == userId
                           select p.Id).ToListAsync(cancellationToken);
-            //var workshopIds = await this.context.WorkShopUsers.Where(x => x.UserId == userId && x.EntityStatus == EntityStatuses.Active).Select(x => x.WorkShopId).ToListAsync(cancellationToken);
-            //return await this.context.Products.Where(x => workshopIds.Contains(x.WorkShopId) && x.EntityStatus == EntityStatuses.Active).Select(x => x.Id).ToListAsync(cancellationToken);
 
         }
         public async Task<IEnumerable<int>> GetPermissionToOperations(CancellationToken cancellationToken)
@@ -50,14 +48,11 @@ namespace Hechinger.FSK.Application.Features
                           o.EntityStatus == EntityStatuses.Active &&
                           u.UserId.ToString() == userId
                           select o.Id).ToListAsync(cancellationToken);
-            //var workshopIds = await this.context.WorkShopUsers.Where(x => x.UserId == userId && x.EntityStatus == EntityStatuses.Active).Select(x => x.WorkShopId).ToListAsync(cancellationToken);
-            //var productsId = await this.context.Products.Where(x => workshopIds.Contains(x.WorkShopId) && x.EntityStatus == EntityStatuses.Active).Select(x => x.Id).ToListAsync(cancellationToken);
-            //return await this.context.Operations.Where(x => productsId.Contains(x.ProductId) && x.EntityStatus == EntityStatuses.Active).Select(x => x.Id).ToListAsync(cancellationToken);
+            
 
         }
         public async Task<IEnumerable<int>> GetPermissionToDefects(CancellationToken cancellationToken)
         {
-
             var userId = this.context.GetCurrentUser();
             return await (from u in this.context.WorkshopUsers
                             join w in this.context.Workshops on u.WorkshopId equals w.Id
@@ -71,11 +66,6 @@ namespace Hechinger.FSK.Application.Features
                             d.EntityStatus == EntityStatuses.Active &&
                             u.UserId.ToString() == userId
                           select d.Id).ToListAsync(cancellationToken);
-
-            //var workshopIds = await this.context.WorkShopUsers.Where(x => x.UserId == userId && x.EntityStatus == EntityStatuses.Active).Select(x => x.WorkShopId).ToListAsync(cancellationToken);
-            //var productIds = await this.context.Products.Where(x => workshopIds.Contains(x.WorkShopId) && x.EntityStatus == EntityStatuses.Active).Select(x => x.Id).ToListAsync(cancellationToken);
-            //var operationIds = await this.context.Operations.Where(x => productIds.Contains(x.ProductId) && x.EntityStatus == EntityStatuses.Active).Select(x => x.Id).ToListAsync(cancellationToken);
-            //var defectIds = await this.context.Defects.Where(x => operationIds.Contains(x.OperationId) && x.EntityStatus == EntityStatuses.Active).Select(x => x.Id).ToListAsync(cancellationToken);
         }
        
     }

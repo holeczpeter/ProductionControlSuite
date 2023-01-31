@@ -1,6 +1,8 @@
-<div cdkDropList
-     [cdkDropListData]="child.node.relations"
-     class="defect-relation-list"
-     (cdkDropListDropped)="drop($event)">
-  <div class="example-box" *ngFor="let i of child.node.relations" cdkDrag>{{i.code}}</div>
+
+<div cdkDropList 
+     [cdkDropListData]="item.get('node').value.relations"
+     class="relation-list"
+     (cdkDropListDropped)="entityGroupService.drop($event,item,true)">
+  <div class="example-box" *ngFor="let i of item.get('node').value.relations" cdkDrag>{{i.code}}</div>
 </div>
+

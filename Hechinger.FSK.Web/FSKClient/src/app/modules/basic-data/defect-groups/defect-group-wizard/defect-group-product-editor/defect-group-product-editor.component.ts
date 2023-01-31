@@ -1,7 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, UntypedFormArray, UntypedFormGroup } from '@angular/forms';
-import { EntityGroupModel, EntityGroupRelationModel, EntityTypes, ProductModel } from '../../../../../models/generated/generated';
+import { HttpParams } from '@angular/common/http';
+import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
+import { debounceTime, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
+import { EntityGroupModel, EntityGroupRelationModel } from '../../../../../models/generated/generated';
 import { TreeItem } from '../../../../../models/tree-item';
+import { EntityGroupDataService } from '../../../../../services/data/entity-group-data.service';
 import { EntityGroupService } from '../../../../../services/entity-group/entity-group-service.service';
 import { LanguageService } from '../../../../../services/language/language.service';
 
@@ -10,45 +14,74 @@ import { LanguageService } from '../../../../../services/language/language.servi
   templateUrl: './defect-group-product-editor.component.html',
   styleUrls: ['./defect-group-product-editor.component.scss']
 })
-export class DefectGroupProductEditorComponent implements OnInit, OnChanges {
-  @Input() tree: TreeItem<EntityGroupModel>;
-  @Output() refreshTree = new EventEmitter<any>();
-  productIds: number[];
-  treeForm: UntypedFormGroup;
-  constructor(public languageService: LanguageService, private formBuilder: FormBuilder,
+export class DefectGroupProductEditorComponent implements OnInit, OnChanges, AfterViewInit {
+  
+  protected products: EntityGroupRelationModel[];
+  public productFilterCtrl: FormControl = new FormControl();
+  public filteredProductsMulti: ReplaySubject<EntityGroupRelationModel[]> = new ReplaySubject<EntityGroupRelationModel[]>(1);
+  @ViewChild('multiSelect') multiSelect: MatSelect;
+  selectedUsers: EntityGroupRelationModel[] = new Array<EntityGroupRelationModel>();
+  protected _onDestroy = new Subject<void>();
+
+  constructor(public languageService: LanguageService,
+    public entityGroupDataService: EntityGroupDataService,
     public entityGroupService: EntityGroupService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes && changes["tree"]) this.initalize();
-  }
-  initalize() {
-    this.productIds = this.tree ? this.tree.node.relations.map(x => x.entityId) : new Array<number>();
-    this.entityGroupService.refreshProducts(this.productIds);
+    
   }
   ngOnInit() {
-  }
- 
-  onRefreshProducts(product: Array<ProductModel>) {
-    this.entityGroupService.refreshProducts(product.map(x => x.id));
-    let products = product as Array<ProductModel>;
-    let relations = new Array<EntityGroupRelationModel>();
-    products.forEach(x => {
-      let current: EntityGroupRelationModel = {
-        id: 0,
-        order:0,
-        entityId: x.id,
-        name: x.name,
-        parentId: 0,
-        code: x.code,
-        translatedName: x.translatedName,
-        entityType: EntityTypes.Product,
-        entityGroupId:this.tree.node.id
-      };
-      relations.push(current);
-    })
-    this.tree.node.relations = [...relations];
-    this.refreshTree.emit(this.tree);
-    //this.treeForm = this.entityGroupService.treeForm;
+    if (this.entityGroupService.treeForm) {
+      let params = new HttpParams();
+      params = params.append('groupId', this.entityGroupService.treeForm.get('node')?.value.id);
+      params = params.append('filter', '');
+      this.entityGroupDataService.getProductsForRelation(params).subscribe(products => {
+        this.products = products;
+        this.productFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
+          debounceTime(500)).subscribe(filter => {
+            this.filterProductsMulti();
+          })
+        this.filteredProductsMulti.next(this.products.slice());
+      });
+    }
   }
   
+  trackById(index: any, item: EntityGroupRelationModel): number {
+    return item.entityId;
+  }
+  protected setInitialValue() {
+    this.filteredProductsMulti
+      .pipe(take(1), takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.multiSelect.compareWith = (a: EntityGroupRelationModel, b: EntityGroupRelationModel) => a && b && a.entityId === b.entityId;
+      });
+  }
+  protected filterProductsMulti() {
+    if (!this.products) {
+      return;
+    }
+    let search = this.productFilterCtrl.value;
+    if (!search) {
+      this.filteredProductsMulti.next(this.products.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+      let params = new HttpParams();
+      params = params.append('groupId', this.entityGroupService.treeForm.get('node')?.value.id);
+      params = params.append('filter', search);
+      this.entityGroupDataService.getProductsForRelation(params).subscribe((result: any) => {
+        this.filteredProductsMulti.next(this.products.filter(product => (product.name && product.name.toLowerCase().indexOf(search) > -1) ||
+          (product.code && product.code.toLowerCase().indexOf(search) > -1)));
+      });
+    }
+  }
+  ngAfterViewInit() {
+    this.setInitialValue();
+  }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
 }
+

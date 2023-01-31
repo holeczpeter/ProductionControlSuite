@@ -39,7 +39,7 @@
                                                     }).ToList(),
             });
 
-            var results = groups.GenerateTree(i => i.Id, i => i.ParentId);
+            var results = groups.GenerateTree(i => i.Id, i => i.ParentId).ToList();
             foreach (var item in results)
             {
                 var result = TreeHelper.FindNode(item, request.Id);

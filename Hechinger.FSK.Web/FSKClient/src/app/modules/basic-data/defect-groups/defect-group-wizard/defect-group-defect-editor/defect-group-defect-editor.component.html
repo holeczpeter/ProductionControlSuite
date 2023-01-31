@@ -1,5 +1,5 @@
 
-<div cdkDropListGroup class="content">
+<div cdkDropListGroup class="content" *ngIf="tree">
   <div class="example-container">
     <h3>Választható hibák</h3>
     
@@ -10,7 +10,7 @@
     <div cdkDropList
          [cdkDropListData]="defects"
          class="example-list"
-         (cdkDropListDropped)="drop($event)">
+         (cdkDropListDropped)="entityGroupService.drop($event,tree,false)">
       <div class="example-box" *ngFor="let item of defects" cdkDrag> {{item.code}} -  {{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.name : item.translatedName}}</div>
     </div>
   </div>
@@ -18,41 +18,51 @@
     <div>
       <h3>Hibacsoport sorok</h3>
     </div>
-    <table mat-table
-           [dataSource]="dataSource"
-           class="mat-elevation-z8">
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Hibacsoport megnevezése</th>
-        <td mat-cell *matCellDef="let element">
-          <mat-form-field>
-            <input matInput [(ngModel)]='element.node.name' [name]='element.node.name'>
-          </mat-form-field>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="relation">
-        <th mat-header-cell *matHeaderCellDef>
-          Hibacsoport elemei
-          <div class="info-box">
-            <mat-icon color="accent">info</mat-icon>
-            <p>Kérem húzza a hibát a megfelelő sorba a hozzáadáshoz a bal oldalt található listából</p>
+          <form [formGroup]="tree">
+            <ng-container formArrayName="children">
+              <table mat-table
+                     [dataSource]="dataSource"
+                     class="mat-elevation-z8">
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef> Hibacsoport megnevezése</th>
+                  <td mat-cell *matCellDef="let element" [formGroup]="element.get('node')">
+                    <mat-form-field>
+                      <input matInput [formControlName]="'name'">
+                    </mat-form-field>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="relation">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Hibacsoport elemei
+                    <div class="info-box">
+                      <mat-icon color="accent">info</mat-icon>
+                      <p>Kérem húzza a hibát a megfelelő sorba a hozzáadáshoz a bal oldalt található listából</p>
+                    </div>
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    <app-defect-group-defect-child [item]="element"></app-defect-group-defect-child>
+                  </td>
+                 
+                </ng-container>
+                <ng-container matColumnDef="delete">
+                  <th mat-header-cell *matHeaderCellDef> Törlés </th>
+                  <td mat-cell *matCellDef="let element; let i =index">
+                    <button mat-icon-button (click)="remove(i)" color="primary">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"></tr>
+              </table>
+            </ng-container>
+
+          </form>
+          <div class="row justify-content-center pt-3">
+            <button class="new-defect" mat-raised-button color="primary" (click)="addGroupFromNode()">
+              Új hibacsoport sor hozzáadása
+            </button>
           </div>
-        </th>
-        <td mat-cell *matCellDef="let element">
-          <app-defect-group-defect-child [child]="element"></app-defect-group-defect-child>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="delete">
-        <th mat-header-cell *matHeaderCellDef> Törlés </th>
-        <td mat-cell *matCellDef="let element"> <button mat-icon-button (click)="delete(element)" color="primary"><mat-icon>delete</mat-icon></button> </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-      <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"></tr>
-    </table>
-    <div class="row justify-content-center pt-3">
-      <button class="new-defect" mat-raised-button color="primary" (click)="addGroupFromNode()">
-        Új hibacsoport sor hozzáadása
-      </button>
-    </div>
   </div>
   
 </div>

@@ -2,7 +2,7 @@
 {
     public class GetGroupTypeHandler : IRequestHandler<GetGroupTypes, IEnumerable<EnumModel>>
     {
-        public GetGroupTypeHandler(FSKDbContext context)
+        public GetGroupTypeHandler()
         {
             
         }
@@ -15,7 +15,7 @@
                 {
                     items.Add(new EnumModel() { Id = item, Name = ((GroupTypes)item).GetDescription() });
                 }
-                return request.IsAll ? items : items.Where(x=>x.Id != 2);
+                return request.IsAll ? items : items.Where(x=>x.Id == 0 || x.Id == 1);
             });
 
         }

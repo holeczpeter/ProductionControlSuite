@@ -1,14 +1,13 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormArray, UntypedFormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { EntityGroupModel, EntityGroupRelationModel, EntityGroupRelationTree, GroupTypes } from '../../../../../models/generated/generated';
+import { EntityGroupModel, EntityGroupRelationModel, GroupTypes } from '../../../../../models/generated/generated';
 import { TreeItem } from '../../../../../models/tree-item';
 import { ConfirmDialogService } from '../../../../../services/confirm-dialog/confirm-dialog-service';
 import { EntityGroupDataService } from '../../../../../services/data/entity-group-data.service';
 import { EntityGroupService } from '../../../../../services/entity-group/entity-group-service.service';
 import { LanguageService } from '../../../../../services/language/language.service';
-import { TreeService } from '../../../../../services/tree/tree.service';
 
 @Component({
   selector: 'app-defect-group-defect-editor',
@@ -16,50 +15,43 @@ import { TreeService } from '../../../../../services/tree/tree.service';
   styleUrls: ['./defect-group-defect-editor.component.scss']
 })
 export class DefectGroupDefectEditorComponent implements OnInit, OnChanges {
-  @Input() tree: TreeItem<EntityGroupModel>;
-  @Output() refreshTree = new EventEmitter<any>();
+  @Input() tree: UntypedFormGroup;
   dataSource: MatTableDataSource<any>;
   columnsToDisplay = ['name', 'relation', 'delete'];
   expandedElement: TreeItem<EntityGroupModel> | null;
   defects = new Array<EntityGroupRelationModel>();
-  constructor(private entityGroupDataService: EntityGroupDataService,
-
-    private readonly confirmDialogService: ConfirmDialogService,
-    private entityGroupService: EntityGroupService,
-    private treeService: TreeService,
+  constructor(private readonly confirmDialogService: ConfirmDialogService,
+    public entityGroupService: EntityGroupService,
+    private entityGroupDataService: EntityGroupDataService,
     public languageService: LanguageService) { }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes["tree"] && this.tree) {
-      this.dataSource = new MatTableDataSource(this.tree.children);
-      let list = new Array<string>();
-      list = list.concat(this.tree?.node.relations.map((x: any) => x.entityId.toString()));
-      let params = new HttpParams();
-      params = params.append('operationIds', list.toString());
-      params = params.append('groupId', this.tree.node.id);
 
-      this.entityGroupDataService.getDefectsForRelation(params).subscribe(res => {
-        // const difference = res.filter(x => !this.item?.node.relations.map((x: EntityGroupRelationModel) => x.entityId).includes(x.entityId);
-        this.defects = res;
-      })
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['tree'] && this.tree) {
+
+      this.dataSource = new MatTableDataSource((this.entityGroupService.getChildrenByCurrentForm(this.tree) as FormArray).controls);
+      
     }
-      this.dataSource = new MatTableDataSource(this.tree.children);
-    }
+  }
 
   ngOnInit(): void {
-    
+    this.entityGroupService.getOperationChanged().subscribe(x => {
+      if (x) {
+        let operations = this.entityGroupService.getRelationByCurrentForm(this.tree).value;
+        let operationsIds = operations.map((x: EntityGroupRelationModel) => x.entityId).map((u: number) => u.toString()).join(',');
+        let ops = this.entityGroupService.getRelationByCurrentForm(this.tree);
+        let params = new HttpParams();
+        params = params.append('operationIds', operationsIds);
+        params = params.append('groupId', this.entityGroupService.treeForm.get('id')?.value);
+
+        this.entityGroupDataService.getDefectsForRelation(params).subscribe(res => {
+          //console.log(res)
+          //const difference = res.filter(x => !this.item?.node.relations.map((x: EntityGroupRelationModel) => x.entityId).includes(x.entityId);
+          this.defects = res;
+        })
+      }
+    });
   }
-  drop(event: CdkDragDrop<any[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    }
-  }
+
   addGroupFromNode() {
     let current: EntityGroupModel = {
       id: 0,
@@ -67,8 +59,8 @@ export class DefectGroupDefectEditorComponent implements OnInit, OnChanges {
       translatedName: '',
       order: 0,
       ppmGoal: 0,
-      groupType: GroupTypes.Item,
-      parentId: this.tree.node.id,
+      groupType: GroupTypes.DefectItem,
+      parentId: this.tree.get('node')?.value.id,
       relations: new Array<EntityGroupRelationModel>(),
     }
     let tree = {
@@ -76,16 +68,15 @@ export class DefectGroupDefectEditorComponent implements OnInit, OnChanges {
       children: new Array<any>(),
       collapsed: false,
     }
-    this.treeService.addChild(this.tree, tree);
-    this.dataSource = new MatTableDataSource(this.tree.children);
-    let order = tree.children.length + 1;
-    
+    this.entityGroupService.addChildToParent(this.tree, tree, GroupTypes.DefectItem);
+    this.dataSource = new MatTableDataSource((this.entityGroupService.getChildrenByCurrentForm(this.tree) as FormArray).controls);
   }
-  delete(node: TreeItem<EntityGroupModel>) {
+
+  remove(i: number) {
     this.confirmDialogService.openDeleteConfirm('hibacsoportot').subscribe(result => {
       if (result) {
-        this.treeService.removeChild(this.tree, node);
-        this.dataSource = new MatTableDataSource(this.tree.children);
+        this.entityGroupService.removeChildFromParent(this.tree, i);
+        this.dataSource = new MatTableDataSource((this.entityGroupService.getChildrenByCurrentForm(this.tree) as FormArray).controls);
       }
     });
   }

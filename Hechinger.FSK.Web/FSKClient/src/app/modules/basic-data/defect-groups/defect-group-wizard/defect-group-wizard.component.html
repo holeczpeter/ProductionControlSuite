@@ -1,22 +1,20 @@
 <dialog-header [title]="title" (cancel)="onCancel()"></dialog-header>
 <mat-dialog-content>
-  <mat-stepper orientation="horizontal" #mystepper *ngIf="data" (selectionChange)="onStepChange($event)">
+  <mat-stepper orientation="horizontal" #mystepper  (selectionChange)="onStepChange($event)">
     <mat-step state="perm_data_setting">
       <ng-template matStepLabel>{{'defectgroups.edit'| translate}}</ng-template>
       <ng-template matStepContent>
-        <app-defect-group-data-editor
-                                      [tree]="data"
-                                      (refreshTree)="refreshTree($event)">
+        <app-defect-group-data-editor>
         </app-defect-group-data-editor>
       </ng-template>
     </mat-step>
     <mat-step state="supervisor_account" *ngIf="isHead">
       <ng-template matStepLabel>{{'products.select'| translate}}</ng-template>
-      <app-defect-group-product-editor [tree]="data" (refreshTree)="refreshTree($event)"></app-defect-group-product-editor>
+      <app-defect-group-product-editor></app-defect-group-product-editor>
     </mat-step>
     <mat-step state="playlist_add_check" *ngIf="isHead">
       <ng-template matStepLabel>{{'table.edit'| translate}}</ng-template>
-        <app-defect-group-operation-editor [tree]="data">
+        <app-defect-group-operation-editor>
         </app-defect-group-operation-editor>
     </mat-step>
     <ng-template matStepperIcon="perm_data_setting">
@@ -71,7 +69,7 @@
       {{ 'save' | translate}}
     </button>
   </ng-container>
-  
+
 </div>
 
 

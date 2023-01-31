@@ -26,7 +26,9 @@
                 else
                 {
                     current.EntityStatus = EntityStatuses.Deleted;
+
                     await context.SaveChangesAsync(cancellationToken);
+
                     result.Message = "A műhely sikeresen törölve";
                     result.IsSuccess = true;
                     return result;
