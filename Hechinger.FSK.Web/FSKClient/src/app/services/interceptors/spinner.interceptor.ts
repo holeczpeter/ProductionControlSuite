@@ -52,10 +52,10 @@ export class SpinnerInterceptor implements HttpInterceptor {
   }
 
   private decrementRequestCount(): void {
-    if (--this.currentRequests === 0) this.spinnerService.hide();
+    if (--this.currentRequests === 0 && this.spinnerService.enabled$.value) this.spinnerService.hide();
   }
 
   private incrementRequestCount(): void {
-    if (this.currentRequests++ === 0) this.spinnerService.show();
+    if (this.currentRequests++ === 0 && this.spinnerService.enabled$.value) this.spinnerService.show();
   }
 }

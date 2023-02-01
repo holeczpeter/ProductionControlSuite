@@ -1,15 +1,16 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { DeleteEntityGroup, EntityGroupModel, EntityGroupRelationModel, EntityGroupRelationTree, EnumModel, GetEntityGroupById, GetGroupTypes, Result, SaveEntityGroup } from '../../models/generated/generated';
 import { TreeItem } from '../../models/tree-item';
+import { SpinnerService } from '../spinner/spinner.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EntityGroupDataService {
 
-  constructor(private readonly httpClient: HttpClient) { }
+  constructor(private readonly httpClient: HttpClient, private readonly spinnerService: SpinnerService) { }
 
  
   save(request: SaveEntityGroup): Observable<Result> {
@@ -40,15 +41,31 @@ export class EntityGroupDataService {
   }
 
   getEntityRelationsByProducts(params: HttpParams): Observable<Array<EntityGroupRelationTree>> {
-    return this.httpClient.get<Array<EntityGroupRelationTree>>('/EntityGroup/GetEntityRelationsByProducts', { params: params });
+    this.spinnerService.disable();
+    return this.httpClient.get<Array<EntityGroupRelationTree>>('/EntityGroup/GetEntityRelationsByProducts', { params: params }).pipe(map((x) => {
+      this.spinnerService.enable();
+      return x
+    }));
   }
   getProductsForRelation(params: HttpParams): Observable<Array<EntityGroupRelationModel>> {
-    return this.httpClient.get<Array<EntityGroupRelationModel>>('/EntityGroup/GetProductsForRelation', { params: params });
+    this.spinnerService.disable();
+    return this.httpClient.get<Array<EntityGroupRelationModel>>('/EntityGroup/GetProductsForRelation', { params: params }).pipe(map((x) => {
+      this.spinnerService.enable();
+      return x
+    }));
   }
   getOperationsForRelation(params: HttpParams): Observable<Array<EntityGroupRelationModel>> {
-    return this.httpClient.get<Array<EntityGroupRelationModel>>('/EntityGroup/GetOperationsForRelation', { params: params });
+    this.spinnerService.disable();
+    return this.httpClient.get<Array<EntityGroupRelationModel>>('/EntityGroup/GetOperationsForRelation', { params: params }).pipe(map((x) => {
+      this.spinnerService.enable();
+      return x
+    }));
   }
   getDefectsForRelation(params: HttpParams): Observable<Array<EntityGroupRelationModel>> {
-    return this.httpClient.get<Array<EntityGroupRelationModel>>('/EntityGroup/GetDefectsForRelation', { params: params });
+    this.spinnerService.disable();
+    return this.httpClient.get<Array<EntityGroupRelationModel>>('/EntityGroup/GetDefectsForRelation', { params: params }).pipe(map((x) => {
+      this.spinnerService.enable();
+      return x
+    }));
   }
 }

@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormArray, UntypedFormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, UntypedFormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { EntityGroupModel, EntityGroupRelationModel, GroupTypes } from '../../../../../models/generated/generated';
 import { TreeItem } from '../../../../../models/tree-item';
@@ -16,10 +16,10 @@ import { LanguageService } from '../../../../../services/language/language.servi
 })
 export class DefectGroupDefectEditorComponent implements OnInit, OnChanges {
   @Input() tree: UntypedFormGroup;
-  dataSource: MatTableDataSource<any>;
+  dataSource = new MatTableDataSource<AbstractControl<any>>();
   columnsToDisplay = ['name', 'relation', 'delete'];
   expandedElement: TreeItem<EntityGroupModel> | null;
-  defects = new Array<EntityGroupRelationModel>();
+  allDefects = new Array<EntityGroupRelationModel>();
   constructor(private readonly confirmDialogService: ConfirmDialogService,
     public entityGroupService: EntityGroupService,
     private entityGroupDataService: EntityGroupDataService,
@@ -27,37 +27,18 @@ export class DefectGroupDefectEditorComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['tree'] && this.tree) {
-      this.entityGroupService.getOperationChanged().subscribe(x => {
-        console.log('opchanged')
-        if (x) {
-          let operations = this.entityGroupService.getRelationByCurrentForm(this.tree).value;
-          let operationsIds = operations.map((x: EntityGroupRelationModel) => x.entityId).map((u: number) => u.toString()).join(',');
-          let params = new HttpParams();
-          params = params.append('operationIds', operationsIds);
-          params = params.append('groupId', this.entityGroupService.treeForm.get('id')?.value);
-          this.entityGroupDataService.getDefectsForRelation(params).subscribe(res => {
-            if (res) {
-              let a = new Array<EntityGroupRelationModel>();
-              let children = this.entityGroupService.getChildrenByCurrentForm(this.tree) as FormArray;
-
-              for (let control of children.controls) {
-                let fg = control as UntypedFormGroup;
-                let currentRel = this.entityGroupService.getRelationByCurrentForm(fg).value;
-                currentRel.forEach((i: EntityGroupRelationModel) => { a.push(i) });
-              }
-              const difference = res.filter(x => !a.map((x: EntityGroupRelationModel) => x.entityId).includes(x.entityId));
-              this.defects = difference;
-            }
-           
-            //console.log(this.defects)
-          })
+      this.entityGroupService.getOperationChanged().subscribe(change => {
+        if (change) {
+          this.entityGroupService.getAllDefectsBy(this.tree).subscribe(res => {
+            this.allDefects = res
+          });
+          
         }
       });
-      this.dataSource = new MatTableDataSource((this.entityGroupService.getChildrenByCurrentForm(this.tree) as FormArray).controls);
-      
+      this.dataSource.data = this.entityGroupService.getChildrenByCurrentForm(this.tree).controls;
     }
   }
-
+ 
   ngOnInit(): void {
     
   }

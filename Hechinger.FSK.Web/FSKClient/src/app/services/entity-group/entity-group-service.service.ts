@@ -1,6 +1,8 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { BehaviorSubject, pairwise, startWith } from 'rxjs';
 import { EntityGroupModel, EntityGroupRelationModel, GroupTypes } from '../../models/generated/generated';
 import { TreeItem } from '../../models/tree-item';
@@ -32,10 +34,58 @@ export class EntityGroupService {
     return this.treeForm.get('node')?.get('relations') as FormArray;
   }
   getRelationByCurrentForm(form: UntypedFormGroup): FormArray {
-    console.log(form)
     return form.get('node')?.get('relations') as FormArray;
   }
-
+  getAllDefectRelation(form: UntypedFormGroup) {
+    const results = new Array<EntityGroupRelationModel>();
+    const children = this.getChildrenByCurrentForm(form) as FormArray;
+    for (let control of children.controls) {
+      let fg = control as UntypedFormGroup;
+      let currentRel = this.getRelationByCurrentForm(fg).value;
+      currentRel.forEach((i: EntityGroupRelationModel) => { results.push(i) });
+    }
+    return results;
+  }
+  getAllDefectsBy(form: UntypedFormGroup): Observable<EntityGroupRelationModel[]> {
+    let operations = this.getRelationByCurrentForm(form).value;
+    let operationsIds = operations.map((x: EntityGroupRelationModel) => x.entityId).map((u: number) => u.toString()).join(',');
+    let params = new HttpParams();
+    params = params.append('operationIds', operationsIds);
+    params = params.append('groupId', this.treeForm.get('id')?.value);
+    return this.entityGroupDataService.getDefectsForRelation(params);
+  }
+  getSelectableDefectsBy(form: UntypedFormGroup, array: Array<EntityGroupRelationModel>) {
+    const allUsed = this.getAllDefectRelation(form);
+    const difference = array?.filter(x => !allUsed.map((x: EntityGroupRelationModel) => x.entityId).includes(x.entityId));
+    return difference;
+  }
+  getAllOperationRelation() {
+    const results = new Array<EntityGroupRelationModel>();
+    const children = this.treeForm.get('children') as FormArray;
+    for (let control of children.controls) {
+      let fg = control as UntypedFormGroup;
+      let currentRel = this.getRelationByCurrentForm(fg).value;
+      currentRel.forEach((i: EntityGroupRelationModel) => { results.push(i) });
+    }
+    return results;
+  }
+ 
+  private _allOperations: Array<EntityGroupRelationModel>;
+  get allOperations() {
+    return this._allOperations;
+  }
+  set allOperations(operation: Array<EntityGroupRelationModel>) {
+  
+    this._allOperations = [...operation];
+  }
+  private _selectableOperations: Array<EntityGroupRelationModel>;
+  get selectableOperations() {
+    return this._selectableOperations;
+  }
+  set selectableOperations(operation: Array<EntityGroupRelationModel>) {
+    this._selectableOperations = [...operation];
+  }
+  
   constructor(private formBuilder: FormBuilder, private entityGroupDataService: EntityGroupDataService) {
   }
 
@@ -178,7 +228,6 @@ export class EntityGroupService {
 
   removeRelationToParent(parent: UntypedFormGroup, i: number) {
     const remove = this.getRelationByCurrentForm(parent);
-    console.log(remove)
     remove.removeAt(i);
   }
 
@@ -189,10 +238,8 @@ export class EntityGroupService {
     
   }
 
-  drop(event: CdkDragDrop<EntityGroupRelationModel[]>, parent: UntypedFormGroup, isRelation: boolean) {
-    console.log(event)
-    console.log(parent)
-    console.log(isRelation)
+  drop(event: CdkDragDrop<EntityGroupRelationModel[]>, parent: UntypedFormGroup, isRelation: boolean,type: GroupTypes) {
+   
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -210,12 +257,18 @@ export class EntityGroupService {
       this.refreshRelationsInParent(parent, event.container.data);
     }
     else {
-      console.log(event.previousContainer)
+     
       if (event.previousContainer.data != null && event.previousContainer.data.length == 1) {
         parent.get('node')?.get('name')?.setValue(event.previousContainer.data[0].name);
       } 
       this.refreshRelationsInParent(parent, event.previousContainer.data);
     }
-    this.operationChangedSubject.next(true);
+    if (type == GroupTypes.OperationItem || type == GroupTypes.DefectItem) this.operationChangedSubject.next(true);
   }
+
+  //TODO
+  //getAllOprelationId //drop => remove   operations  //deleteOp => add operations
+  //getAllDefectRElationId //drop => remove defects   //deleteDefect => add defects
+  
+  
 }

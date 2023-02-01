@@ -7,9 +7,9 @@
         <p>Kérem húzza a műveletet a jobb oldalon található műveletcsoport megfelelő sorába a hozzáadáshoz</p>
       </div>
       <div cdkDropList
-           [cdkDropListData]="operations"
+           [cdkDropListData]="entityGroupService.selectableOperations"
            class="example-list">
-        <div class="example-box" *ngFor="let item of operations" cdkDrag> {{item.code}} -  {{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.name : item.translatedName}}</div>
+        <div class="example-box" *ngFor="let item of entityGroupService.selectableOperations" cdkDrag> {{item.code}} -  {{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.name : item.translatedName}}</div>
       </div>
     </div>
   </mat-drawer>
@@ -87,7 +87,7 @@
               <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
                   class="example-element-row"
                   [class.example-expanded-row]="expandedElement === element"
-                  (click)="expandedElement = expandedElement === element ? null : element">
+                  >
               </tr>
               <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
             </table>

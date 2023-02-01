@@ -8,10 +8,10 @@
       <p>Kérem húzza a hibakódot a jobb oldalon található hibacsoport megfelelő sorába a hozzáadáshoz</p>
     </div>
     <div cdkDropList
-         [cdkDropListData]="defects"
+         [cdkDropListData]="entityGroupService.getSelectableDefectsBy(tree, allDefects)"
          class="example-list"
         >
-      <div class="example-box" *ngFor="let item of defects" cdkDrag> {{item.code}} -  {{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.name : item.translatedName}}</div>
+      <div class="example-box" *ngFor="let item of entityGroupService.getSelectableDefectsBy(tree, allDefects)" cdkDrag> {{item.code}} -  {{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.name : item.translatedName}}</div>
     </div>
   </div>
   <div class="edit">

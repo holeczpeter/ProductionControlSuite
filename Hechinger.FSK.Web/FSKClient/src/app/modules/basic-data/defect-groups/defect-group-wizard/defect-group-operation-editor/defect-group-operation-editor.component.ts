@@ -27,15 +27,14 @@ import { LanguageService } from '../../../../../services/language/language.servi
 })
 export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, AfterViewInit, AfterContentChecked {
   
-  entityRelationTree: Array<EntityGroupRelationModel>;
+ 
   config: AccordionConfig = { multi: false };
   done = new Array<EntityGroupRelationModel>();
-  operations: EntityGroupRelationModel[];
-  dataSource : MatTableDataSource<any>;
+  dataSource = new  MatTableDataSource<any>();
   columnsToDisplay = ['name', 'relation', 'delete', 'expand'];
   expandedElement: TreeItem<EntityGroupModel> | null;
-
   openedSidebar = true;
+
   constructor(private entityGroupDataService: EntityGroupDataService,
     public languageService: LanguageService,
     private changeDetector: ChangeDetectorRef,
@@ -44,19 +43,21 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
 
   ngOnInit(): void {
     this.entityGroupService.treeForm.valueChanges.pipe(startWith(this.entityGroupService.treeForm.value)).subscribe(x => {
-      this.dataSource = new MatTableDataSource((this.entityGroupService.getChildren as FormArray).controls);
+      this.dataSource.data = this.entityGroupService.getChildren.controls;
     });
-    this.entityGroupService.productChangedSubject.subscribe(x => {
-      if (x) {
+    this.entityGroupService.getProductChanged().pipe(startWith(true)).subscribe(change => {
+      if (change) {
         let products = this.entityGroupService.getRelations.value;
         let productIds = products.map((x: EntityGroupRelationModel) => x.entityId).map((u: number) => u.toString()).join(',');
         let params = new HttpParams();
         params = params.append('productIds', productIds);
         params = params.append('groupId', this.entityGroupService.treeForm.get('node')?.value.id);
         this.entityGroupDataService.getOperationsForRelation(params).subscribe(res => {
-          this.entityRelationTree = res;
-          this.operations = this.entityRelationTree;
-
+       
+          this.entityGroupService.allOperations = res;
+          const allUsed = this.entityGroupService.getAllOperationRelation();
+          const difference = this.entityGroupService.allOperations.filter(x => !allUsed.map((x: EntityGroupRelationModel) => x.entityId).includes(x.entityId));
+          this.entityGroupService.selectableOperations = difference;
         })
       }
     });
