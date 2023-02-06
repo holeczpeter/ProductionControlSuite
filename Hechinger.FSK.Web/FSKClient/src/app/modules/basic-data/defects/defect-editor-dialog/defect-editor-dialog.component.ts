@@ -83,19 +83,29 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
   }
 
   add() {
-    let model: AddDefect = {
-      name: this.formGroup.get('name')?.value,
-      code: this.formGroup.get('code')?.value,
-      defectCategory: this.formGroup.get('defectCategory')?.value,
-      translatedName: this.formGroup.get('translatedName')?.value,
-      operationId: this.formGroup.get('operation')?.value.id,
+   
+    if (this.data && this.data.defectModel && this.data?.defectModel.code == this.formGroup.get('code')?.value && this.data.isCopy) {
+      this.confirmDialogService.openError("Kérem módosítsa a kód mezőt, a hibakód már létezik.").subscribe(x => {
+        return;
 
-    };
-    this.defectDataService.add(model).subscribe(result => {
-      this.snackBar.open(result);
-      if (result.isSuccess) this.dialogRef.close(true);
+      });
+    }
+    else {
+      let model: AddDefect = {
+        name: this.formGroup.get('name')?.value,
+        code: this.formGroup.get('code')?.value,
+        defectCategory: this.formGroup.get('defectCategory')?.value,
+        translatedName: this.formGroup.get('translatedName')?.value,
+        operationId: this.formGroup.get('operation')?.value.id,
 
-    });
+      };
+      this.defectDataService.add(model).subscribe(result => {
+        this.snackBar.open(result);
+        if (result.isSuccess) this.dialogRef.close(true);
+
+      });
+    }
+  
   }
 
   update() {

@@ -45,11 +45,14 @@ export class ApplicationSettingsComponent implements OnInit, HasComponentUnsaved
   }
   onSave() {
     let updateUserSettings = this.formGroup.getRawValue();
-    
     this.userSettingsService.updateUserSettings(updateUserSettings).subscribe(result => {
       this.snackBar.open(result);
-      this.accountService.setPageSize(updateUserSettings.pageSize);
-      this.accountService.setAvatar(updateUserSettings.avatarType);
+      
+      if (result.isSuccess) {
+        this.accountService.setPageSize(updateUserSettings.pageSize);
+        this.accountService.setAvatar(updateUserSettings.avatarType);
+        this.ngOnInit();
+      } 
     });
   }
   hasUnsavedChanges(): boolean {

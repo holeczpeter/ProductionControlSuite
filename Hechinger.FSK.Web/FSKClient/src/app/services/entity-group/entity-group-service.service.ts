@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { BehaviorSubject, pairwise, startWith } from 'rxjs';
-import { EntityGroupModel, EntityGroupRelationModel, GroupTypes } from '../../models/generated/generated';
+import { EntityGroupModel, EntityGroupRelationModel, GroupTypeColor, GroupTypes } from '../../models/generated/generated';
 import { TreeItem } from '../../models/tree-item';
 import { EntityGroupDataService } from '../data/entity-group-data.service';
 
@@ -12,7 +12,14 @@ import { EntityGroupDataService } from '../data/entity-group-data.service';
   providedIn: 'root'
 })
 export class EntityGroupService {
- 
+  colors: Array<GroupTypeColor> = [
+    { id: 0, name: 'Hibaösszesítő csoport', color: '#F9A825' },
+    { id: 1, name: 'Hibaösszesítő', color: '#4CAF50' },
+  ];
+  colorStyle(id: number) {
+    let color = this.colors.find(x => x.id === id)?.color;
+    return { 'border-left-style': 'solid', 'border-color': color, 'margin-left': '15px' }
+  }
   treeForm: UntypedFormGroup;
   groupTypes = this.entityGroupDataService.getGroupTypes({ isAll: false });
   productChangedSubject = new BehaviorSubject<boolean>(false);
@@ -141,7 +148,6 @@ export class EntityGroupService {
       const children = this.getChildren.controls;
       children.forEach((x: UntypedFormGroup) => {
         let rel = this.getRelationByCurrentForm(x);
-        console.log(rel)
       });
     }
   }

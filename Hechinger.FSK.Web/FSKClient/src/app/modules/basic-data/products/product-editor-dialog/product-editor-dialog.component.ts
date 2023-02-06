@@ -7,6 +7,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { forkJoin, map, Observable, ReplaySubject, startWith, Subject, take, takeUntil } from 'rxjs';
 import { ProductEditorModel } from '../../../../models/dialog-models/product-editor-model';
 import { AddProduct, DefectModel, GetOperationsByProduct, OperationModel, ProductModel, UpdateProduct, WorkshopModel } from '../../../../models/generated/generated';
+import { ConfirmDialogService } from '../../../../services/confirm-dialog/confirm-dialog-service';
 import { OperationDataService } from '../../../../services/data/operation-data.service';
 import { ProductDataService } from '../../../../services/data/product-data.service';
 import { WorkshopDataService } from '../../../../services/data/workshop-data.service';
@@ -41,6 +42,7 @@ export class ProductEditorDialogComponent implements OnInit, AfterViewInit, OnDe
     private readonly formBuilder: UntypedFormBuilder,
     private readonly snackBar: SnackbarService,
     private readonly changeDetector: ChangeDetectorRef,
+    private readonly confirmDialogService: ConfirmDialogService,
     public languageService: LanguageService) {
     this.productId = data ? data.productModel.id : 0;
     this.product = data ? data.productModel : null;
@@ -97,17 +99,26 @@ export class ProductEditorDialogComponent implements OnInit, AfterViewInit, OnDe
   }
 
   add() {
-    let model: AddProduct = {
-      name: this.formGroup.get('name')?.value,
-      code: this.formGroup.get('code')?.value,
-      translatedName: this.formGroup.get('translatedName')?.value,
-      workshopId: this.formGroup.get('workshop')?.value.id,
-      
-    };
-    this.productDataService.add(model).subscribe(result => {
-      this.snackBar.open(result);
-      if (result.isSuccess) this.dialogRef.close(true);
-    });
+    if (this.data && this.data.productModel && this.data?.productModel.code == this.formGroup.get('code')?.value && this.data.isCopy) {
+      this.confirmDialogService.openError("Kérem módosítsa a kód mezőt, a termékkód már létezik.").subscribe(x=>{
+        return;
+
+      });
+    }
+    else {
+      let model: AddProduct = {
+        name: this.formGroup.get('name')?.value,
+        code: this.formGroup.get('code')?.value,
+        translatedName: this.formGroup.get('translatedName')?.value,
+        workshopId: this.formGroup.get('workshop')?.value.id,
+
+      };
+      this.productDataService.add(model).subscribe(result => {
+        this.snackBar.open(result);
+        if (result.isSuccess) this.dialogRef.close(true);
+      });
+    }
+   
   }
 
   update() {

@@ -2,56 +2,69 @@
   <div class="flex-title">
     <app-title class="flex-title-item" [title]="title" [contentTemplate]="tooltipTemplate"></app-title>
   </div>
-  <ng-container *ngIf="dataSource && treeControl">
-    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-      
-      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
-        <button mat-icon-button disabled></button>
-        {{node.item.node.name}}
-        <ng-container *ngIf="node.item.node.groupType === groupTypes.Group">
-          <button mat-icon-button (click)="addToGroup(node)" color="primary"><mat-icon>add</mat-icon></button>
-          <button mat-icon-button (click)="edit(node)" color="primary"><mat-icon>edit</mat-icon></button>
-          <button mat-icon-button (click)="delete(node)" color="primary"><mat-icon>delete</mat-icon></button>
-        </ng-container>
-        <ng-container *ngIf="node.item.node.groupType === groupTypes.Head">
-          <button mat-icon-button (click)="edit(node)" color="primary"><mat-icon>edit</mat-icon></button>
-          <button mat-icon-button (click)="delete(node)" color="primary"><mat-icon>delete</mat-icon></button>
-        </ng-container>
-      </mat-tree-node>
-      <mat-tree-node *matTreeNodeDef="let node; when: hasChild && allChildrenItem" matTreeNodePadding>
-        <button mat-icon-button matTreeNodeToggle
-                [attr.aria-label]="'Toggle ' + node.item">
-          <mat-icon class="mat-icon-rtl-mirror">
-            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-          </mat-icon>
-        </button>
-        {{node.item.node.name}}
-        <ng-container *ngIf="node.item.node.groupType === groupTypes.Group">
-          <button mat-icon-button (click)="addToGroup(node)" color="primary"><mat-icon>add</mat-icon></button>
-          <button mat-icon-button (click)="edit(node)" color="primary"><mat-icon>edit</mat-icon></button>
-          <button mat-icon-button (click)="delete(node)" color="primary"><mat-icon>delete</mat-icon></button>
-        </ng-container>
-        <ng-container *ngIf="node.item.node.groupType === groupTypes.Head">
-          <button mat-icon-button (click)="edit(node)" color="primary"><mat-icon>edit</mat-icon></button>
-          <button mat-icon-button (click)="delete(node)" color="primary"><mat-icon>delete</mat-icon></button>
-        </ng-container>
-      </mat-tree-node>
-    </mat-tree>
-    <div class="row justify-content-center pt-3">
-      <button mat-fab color="primary" (click)="addGroupFromNode()">
-        <mat-icon>add</mat-icon>
-      </button>
+  <div class="container-inside">
+    <h3>Jelölések</h3>
+    <div class="row">
+      <div class="col pl-3">
+        <div class="row pb-1" *ngFor="let color of entityGroupService.colors">
+          <div class="col" [ngStyle]="entityGroupService.colorStyle(color.id)">
+            {{color.name}}
+          </div>
+        </div>
+      </div>
     </div>
-  </ng-container>
- </div>
+    </div>
+    <ng-container *ngIf="dataSource && treeControl">
+      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+          <button mat-icon-button disabled></button>
+          <div [ngClass]="node.item.node.groupType === groupTypes.Group ? 'marker group' : 'marker head'"></div>
+          {{node.item.node.name}}
+          <ng-container *ngIf="node.item.node.groupType === groupTypes.Group">
+            <button mat-icon-button (click)="addToGroup(node)" color="primary"><mat-icon>add</mat-icon></button>
+            <button mat-icon-button (click)="edit(node)" color="primary"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button (click)="delete(node)" color="primary"><mat-icon>delete</mat-icon></button>
+          </ng-container>
+          <ng-container *ngIf="node.item.node.groupType === groupTypes.Head">
+            <button mat-icon-button (click)="edit(node)" color="primary"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button (click)="delete(node)" color="primary"><mat-icon>delete</mat-icon></button>
+          </ng-container>
+        </mat-tree-node>
+        <mat-tree-node *matTreeNodeDef="let node; when: hasChild && allChildrenItem" matTreeNodePadding>
+          <button mat-icon-button matTreeNodeToggle
+                  [attr.aria-label]="'Toggle ' + node.item">
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+          </button>
+          <div [ngClass]="node.item.node.groupType === groupTypes.Group ? 'marker group' : 'marker head'"></div>
+          {{node.item.node.name}}
+          <ng-container *ngIf="node.item.node.groupType === groupTypes.Group">
+            <button mat-icon-button (click)="addToGroup(node)" color="primary"><mat-icon>add</mat-icon></button>
+            <button mat-icon-button (click)="edit(node)" color="primary"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button (click)="delete(node)" color="primary"><mat-icon>delete</mat-icon></button>
+          </ng-container>
+          <ng-container *ngIf="node.item.node.groupType === groupTypes.Head">
+            <button mat-icon-button (click)="edit(node)" color="primary"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button (click)="delete(node)" color="primary"><mat-icon>delete</mat-icon></button>
+          </ng-container>
+        </mat-tree-node>
+      </mat-tree>
+      <div class="row justify-content-center pt-3">
+        <button mat-fab color="primary" (click)="addGroupFromNode()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </ng-container>
+  </div>
 
 
-<ng-template #tooltipTemplate>
-  <div class="headerrow">
-    <h3>Hibaösszesítők</h3>
-  </div>
-  <div style="display: flex; flex-direction: column">
-    <span>A Hibaösszesítők menürendszerének és termékcsoportok, műveletcsoportok, illetve hibacsoportok létrehozása, módosítása varázsló segítségével</span>
-    <br>
-  </div>
-</ng-template>
+  <ng-template #tooltipTemplate>
+    <div class="headerrow">
+      <h3>Hibaösszesítők</h3>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <span>A Hibaösszesítők menürendszerének és termékcsoportok, műveletcsoportok, illetve hibacsoportok létrehozása, módosítása varázsló segítségével</span>
+      <br>
+    </div>
+  </ng-template>

@@ -20,9 +20,13 @@ export class QualityMenuComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
   }
   hasChildren(item: TreeItem<EntityGroupModel>) {
-    return  item.children && item.children.length > 0 && item.children.some(x => x.node.groupType == GroupTypes.Group || x.node.groupType == GroupTypes.Head);
+
+    return item.children &&
+      item.children.length > 0 &&
+      item.children.some(x => x.node.groupType == GroupTypes.Group || x.node.groupType == GroupTypes.Head);
   }
   onSelect(group: EntityGroupModel) {
     this.select.emit(group);

@@ -27,7 +27,7 @@ export class ShiftsComponent implements OnInit, AfterViewInit {
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array<string> = ['name','translatedName','shortName','start','end', 'edit', 'delete']
+  columnNames: Array<string> = ['name','translatedName','shortName','start','end']
   title = "shifts.title";
   filterableColumns: Array<TableColumnModel> = [
     {

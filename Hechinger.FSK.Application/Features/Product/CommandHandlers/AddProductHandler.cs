@@ -10,6 +10,12 @@
         public async Task<Result<int>> Handle(AddProduct request, CancellationToken cancellationToken)
         {
             var result = new ResultBuilder<int>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var existingCode = await this.context.Products.Where(x => x.EntityStatus == EntityStatuses.Active && x.Code == request.Code).AnyAsync(cancellationToken);
+            if (existingCode)
+            {
+                result.Errors.Add($"A termékkód már létezik: {request.Code}");
+                return result;
+            }
             var currentWorkShop = await this.context.Workshops.Where(x => x.Id == request.WorkshopId && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             var current = new Product()
             {

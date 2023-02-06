@@ -1,11 +1,35 @@
 <mat-menu #menu>
   <ng-container *ngFor="let item of items">
-    <ng-container *ngIf="(item.node.groupType == groupTypes.Group || item.node.groupType == groupTypes.Head)">
-      <button *ngIf="!hasChildren(item); else branch" mat-menu-item (click)="onSelect(item.node)">{{item.node.name}}</button>
-      <ng-template #branch>
-        <button mat-menu-item [matMenuTriggerFor]="innerPanel.menu" (click)="onSelect(item.node)">{{item.node.name}}</button>
-        <app-quality-menu #innerPanel [items]="item.children"></app-quality-menu>
-      </ng-template>
+    <ng-container *ngIf="hasChildren(item); else nochild">
+      <button mat-menu-item [matMenuTriggerFor]="panel.menu" color="primary" >
+        <div class="button-container">
+          <div [ngClass]="item.node.groupType === groupTypes.Group ? 'marker group' : 'marker head'"></div>
+          {{item.node.name}}
+        </div>
+      </button>
+      <app-quality-menu #panel [items]="item.children" (select)="onSelect($event)"></app-quality-menu>
     </ng-container>
+    <ng-template #nochild>
+      <ng-container *ngIf="item.node.groupType == groupTypes.Head;else group">
+          <button mat-menu-item color="primary" (click)="onSelect(item.node)">
+            <div class="button-container">
+              <div [ngClass]="item.node.groupType === groupTypes.Group ? 'marker group' : 'marker head'"></div>
+              {{item.node.name}}
+            </div>
+          </button>
+      </ng-container>
+      <ng-template #group>
+        <button mat-menu-item color="primary" [matMenuTriggerFor]="nocontent">
+          <div class="button-container">
+            <div [ngClass]="item.node.groupType === groupTypes.Group ? 'marker group' : 'marker head'"></div>
+            {{item.node.name}}
+          </div>
+        </button>
+        <mat-menu #nocontent="matMenu">
+          <button mat-menu-item disabled>Nincs megjeleníthető hibaösszesítő</button>
+        </mat-menu>
+      </ng-template>
+    </ng-template>
   </ng-container>
-</mat-menu>
+
+  

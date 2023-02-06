@@ -64,7 +64,6 @@ export class DefectGroupWizardComponent implements OnInit {
     let saveEntityGroup: SaveEntityGroup = {
       current: this.entityGroupService.treeForm.getRawValue()
     };
-    console.log(saveEntityGroup)
     this.entityGroupDataService.save(saveEntityGroup).subscribe(result => {
       this.snackBar.open(result);
       if (result.isSuccess) this.dialogRef.close(true);

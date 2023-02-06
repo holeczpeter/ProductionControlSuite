@@ -1,3 +1,19 @@
 button{
     margin:5px;
 }
+::ng-deep.mat-menu-panel {
+  max-width: none !important;
+  overflow:hidden;
+}
+
+.group-marker {
+  border-left-width: thick;
+  border-left-color: #F9A825 !important;
+ 
+}
+
+.head-marker {
+  border-left-width: thick;
+  border-left-color: #4CAF50 !important;
+}
+

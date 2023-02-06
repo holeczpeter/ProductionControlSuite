@@ -47,6 +47,7 @@ export class ProductContextService {
         code: [productContext ? productContext.code : '', [Validators.required]],
         translatedName: [productContext ? productContext.translatedName : '', [Validators.required]],
         workshop: [productContext ? workshops.find(ws => ws.id == productContext!.workshopId) : null, [Validators.required]],
+        hasOperation: [productContext ? productContext.hasOperation : false],
         operations: this.formBuilder.array(new Array<OperationModel>())
       });
       productContext?.operations?.forEach(op => this.addOperation(op));
@@ -89,6 +90,7 @@ export class ProductContextService {
       ppmGoal: [operation ? operation.ppmGoal : 0],
       operationTime: [operation ? operation.operationTime : 0],
       translatedName: [operation ? operation.translatedName : '', [Validators.required]],
+      hasDefect: [operation ? operation.hasDefect : false],
       defects: this.formBuilder.array(new Array<OperationModel>())
     }));
     
@@ -98,7 +100,9 @@ export class ProductContextService {
     this.confirmDialogService.openDeleteConfirm('műveletet').subscribe(result => {
       if (result) {
         const remove = this.getOperations;
-        remove.removeAt(i);
+        let current = this.getOperations.controls[i];
+        if (current && current.get('hasDefect')?.value == true) this.confirmDialogService.openError("A művelet nem törölhető, mert vannak hozzátartozó hibák").subscribe();
+        else remove.removeAt(i);
       }
     });
     
@@ -111,6 +115,7 @@ export class ProductContextService {
       code: [defect ? defect.code : '', [Validators.required]],
       order: [defect ? defect.order : '', [Validators.required]],
       translatedName: [defect ? defect.translatedName : '', [Validators.required]],
+      hasCard: [defect ? defect.hasCard : false],
       defectCategory: [defect ? defect.defectCategory : '', [Validators.required]],
     }));
     
@@ -120,7 +125,9 @@ export class ProductContextService {
     this.confirmDialogService.openDeleteConfirm('hibát').subscribe(result => {
       if (result) {
         const remove = this.getDefects(opIndex);
-        remove.removeAt(i);
+        let current = remove.controls[i];
+        if (current && current.get('hasCard')?.value == true) this.confirmDialogService.openError("A hiba nem törölhető, mert vannak hozzátartozó hibagyűjtők").subscribe();
+        else remove.removeAt(i);
       }
     });
    

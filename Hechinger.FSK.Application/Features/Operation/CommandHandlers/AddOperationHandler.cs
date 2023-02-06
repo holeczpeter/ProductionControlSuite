@@ -10,7 +10,14 @@
         public async Task<Result<bool>> Handle(AddOperation request, CancellationToken cancellationToken)
         {
             var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var existingCode = await this.context.Operations.Where(x=> x.EntityStatus == EntityStatuses.Active && x.Code == request.Code).AnyAsync(cancellationToken);
+            if (existingCode) 
+            {
+                result.Errors.Add($"A műveletkód már létezik: {request.Code}");
+                return result;
+            }
             var currentProduct = await this.context.Products.Where(x => x.Id == request.ProductId && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
+            
             var current = new Operation()
             {
                 Name = request.Name,

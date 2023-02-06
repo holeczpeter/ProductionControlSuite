@@ -18,6 +18,11 @@ export interface EnumModel {
   id: number,
   name: string,
 }
+export interface GroupTypeColor {
+  id: number,
+  name: string,
+  color: string,
+}
 export interface IntervalModel {
   startDate: Date,
   endDate: Date,
@@ -252,7 +257,10 @@ export interface GetDefectsByOperation {
 export interface GetDefectsCount {
   parameters: DefectRequestParameters,
 }
-export interface CreateEntityGroup {
+export interface DeleteEntityGroup {
+  id: number,
+}
+export interface SaveEntityGroup {
   current: TreeItem<EntityGroupModel>,
 }
 export interface EntityGroupModel {
@@ -264,12 +272,6 @@ export interface EntityGroupModel {
   groupType: GroupTypes,
   relations: Array<EntityGroupRelationModel>,
   ppmGoal: number,
-}
-export interface DeleteEntityGroup {
-  id: number,
-}
-export interface SaveEntityGroup {
-  current: TreeItem<EntityGroupModel>,
 }
 export interface EntityGroupRelationModel {
   id: number,
@@ -470,6 +472,7 @@ export interface OperationContext {
   norma: any,
   defects: Array<DefectContext>,
   ppmGoal: number,
+  hasDefect: boolean,
 }
 export interface UpdateProduct {
   id: number,
@@ -485,6 +488,7 @@ export interface ProductContext {
   translatedName: string,
   workshopId: number,
   operations: Array<OperationContext>,
+  hasOperation: boolean,
 }
 export interface DefectContext {
   id: number,
@@ -493,6 +497,7 @@ export interface DefectContext {
   code: string,
   order: number,
   defectCategory: DefectCategories,
+  hasCard: boolean,
 }
 export interface ProductModel {
   id: number,

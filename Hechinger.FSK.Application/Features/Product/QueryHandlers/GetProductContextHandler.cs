@@ -16,6 +16,7 @@
                 Code = x.Code,
                 TranslatedName = !String.IsNullOrEmpty(x.TranslatedName) ? x.TranslatedName : x.Name,
                 WorkshopId = x.Workshop.Id,
+                HasOperation = x.Operations.Any(),
                 Operations = x.Operations.Where(op=> op.EntityStatus == EntityStatuses.Active).Select(operation => new OperationContext()
                 {
                     Id = operation.Id,
@@ -26,6 +27,7 @@
                     Norma = operation.Norma,
                     PpmGoal = operation.PpmGoal,
                     OperationTime = operation.OperationTime,
+                    HasDefect = operation.Defects.Any(),
                     Defects = operation.Defects.Where(d => d.EntityStatus == EntityStatuses.Active).Select(defect => new DefectContext() 
                     {
                         Id = defect.Id,
@@ -34,6 +36,7 @@
                         Order = defect.Order,
                         TranslatedName = !String.IsNullOrEmpty(defect.TranslatedName) ? defect.TranslatedName : defect.Name,
                         DefectCategory = defect.DefectCategory,
+                        HasCard = defect.SummaryCardItems.Any(),    
                     }).OrderBy(defect=>defect.Order).ToList()
                 }).OrderBy(defect => defect.Order).ToList(),
             }).FirstOrDefaultAsync(cancellationToken);

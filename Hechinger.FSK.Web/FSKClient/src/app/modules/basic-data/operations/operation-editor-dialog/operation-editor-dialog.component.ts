@@ -81,21 +81,30 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
   }
 
   add() {
-    let model: AddOperation = {
-      name: this.formGroup.get('name')?.value,
-      code: this.formGroup.get('code')?.value,
-      norma: this.formGroup.get('norma')?.value,
-      operationTime: this.formGroup.get('operationTime')?.value,
-      ppmGoal: this.formGroup.get('ppmGoal')?.value,
-      translatedName: this.formGroup.get('translatedName')?.value,
-      productId: this.formGroup.get('product')?.value.id,
+    if (this.data && this.data.operationModel && this.data?.operationModel.code == this.formGroup.get('code')?.value && this.data.isCopy) {
+      this.confirmDialogService.openError("Kérem módosítsa a kód mezőt, a műveletkód már létezik.").subscribe(x => {
+        return;
 
-    };
-    this.operationDataService.add(model).subscribe(result => {
-      this.snackBar.open(result);
-      if (result.isSuccess) this.dialogRef.close(true);
+      });
+    }
+    else {
+      let model: AddOperation = {
+        name: this.formGroup.get('name')?.value,
+        code: this.formGroup.get('code')?.value,
+        norma: this.formGroup.get('norma')?.value,
+        operationTime: this.formGroup.get('operationTime')?.value,
+        ppmGoal: this.formGroup.get('ppmGoal')?.value,
+        translatedName: this.formGroup.get('translatedName')?.value,
+        productId: this.formGroup.get('product')?.value.id,
 
-    });
+      };
+      this.operationDataService.add(model).subscribe(result => {
+        this.snackBar.open(result);
+        if (result.isSuccess) this.dialogRef.close(true);
+
+      });
+    }
+    
   }
 
   update() {

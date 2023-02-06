@@ -10,6 +10,7 @@ import { TreeItemFlatNode } from '../../../models/tree-item-flat-node';
 import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 import { EntityGroupDataService } from '../../../services/data/entity-group-data.service';
 import { ProductDataService } from '../../../services/data/product-data.service';
+import { EntityGroupService } from '../../../services/entity-group/entity-group-service.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { CompareService } from '../../../services/sort/sort.service';
 import { DefectFilterService } from '../../../services/table/defect-filter.service';
@@ -19,6 +20,7 @@ import { TableExportService } from '../../../services/table/table-export.service
 import { TableFilterService } from '../../../services/table/table-filter.service';
 import { TreeService } from '../../../services/tree/tree.service';
 import { DefectGroupWizardComponent } from './defect-group-wizard/defect-group-wizard.component';
+
 
 
 @Component({
@@ -68,23 +70,20 @@ export class DefectGroupsComponent implements OnInit {
     this.nestedNodeMap.set(node, flatNode);
     return flatNode;
   };
-
+  
   public get groupTypes(): typeof GroupTypes {
     return GroupTypes;
   }
-  constructor(private readonly productDataService: ProductDataService,
-    private readonly entityGroupDataService: EntityGroupDataService,
+  constructor(private readonly entityGroupDataService: EntityGroupDataService,
+    public readonly entityGroupService: EntityGroupService,
     private readonly dialog: MatDialog,
-    private readonly treeService: TreeService,
     private readonly snackBar: SnackbarService,
     public translate: TranslateService,
     public tableFilterService: TableFilterService,
     public compareService: CompareService,
     public sortService: SortService,
     private readonly confirmDialogService: ConfirmDialogService,
-    private readonly exportService: TableExportService,
-    public paginationService: PaginationService,
-    private readonly filterService: DefectFilterService) {
+    public paginationService: PaginationService,) {
   }
 
   ngOnInit(): void {
@@ -110,18 +109,12 @@ export class DefectGroupsComponent implements OnInit {
     this.dataSource.data = items;
   }
 
-  
-
   getParentNode(node: TreeItemFlatNode<EntityGroupModel>): TreeItemFlatNode<EntityGroupModel> | null {
     const currentLevel = this.getLevel(node);
-
     if (currentLevel < 1) return null;
-
     const startIndex = this.treeControl.dataNodes.indexOf(node) - 1;
-
     for (let i = startIndex; i >= 0; i--) {
       const currentNode = this.treeControl.dataNodes[i];
-
       if (this.getLevel(currentNode) < currentLevel) {
         return currentNode;
       }
@@ -131,7 +124,6 @@ export class DefectGroupsComponent implements OnInit {
  
 
   addGroupFromNode() {
-    
     let current: EntityGroupModel = {
       id: 0,
       name: '',
