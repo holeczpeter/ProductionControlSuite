@@ -49,13 +49,13 @@
                   </div>
                   <div class="row">
                     <mat-form-field class="col">
-                      <mat-select [formControlName]="'defectCategory'" [placeholder]="'defects.defectCategory' | translate" required>
+                      <mat-select [formControlName]="'defectCategory'" [placeholder]="'defects.defectCategoryName' | translate" required>
                         <mat-option *ngFor="let option of productContextService.getCategories() | async" [value]="option.id">
                           {{ option.name }}
                         </mat-option>
                       </mat-select>
                       <mat-error class="col" *ngIf="productContextService.getDefects(i).controls[j].get('defectCategory')?.hasError('required')">
-                        {{'defects.defectCategory'| translate}} {{'required' | translate}}
+                        {{'defects.defectCategoryName'| translate}} {{'required' | translate}}
                       </mat-error>
                     </mat-form-field>
                   </div>

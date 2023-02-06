@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { LoginModel, LoginResults } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
+import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 import { ResultBuilder } from '../../../services/result/result-builder';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { SpinnerService } from '../../../services/spinner/spinner.service';
@@ -17,12 +18,13 @@ export class LoginComponent implements OnInit {
   hide = true;
   formGroup = this.fb.group({
     code: ['', [Validators.required]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
+    password: ['', [Validators.required]],
   });
   onDestroy$ = new Subject();
 
   constructor(private readonly accountService: AccountService,
     private readonly router: Router,
+    private readonly confirmDialogService: ConfirmDialogService,
     private readonly snackBarService: SnackbarService,
     private readonly fb: UntypedFormBuilder,
     public readonly spinnerService: SpinnerService) {
@@ -30,7 +32,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  forgotPassword() {
+    this.confirmDialogService.openInformation("Kérjük forduljon a rendszergazdához.").subscribe();
+  }
   onSubmit() {
     let request: LoginModel = { code: this.formGroup.get('code')?.value, password: this.formGroup.get('password')?.value }
     this.accountService.login(request).subscribe(x => {

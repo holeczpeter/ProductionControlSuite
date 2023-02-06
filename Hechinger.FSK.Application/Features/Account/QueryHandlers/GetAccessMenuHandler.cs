@@ -14,7 +14,9 @@ namespace Hechinger.FSK.Application.Features
         {
             var currentUser = await this.context.Users.Where(x => x.Id == request.UserId && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             var menus = await this.context.MenuRoles
-                .Where(x => x.EntityStatus == EntityStatuses.Active && x.RoleId == currentUser.RoleId && x.Menu.IsVisible)
+                .Where(x => x.EntityStatus == EntityStatuses.Active && 
+                x.Menu.EntityStatus ==  EntityStatuses.Active &&
+                x.RoleId == currentUser.RoleId && x.Menu.IsVisible)
                 .Select(menuRole => new MenuItemModel()
                 {
                     Id = menuRole.Menu.Id,

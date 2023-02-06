@@ -31,7 +31,7 @@ export class PasswordSettingsComponent implements OnInit, OnDestroy, HasComponen
 
   ngOnInit(): void {
     this.formGroup = this.fb.group({
-      code: ['', [Validators.required]],
+      code: [this.accountService.getCode(), [Validators.required]],
       oldPassword: ['', [Validators.required]],
       newPassword: [null, Validators.compose([
         Validators.required,

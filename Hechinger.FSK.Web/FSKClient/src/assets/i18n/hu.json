@@ -22,6 +22,7 @@
   "newpassword": "Új jelszó",
   "temporarypassword": "Ideiglenes jelszó",
   "oldpassword": "Régi jelszó",
+  "confirm": "megerősítése",
   "logininprogress": "Belépés folyamatban...",
   "newpasswordrequestinprogress": "Jelszó igénylése folyamatban...",
   "changepasswordinprogress": "Jelszó beállítása folyamatban......",
@@ -33,7 +34,7 @@
   "userName": "Rögzítő",
   "firstName": "Keresztnév",
   "lastName": "Vezetéknév",
-  "required": "kötelező",
+  "required": "megadása kötelező",
   "name": "Megnevezés",
   "code": "Kód",
   "shortName": "Kód",
@@ -62,6 +63,7 @@
   "los": "Los",
   "summarycard": "Hibagyűjtő lap",
   "summarycard.edit": "Hibagyűjtő lap szerkesztése",
+  "summarycards": "Hibagyűjtő lapok",
   "roleName": "Szerepkör",
   "statusName": "Státusz",
   "fullName": "Név",
@@ -81,6 +83,9 @@
   "selected": "Kiválasztott",
   "yearsummary": "Éves összegzés",
   "groupreport": "Hibaösszesítő",
+  "maindata": "Alapadatok",
+  "selectable": "Választható",
+  "rows": "sorok",
   "months": [
     { "January": "Január" },
     { "February": "Február" },
@@ -142,11 +147,15 @@
     "title": "Hibösszesítők",
     "add": "Új hibösszesítő hozzáadása",
     "edit": "Hibösszesítő szerkesztése",
-    "type": "Hibösszesítő típus"
-
+    "type": "Hibösszesítő típus",
+    "addoperationrow": "Új műveletcsoport sor hozzáadása",
+    "adddefectrow": "Új hibacsoport sor hozzáadása"
   },
   "workercompare": {
     "title": "Dolgozók összehasonlítása"
+  },
+  "defectcompare": {
+    "title": "Hibák összehasonlítása"
   },
   "qualityreport": {
     "title": "Darabszám jelentés"

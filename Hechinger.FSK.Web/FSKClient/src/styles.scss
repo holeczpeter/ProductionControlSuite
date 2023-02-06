@@ -26,7 +26,7 @@ $primary: mat.define-palette($blue-palette, 500);
 $accent: mat.define-palette($orange-palette,500);
 
 $theme: mat.define-light-theme($primary, $accent);
-
+$mat-warn-color: #F35B5A;
 @include mat.all-component-themes($theme);
 @import "./app/styles/authentication.scss";
 @import "./app/styles/dialog.scss";
@@ -220,12 +220,14 @@ h2.regular, h3.regular {
   flex-grow: 4;
 }
 
-
-
 .container-fluid{
     padding-bottom:20px;
 }
 .container-inside{
     padding:20px;
     background-color:white;
+}
+.mat-error {
+  font-size: 10px;
+  color: $mat-warn-color;
 }

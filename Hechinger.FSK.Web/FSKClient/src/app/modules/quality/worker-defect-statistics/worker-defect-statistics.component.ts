@@ -23,7 +23,7 @@ import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 
 export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
   formGroup: UntypedFormGroup;
-  title = "workercompare.title";
+  title = "defectcompare.title";
   chartInfo: any;
   products!: SelectModel[];
   public productFilterCtrl: FormControl = new FormControl();

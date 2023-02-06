@@ -9,7 +9,7 @@
   </div>
   <div class="row">
     <mat-form-field>
-      <input matInput [formControlName]="'password'" [placeholder]="'password' | translate" required />
+      <input matInput [formControlName]="'password'" [type]="hide ? 'password' : 'text'" [placeholder]="'password' | translate" required />
       <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       <mat-error class="col" *ngIf="formGroup.get('password')?.hasError('required')">
         {{'password'| translate}} {{'required' | translate}}
@@ -26,7 +26,7 @@
     </div>
     <div class="link-container">
       <div>
-        <a [routerLink]="['../forgot-password']">{{'forgotpassword'| translate}}</a>
+        <a [routerLink]="['']" (click)="forgotPassword()">{{'forgotpassword'| translate}}</a>
       </div>
     </div>
   </div>

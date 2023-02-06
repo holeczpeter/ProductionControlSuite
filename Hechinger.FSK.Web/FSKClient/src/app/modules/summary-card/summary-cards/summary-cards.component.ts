@@ -44,7 +44,7 @@ export class SummaryCardsComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   columnNames: Array<string> = ['date', 'shiftName','workerName', 'operationCode', 'operationName', 'quantity', 'userName', 'created', 'edit','delete']
-  title = "summarycard";
+  title = "summarycards";
   filterableColumns: Array<TableColumnModel> = [
     {
       name: 'date',

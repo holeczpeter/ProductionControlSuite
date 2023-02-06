@@ -22,6 +22,7 @@
   "newpassword": "Neues Passwort",
   "temporarypassword": "Temporäres Passwort",
   "oldpassword": "Altes Passwort",
+  "confirm": "bestätigen",
   "logininprogress": "Anmeldung im Gange...",
   "newpasswordrequestinprogress": "Neue Passwortanforderung läuft...",
   "changepasswordinprogress": "Passwortänderung ist im Gange...",
@@ -62,6 +63,7 @@
   "los": "Los",
   "summarycard": "Fehlersammel Karte",
   "summarycard.edit": "Fehlersammel Karte bearbeiten",
+  "summarycards": "Fehlersammel Karten",
   "roleName": "Rolle",
   "statusName": "Status",
   "fullName": "Name",
@@ -81,6 +83,9 @@
   "selected": "Ausgewählt",
   "yearsummary": "Qualitätsverlauf monatlich",
   "groupreport": "Qualitätsmeldung",
+  "maindata": "Hauptinformationen",
+  "selectable": "Wählbare",
+  "rows":"Reihen",
   "months": [
     { "January": "Januar" },
     { "February": "Februar" },
@@ -143,10 +148,15 @@
     "title": "Fehlersammelkarten",
     "add": "Neue Fehlersammelkarten hinzufügen",
     "edit": "Fehlersammelkarte bearbeiten",
-    "type": "Fehlersammelkarte Typ"
+    "type": "Fehlersammelkarte Typ",
+    "addoperationrow": "Neue Operation Gruppe Reihe",
+    "adddefectrow": "Neue Defect Gruppe Reihe"
   },
   "workercompare": {
     "title": "Arbeiter fehlers meldung"
+  },
+  "defectcompare": {
+    "title": "Fehlers meldung"
   },
   "qualityreport": {
     "title": "Stückzahlmeldung"

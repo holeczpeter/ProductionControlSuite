@@ -1,7 +1,19 @@
 <dialog-header [title]="title" (cancel)="onCancel()"></dialog-header>
 <mat-dialog-content *ngIf="formGroup">
   <mat-stepper orientation="horizontal" #mystepper>
-    <mat-step state="perm_data_setting" label="{{'roles.edit'| translate}}" errorMessage="{{'roleName'| translate}} {{'required' | translate}}">
+    <mat-step state="perm_data_setting" [stepControl]="formGroup">
+      <ng-template matStepLabel>
+        {{'maindata'| translate}}
+        <mat-hint class="mat-error" *ngIf="formGroup?.get('name')?.hasError('required')">
+          {{'name'| translate}} {{'required' | translate}}
+        </mat-hint>
+        <mat-hint class="mat-error" *ngIf="formGroup?.get('translatedName')?.hasError('required')">
+          {{'translatedName'| translate}} {{'required' | translate}}
+        </mat-hint>
+        <mat-hint class="mat-error" *ngIf="formGroup?.get('code')?.hasError('required')">
+          {{'code'| translate}} {{'required' | translate}}
+        </mat-hint>
+      </ng-template>
       <ng-template matStepContent>
         <form [formGroup]="formGroup">
           <div class="row pt-2">
@@ -39,7 +51,12 @@
       <app-role-user-editor [roleId]="id" (resfresh)="refreshUsers($event)"></app-role-user-editor>
     </mat-step>
     <mat-step state="playlist_add_check">
-      <ng-template matStepLabel>{{'roles.permissions'| translate}}</ng-template>
+      <ng-template matStepLabel>
+        {{'roles.permissions'| translate}}
+        <mat-hint class="mat-error" *ngIf="accessMenu.length == 0">
+          Legalább egy menüpont megadása kötelező
+        </mat-hint>
+      </ng-template>
       <app-role-menu-editor [roleId]="id" (resfreshSelectionTree)="refreshMenu($event)"></app-role-menu-editor>
     </mat-step>
     <ng-template matStepperIcon="perm_data_setting">

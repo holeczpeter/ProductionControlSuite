@@ -54,7 +54,22 @@ export class ProductContextService {
     });
     
   }
-
+  mainFormIsValid() {
+    return this.formGroup.get('name')?.valid &&
+      this.formGroup.get('code')?.valid &&
+      this.formGroup.get('translatedName')?.valid &&
+      this.formGroup.get('workshop')?.valid;
+  }
+  isOperationsValid() {
+    for (let i = 0; i < this.getOperations.controls.length; i++) {
+      const formElementRegistry = this.getOperations.controls[i];
+      if ((!formElementRegistry.get('name')?.valid ||
+        !formElementRegistry.get('code')?.valid ||
+        !formElementRegistry.get('translatedName')?.valid ||
+        !formElementRegistry.get('order')?.valid)) return true;
+    }
+    return false;
+  }
   getCategoriesQuery() {
     return this.defectDataService.getAllDefectCategories();
   }
