@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Hechinger.FSK.Web.Controllers
 {
-    public class ApplicationController
+    public class ApplicationController : ControllerBase
     {
         [HttpGet]
         [AllowAnonymous]
