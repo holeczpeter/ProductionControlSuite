@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System.IO;
@@ -60,10 +61,17 @@ app.UseEndpoints(endpoints =>
 });
 
 app.UseStaticFiles();
-app.UseSpaStaticFiles();
+app.UseSpaStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "FSKClient", app.Environment.IsDevelopment() ? "" : "dist"))
+});
 app.UseSpa(spa =>
 {
     spa.Options.SourcePath = "FSKClient";
+    spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "FSKClient", app.Environment.IsDevelopment() ? "" : "dist"))
+    };
     if (app.Environment.IsDevelopment()) 
     {
         spa.UseAngularCliServer(npmScript: "start");
