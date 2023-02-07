@@ -47,8 +47,10 @@ export class AddSummaryCardComponent implements OnInit {
       let item: AddSummaryCardItem = { defectId: data.value.defectId, comment: data.value.comment, quantity: data.value.quantity };
       items.push(item);
     });
+    let date = new Date(this.cardForm.get('date')?.value);
+    let currentDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
     let model: AddSummaryCard = {
-      date: this.cardForm.get('date')?.value,
+      date: currentDate,
       worker: this.cardForm.get('worker')?.value,
       operationId: this.cardForm.get('operation')?.value.id,
       quantity: this.cardForm.get('quantity')?.value,
