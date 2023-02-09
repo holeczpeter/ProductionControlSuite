@@ -1,6 +1,7 @@
 {
   "name": "fskclient",
   "version": "0.0.0",
+  "description": "FSK",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

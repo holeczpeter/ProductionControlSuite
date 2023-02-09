@@ -6,13 +6,16 @@
     </div>
     <span class="example-spacer"></span>
     <span class="center-span"><img [src]="imageSrc" class="logo" /></span>
-
+    <button mat-icon-button (click)="onSupport()">
+      <mat-icon class="header-icon">help</mat-icon>
+      
+    </button>
     <span class="language">{{'lang' | translate}}</span>
     <span><a (click)="setLanguage('hu', $event)" class="lang">hu</a></span>
     <span>|</span>
     <span><a (click)="setLanguage('de' , $event)" class="lang">de</a></span>
 
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <button mat-icon-button>
       <mat-icon class="header-icon">account_circle</mat-icon>
     </button>
     <div class="login-name">
@@ -24,7 +27,7 @@
         <mat-icon [@openClose]="panelOpenState? 'open' : 'closed'">expand_more</mat-icon>
       </button>
     </div>
-    
+
     <mat-menu #beforeMenu="matMenu" xPosition="before">
       <app-personal-info></app-personal-info>
 
@@ -40,10 +43,6 @@
         <span>{{'exit' | translate}}</span>
       </button>
     </mat-menu>
-    <!--<button mat-icon-button class="example-icon"
-            (click)="onLogout()">
-      <mat-icon class="header-icon" matTooltip="Info about the action">exit_to_app</mat-icon>
-    </button>-->
   </mat-toolbar-row>
   <mat-toolbar-row>
     <ng-container *ngFor="let module of modules">
@@ -56,38 +55,4 @@
     </ng-container>
   </mat-toolbar-row>
 </mat-toolbar>
-<!--<div class="header primary-dark">
-  <mat-toolbar-row>
-    <span class="company-name">{{companyName}}</span>
-  </mat-toolbar-row>
-  <div class="header-info">
-    <div class="names">
-      <p class="header-main"> FSK {{ applicationInformation?.enviromentName}} rendszer</p>
-      <p class="header_alt"><b>{{companyName}}</b></p>
-    </div>
-    <span class="example-spacer"></span>
-    <span class="center-span"><img [src]="imageSrc" class="logo" /></span>
-    <span><a (click)="setLanguage('hu', $event)" class="lang">hu</a></span>
-    <span><a (click)="setLanguage('de' , $event)" class="lang">de</a></span>
 
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-      <mat-icon>account_circle</mat-icon>
-    </button>
-    {{name}}
-    <button mat-icon-button class="example-icon"
-            (click)="onLogout()">
-      <mat-icon>exit_to_app</mat-icon>
-    </button>
-  </div>
- 
-  <div class="header-nav">
-    <ng-container *ngFor="let module of modules">
-      <button class="col me-2 ms-2 primary-dark"
-              routerLinkActive="active"
-              mat-stroked-button
-              [routerLink]="[module.node.path]">
-        {{ (languageService.getCurrentLanguage() | async) === 'hu' ? module.node.title : module.node.translatedTitle}}
-      </button>
-    </ng-container>
-  </div>
-</div>-->

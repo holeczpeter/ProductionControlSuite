@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, Subscription } from 'rxjs';
@@ -22,10 +23,12 @@ export class LayoutComponent  {
   onDestroy$ = new Subject();
   companyName = "Hechinger Hungary Kft.";
   logo = 'assets/images/logo.png';
+  backgroundImg = this.sanitizer.bypassSecurityTrustStyle('url(assets/background.jpg)');
   currentLang!: string;
   langChangeSubscription: Subscription;
   applicationInformation: ApplicationInfo;
   constructor(private router: Router,
+    private sanitizer: DomSanitizer,
     private readonly applicationService: ApplicationService,
     private accountService: AccountService,
     public readonly spinnerService: SpinnerService,

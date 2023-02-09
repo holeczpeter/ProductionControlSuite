@@ -1,4 +1,4 @@
-import { DatePipe, LowerCasePipe } from '@angular/common';
+import { DatePipe, HashLocationStrategy, LocationStrategy, LowerCasePipe } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
@@ -34,7 +34,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    SharedModule,
+    BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     TranslateModule.forRoot({
@@ -44,14 +47,15 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         deps: [HttpClient]
       }
     }),
-   
+  
     SharedModule,
+    AppRoutingModule,
   ],
-  providers: [DatePipe, LowerCasePipe,
-  {
-    provide: MAT_DIALOG_DEFAULT_OPTIONS,
-    useValue: { panelClass: 'app-dialog' },
-    },
+  providers: [
+    DatePipe,
+    LowerCasePipe,
+    { provide: LocationStrategy, useClass: HashLocationStrategy},
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { panelClass: 'app-dialog' }},
   ],
   bootstrap: [AppComponent]
 })

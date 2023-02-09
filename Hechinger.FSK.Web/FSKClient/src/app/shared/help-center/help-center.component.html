@@ -1,0 +1,24 @@
+<ng-container>
+  <dialog-header [title]="title" (cancel)="onCancel()">
+
+  </dialog-header>
+  <mat-dialog-content>
+    <div class="name">{{applicationAdministratorName}}</div>
+    <div class="email"><a href="mailto:{{applicationAdministratorEmail}}">{{applicationAdministratorEmail}}</a></div>
+    <div class="name"> {{systemAdministratorName}}</div>
+    <div class="email"><a href="mailto:{{systemAdministratorEmail}}">{{systemAdministratorEmail}}</a></div>
+    <div class="name">{{developerName}}</div>
+    <div class="email"><a href="mailto:{{developerEmail}}">{{developerEmail}}</a></div>
+    <div class="documentation"><a href="/images/myw3schoolsimage.jpg" download>Felhasználói kézikönyv</a></div>
+
+    <img class="logo" [src]="imageSrc" class="logo" />
+    <div class="version">
+      <div>Verzió: {{applicationInformation?.version}}</div>
+      <div>{{applicationInformation?.copyRight}}</div>
+    </div>
+  </mat-dialog-content>
+  <div mat-dialog-actions>
+    <button mat-raised-button cdkFocusInitial color="blue" (click)="onCancel()">{{'close'| translate}} </button>
+  </div>
+</ng-container>
+

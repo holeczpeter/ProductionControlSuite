@@ -86,6 +86,7 @@
   "maindata": "Alapadatok",
   "selectable": "Választható",
   "rows": "sorok",
+  "help": "Információk",
   "months": [
     { "January": "Január" },
     { "February": "Február" },

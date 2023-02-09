@@ -73,7 +73,6 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
   filterForm: UntypedFormGroup;
   totalCount!: number;
   constructor(private readonly defectDataService: DefectDataService,
-    private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
     private readonly confirmDialogService: ConfirmDialogService,
     private readonly snackBar: SnackbarService,

@@ -85,7 +85,8 @@
   "groupreport": "Qualitätsmeldung",
   "maindata": "Hauptinformationen",
   "selectable": "Wählbare",
-  "rows":"Reihen",
+  "rows": "Reihen",
+  "help": "Information",
   "months": [
     { "January": "Januar" },
     { "February": "Februar" },

@@ -4,12 +4,15 @@ using Hechinger.FSK.Infrastructure.Persistence;
 using Hechinger.FSK.Web;
 using Hechinger.FSK.Web.Extensions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 using Serilog;
 using System.IO;
 
@@ -51,7 +54,8 @@ if (app.Environment.IsDevelopment())
 }
 app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
-
+RewriteOptions rewriteOptions = new RewriteOptions().Add(new FixIisBaseProblem());
+app.UseRewriter(rewriteOptions);
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -65,18 +69,37 @@ app.UseSpaStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "FSKClient", app.Environment.IsDevelopment() ? "" : "dist"))
 });
-app.UseSpa(spa =>
+app.Map("", web =>
 {
-    spa.Options.SourcePath = "FSKClient";
-    spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions
+    web.UseSpaStaticFiles(new StaticFileOptions
     {
         FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "FSKClient", app.Environment.IsDevelopment() ? "" : "dist"))
-    };
-    if (app.Environment.IsDevelopment()) 
+    });
+    web.UseSpa(spa =>
     {
-        spa.UseAngularCliServer(npmScript: "start");
-    };
 
-  
+        spa.Options.SourcePath = "FSKClient";
+        spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "FSKClient", app.Environment.IsDevelopment() ? "" : "dist"))
+        };
+        if (app.Environment.IsDevelopment())
+        {
+            spa.UseAngularCliServer(npmScript: "start");
+        }
+    });
 });
+
 app.Run();
+internal sealed class FixIisBaseProblem : IRule
+{
+    public void ApplyRule(RewriteContext context)
+    {
+        HttpRequest request = context.HttpContext.Request;
+        if (request.Path.HasValue) return;
+        HttpResponse response = context.HttpContext.Response;
+        response.StatusCode = StatusCodes.Status301MovedPermanently;
+        response.Headers[HeaderNames.Location] = $"{request.PathBase}/";
+        context.Result = RuleResult.EndResponse;
+    }
+}

@@ -77,6 +77,7 @@ import { TooltipComponent } from './tooltip/tooltip.component';
 import { TooltipDirective } from '../directives/tooltip.directive';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { InitialAvatarComponent } from './initial-avatar/initial-avatar.component';
+import { HelpCenterComponent } from './help-center/help-center.component';
 
 
 @NgModule({
@@ -110,6 +111,7 @@ import { InitialAvatarComponent } from './initial-avatar/initial-avatar.componen
     TooltipDirective,
     PersonalInfoComponent,
     InitialAvatarComponent,
+    HelpCenterComponent,
   ],
   imports: [
     CommonModule,
@@ -232,7 +234,8 @@ import { InitialAvatarComponent } from './initial-avatar/initial-avatar.componen
     ConfirmDialogComponent,
     TooltipComponent,
     PersonalInfoComponent,
-    InitialAvatarComponent
+    InitialAvatarComponent,
+    HelpCenterComponent
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },
@@ -246,7 +249,8 @@ import { InitialAvatarComponent } from './initial-avatar/initial-avatar.componen
   ],
   entryComponents: [
     LoaderComponent,
-    IntervalViewComponent
+    IntervalViewComponent,
+    HelpCenterComponent
   ]
 })
 export class SharedModule { }

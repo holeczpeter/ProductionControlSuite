@@ -53,7 +53,7 @@
     <mat-step state="playlist_add_check">
       <ng-template matStepLabel>
         {{'roles.permissions'| translate}}
-        <mat-hint class="mat-error" *ngIf="accessMenu.length == 0">
+        <mat-hint class="mat-error" *ngIf="accessMenu?.length == 0">
           Legalább egy menüpont megadása kötelező
         </mat-hint>
       </ng-template>
