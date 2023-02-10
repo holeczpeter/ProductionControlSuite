@@ -12,6 +12,6 @@ export class MenuDataService {
   constructor(private readonly httpClient: HttpClient) { }
 
   getAll(): Observable<Array<TreeItem<MenuItemModel>>> {
-    return this.httpClient.get<Array<TreeItem<MenuItemModel>>>('/Menu/GetAll');
+    return this.httpClient.get<Array<TreeItem<MenuItemModel>>>('Menu/GetAll');
   }
 }

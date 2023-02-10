@@ -10,7 +10,7 @@ export class QualityDataService {
   constructor(private readonly httpClient: HttpClient) { }
 
   getDefectStatisticsByUser(request: GetDefectStatisticsByUser): Observable<DefectStatisticModel> {
-    return this.httpClient.get<DefectStatisticModel>('/Quality/GetDefectStatisticsByUser', {
+    return this.httpClient.get<DefectStatisticModel>('Quality/GetDefectStatisticsByUser', {
       params:
       {
         'workerCode': request.workerCode,
@@ -22,7 +22,7 @@ export class QualityDataService {
   }
 
   getWorkerStatisticsByDefect(request: GetWorkerStatisticsByDefect): Observable<WorkerStatisticsModel> {
-    return this.httpClient.get<WorkerStatisticsModel>('/Quality/GetWorkerStatisticsByDefect', {
+    return this.httpClient.get<WorkerStatisticsModel>('Quality/GetWorkerStatisticsByDefect', {
       params:
       {
         'defectId': request.defectId,
@@ -32,7 +32,7 @@ export class QualityDataService {
     });
   }
   getQuantityReportByOperation(request: GetQuantityReportByOperation): Observable<QuantityOperationReportModel> {
-    return this.httpClient.get<QuantityOperationReportModel>('/Quality/GetQuantityReportByOperation', {
+    return this.httpClient.get<QuantityOperationReportModel>('Quality/GetQuantityReportByOperation', {
       params:
       {
         'operationId': request.operationId,
@@ -43,7 +43,7 @@ export class QualityDataService {
   }
   
   getCrapCostByOperation(request: GetCrapCostByOperation): Observable<CrapCostProductModel> {
-    return this.httpClient.get<CrapCostProductModel>('/Quality/GetCrapCostByOperation', {
+    return this.httpClient.get<CrapCostProductModel>('Quality/GetCrapCostByOperation', {
       params:
       {
         'operationId': request.operationId,
@@ -53,7 +53,7 @@ export class QualityDataService {
     });
   }
   getCrapCostByProduct(request: GetCrapCostByProduct): Observable<CrapCostProductModel> {
-    return this.httpClient.get<CrapCostProductModel>('/Quality/GetCrapCostByProduct', {
+    return this.httpClient.get<CrapCostProductModel>('Quality/GetCrapCostByProduct', {
       params:
       {
         'productId': request.productId,
@@ -63,7 +63,7 @@ export class QualityDataService {
     });
   }
   getCrapCostByWorkshop(request: GetCrapCostByWorkshop): Observable<CrapCostWorkshopModel> {
-    return this.httpClient.get<CrapCostWorkshopModel>('/Quality/GetCrapCostByWorkshop', {
+    return this.httpClient.get<CrapCostWorkshopModel>('Quality/GetCrapCostByWorkshop', {
       params:
       {
         'workshopId': request.workshopId,
@@ -73,7 +73,7 @@ export class QualityDataService {
     });
   }
   getGroupReport(request: GetGroupReport): Observable<GroupReportModel> {
-    return this.httpClient.get<GroupReportModel>('/Quality/GetGroupReport', {
+    return this.httpClient.get<GroupReportModel>('Quality/GetGroupReport', {
       params:
       {
         'entityGroupId': request.entityGroupId,
@@ -84,7 +84,7 @@ export class QualityDataService {
     });
   }
   getGroupReportYearlySummary(request: GetGroupReportYearlySummary): Observable<Array<GroupReportYearlySummaryModel>> {
-    return this.httpClient.get<Array<GroupReportYearlySummaryModel>>('/Quality/GetGroupReportYearlySummary',
+    return this.httpClient.get<Array<GroupReportYearlySummaryModel>>('Quality/GetGroupReportYearlySummary',
       {
         params: {
           entityGroupId: request.entityGroupId,

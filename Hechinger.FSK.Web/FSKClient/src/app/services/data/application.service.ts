@@ -11,6 +11,6 @@ export class ApplicationService {
   constructor(private readonly httpClient: HttpClient) { }
 
   get(): Observable<ApplicationInfo> {
-    return this.httpClient.get<ApplicationInfo>('/Application/GetApplicationInformation');
+    return this.httpClient.get<ApplicationInfo>('Application/GetApplicationInformation');
   }
 }

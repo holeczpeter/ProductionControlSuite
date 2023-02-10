@@ -11,10 +11,10 @@ export class WorkerDataService {
   constructor(private readonly httpClient: HttpClient) { }
 
   getByFilter(filter: string): Observable<Array<WorkerModel>> {
-    return this.httpClient.get<Array<WorkerModel>>('/Worker/GetByFilter', { params: { filter: filter } });
+    return this.httpClient.get<Array<WorkerModel>>('Worker/GetByFilter', { params: { filter: filter } });
   }
   getAll(): Observable<Array<WorkerModel>> {
-    return this.httpClient.get<Array<WorkerModel>>('/Worker/GetAll');
+    return this.httpClient.get<Array<WorkerModel>>('Worker/GetAll');
   }
 }
 

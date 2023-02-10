@@ -13,38 +13,38 @@ export class RoleDataService {
   constructor(private readonly httpClient: HttpClient) { }
 
   add(model: AddRole): Observable<Result> {
-    return this.httpClient.post<Result>('/Role/Add', model)
+    return this.httpClient.post<Result>('Role/Add', model)
   }
 
   update(model: UpdateRole): Observable<Result> {
-    return this.httpClient.post<Result>('/Role/Update', model)
+    return this.httpClient.post<Result>('Role/Update', model)
   }
 
   delete(model: DeleteRole): Observable<Result> {
-    return this.httpClient.post<Result>('/Role/Delete', model)
+    return this.httpClient.post<Result>('Role/Delete', model)
   }
 
   setDefault(model: SetDefaultRole): Observable<Result> {
-    return this.httpClient.post<Result>('/Role/SetDefault', model)
+    return this.httpClient.post<Result>('Role/SetDefault', model)
   }
 
   get(request: GetRole): Observable<RoleDetailModel> {
-    return this.httpClient.get<RoleDetailModel>('/Role/Get',{ params: {"id": request.id } });
+    return this.httpClient.get<RoleDetailModel>('Role/Get',{ params: {"id": request.id } });
   }
 
   getAll(): Observable<Array<RoleModel>> {
-    return this.httpClient.get<Array<RoleModel>>('/Role/GetAll');
+    return this.httpClient.get<Array<RoleModel>>('Role/GetAll');
   }
   
   getUsersByRole(request: GetUsersByRole): Observable<Array<RoleUserItem>> {
-    return this.httpClient.get<Array<RoleUserItem>>('/Role/GetUsersByRole', { params: { 'roleId': request.roleId } });
+    return this.httpClient.get<Array<RoleUserItem>>('Role/GetUsersByRole', { params: { 'roleId': request.roleId } });
   }
 
   getUsersExceptByRole(request: GetUsersExceptByRole): Observable<Array<RoleUserItem>> {
-    return this.httpClient.get<Array<RoleUserItem>>('/Role/GetUsersExceptByRole', { params: { 'roleId': request.roleId } });
+    return this.httpClient.get<Array<RoleUserItem>>('Role/GetUsersExceptByRole', { params: { 'roleId': request.roleId } });
   }
 
   getMenuByRole(request: GetMenuByRole): Observable<Array<TreeItem<RoleMenuItem>>> {
-    return this.httpClient.get<Array<TreeItem<RoleMenuItem>>>('/Role/GetMenuByRole', { params: { 'roleId': request.roleId } });
+    return this.httpClient.get<Array<TreeItem<RoleMenuItem>>>('Role/GetMenuByRole', { params: { 'roleId': request.roleId } });
   }
 }

@@ -19,32 +19,32 @@ export class SummaryCardDataService {
     private readonly filterService: DefectFilterService) { }
 
   add(model: AddSummaryCard): Observable<Result> {
-    return this.httpClient.post<Result>('/SummaryCard/Add', model)
+    return this.httpClient.post<Result>('SummaryCard/Add', model)
   }
 
   update(model: UpdateSummaryCard): Observable<Result> {
-    return this.httpClient.post<Result>('/SummaryCard/Update', model)
+    return this.httpClient.post<Result>('SummaryCard/Update', model)
   }
 
   delete(model: any): Observable<Result> {
-    return this.httpClient.post<Result>('/SummaryCard/Delete', model)
+    return this.httpClient.post<Result>('SummaryCard/Delete', model)
   }
 
   get(id : number): Observable<SummaryCardDetailModel> {
-    return this.httpClient.get<SummaryCardDetailModel>('/SummaryCard/Get', {
+    return this.httpClient.get<SummaryCardDetailModel>('SummaryCard/Get', {
       params: {
         "id": id
       }
     });
   }
   getAll(): Observable<Array<SummaryCardModel>> {
-    return this.httpClient.get<Array<SummaryCardModel>>('/SummaryCard/GetAll');
+    return this.httpClient.get<Array<SummaryCardModel>>('SummaryCard/GetAll');
   }
   getAllSummaryCardsByParameters(interval: IntervalModel, totalCount: number | null): Observable<any> {
     let date = this.filterService.getValue('date') != null ? new Date(this.filterService.getValue('date')).toDateString() : "";
     let created = this.filterService.getValue('created') != null ? new Date(this.filterService.getValue('created')).toDateString() : "";
     let count = totalCount != null ? totalCount : this.paginationService.pageCount;
-    return this.httpClient.get<any>('/SummaryCard/GetAllSummaryCardsByParameters', {
+    return this.httpClient.get<any>('SummaryCard/GetAllSummaryCardsByParameters', {
       params:
       {
         startDate: interval.startDate.toDateString(),

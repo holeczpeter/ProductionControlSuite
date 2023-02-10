@@ -4,9 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
-import { ChangePassword, ChangePasswordByAdmin, ForgotPassword, GetAccessMenu, LoginModel, LoginResults, MenuItemModel, Result, TokenRequestModel, UserDataModel } from '../models/generated/generated';
+import { ChangePassword, ChangePasswordByAdmin, ForgotPassword, LoginModel, LoginResults, MenuItemModel, Result, TokenRequestModel, UserDataModel } from '../models/generated/generated';
 import { TreeItem } from '../models/tree-item';
-import { ForgotPasswordComponent } from '../modules/account/forgot-password/forgot-password.component';
 import { TreeService } from './tree/tree.service';
 
 @Injectable({
@@ -35,7 +34,7 @@ export class AccountService {
 
   login(request: LoginModel) {
 
-    return this.httpClient.post<UserDataModel>('/Account/Login', request).pipe(switchMap(result => {
+    return this.httpClient.post<UserDataModel>('Account/Login', request).pipe(switchMap(result => {
       if (result) {
         if (result.loginStatus == LoginResults.Success || result.loginStatus == LoginResults.IsTemporaryPassword) {
           localStorage.setItem('userData', JSON.stringify(result));
@@ -57,16 +56,16 @@ export class AccountService {
   
 
   changeTemporaryPassword(request: ChangePassword) {
-    return this.httpClient.post<Result>('/Account/ChangeTemporaryPassword', request)
+    return this.httpClient.post<Result>('Account/ChangeTemporaryPassword', request)
   }
   changePassword(request: ChangePassword) {
-    return this.httpClient.post<Result>('/Account/ChangePassword', request)
+    return this.httpClient.post<Result>('Account/ChangePassword', request)
   }
   changePasswordByAdmin(request: ChangePasswordByAdmin) {
-    return this.httpClient.post<Result>('/Account/ChangePasswordByAdmin', request)
+    return this.httpClient.post<Result>('Account/ChangePasswordByAdmin', request)
   }
   forgotPassword(request: ForgotPassword) {
-    return this.httpClient.post<Result>('/Account/ForgotPassword', request)
+    return this.httpClient.post<Result>('Account/ForgotPassword', request)
   }
   getAccessMenu() {
     let storage = localStorage.getItem('userData');

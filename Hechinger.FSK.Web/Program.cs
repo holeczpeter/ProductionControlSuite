@@ -58,7 +58,6 @@ RewriteOptions rewriteOptions = new RewriteOptions().Add(new FixIisBaseProblem()
 app.UseRewriter(rewriteOptions);
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute("default", "{controller}/{action}/{id?}");
@@ -69,25 +68,17 @@ app.UseSpaStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "FSKClient", app.Environment.IsDevelopment() ? "" : "dist"))
 });
-app.Map("", web =>
+app.UseSpa(spa =>
 {
-    web.UseSpaStaticFiles(new StaticFileOptions
+    spa.Options.SourcePath = "FSKClient";
+    spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions
     {
         FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "FSKClient", app.Environment.IsDevelopment() ? "" : "dist"))
-    });
-    web.UseSpa(spa =>
+    };
+    if (app.Environment.IsDevelopment())
     {
-
-        spa.Options.SourcePath = "FSKClient";
-        spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions
-        {
-            FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "FSKClient", app.Environment.IsDevelopment() ? "" : "dist"))
-        };
-        if (app.Environment.IsDevelopment())
-        {
-            spa.UseAngularCliServer(npmScript: "start");
-        }
-    });
+        spa.UseAngularCliServer(npmScript: "start");
+    }
 });
 
 app.Run();

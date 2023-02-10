@@ -17,33 +17,33 @@ export class OperationDataService {
     private readonly filterService: DefectFilterService) { }
 
   add(request: AddOperation): Observable<Result> {
-    return this.httpClient.post<Result>('/Operation/Add', request)
+    return this.httpClient.post<Result>('Operation/Add', request)
   }
 
   update(request: UpdateOperation): Observable<Result> {
-    return this.httpClient.post<Result>('/Operation/Update', request)
+    return this.httpClient.post<Result>('Operation/Update', request)
   }
 
   delete(request: DeleteOperation): Observable<Result> {
-    return this.httpClient.post<Result>('/Operation/Delete', request)
+    return this.httpClient.post<Result>('Operation/Delete', request)
   }
 
   get(request: GetOperation): Observable<OperationModel> {
-    return this.httpClient.get<OperationModel>('/Operation/Get', {
+    return this.httpClient.get<OperationModel>('Operation/Get', {
       params: {
         "id": request.id
       }
     });
   }
   getByProduct(request: GetOperationsByProduct): Observable<Array<OperationModel>> {
-    return this.httpClient.get<Array<OperationModel>>('/Operation/GetByProduct', {
+    return this.httpClient.get<Array<OperationModel>>('Operation/GetByProduct', {
       params: {
         "productId": request.productId
       }
     });
   }
   getByFilter(filter: string): Observable<Array<SelectModel>> {
-    return this.httpClient.get<Array<SelectModel>>('/Operation/GetByFilter', {
+    return this.httpClient.get<Array<SelectModel>>('Operation/GetByFilter', {
       params:
       {
         filter: filter,
@@ -52,7 +52,7 @@ export class OperationDataService {
   }
   getAllOperationByParameters(totalCount: number | null): Observable<any> {
     let count = totalCount != null ? totalCount : this.paginationService.pageCount;
-    return this.httpClient.get<any>('/Operation/GetAllOperationByParameters', {
+    return this.httpClient.get<any>('Operation/GetAllOperationByParameters', {
       params:
       {
         code: this.filterService.getValue('code'),
@@ -68,10 +68,10 @@ export class OperationDataService {
     });
   }
   getAll(): Observable<Array<OperationModel>> {
-    return this.httpClient.get<Array<OperationModel>>('/Operation/GetAll');
+    return this.httpClient.get<Array<OperationModel>>('Operation/GetAll');
   }
   getPrint(request: GetOperationPrint): Observable<OperationPrintModel> {
-    return this.httpClient.get<OperationPrintModel>('/Operation/GetPrint', {
+    return this.httpClient.get<OperationPrintModel>('Operation/GetPrint', {
       params: {
         "id": request.id
       }

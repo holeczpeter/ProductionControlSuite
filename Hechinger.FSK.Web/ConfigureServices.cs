@@ -35,7 +35,6 @@ namespace Hechinger.FSK.Web
             services.AddSwaggerGen();
             services.AddSpaStaticFiles();
             services.AddCors(options => options.AddPolicy("CorsPolicy", builder => builder.WithOrigins().AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
-           
             services.AddMvcCore(options => options.Filters.Add(typeof(ValidateModelStateAttribute))).AddControllersAsServices();
             services.Configure<ForwardedHeadersOptions>(options => options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto);
             services.Configure<FormOptions>(options => {
@@ -43,6 +42,10 @@ namespace Hechinger.FSK.Web
                 options.MultipartBodyLengthLimit = int.MaxValue; 
                 options.MultipartHeadersLengthLimit = int.MaxValue;
              });
+            services.Configure<IISOptions>(options =>
+            {
+                options.ForwardClientCertificate = false;
+            });
             services.Configure<IISServerOptions>(options =>
             {
                 options.MaxRequestBodySize = int.MaxValue;

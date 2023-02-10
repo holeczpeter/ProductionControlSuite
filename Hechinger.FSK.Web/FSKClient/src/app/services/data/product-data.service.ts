@@ -17,28 +17,28 @@ export class ProductDataService {
     private readonly filterService: DefectFilterService) { }
 
   add(request: AddProduct): Observable<Result> {
-    return this.httpClient.post<Result>('/Product/Add', request)
+    return this.httpClient.post<Result>('Product/Add', request)
   }
 
   update(request: UpdateProduct): Observable<Result> {
-    return this.httpClient.post<Result>('/Product/Update', request)
+    return this.httpClient.post<Result>('Product/Update', request)
   }
   saveProductContext(request: SaveProductContext): Observable<Result> {
-    return this.httpClient.post<Result>('/Product/SaveProductContext', request)
+    return this.httpClient.post<Result>('Product/SaveProductContext', request)
   }
   delete(request: DeleteProduct): Observable<Result> {
-    return this.httpClient.post<Result>('/Product/Delete', request)
+    return this.httpClient.post<Result>('Product/Delete', request)
   }
 
   get(request: GetProduct): Observable<ProductModel> {
-    return this.httpClient.get<ProductModel>('/Product/Get', {
+    return this.httpClient.get<ProductModel>('Product/Get', {
       params:
       {
         id: request.id,
       }});
   }
   getProductContext(request: GetProductContext): Observable<ProductContext> {
-    return this.httpClient.get<ProductContext>('/Product/GetProductContext', {
+    return this.httpClient.get<ProductContext>('Product/GetProductContext', {
       params:
       {
         id: request.id,
@@ -46,7 +46,7 @@ export class ProductDataService {
     });
   }
   getByFilter(filter: string): Observable<Array<SelectModel>> {
-    return this.httpClient.get<Array<SelectModel>> ('/Product/GetByFilter', {
+    return this.httpClient.get<Array<SelectModel>> ('Product/GetByFilter', {
       params:
       {
         filter: filter,
@@ -54,11 +54,11 @@ export class ProductDataService {
     });
   }
   getAll(): Observable<Array<ProductModel>> {
-    return this.httpClient.get<Array<ProductModel>>('/Product/GetAll');
+    return this.httpClient.get<Array<ProductModel>>('Product/GetAll');
   }
   getProductsByParameters(totalCount: number | null): Observable<any> {
     let count = totalCount != null ? totalCount : this.paginationService.pageCount;
-    return this.httpClient.get<any>('/Product/GetProductsByParameters', {
+    return this.httpClient.get<any>('Product/GetProductsByParameters', {
       params:
       {
         code: this.filterService.getValue('code'),

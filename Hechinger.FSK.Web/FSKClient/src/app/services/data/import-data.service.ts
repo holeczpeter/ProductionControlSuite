@@ -11,12 +11,12 @@ export class ImportDataService {
   constructor(private readonly httpClient: HttpClient) { }
 
   importOperation(formData: FormData): Observable<Result> {
-    return this.httpClient.post<Result>('/Import/ImportOperation', formData)
+    return this.httpClient.post<Result>('Import/ImportOperation', formData)
   }
   importDefect(formData: FormData): Observable<Result> {
-    return this.httpClient.post<Result>('/Import/ImportDefect', formData)
+    return this.httpClient.post<Result>('Import/ImportDefect', formData)
   }
   importSummaryCard(formData: FormData): Observable<Result> {
-    return this.httpClient.post<Result>('/Import/ImportSummaryCard', formData)
+    return this.httpClient.post<Result>('Import/ImportSummaryCard', formData)
   }
 }

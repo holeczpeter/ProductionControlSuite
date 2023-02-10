@@ -17,29 +17,29 @@ export class DefectDataService {
     private readonly filterService: DefectFilterService) { }
 
   add(model: AddDefect): Observable<Result> {
-    return this.httpClient.post<Result>('/Defect/Add', model)
+    return this.httpClient.post<Result>('Defect/Add', model)
   }
 
   update(model: UpdateDefect): Observable<Result> {
-    return this.httpClient.post<Result>('/Defect/Update', model)
+    return this.httpClient.post<Result>('Defect/Update', model)
   }
 
   delete(model: DeleteDefect): Observable<Result> {
-    return this.httpClient.post<Result>('/Defect/Delete', model)
+    return this.httpClient.post<Result>('Defect/Delete', model)
   }
 
   get(): Observable<DefectModel> {
     return this.httpClient.get<DefectModel>('/Defect/Get');
   }
   getByOperation(request: GetDefectsByOperation): Observable<Array<DefectModel>> {
-    return this.httpClient.get<Array<DefectModel>>('/Defect/GetByOperation', {
+    return this.httpClient.get<Array<DefectModel>>('Defect/GetByOperation', {
       params: {
         "operationId": request.operationId
       }
     });
   }
   getByFilter(filter: string): Observable<Array<SelectModel>> {
-    return this.httpClient.get<Array<SelectModel>>('/Defect/GetByFilter', {
+    return this.httpClient.get<Array<SelectModel>>('Defect/GetByFilter', {
       params:
       {
         filter: filter,
@@ -47,11 +47,11 @@ export class DefectDataService {
     });
   }
   getAll(): Observable<Array<DefectModel>> {
-    return this.httpClient.get<Array<DefectModel>>('/Defect/GetAll');
+    return this.httpClient.get<Array<DefectModel>>('Defect/GetAll');
   }
   getAllDefectByParameters(totalCount: number | null): Observable<any> {
     let count = totalCount != null ? totalCount : this.paginationService.pageCount;
-    return this.httpClient.get<any>('/Defect/GetAllDefectByParameters',{
+    return this.httpClient.get<any>('Defect/GetAllDefectByParameters',{
       params:
       {
         code: this.filterService.getValue('code'),
@@ -68,7 +68,7 @@ export class DefectDataService {
     });
   }
   getAllDefectCategories(): Observable<Array<EnumModel>> {
-    return this.httpClient.get<Array<EnumModel>>('/Defect/GetAllDefectCategories');
+    return this.httpClient.get<Array<EnumModel>>('Defect/GetAllDefectCategories');
   }
   
 }

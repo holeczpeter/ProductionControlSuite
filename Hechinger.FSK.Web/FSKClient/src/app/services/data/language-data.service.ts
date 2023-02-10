@@ -11,7 +11,7 @@ export class LanguageDataService {
   constructor(private readonly httpClient: HttpClient) { }
   
   getAll(): Observable<Array<LanguageModel>> {
-    return this.httpClient.get<Array<LanguageModel>>('/Language/GetAll');
+    return this.httpClient.get<Array<LanguageModel>>('Language/GetAll');
   }
 
 }

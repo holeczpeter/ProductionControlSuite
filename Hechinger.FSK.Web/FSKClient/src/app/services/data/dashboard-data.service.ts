@@ -12,7 +12,7 @@ export class DashboardDataService {
   constructor(private readonly httpClient: HttpClient) { }
 
   getPpmWarnings(request: GetPpmWarnings): Observable<Array<PpmWarning>> {
-    return this.httpClient.get<Array<PpmWarning>>('/Dashboard/GetPpmWarnings',
+    return this.httpClient.get<Array<PpmWarning>>('Dashboard/GetPpmWarnings',
       {
         params: {
           'startDate': request.startDate.toDateString(),
@@ -22,12 +22,12 @@ export class DashboardDataService {
   }
   
   getWorkshopUserStats(request: GetWorkshopUserStats): Observable<Array<WorkshopUserInfo>> {
-    return this.httpClient.get<Array<WorkshopUserInfo>>('/Dashboard/GetWorkshopUserStats');
+    return this.httpClient.get<Array<WorkshopUserInfo>>('Dashboard/GetWorkshopUserStats');
     
   }
 
   getProductionInfo(request: GetWorkshopProduction): Observable<Array<WorkshopProduction>> {
-    return this.httpClient.get<Array<WorkshopProduction>>('/Dashboard/GetWorkshopProduction',
+    return this.httpClient.get<Array<WorkshopProduction>>('Dashboard/GetWorkshopProduction',
       {
         params: {
           'startDate': request.startDate.toDateString(),
@@ -37,7 +37,7 @@ export class DashboardDataService {
   }
 
   getDashboardPpm(request: GetDashboardWorkshopPpm): Observable<Array<DashboardWorkshopPpm>> {
-    return this.httpClient.get<Array<DashboardWorkshopPpm>>('/Dashboard/GetDashboardWorkshopPpm',
+    return this.httpClient.get<Array<DashboardWorkshopPpm>>('Dashboard/GetDashboardWorkshopPpm',
       {
         params: {
           'startDate': request.startDate.toDateString(),
@@ -47,7 +47,7 @@ export class DashboardDataService {
   }
 
   getDashboardCrapCost(request: GetDashboardWorkshopCrapCost): Observable<Array<DashboardWorkshopCrapCost>> {
-    return this.httpClient.get<Array<DashboardWorkshopCrapCost>>('/Dashboard/GetDashboardWorkshopCrapCost',
+    return this.httpClient.get<Array<DashboardWorkshopCrapCost>>('Dashboard/GetDashboardWorkshopCrapCost',
       {
         params: {
           'startDate': request.startDate.toDateString(),
