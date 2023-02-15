@@ -11,11 +11,11 @@ namespace Hechinger.FSK.Application.Features
         }
         public async Task<Result<bool>> Handle(AddUser request, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
             var isCodeExist = await this.context.Users.Where(x=> x.Code.ToUpper().Trim() == request.Code.ToUpper().Trim() && x.EntityStatus == EntityStatuses.Active).AnyAsync(cancellationToken);
             if (isCodeExist)
             {
-                result.Errors.Add("A felhasználó kód már használatban van");
+                result.Errors.Add("user.existingCode");
                 return result;
             }
            
@@ -50,7 +50,7 @@ namespace Hechinger.FSK.Application.Features
             }
             await this.context.SaveChangesAsync(cancellationToken);
 
-            result.Message = "A felhasználó sikeresen létrehozva";
+            result.Message = "user.addSuccesful";
             result.IsSuccess = true;
             return result;
         }

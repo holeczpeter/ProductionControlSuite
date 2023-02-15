@@ -22,5 +22,10 @@
         /// Hibák
         /// </summary>
         public List<string> Errors { get; set; } = new List<string>();
+        
+        /// <summary>
+        /// Hiba
+        /// </summary>
+        public string CurrentError { get; set; }
     }
 }

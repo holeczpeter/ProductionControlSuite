@@ -9,7 +9,7 @@
         }
         public async Task<Result<bool>> Handle(AddRole request, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
             var currentRole = new Role()
             {
                 Name = request.Name,
@@ -53,7 +53,7 @@
 
             await this.context.SaveChangesAsync(cancellationToken);
 
-            result.Message = "A szerepkör sikeresen létrehozva";
+            result.Message = "role.addSuccesful";
             result.IsSuccess = true;
             return result;
         }

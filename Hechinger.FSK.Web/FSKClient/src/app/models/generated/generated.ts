@@ -48,6 +48,7 @@ export interface Result {
   message: string,
   entities: any,
   errors: Array<string>,
+  currentError: string,
 }
 export interface SelectModel {
   id: number,

@@ -10,7 +10,7 @@
         }
         public async Task<Result<bool>> Handle(ForgotPassword request, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
 
 
             result.IsSuccess = true;

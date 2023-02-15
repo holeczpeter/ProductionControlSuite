@@ -9,17 +9,17 @@
         }
         public async Task<Result<bool>> Handle(UpdateOperation request, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
             var current = await context.Operations.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             var currentProduct = await this.context.Products.Where(x => x.Id == request.ProductId && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (currentProduct == null)
             {
-                result.Errors.Add("A termék nem található");
+                result.Errors.Add("product.notFound");
                 return result;
             }
             if (current == null)
             {
-                result.Errors.Add("A művelet nem található");
+                result.Errors.Add("operation.notFound");
                 return result;
             }
             else
@@ -33,7 +33,7 @@
                 current.PpmGoal = request.PpmGoal;  
                 await context.SaveChangesAsync(cancellationToken);
 
-                result.Message = "A művelet sikeresen módosítva";
+                result.Message = "operation.updateSuccesful";
                 result.IsSuccess = true;
                 return result;
             }

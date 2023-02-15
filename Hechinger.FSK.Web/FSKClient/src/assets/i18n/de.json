@@ -166,7 +166,24 @@
     "edit": "Tabelle bearbeiten"
   },
   "crapcost": "Schrott kostet",
-  "ppm": "PPM"
+  "ppm": "PPM",
+  "unsuccessfulSave": "Speichern fehlgeschlagen",
+  "fehler": {
+    "notFound": "Der Fehler nicht gefunden",
+    "existingRelation": "Der Fehler kann nicht gelöscht werden, da die Fehlersammelkarten dazu gehören",
+    "deleteSuccesful": "Der Fehler wurde erfolgreich gelöscht",
+    "existingCode": "Der Fehlercode existiert bereits",
+    "addSuccesful": "Der Fehler wurde erfolgreich registriert",
+    "updateSuccesful": "Der Fehler wurde erfolgreich geändert"
+  },
+  "operation": {
+    "notFound": "Die Operation nicht gefunden",
+    "existingRelation": "Die Operation kann nicht gelöscht werden, da der Fehler dazu gehören",
+    "deleteSuccesful": "Der Operation wurde erfolgreich gelöscht",
+    "existingCode": "Die Operationcode existiert bereits",
+    "addSuccesful": "Die Operation wurde erfolgreich registriert",
+    "updateSuccesful": "Die Operation wurde erfolgreich geändert"
+  }
 }
 
 

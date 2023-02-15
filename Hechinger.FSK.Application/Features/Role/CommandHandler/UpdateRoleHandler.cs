@@ -15,12 +15,12 @@ namespace Hechinger.FSK.Application.Features
         }
         public async Task<Result<bool>> Handle(UpdateRole request, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
             var defaultRole = await context.Roles.Where(x => x.IsDefault && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             var currentRole = await context.Roles.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (currentRole == null)
             {
-                result.Errors.Add("A szerepkör nem található");
+                result.Errors.Add("role.notFound");
                 return result;
             }
             else
@@ -63,7 +63,7 @@ namespace Hechinger.FSK.Application.Features
 
                 await context.SaveChangesAsync(cancellationToken);
 
-                result.Message = "A szerepkör sikeresen módosítva";
+                result.Message = "role.updateSuccesful";
                 result.IsSuccess = true;
                 return result;
             }

@@ -15,11 +15,11 @@ namespace Hechinger.FSK.Application.Features
         }
         public async Task<Result<bool>> Handle(UpdateWorkshop request, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
             var current = await context.Workshops.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (current == null)
             {
-                result.Errors.Add("A műhely nem található");
+                result.Errors.Add("workshop.notFound");
                 return result;
             }
             else
@@ -29,7 +29,7 @@ namespace Hechinger.FSK.Application.Features
 
                 await context.SaveChangesAsync(cancellationToken);
 
-                result.Message = "A műhely sikeresen módosítva";
+                result.Message = "workshop.updateSuccesful";
                 result.IsSuccess = true;
                 return result;
             }

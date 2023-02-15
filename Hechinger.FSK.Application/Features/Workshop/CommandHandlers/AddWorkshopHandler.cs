@@ -9,7 +9,7 @@
         }
         public async Task<Result<bool>> Handle(AddWorkshop request, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
 
             var current = new Workshop()
             {
@@ -19,7 +19,7 @@
             await this.context.AddAsync(current, cancellationToken);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            result.Message = "A műhely sikeresen létrehozva";
+            result.Message = "workshop.addSuccesful";
             result.IsSuccess = true;    
             return result;
 

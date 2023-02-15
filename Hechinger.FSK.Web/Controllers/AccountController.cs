@@ -20,6 +20,7 @@ namespace Hechinger.FSK.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginModel request, CancellationToken cancellationToken) 
         {
+           
             var item = await this.mediator.Send(request, cancellationToken);
             if (item.LoginStatus is not (LoginResults.Success or LoginResults.IsTemporaryPassword)) return Ok(item);
             Claim[] claims = { new("user", item.UserInfo.Id.ToString()) };

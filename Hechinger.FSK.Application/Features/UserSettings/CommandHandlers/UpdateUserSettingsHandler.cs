@@ -1,11 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hechinger.FSK.Application.Features
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class UpdateUserSettingsHandler : IRequestHandler<UpdateUserSettings, Result<bool>>
     {
@@ -16,11 +9,11 @@ namespace Hechinger.FSK.Application.Features
         }
         public async Task<Result<bool>> Handle(UpdateUserSettings request, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
             var user = await this.context.Users.Where(x=>x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (user == null)
             {
-                result.Errors.Add("A felhasználó nem található");
+                result.Errors.Add("user.notFound");
                 return result;
             }
             
@@ -30,7 +23,7 @@ namespace Hechinger.FSK.Application.Features
 
             await context.SaveChangesAsync(cancellationToken);
 
-            result.Message = "A módosítások elmentve";
+            result.Message = "succesfulSave";
             result.IsSuccess = true;
             return result;
         }

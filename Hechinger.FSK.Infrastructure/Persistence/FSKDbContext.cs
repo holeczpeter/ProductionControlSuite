@@ -91,5 +91,9 @@ namespace Hechinger.FSK.Infrastructure.Persistence
             if (claim != null) return claim.Value;
             else return string.Empty;
         }
+        public string GetCurrentLang() 
+        {
+            return this.httpContextAccessor?.HttpContext?.Request.Headers["Accept-Language"].ToString();
+        }
     }
 }

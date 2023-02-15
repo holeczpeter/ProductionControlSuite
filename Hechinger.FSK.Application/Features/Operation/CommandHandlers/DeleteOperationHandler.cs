@@ -9,30 +9,26 @@
         }
         public async Task<Result<bool>> Handle(DeleteOperation request, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
             var current = await context.Operations.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (current == null)
             {
-                result.Errors.Add("A művelet nem található");
+                result.Errors.Add("operation.notFound");
                 return result;
             }
             else
             {
-                if (current.Defects.Any())
+                if (current.Defects.Any() || current.SummaryCards.Any())
                 {
-                    result.Errors.Add("A művelet nem törölhető, mert vannak hibái");
+                    result.Errors.Add("operation.existingRelation");
                     return result;
                 }
-                if (current.SummaryCards.Any())
-                {
-                    result.Errors.Add("A művelet nem törölhető, mert vannak hibagyüjtői");
-                    return result;
-                }
+               
                 current.EntityStatus = EntityStatuses.Deleted;
 
                 await context.SaveChangesAsync(cancellationToken);
 
-                result.Message = "A művelet sikeresen törölve";
+                result.Message = "operation.deleteSuccesful";
                 result.IsSuccess = true;
                 return result;
             }

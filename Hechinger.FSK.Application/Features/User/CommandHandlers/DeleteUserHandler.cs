@@ -9,11 +9,11 @@
         }
         public async Task<Result<bool>> Handle(DeleteUser request, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
             var current = await context.Users.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (current == null)
             {
-                result.Errors.Add("A felhasználó nem található");
+                result.Errors.Add("user.notFound");
                 return result;
             }
             current.EntityStatus = EntityStatuses.Deleted;

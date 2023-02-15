@@ -11,12 +11,8 @@
         }
         public async Task<Result<bool>> Handle(DeleteEntityGroup request, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
-
-            await this.treeService.Delete(request.Id, cancellationToken);
-
-            result.Message = "A hibaösszesítő sikeresen mentve";
-            result.IsSuccess = true;
+            var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
+            result = await this.treeService.Delete(request.Id, cancellationToken);
             return result;
         }
     }

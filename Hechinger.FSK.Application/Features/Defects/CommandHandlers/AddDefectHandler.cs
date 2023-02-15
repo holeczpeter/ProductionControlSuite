@@ -9,11 +9,12 @@
         }
         public async Task<Result<bool>> Handle(AddDefect request, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
             var existingCode = await this.context.Defects.Where(x => x.EntityStatus == EntityStatuses.Active && x.Code == request.Code).AnyAsync(cancellationToken);
             if (existingCode)
             {
-                result.Errors.Add($"A hibakód már létezik: {request.Code}");
+                result.Errors.Add("fehler.existingCode");
+                result.Errors.Add(request.Code);
                 return result;
             }
             var currentOperation = await this.context.Operations.Where(x => x.Id == request.OperationId && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
@@ -29,7 +30,7 @@
             await this.context.AddAsync(current, cancellationToken);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            result.Message = "A hiba sikeresen létrehozva";
+            result.Message = "fehler.addSuccesful";
             result.IsSuccess = true;
             return result;
         }

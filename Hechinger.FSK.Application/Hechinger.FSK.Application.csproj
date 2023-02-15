@@ -13,6 +13,7 @@
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="6.0.10" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.3" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.25.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
@@ -26,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="Common\Exceptions\" />
-    <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Mappings\" />
     <Folder Include="Features\Import\Services\" />
     <Folder Include="Features\Quality\QuantityReport\" />

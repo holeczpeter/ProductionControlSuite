@@ -1,21 +1,20 @@
 ﻿using Hechinger.FSK.Application.Common;
-using Hechinger.FSK.Core;
 using Hechinger.FSK.Web.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System;
+using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Hechinger.FSK.Web
 {
@@ -37,15 +36,14 @@ namespace Hechinger.FSK.Web
             services.AddCors(options => options.AddPolicy("CorsPolicy", builder => builder.WithOrigins().AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
             services.AddMvcCore(options => options.Filters.Add(typeof(ValidateModelStateAttribute))).AddControllersAsServices();
             services.Configure<ForwardedHeadersOptions>(options => options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto);
-            services.Configure<FormOptions>(options => {
+            services.Configure<FormOptions>(options => 
+            {
                 options.ValueLengthLimit = int.MaxValue;
                 options.MultipartBodyLengthLimit = int.MaxValue; 
                 options.MultipartHeadersLengthLimit = int.MaxValue;
-             });
-            services.Configure<IISOptions>(options =>
-            {
-                options.ForwardClientCertificate = false;
             });
+            
+
             services.Configure<IISServerOptions>(options =>
             {
                 options.MaxRequestBodySize = int.MaxValue;

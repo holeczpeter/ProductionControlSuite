@@ -10,7 +10,7 @@
 
         public async Task<Result<bool>> Save(TreeItem<EntityGroupModel> item, EntityGroup parent, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
 
             var currentEntity = await this.context.EntityGroups.Where(x => x.Id == item.Node.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync();
             if (currentEntity == null) currentEntity = new EntityGroup();
@@ -58,17 +58,19 @@
                 await Save(i, currentEntity, cancellationToken);
             }
             await this.context.SaveChangesAsync(cancellationToken);
+            result.Message = "defectGroup.saveSuccesful";
+            result.IsSuccess = true;
             return result;
 
         }
         public async Task<Result<bool>> Delete(int id, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
 
             var currentEntity = await this.context.EntityGroups.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (currentEntity == null)
             {
-                result.Errors.Add("A hibaösszesítő nem található");
+                result.Errors.Add("defectGroup.notFound");
                 return result;
             }
             currentEntity.EntityStatus = EntityStatuses.Deleted;
@@ -89,6 +91,8 @@
                 await Delete(i.Id, cancellationToken);
             }
             await this.context.SaveChangesAsync(cancellationToken);
+            result.Message = "defectGroup.saveSuccesful";
+            result.IsSuccess = true;
             return result;
         }
 

@@ -9,7 +9,7 @@
         }
         public async Task<Result<bool>> Handle(AddSummaryCard request, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
 
             var current = new SummaryCard()
             {
@@ -38,7 +38,7 @@
 
             await this.context.SaveChangesAsync(cancellationToken);
 
-            result.Message = "A hibagyűjtő sikeresen létrehozva";
+            result.Message = "summaryCard.addSuccesful";
             result.IsSuccess = true;
             return result;
         }

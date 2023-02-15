@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
+import { forkJoin } from 'rxjs';
 import { Result } from '../../models/generated/generated';
+import { LanguageService } from '../language/language.service';
 
 
 @Injectable({
@@ -14,16 +17,20 @@ export class SnackbarService {
     horizontalPosition: 'right',
     verticalPosition: 'top',
   }
-  constructor(private readonly snackBar: MatSnackBar) {
+  constructor(private readonly snackBar: MatSnackBar,
+    public lang: LanguageService,
+    public translate: TranslateService) {
   }
 
   open(result: Result) {
-
     if (result && result.isSuccess) this.config.panelClass = 'success';
     else this.config.panelClass = 'error';
-
-    var errors = result.errors && result.errors.length > 0 ? ": " + result.errors : "";
-    this.snackBar.open(result.message + errors, 'Bezár', this.config);
+    let errorText = result.errors && result.errors.length > 0 ? result.errors[0] : "a";
+    forkJoin(this.translate.get(result.message), this.translate.get(errorText), this.translate.get("close")).subscribe(([resultText, error, close]) => {
+      let errorInfo = result.errors.length > 1 ? " - " + result.errors[1] : "";
+      let currentLangMessage = result.isSuccess ? resultText : resultText + ": " + error +  errorInfo;
+      this.snackBar.open(currentLangMessage, close, this.config);
+    });
   }
 
   openMore(results: Array<Result>) {
@@ -35,13 +42,20 @@ export class SnackbarService {
         if (result && result.isSuccess) panelClass = 'success';
         else panelClass = 'error';
         setTimeout(() => {
-          let message = result.isSuccess ? result.message : result.message + ": " + result.errors;
-          this.snackBar.open(message, 'Bezár', {
-            duration: this.timeOut,
-            horizontalPosition: 'right',
-            verticalPosition: 'top',
-            panelClass: panelClass,
+          forkJoin(this.translate.get(result.message), this.translate.get(result.errors)).subscribe(([resultText, error]) => {
+            console.log(this.translate.currentLang);
+            console.log(resultText);
+            let currentLangMessage = result.isSuccess ? resultText : resultText + ": " + error;
+            //let message = result.isSuccess ? result.message : result.message + ": " + result.errors;
+            this.snackBar.open(currentLangMessage, 'Bezár', {
+              duration: this.timeOut,
+              horizontalPosition: 'right',
+              verticalPosition: 'top',
+              panelClass: panelClass,
+            });
+
           });
+          
         }, index * (this.timeOut + 500));
       });
     }

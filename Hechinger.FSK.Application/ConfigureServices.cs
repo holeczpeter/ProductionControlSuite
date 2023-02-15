@@ -21,6 +21,8 @@ namespace Hechinger.FSK.Application
             services.AddTransient(typeof(IGroupReportService), typeof(GroupReportService));
             services.AddTransient(typeof(ITreeService), typeof(TreeService));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
+           
+
             return services;
         }
     }

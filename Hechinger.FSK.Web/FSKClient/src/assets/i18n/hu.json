@@ -165,5 +165,74 @@
     "edit": "Táblázat összeállítása"
   },
   "crapcost": "Selejtköltség",
-  "ppm": "PPM"
+  "ppm": "PPM",
+  "unsuccessfulSave": "Sikertelen mentés",
+  "succesfulSave": "A módosítások elmentve",
+  "account": {
+    "deleteSuccesful": "A szerepkör sikeresen törölve",
+    "existingCode": "A felhasználói kód már létezik",
+    "wrongPassword": "A megadott jelszó nem megfelelő",
+    "changePassSuccesful": "A jelszó változtatás sikeres"
+  },
+  "role": {
+    "notFound": "A szerepkör nem található",
+    "deleteSuccesful": "A szerepkör sikeresen törölve",
+    "existingCode": "A felhasználói kód már létezik",
+    "addSuccesful": "A szerepkör sikeresen rögzítve",
+    "updateSuccesful": "A szerepkör sikeresen módosítva"
+  },
+  "user": {
+    "notFound": "A felhasználó nem található",
+    "deleteSuccesful": "A felhasználó sikeresen törölve",
+    "existingCode": "A felhasználói kód már létezik",
+    "addSuccesful": "A felhasználó sikeresen rögzítve",
+    "updateSuccesful": "A felhasználó adatai sikeresen módosítva"
+  },
+  "fehler": {
+    "notFound": "A hiba nem található",
+    "existingRelation": "A hiba nem törölhető, mert tartoznak hozzá hibagyűjtők",
+    "deleteSuccesful": "A hiba sikeresen törölve",
+    "existingCode": "A hibakód már létezik",
+    "addSuccesful": "A hiba sikeresen rögzítve",
+    "updateSuccesful": "A hiba sikeresen módosítva"
+  },
+  "operation": {
+    "notFound": "A művelet nem található",
+    "existingRelation": "A művelet nem törölhető, mert tartoznak hozzá hibák vagy hibagyűjtők",
+    "deleteSuccesful": "A művelet sikeresen törölve",
+    "existingCode": "A műveletkód már létezik",
+    "addSuccesful": "A művelet sikeresen rögzítve",
+    "updateSuccesful": "A művelet sikeresen módosítva"
+  },
+  "product": {
+    "notFound": "A termék nem található",
+    "existingRelation": "A termék nem törölhető, mert tartoznak hozzá műveletek",
+    "deleteSuccesful": "A termék sikeresen törölve",
+    "existingCode": "A termékkód már létezik",
+    "addSuccesful": "A termék sikeresen rögzítve",
+    "updateSuccesful": "A termék sikeresen módosítva",
+    "saveSuccesful": "A termék sikeresen mentve"
+  },
+  "workshop": {
+    "notFound": "A műhely nem található",
+    "existingRelation": "A műhely nem törölhető, mert tartoznak hozzá termékek",
+    "deleteSuccesful": "A műhely sikeresen törölve",
+    "existingCode": "A műhelykód már létezik",
+    "addSuccesful": "A műhely sikeresen rögzítve",
+    "updateSuccesful": "A műhely sikeresen módosítva"
+  },
+  "summaryCard": {
+    "notFound": "A hibagyűjtő nem található",
+    "deleteSuccesful": "A hibagyűjtő sikeresen törölve",
+    "addSuccesful": "A hibagyűjtő sikeresen rögzítve",
+    "updateSuccesful": "A hibagyűjtő sikeresen módosítva",
+    "fehlerItemNotFound": "A hibagyűjtő hiba tétele nem található"
+  },
+  "defectGroup": {
+    "notFound": "A hibaösszesítő nem található",
+    "deleteSuccesful": "A hibaösszesítő sikeresen törölve",
+    "addSuccesful": "A hibaösszesítő sikeresen rögzítve",
+    "updateSuccesful": "A hibaösszesítő sikeresen módosítva",
+    "saveSuccesful": "A hibaösszesítő sikeresen mentve"
+  }
 }

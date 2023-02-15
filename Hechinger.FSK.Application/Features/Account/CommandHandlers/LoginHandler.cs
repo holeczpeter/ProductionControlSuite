@@ -1,4 +1,5 @@
-﻿using Hechinger.FSK.Application.Common;
+﻿
+using Microsoft.Extensions.Localization;
 
 namespace Hechinger.FSK.Application.Features
 {
@@ -8,9 +9,12 @@ namespace Hechinger.FSK.Application.Features
         public LoginHandler(FSKDbContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
+            
         }
         public async Task<UserDataModel> Handle(LoginModel request, CancellationToken cancellationToken)
         {
+            var currentLang = this.context.GetCurrentLang();
+           
             var result = new UserDataModel() { UserInfo = new UserInfo() };
             var code = request.Code.Trim().ToLower();
             var currentUser = await this.context.Users.Where(x => x.Code.ToLower() == code.ToLower()).FirstOrDefaultAsync(cancellationToken);

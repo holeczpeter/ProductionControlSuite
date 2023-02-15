@@ -12,6 +12,7 @@ import { TableColumnModel } from '../../../models/table-column-model';
 import { AccountService } from '../../../services/account.service';
 import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 import { DefectDataService } from '../../../services/data/defect-data.service';
+import { LanguageService } from '../../../services/language/language.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { CompareService } from '../../../services/sort/sort.service';
 import { DefectFilterService } from '../../../services/table/defect-filter.service';
@@ -176,6 +177,7 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }
   onDelete(id: number) {
+    
     this.confirmDialogService.openDeleteConfirm('hibát').subscribe(result => {
       if (result) {
         let model: DeleteDefect = { id: id };

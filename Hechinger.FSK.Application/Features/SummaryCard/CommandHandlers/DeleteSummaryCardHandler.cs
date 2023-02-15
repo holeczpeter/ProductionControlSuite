@@ -15,11 +15,11 @@ namespace Hechinger.FSK.Application.Features
         }
         public async Task<Result<bool>> Handle(DeleteSummaryCard request, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
             var current = await context.SummaryCards.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (current == null)
             {
-                result.Errors.Add("A hibagyűjtő nem található");
+                result.Errors.Add("summaryCard.notFound");
                 return result;
             }
             else
@@ -32,7 +32,7 @@ namespace Hechinger.FSK.Application.Features
 
                 await context.SaveChangesAsync(cancellationToken);
 
-                result.Message = "A hibagyűjtő sikeresen törölve";
+                result.Message = "summaryCard.deleteSuccesful";
                 result.IsSuccess = true;
                 return result;
             }

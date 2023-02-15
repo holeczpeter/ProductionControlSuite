@@ -9,11 +9,11 @@
         }
         public async Task<Result<bool>> Handle(UpdateSummaryCard request, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<bool>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
             var currentCard = await this.context.SummaryCards.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (currentCard == null)
             {
-                result.Errors.Add("A hibagyűjtő nem található");
+                result.Errors.Add("summaryCard.notFound");
                 return result;
             }
             currentCard.ShiftId = request.ShiftId;
@@ -29,7 +29,7 @@
                 var currentItem = await this.context.SummaryCardItems.Where(x => x.Id == item.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
                 if (currentItem == null)
                 {
-                    result.Errors.Add("A hibagyűjtő hiba tétele nem található");
+                    result.Errors.Add("summaryCard.fehlerItemNotFound");
                     return result;
                 }
                 currentItem.DefectId = item.DefectId;
@@ -39,7 +39,7 @@
 
             await this.context.SaveChangesAsync(cancellationToken);
 
-            result.Message = "A hibagyűjtő sikeresen módosítva";
+            result.Message = "summaryCard.updateSuccesful";
             result.IsSuccess = true;
             return result;
         }

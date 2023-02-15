@@ -9,12 +9,12 @@
         }
         public async Task<Result<int>> Handle(SaveProductContext request, CancellationToken cancellationToken)
         {
-            var result = new ResultBuilder<int>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var result = new ResultBuilder<int>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
             var currentProduct = await context.Products.Where(x => x.Id == request.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             var currentWorkShop = await this.context.Workshops.Where(x => x.Id == request.WorkshopId && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (currentWorkShop == null)
             {
-                result.Errors.Add("A műhely nem található");
+                result.Errors.Add("workshop.notFound");
                 return result;
             }
             if (currentProduct == null) currentProduct = new Product();
@@ -78,7 +78,7 @@
                 }
             }
             await context.SaveChangesAsync(cancellationToken);
-            result.Message = "A termék sikeresen mentve";
+            result.Message = "product.saveSuccesful";
             result.IsSuccess = true;
             result.Entities = currentProduct.Id;
             return result;
