@@ -155,11 +155,13 @@
   },
   "defectgroups": {
     "title": "Fehlersammelkarten",
-    "add": "Neue Fehlersammelkarten hinzufügen",
+    "add": "Neue Fehlersammelkarte hinzufügen",
     "edit": "Fehlersammelkarte bearbeiten",
     "type": "Fehlersammelkarte Typ",
-    "addoperationrow": "Neue Operation Gruppe Reihe",
-    "adddefectrow": "Neue Defect Gruppe Reihe"
+    "addoperationrow": "Neue Operationgruppe Reihe",
+    "adddefectrow": "Neue Defectgruppe Reihe",
+    "defectGroup": "Fehlersammelkarte",
+    "defectGroupGroup": "Fehlersammlungsgruppe"
   },
   "workercompare": {
     "title": "Arbeiter fehlers meldung"
@@ -175,6 +177,7 @@
   },
   "crapcost": "Schrott kostet",
   "ppm": "PPM",
+  "legend": "Legende",
   "unsuccessfulSave": "Speichern fehlgeschlagen",
   "succesfulSave": "Änderungen erfolgreich gespeichert",
   "confirmDialog": {

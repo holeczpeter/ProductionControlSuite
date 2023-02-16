@@ -158,7 +158,9 @@
     "edit": "Hibösszesítő szerkesztése",
     "type": "Hibösszesítő típus",
     "addoperationrow": "Új műveletcsoport sor hozzáadása",
-    "adddefectrow": "Új hibacsoport sor hozzáadása"
+    "adddefectrow": "Új hibacsoport sor hozzáadása",
+    "defectGroup": "Hibösszesítő",
+    "defectGroupGroup": "Hibösszesítő csoport"
   },
   "workercompare": {
     "title": "Dolgozók összehasonlítása"
@@ -174,6 +176,7 @@
   },
   "crapcost": "Selejtköltség",
   "ppm": "PPM",
+  "legend": "Jelmagyarázat",
   "unsuccessfulSave": "Sikertelen mentés",
   "succesfulSave": "A módosítások elmentve",
   "confirmDialog": {

@@ -3,12 +3,12 @@
     <app-title class="flex-title-item" [title]="title" [contentTemplate]="tooltipTemplate"></app-title>
   </div>
   <div class="container-inside">
-    <h3>Jelölések</h3>
+    <h3>{{'legend' | translate}}</h3>
     <div class="row">
       <div class="col pl-3">
         <div class="row pb-1" *ngFor="let color of entityGroupService.colors">
           <div class="col" [ngStyle]="entityGroupService.colorStyle(color.id)">
-            {{color.name}}
+            {{color.name | translate}}
           </div>
         </div>
       </div>
