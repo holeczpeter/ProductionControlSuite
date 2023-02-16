@@ -51,6 +51,7 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
         id: [this.defect && !this.data.isCopy ? this.defect.id : '0', [Validators.required]],
         name: [this.defect ? this.defect.name : '', [Validators.required]],
         code: [this.defect ? this.defect.code : '', [Validators.required]],
+        order: [this.defect ? this.defect.order : 0, [Validators.required, Validators.min(1)]],
         translatedName: [this.defect ? this.defect.translatedName : '', [Validators.required]],
         defectCategory: [this.defect ? this.defect.defectCategory : '', [Validators.required]],
         operation: [this.defect ? this.operations.find(ws => ws.id == this.defect!.operationId) : null, [Validators.required]],
@@ -95,7 +96,7 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
         defectCategory: this.formGroup.get('defectCategory')?.value,
         translatedName: this.formGroup.get('translatedName')?.value,
         operationId: this.formGroup.get('operation')?.value.id,
-
+        order: this.formGroup.get('order')?.value.id,
       };
       this.defectDataService.add(model).subscribe(result => {
         this.snackBar.open(result);
@@ -114,6 +115,7 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
       defectCategory: this.formGroup.get('defectCategory')?.value,
       translatedName: this.formGroup.get('translatedName')?.value,
       operationId: this.formGroup.get('operation')?.value.id,
+      order: this.formGroup.get('order')?.value.id,
     };
     this.defectDataService.update(model).subscribe(result => {
       this.snackBar.open(result);

@@ -22,6 +22,7 @@
             {
                 Name = request.Name,
                 Code = request.Code,
+                Order = request.Order,
                 TranslatedName = request.TranslatedName,
                 DefectCategory = request.DefectCategory,
                 Operation = currentOperation

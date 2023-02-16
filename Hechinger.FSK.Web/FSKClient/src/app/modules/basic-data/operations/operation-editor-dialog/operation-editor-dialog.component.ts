@@ -49,7 +49,7 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
         name: [this.operation ? this.operation.name : '', [Validators.required]],
         code: [this.operation ? this.operation.code : '', [Validators.required]],
         norma: [this.operation ? this.operation.norma : 0, [Validators.min(0)]],
-        order: [this.operation ? this.operation.order : 0, [Validators.required,Validators.min(0)]],
+        order: [this.operation ? this.operation.order : 0, [Validators.required,Validators.min(1)]],
         ppmGoal: [this.operation ? this.operation.ppmGoal : 0, [Validators.min(0)]],
         operationTime: [this.operation ? this.operation.operationTime : 0,[Validators.required, Validators.min(0)]],
         translatedName: [this.operation ? this.operation.translatedName : '', [Validators.required]],

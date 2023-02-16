@@ -26,6 +26,7 @@
             {
                 current.Name = request.Name;
                 current.Code = request.Code;
+                current.Order = request.Order;
                 current.TranslatedName = request.TranslatedName;
                 current.DefectCategory = request.DefectCategory;
                 current.Operation = currentOperation;

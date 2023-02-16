@@ -36,6 +36,9 @@
                       <mat-error class="col" *ngIf="productContextService.getDefects(i).controls[i].get('order')?.hasError('required')">
                         {{'order'| translate}} {{'required' | translate}}
                       </mat-error>
+                      <mat-error class="col" *ngIf="productContextService.getDefects(i).controls[i].get('order')?.hasError('min')">
+                        {{'order'| translate}} {{'minError' | translate}}
+                      </mat-error>
                     </mat-form-field>
                   </div>
 

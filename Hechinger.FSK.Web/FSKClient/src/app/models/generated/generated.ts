@@ -192,6 +192,7 @@ export interface AddDefect {
   translatedName: string,
   operationId: number,
   defectCategory: DefectCategories,
+  order: number,
 }
 export interface DeleteDefect {
   id: number,
@@ -203,6 +204,7 @@ export interface UpdateDefect {
   translatedName: string,
   operationId: number,
   defectCategory: DefectCategories,
+  order: number,
 }
 export interface DefectCategoryModel {
   name: string,

@@ -14,5 +14,7 @@
         public int OperationId { get; set; }
         [Required]
         public DefectCategories DefectCategory { get; set; }
+        [Required]
+        public int Order { get; set; }
     }
 }
