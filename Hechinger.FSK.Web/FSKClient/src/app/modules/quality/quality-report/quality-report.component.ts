@@ -32,7 +32,7 @@ export class QualityReportComponent implements OnInit, OnDestroy {
   currentInterval: IntervalModel;
   intervalSubscription: Subscription;
   monthDataSubscription: Subscription;
-  title = "defectgroups.title";
+  title = "defectGroup.title";
   entityGroupId = new BehaviorSubject<number>(0);
  
   constructor(public readonly entityGroupService: EntityGroupService,

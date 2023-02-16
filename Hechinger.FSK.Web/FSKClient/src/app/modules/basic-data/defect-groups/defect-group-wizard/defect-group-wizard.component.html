@@ -2,7 +2,7 @@
 <mat-dialog-content>
   <mat-stepper orientation="horizontal" #mystepper  (selectionChange)="onStepChange($event)">
     <mat-step state="perm_data_setting">
-      <ng-template matStepLabel>{{'defectgroups.edit'| translate}}</ng-template>
+      <ng-template matStepLabel>{{'defectGroup.edit'| translate}}</ng-template>
       <ng-template matStepContent>
         <app-defect-group-data-editor>
         </app-defect-group-data-editor>

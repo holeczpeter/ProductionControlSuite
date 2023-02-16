@@ -39,7 +39,7 @@ export interface TableGroupItem {
 export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges {
   @Input() result: GroupReportModel;
   @Input() interval: IntervalModel;
-  title = "defectgroups.title";
+  title = "defectGroup.title";
   tables: TableGroupItem[];
   categories: EnumModel[];
   model: QuantityOperationReportModel;

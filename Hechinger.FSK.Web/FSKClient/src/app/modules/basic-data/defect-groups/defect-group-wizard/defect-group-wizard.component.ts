@@ -36,7 +36,7 @@ export class DefectGroupWizardComponent implements OnInit {
     private readonly snackBar: SnackbarService,
     private readonly changeDetector: ChangeDetectorRef,
     public languageService: LanguageService) {
-    this.title = this.incomingData  ? "defectgroups.edit" : "defectgroups.add";
+    this.title = this.incomingData  ? "defectGroup.edit" : "defectGroup.add";
   }
 
   ngOnInit(): void {

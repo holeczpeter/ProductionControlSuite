@@ -13,8 +13,8 @@ import { EntityGroupDataService } from '../data/entity-group-data.service';
 })
 export class EntityGroupService {
   colors: Array<GroupTypeColor> = [
-    { id: 0, name: 'defectgroups.defectGroup', color: '#F9A825' },
-    { id: 1, name: 'defectgroups.defectGroupGroup', color: '#4CAF50' },
+    { id: 0, name: 'defectGroup.defectGroup', color: '#F9A825' },
+    { id: 1, name: 'defectGroup.defectGroupGroup', color: '#4CAF50' },
   ];
   colorStyle(id: number) {
     let color = this.colors.find(x => x.id === id)?.color;

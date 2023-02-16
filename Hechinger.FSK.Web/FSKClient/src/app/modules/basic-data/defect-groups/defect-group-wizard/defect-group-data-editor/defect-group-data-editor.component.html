@@ -2,13 +2,13 @@
   <ng-container formGroupName="node">
     <div class="row pt-2">
       <mat-form-field class="col">
-        <mat-select [formControlName]="'groupType'" [placeholder]="'defectgroups.type' | translate" required>
+        <mat-select [formControlName]="'groupType'" [placeholder]="'defectGroup.type' | translate" required>
           <mat-option *ngFor="let option of entityGroupService.groupTypes | async" [value]="option.id">
             {{ option.name }}
           </mat-option>
         </mat-select>
         <mat-error class="col" *ngIf="entityGroupService.treeForm.get('node').get('groupType')?.hasError('required')">
-          {{'defectgroups.type'| translate}} {{'required' | translate}}
+          {{'defectGroup.type'| translate}} {{'required' | translate}}
         </mat-error>
       </mat-form-field>
     </div>

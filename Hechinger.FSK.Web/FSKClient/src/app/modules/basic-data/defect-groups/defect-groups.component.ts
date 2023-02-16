@@ -29,7 +29,7 @@ import { DefectGroupWizardComponent } from './defect-group-wizard/defect-group-w
   styleUrls: ['./defect-groups.component.scss']
 })
 export class DefectGroupsComponent implements OnInit {
-  title = "defectgroups.title";
+  title = "defectGroup.title";
   results!: Array<TreeItem<EntityGroupModel>>;
   flatNodeMap = new Map<TreeItemFlatNode<EntityGroupModel>, TreeItem<EntityGroupModel>>();
 

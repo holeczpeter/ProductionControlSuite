@@ -155,16 +155,7 @@
   "qualityhistorymonthly": {
     "title": "Qualitätsverlauf monatlich"
   },
-  "defectgroups": {
-    "title": "Fehlersammelkarten",
-    "add": "Neue Fehlersammelkarte hinzufügen",
-    "edit": "Fehlersammelkarte bearbeiten",
-    "type": "Fehlersammelkarte Typ",
-    "addoperationrow": "Neue Operationgruppe Reihe",
-    "adddefectrow": "Neue Defectgruppe Reihe",
-    "defectGroup": "Fehlersammelkarte",
-    "defectGroupGroup": "Fehlersammlungsgruppe"
-  },
+  
   "workercompare": {
     "title": "Arbeiter fehlers meldung"
   },
@@ -260,6 +251,14 @@
     "confirmDelete": "Möchten Sie die ausgewählte Fehlersammelkarte wirklich löschen?"
   },
   "defectGroup": {
+    "title": "Fehlersammelkarten",
+    "add": "Neue Fehlersammelkarte hinzufügen",
+    "edit": "Fehlersammelkarte bearbeiten",
+    "type": "Fehlersammelkarte Typ",
+    "addoperationrow": "Neue Operationgruppe Reihe",
+    "adddefectrow": "Neue Defectgruppe Reihe",
+    "defectGroup": "Fehlersammelkarte",
+    "defectGroupGroup": "Fehlersammlungsgruppe",
     "notFound": "Fehlerzusammenfassung nicht gefunden",
     "deleteSuccesful": "Fehlerzusammenfassung wurde erfolgreich gelöscht",
     "addSuccesful": "Fehlerzusammenfassung wurde erfolgreich registriert",
@@ -268,7 +267,20 @@
     "confirmDelete": "Möchten Sie die ausgewählte Fehlerzusammenfassung wirklich löschen?",
     "confirmDeleteGroup": "Möchten Sie die ausgewählte Fehlerzusammenfassunggruppe wirklich löschen?",
     "confirmDeleteOperationGroup": "Möchten Sie die ausgewählte Operationgruppe wirklich löschen?",
-    "confirmDeleteDefectGroup": "Möchten Sie die ausgewählte Fehlergruppe wirklich löschen?"
+    "confirmDeleteDefectGroup": "Möchten Sie die ausgewählte Fehlergruppe wirklich löschen?",
+    "dragOperation": "Bitte ziehen Sie die Operation in die rechte Zeile der Operationsgruppe, um sie hinzuzufügen",
+    "dragOperationHere": "Bitte ziehen Sie die Operation in die entsprechende Zeile, um sie aus der Liste auf der linken Seite hinzuzufügen",
+    "dragDefect": "Bitte ziehen Sie den Fehlercode in die entsprechende Zeile der Fehlergruppe rechts, um ihn hinzuzufügen",
+    "dragDefectHere": "Bitte ziehen Sie den Fehler in die entsprechende Zeile, um ihn aus der Liste auf der linken Seite hinzuzufügen",
+    "selectableOperation": "Optionale Operationen",
+    "operationGroupName": "Betriebsgruppenname",
+    "operationGroupLines": "Aktionsgruppenlinien",
+    "addOperationGroupLine": "Aktionsgruppenlinien hinzuzufügen",
+    "defectGroupLines": "Fehlergruppenzeilen",
+    "selectableDefects": "Optionale Fehlers",
+    "editDefectGroupLines": "Fehlergruppenzeilen bearbeiten",
+    "defectGroupName": "Name der Fehlergruppe",
+    "addDefectGroupLine": "Fehlergruppenzeile hinzufügen"
   }
 }
 

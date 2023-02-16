@@ -154,16 +154,6 @@
   "qualityhistorymonthly": {
     "title": "Éves összegzés"
   },
-  "defectgroups": {
-    "title": "Hibösszesítők",
-    "add": "Új hibösszesítő hozzáadása",
-    "edit": "Hibösszesítő szerkesztése",
-    "type": "Hibösszesítő típus",
-    "addoperationrow": "Új műveletcsoport sor hozzáadása",
-    "adddefectrow": "Új hibacsoport sor hozzáadása",
-    "defectGroup": "Hibösszesítő",
-    "defectGroupGroup": "Hibösszesítő csoport"
-  },
   "workercompare": {
     "title": "Dolgozók összehasonlítása"
   },
@@ -260,6 +250,12 @@
     "confirmDelete": "Valóban törölni szeretné a kiválasztott hibagyűjtő kártyát?"
   },
   "defectGroup": {
+    "title": "Hibösszesítők",
+    "add": "Új hibösszesítő hozzáadása",
+    "edit": "Hibösszesítő szerkesztése",
+    "type": "Hibösszesítő típus",
+    "defectGroup": "Hibösszesítő",
+    "defectGroupGroup": "Hibösszesítő csoport",
     "notFound": "A hibaösszesítő nem található",
     "deleteSuccesful": "A hibaösszesítő sikeresen törölve",
     "addSuccesful": "A hibaösszesítő sikeresen rögzítve",
@@ -268,6 +264,19 @@
     "confirmDelete": "Valóban törölni szeretné a kiválasztott hibaösszesítőt?",
     "confirmDeleteGroup": "Valóban törölni szeretné a kiválasztott hibaösszesítő csoportot?",
     "confirmDeleteOperationGroup": "Valóban törölni szeretné a kiválasztott műveletcsoportot?",
-    "confirmDeleteDefectGroup": "Valóban törölni szeretné a kiválasztott hibacsoportot?"
+    "confirmDeleteDefectGroup": "Valóban törölni szeretné a kiválasztott hibacsoportot?",
+    "dragOperation": "Kérem húzza a műveletet a jobb oldalon található műveletcsoport megfelelő sorába a hozzáadáshoz",
+    "dragOperationHere": "Kérem húzza a műveletet a megfelelő sorba a hozzáadáshoz a bal oldalt található listából",
+    "dragDefect": "Kérem húzza a hibakódot a jobb oldalon található hibacsoport megfelelő sorába a hozzáadáshoz",
+    "dragDefectHere": "Kérem húzza a hibát a megfelelő sorba a hozzáadáshoz a bal oldalt található listából",
+    "selectableOperation": "Választható műveletek",
+    "operationGroupName": "Műveletcsoport megnevezése",
+    "operationGroupLines": "Műveletcsoport sorok",
+    "addOperationGroupLine": "Műveletcsoport sor hozzáadása",
+    "defectGroupLines": "Hibacsoport sorok",
+    "selectableDefects": "Választható hibák",
+    "editDefectGroupLines": "Hibacsoport sorok szerkesztése",
+    "defectGroupName": "Hibacsoport megnevezése",
+    "addDefectGroupLine": "Hibacsoport sor hozzáadása"
   }
 }
