@@ -37,8 +37,8 @@
               {{option.workerCode}}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="formGroup.get('product')?.hasError('required')">
-            {{'workerCode'| translate}} {{'required' | translate}}
+          <mat-error class="col" *ngIf="formGroup.get('worker')?.hasError('required')">
+            {{'worker'| translate}} {{'required' | translate}}
           </mat-error>
         </mat-form-field>
       </div>
@@ -53,9 +53,11 @@
           </mat-datepicker-toggle>
           <mat-datepicker #startDate>
           </mat-datepicker>
-
+          <mat-error *ngIf="formGroup.get('startDate')?.hasError('required')">
+            {{'startDate' | translate}} {{'required' | translate}}
+          </mat-error>
           <mat-error *ngIf="formGroup.get('endDate')?.value < formGroup.get('starDate')?.value">
-            A kezdő dátum nem lehet nagyobb, mint a vég dátum!
+            {{'datesValidator' | translate}}
           </mat-error>
         </mat-form-field>
         <mat-form-field class="col">
@@ -68,12 +70,15 @@
           </mat-datepicker-toggle>
           <mat-datepicker #endDate>
           </mat-datepicker>
+          <mat-error *ngIf="formGroup.get('endDate')?.hasError('required')">
+            {{'endDate' | translate}} {{'required' | translate}}
+          </mat-error>
           <mat-error *ngIf="formGroup.get('endDate')?.value < formGroup.get('starDate')?.value">
-            A kezdő dátum nem lehet nagyobb, mint a vég dátum!
+            {{'datesValidator' | translate}}
           </mat-error>
         </mat-form-field>
         <div class="col-auto">
-          <button mat-flat-button (click)="onRequest()" color="primary"> Lekérdezés </button>
+          <button mat-flat-button (click)="onRequest()" color="primary"> {{'query' | translate }} </button>
         </div>
       </div>
     </form>

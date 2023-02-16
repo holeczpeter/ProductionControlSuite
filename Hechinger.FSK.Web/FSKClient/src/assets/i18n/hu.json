@@ -12,6 +12,7 @@
   "ok": "Rendben",
   "nextandsave": "Mentés és folytatás",
   "saveandclose": "Mentés és bezárás",
+  "query": "Lekérdezés",
   "add": "Hozzáadás",
   "copy": "Másolás",
   "edit": "Szerkesztés",
@@ -92,6 +93,7 @@
   "rows": "sorok",
   "help": "Információk",
   "minError": "Az érték nem lehet negatív",
+  "datesValidator": "Az időszak kezdete nem lehet nagyobb, mint az időszak vége",
   "months": [
     { "January": "Január" },
     { "February": "Február" },
