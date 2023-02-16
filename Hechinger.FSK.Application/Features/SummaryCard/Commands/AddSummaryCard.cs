@@ -7,7 +7,7 @@
         public DateTime Date { get; set; }
 
         [Required]
-        public string Worker { get; set; }
+        public string WorkerCode { get; set; }
 
         [Required]
         public int OperationId { get; set; }

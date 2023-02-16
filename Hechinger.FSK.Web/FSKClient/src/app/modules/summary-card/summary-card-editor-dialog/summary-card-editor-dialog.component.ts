@@ -47,7 +47,7 @@ export class SummaryCardEditorDialogComponent implements OnInit {
         this.cardForm = this.formBuilder.group({
           id: [this.summaryCard ? this.summaryCard.id : 0, [Validators.required]],
           date: [this.summaryCard ? this.summaryCard.date : '', [Validators.required]],
-          worker: [this.summaryCard ? this.summaryCard.worker : '', [Validators.required]],
+          workerCode: [this.summaryCard ? this.summaryCard.workerCode : '', [Validators.required]],
           operation: [this.summaryCard ? currentOperation : null, [Validators.required]],
           quantity: [this.summaryCard ? this.summaryCard.quantity : 0, [Validators.required]],
           los: [this.summaryCard ? this.summaryCard.quantity : ''],
@@ -89,7 +89,7 @@ export class SummaryCardEditorDialogComponent implements OnInit {
     let model: UpdateSummaryCard = {
       id: this.cardForm.get('id')?.value,
       date: currentDate,
-      worker: this.cardForm.get('worker')?.value,
+      workerCode: this.cardForm.get('workerCode')?.value,
       operationId: this.cardForm.get('operation')?.value.id,
       quantity: this.cardForm.get('quantity')?.value,
       los: this.cardForm.get('los')?.value,

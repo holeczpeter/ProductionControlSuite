@@ -37,8 +37,8 @@
           </td>
           <td class="text-cell">
             <mat-form-field>
-              <input matInput [formControlName]="'worker'" required />
-              <mat-error class="col" *ngIf="cardForm.get('worker')?.hasError('required')">
+              <input matInput [formControlName]="'workerCode'" required />
+              <mat-error class="col" *ngIf="cardForm.get('workerCode')?.hasError('required')">
                 {{'worker'| translate}} {{'required' | translate}}
               </mat-error>
             </mat-form-field>

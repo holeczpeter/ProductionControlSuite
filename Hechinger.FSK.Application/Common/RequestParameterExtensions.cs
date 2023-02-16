@@ -95,7 +95,7 @@ namespace Hechinger.FSK.Application.Common
                          (x.OperationName.StartsWith(queryParameters.OperationName) || string.IsNullOrEmpty(queryParameters.OperationName)) &&
                          (x.ShiftName.StartsWith(queryParameters.ShiftName) || string.IsNullOrEmpty(queryParameters.ShiftName)) &&
                          (x.Quantity.ToString() == queryParameters.Quantity || string.IsNullOrEmpty(queryParameters.Quantity)) &&
-                         (x.WorkerName.StartsWith(queryParameters.WorkerName) || string.IsNullOrEmpty(queryParameters.WorkerName)),
+                         (x.WorkerCode.StartsWith(queryParameters.WorkerCode) || string.IsNullOrEmpty(queryParameters.WorkerCode)),
                 var x when x == (true, false) => exp = x =>
                          (x.Date.Date == queryParameters.Date.Value.Date) &&
                          (x.UserName.StartsWith(queryParameters.UserName) || string.IsNullOrEmpty(queryParameters.UserName)) &&
@@ -103,7 +103,7 @@ namespace Hechinger.FSK.Application.Common
                          (x.OperationName.StartsWith(queryParameters.OperationName) || string.IsNullOrEmpty(queryParameters.OperationName)) &&
                          (x.ShiftName.StartsWith(queryParameters.ShiftName) || string.IsNullOrEmpty(queryParameters.ShiftName)) &&
                          (x.Quantity.ToString() == queryParameters.Quantity || string.IsNullOrEmpty(queryParameters.Quantity)) &&
-                         (x.WorkerName.StartsWith(queryParameters.WorkerName) || string.IsNullOrEmpty(queryParameters.WorkerName)),
+                         (x.WorkerCode.StartsWith(queryParameters.WorkerCode) || string.IsNullOrEmpty(queryParameters.WorkerCode)),
                 var x when x == (false, true) => exp = x =>
                          (x.Created.Date == queryParameters.Created.Value.Date) &&
                          (x.UserName.StartsWith(queryParameters.UserName) || string.IsNullOrEmpty(queryParameters.UserName)) &&
@@ -111,7 +111,7 @@ namespace Hechinger.FSK.Application.Common
                          (x.OperationName.StartsWith(queryParameters.OperationName) || string.IsNullOrEmpty(queryParameters.OperationName)) &&
                          (x.ShiftName.StartsWith(queryParameters.ShiftName) || string.IsNullOrEmpty(queryParameters.ShiftName)) &&
                          (x.Quantity.ToString() == queryParameters.Quantity || string.IsNullOrEmpty(queryParameters.Quantity)) &&
-                         (x.WorkerName.StartsWith(queryParameters.WorkerName) || string.IsNullOrEmpty(queryParameters.WorkerName)),
+                         (x.WorkerCode.StartsWith(queryParameters.WorkerCode) || string.IsNullOrEmpty(queryParameters.WorkerCode)),
 
                 _ => exp = x =>
                           (x.UserName.StartsWith(queryParameters.UserName) || string.IsNullOrEmpty(queryParameters.UserName)) &&
@@ -119,7 +119,7 @@ namespace Hechinger.FSK.Application.Common
                           (x.OperationName.StartsWith(queryParameters.OperationName) || string.IsNullOrEmpty(queryParameters.OperationName)) &&
                           (x.ShiftName.StartsWith(queryParameters.ShiftName) || string.IsNullOrEmpty(queryParameters.ShiftName)) &&
                           (x.Quantity.ToString() == queryParameters.Quantity || string.IsNullOrEmpty(queryParameters.Quantity)) &&
-                          (x.WorkerName.StartsWith(queryParameters.WorkerName) || string.IsNullOrEmpty(queryParameters.WorkerName))
+                          (x.WorkerCode.StartsWith(queryParameters.WorkerCode) || string.IsNullOrEmpty(queryParameters.WorkerCode))
             };
             return query.Where(exp);
         }

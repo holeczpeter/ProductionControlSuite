@@ -18,7 +18,7 @@
             }
             currentCard.ShiftId = request.ShiftId;
             currentCard.OperationId = request.OperationId;
-            currentCard.WorkerCode = request.Worker;
+            currentCard.WorkerCode = request.WorkerCode;
             currentCard.Date = request.Date.Date;
             currentCard.LOS = request.Los;
             currentCard.Quantity = request.Quantity;

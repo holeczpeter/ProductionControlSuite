@@ -25,7 +25,7 @@
                     ShiftName = x.Shift.Name,
                     ShiftTranslatedName = !String.IsNullOrEmpty(x.Shift.TranslatedName) ? x.Shift.TranslatedName : x.Shift.Name,
                     Quantity = x.Quantity,
-                    WorkerName = x.WorkerCode,
+                    WorkerCode = x.WorkerCode,
                 })
                 .ToListAsync(cancellationToken);
         }

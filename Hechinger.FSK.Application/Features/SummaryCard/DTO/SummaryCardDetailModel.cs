@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
-        public string Worker { get; set; }
+        public string WorkerCode { get; set; }
         public int OperationId { get; set; }
         public int Quantity { get; set; }
         public string Los { get; set; }

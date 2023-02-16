@@ -13,6 +13,6 @@
         public string ShiftName { get; set; }
         public string ShiftTranslatedName { get; set; }
         public string Quantity { get; set; }
-        public string WorkerName { get; set; }
+        public string WorkerCode { get; set; }
     }
 }

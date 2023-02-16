@@ -18,7 +18,7 @@
                 OperationId = card.OperationId,
                 Quantity = card.Quantity,
                 ShiftId = card.ShiftId,
-                Worker = card.WorkerCode,
+                WorkerCode = card.WorkerCode,
             }).FirstOrDefaultAsync(cancellationToken);
 
 

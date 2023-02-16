@@ -57,7 +57,7 @@ export class SummaryCardDataService {
         userName: this.filterService.getValue('userName'),
         shiftName: this.filterService.getValue('shiftName'),
         quantity: this.filterService.getValue('quantity'),
-        workerName: this.filterService.getValue('workerName'),
+        workerCode: this.filterService.getValue('workerCode'),
         orderBy: this.sortService.orderBy,
         isAsc: this.sortService.isAsc,
         page: this.paginationService.page,

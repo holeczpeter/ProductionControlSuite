@@ -8,7 +8,7 @@
         public string ShiftName { get; set; }
         public string ShiftTranslatedName { get; set; }
         public string UserName { get; set; }
-        public string WorkerName { get; set; }
+        public string WorkerCode { get; set; }
         public string OperationCode { get; set; }
         public string OperationName { get; set; }
         public string OperationTranslatedName { get; set; }

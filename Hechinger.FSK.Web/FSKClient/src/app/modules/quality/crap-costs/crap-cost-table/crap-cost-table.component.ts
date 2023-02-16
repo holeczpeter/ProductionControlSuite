@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TableHeader } from '../../../../models/table-header';
 import * as XLSX from 'xlsx';
 import { LanguageService } from '../../../../services/language/language.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-crap-cost-table',
   templateUrl: './crap-cost-table.component.html',
@@ -21,7 +22,7 @@ export class CrapCostTableComponent implements OnInit, OnChanges {
   dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
   columnsToDisplay: Array<string>;
 
-  constructor(public languageService: LanguageService) { }
+  constructor(public languageService: LanguageService, public translateService: TranslateService) { }
 
   ngOnInit(): void {
   }

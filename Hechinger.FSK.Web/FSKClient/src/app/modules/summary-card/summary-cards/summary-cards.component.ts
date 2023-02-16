@@ -43,7 +43,7 @@ export class SummaryCardsComponent implements OnInit, OnDestroy {
   intervalSubscription: Subscription;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array<string> = ['date', 'shiftName','workerName', 'operationCode', 'operationName', 'quantity', 'userName', 'created', 'edit','delete']
+  columnNames: Array<string> = ['date', 'shiftName','workerCode', 'operationCode', 'operationName', 'quantity', 'userName', 'created', 'edit','delete']
   title = "summarycards";
   filterableColumns: Array<TableColumnModel> = [
     {
@@ -59,7 +59,7 @@ export class SummaryCardsComponent implements OnInit, OnDestroy {
       columnDef: 'shiftNameFilter'
     },
     {
-      name: 'worker',
+      name: 'workerCode',
       displayName: 'Dolgozó',
       exportable: true,
       columnDef: 'workerNameFilter'

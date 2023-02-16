@@ -29,7 +29,7 @@ export class AddSummaryCardComponent implements OnInit {
     this.cardForm = this.formBuilder.group({
       id: [ 0, [Validators.required]],
       date: [ new Date(), [Validators.required]],
-      worker: ['', [Validators.required]],
+      workerCode: ['', [Validators.required]],
       operation: [null, [Validators.required]],
       quantity: [ '', [Validators.required]],
       los: [ ''],
@@ -51,7 +51,7 @@ export class AddSummaryCardComponent implements OnInit {
     let currentDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
     let model: AddSummaryCard = {
       date: currentDate,
-      worker: this.cardForm.get('worker')?.value,
+      workerCode: this.cardForm.get('workerCode')?.value,
       operationId: this.cardForm.get('operation')?.value.id,
       quantity: this.cardForm.get('quantity')?.value,
       los: this.cardForm.get('los')?.value,

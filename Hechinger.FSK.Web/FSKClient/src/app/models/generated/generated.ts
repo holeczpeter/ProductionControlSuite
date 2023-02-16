@@ -846,7 +846,7 @@ export interface GetShift {
 }
 export interface AddSummaryCard {
   date: Date,
-  worker: string,
+  workerCode: string,
   operationId: number,
   quantity: number,
   userId: number,
@@ -865,7 +865,7 @@ export interface DeleteSummaryCard {
 export interface UpdateSummaryCard {
   id: number,
   date: Date,
-  worker: string,
+  workerCode: string,
   operationId: number,
   quantity: number,
   userId: number,
@@ -882,7 +882,7 @@ export interface UpdateSummaryCardItem {
 export interface SummaryCardDetailModel {
   id: number,
   date: Date,
-  worker: string,
+  workerCode: string,
   operationId: number,
   quantity: number,
   los: string,
@@ -908,7 +908,7 @@ export interface SummaryCardModel {
   shiftName: string,
   shiftTranslatedName: string,
   userName: string,
-  workerName: string,
+  workerCode: string,
   operationCode: string,
   operationName: string,
   operationTranslatedName: string,
@@ -931,7 +931,7 @@ export interface SummaryCardRequestParameters {
   shiftName: string,
   shiftTranslatedName: string,
   quantity: string,
-  workerName: string,
+  workerCode: string,
   lang: string,
   code: string,
   name: string,
