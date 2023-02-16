@@ -47,7 +47,7 @@ namespace Hechinger.FSK.Application.Common
                           (x.Name.StartsWith(queryParameters.Name) || string.IsNullOrEmpty(queryParameters.Name)) &&
                           (x.TranslatedName.StartsWith(queryParameters.TranslatedName) || string.IsNullOrEmpty(queryParameters.TranslatedName)) &&
                           (x.ProductName.StartsWith(queryParameters.ProductName) || string.IsNullOrEmpty(queryParameters.ProductName)) &&
-                          (x.ProductTranslatedName.StartsWith(queryParameters.ProductTranslatedName) || string.IsNullOrEmpty(queryParameters.ProductName)) &&
+                          (x.ProductTranslatedName.StartsWith(queryParameters.ProductTranslatedName) || string.IsNullOrEmpty(queryParameters.ProductTranslatedName)) &&
                           (x.ProductCode.StartsWith(queryParameters.ProductCode) || string.IsNullOrEmpty(queryParameters.ProductCode));
 
             return query.Where(exp);
