@@ -64,7 +64,8 @@ export class QualityReportYearlySummaryChartComponent implements OnInit, OnChang
   }
 }
 
-createChart(lang: string) {
+  createChart(lang: string) {
+  console.log(this.model)
   let currentColor = this.chartService.getColor(this.model.category);
   let currentCategoryName = this.model.categoryName;
   let currentYear = this.model.year;

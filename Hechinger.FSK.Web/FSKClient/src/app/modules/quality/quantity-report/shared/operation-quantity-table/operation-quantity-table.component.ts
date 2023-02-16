@@ -203,8 +203,8 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
     const myArray = categoryId.split("_");
     switch (myArray[2]) {
       case '0': return "#FFCA39";
-      case '1': return "#F35B5A";
-      case '2': return "#379DDA";
+      case '1': return "#379DDA";
+      case '2': return "#F35B5A";
       default:
         return "#F35B5A";
     }

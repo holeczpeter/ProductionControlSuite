@@ -278,8 +278,8 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
     const myArray = categoryId.split("_");
     switch (myArray[index]) {
       case '0': return "#FFCA39";
-      case '1': return "#F35B5A";
-      case '2': return "#379DDA";
+      case '1': return "#379DDA";
+      case '2': return "#F35B5A";
       default:
         return "#F35B5A";
     }
@@ -288,8 +288,8 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
     
     switch (categoryId) {
       case 0: return "#FFCA39";
-      case 1: return "#F35B5A";
-      case 2: return "#379DDA";
+      case 1: return "#379DDA";
+      case 2: return "#F35B5A";
       default:
         return "#F35B5A";
     }

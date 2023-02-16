@@ -212,6 +212,8 @@ namespace Hechinger.FSK.Application.Features
             var groups = currentItems.GroupBy(p => new { Category = p.Category }).Select(g => new GroupReportYearlySummaryModel
             {
                 Year = request.Year,
+                ProductName = currentGroup.Name,
+                ProductTranslatedName = currentGroup.TranslatedName,
                 Category = g.Key.Category,
                 CategoryName = g.Key.Category.GetDescription(),
                 Items = g.GroupBy(x => new { Year = x.Date.Year, Month = x.Date.Month }).Select(a => new GroupReportYearlySummaryItem()
