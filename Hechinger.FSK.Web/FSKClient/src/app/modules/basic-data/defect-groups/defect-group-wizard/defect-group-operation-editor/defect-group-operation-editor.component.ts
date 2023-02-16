@@ -31,7 +31,7 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
   config: AccordionConfig = { multi: false };
   done = new Array<EntityGroupRelationModel>();
   dataSource = new  MatTableDataSource<any>();
-  columnsToDisplay = ['name', 'relation', 'delete', 'expand'];
+  columnsToDisplay = ['order','name', 'relation', 'delete', 'expand'];
   expandedElement: TreeItem<EntityGroupModel> | null;
   openedSidebar = true;
 

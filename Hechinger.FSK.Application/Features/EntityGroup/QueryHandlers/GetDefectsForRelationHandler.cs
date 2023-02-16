@@ -13,12 +13,7 @@
             var operationIds = request.OperationIds.Split(",").Select(x => int.Parse(x));
             var group = await context.EntityGroups.Where(x => x.Id == request.GroupId).SelectMany(x => x.Children).Select(x => x.Id).ToListAsync(cancellationToken);
             
-            //var relations = await this.context.EntityGroupRelations
-            //    .Where(x => (x.EntityGroupId == request.GroupId || group.Contains(x.EntityGroupId)) && x.EntityStatus == EntityStatuses.Active && x.EntityType == EntityTypes.Defect)
-            //    .Select(x => x.EntityId).ToListAsync(cancellationToken);
-
             var operations = await this.context.Defects.Where(o => operationIds.Contains(o.OperationId))
-                                                                //&& !relations.Contains(o.Id))
                                                     .Select(o => new EntityGroupRelationModel()
                                                     {
                                                         Id = 0,

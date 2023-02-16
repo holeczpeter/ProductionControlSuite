@@ -17,7 +17,7 @@ import { LanguageService } from '../../../../../services/language/language.servi
 export class DefectGroupDefectEditorComponent implements OnInit, OnChanges {
   @Input() tree: UntypedFormGroup;
   dataSource = new MatTableDataSource<AbstractControl<any>>();
-  columnsToDisplay = ['name', 'relation', 'delete'];
+  columnsToDisplay = ['order','name', 'relation', 'delete'];
   expandedElement: TreeItem<EntityGroupModel> | null;
   allDefects = new Array<EntityGroupRelationModel>();
   constructor(private readonly confirmDialogService: ConfirmDialogService,

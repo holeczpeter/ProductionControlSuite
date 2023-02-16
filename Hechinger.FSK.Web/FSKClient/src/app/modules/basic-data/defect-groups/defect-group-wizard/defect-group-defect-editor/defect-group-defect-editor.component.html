@@ -21,6 +21,14 @@
               <table mat-table
                      [dataSource]="dataSource"
                      class="mat-elevation-z8">
+                <ng-container matColumnDef="order">
+                  <th mat-header-cell *matHeaderCellDef> {{'order' | translate}} </th>
+                  <td mat-cell *matCellDef="let element" [formGroup]="element.get('node')">
+                    <mat-form-field>
+                      <input matInput type="number" [formControlName]="'order'">
+                    </mat-form-field>
+                  </td>
+                </ng-container>
                 <ng-container matColumnDef="name">
                   <th mat-header-cell *matHeaderCellDef> {{'defectGroup.defectGroupName' | translate}}</th>
                   <td mat-cell *matCellDef="let element" [formGroup]="element.get('node')">
@@ -40,7 +48,7 @@
                   <td mat-cell *matCellDef="let element">
                     <app-defect-group-defect-child [item]="element"></app-defect-group-defect-child>
                   </td>
-                 
+
                 </ng-container>
                 <ng-container matColumnDef="delete">
                   <th mat-header-cell *matHeaderCellDef> {{'delete' | translate}} </th>

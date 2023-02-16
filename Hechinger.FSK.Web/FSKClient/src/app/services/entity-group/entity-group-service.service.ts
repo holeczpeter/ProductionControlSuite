@@ -133,8 +133,6 @@ export class EntityGroupService {
   productsValueChange() {
     this.treeForm.get('node')?.get('product')?.valueChanges.pipe(startWith(this.treeForm.get('node')?.get('product')?.value)).pipe(pairwise())
       .subscribe(([prev, next]) => {
-       
-        
       let p = next as Array<EntityGroupRelationModel>;
       const relations = this.getRelations;
       relations.clear();
@@ -271,10 +269,4 @@ export class EntityGroupService {
     }
     if (type == GroupTypes.OperationItem || type == GroupTypes.DefectItem) this.operationChangedSubject.next(true);
   }
-
-  //TODO
-  //getAllOprelationId //drop => remove   operations  //deleteOp => add operations
-  //getAllDefectRElationId //drop => remove defects   //deleteDefect => add defects
-  
-  
 }
