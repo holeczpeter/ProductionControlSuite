@@ -114,6 +114,7 @@
     "title": "Produkte",
     "add": "Neue hinzufügen",
     "edit": "Produkt bearbeiten",
+    "copy": "Hinzufügen eines neuen Produkts durch Kopieren",
     "select": "Produkt wählen"
   },
 
@@ -126,6 +127,7 @@
     "title": "Operationen",
     "add": "Neue hinzufügen",
     "edit": "Operation bearbeiten",
+    "copy": "Hinzufügen eines neuen Operation durch Kopieren",
     "norma": "Norm",
     "operationTime": "Betriebszeit"
   },
@@ -133,6 +135,7 @@
     "title": "Fehler",
     "add": "Neue hinzufügen",
     "edit": "Fehler bearbeiten",
+    "copy": "Hinzufügen eines neuen Fehler durch Kopieren",
     "defectCategoryName": "Fehler Kategorie"
   },
   "roles": {

@@ -35,8 +35,7 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
     private readonly confirmDialogService: ConfirmDialogService,
     public languageService: LanguageService ) {
     this.operation = data ? data.operationModel : null;
-    this.title = this.operation ? "products.edit" : "products.add";
-    
+    this.title = this.operation ? this.data.isCopy ? "operations.copy" : "operations.edit" : "operations.add";
   }
 
   ngOnInit(): void {

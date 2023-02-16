@@ -46,8 +46,7 @@ export class ProductEditorDialogComponent implements OnInit, AfterViewInit, OnDe
     public languageService: LanguageService) {
     this.productId = data ? data.productModel.id : 0;
     this.product = data ? data.productModel : null;
-    this.title = this.product ? "products.edit" : "products.add";
-
+    this.title = this.product ? this.data.isCopy ? "products.copy" : "products.edit" : "products.add";
 
   }
 

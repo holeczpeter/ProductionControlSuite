@@ -114,6 +114,7 @@
     "title": "Termékek",
     "add": "Új termék hozzáadása",
     "edit": "Termék szerkesztése",
+    "copy": "Új termék felvétele másolással",
     "select": "Termékek kiválasztása"
   },
   "shifts": {
@@ -125,6 +126,7 @@
     "title": "Műveletek",
     "add": "Új művelet hozzáadása",
     "edit": "Művelet szerkesztése",
+    "copy": "Új művelet felvétele másolással",
     "norma": "Norma",
     "operationTime": "Műveleti idő"
   },
@@ -132,6 +134,7 @@
     "title": "Hibák",
     "add": "Új hiba hozzáadása",
     "edit": "Hiba szerkesztése",
+    "copy": "Új hiba felvétele másolással",
     "defectCategoryName": "Hiba kategória"
   },
   "roles": {

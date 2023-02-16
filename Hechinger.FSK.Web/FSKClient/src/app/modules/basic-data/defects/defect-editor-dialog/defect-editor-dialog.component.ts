@@ -35,7 +35,7 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
     private readonly confirmDialogService: ConfirmDialogService,
     public languageService: LanguageService) {
     this.defect = data ? data.defectModel : null;
-    this.title = this.defect ? "defects.edit" : "defects.add";
+    this.title = this.defect ? this.data.isCopy ? "defects.copy" : "defects.edit" :  "defects.add";
 
   }
 
