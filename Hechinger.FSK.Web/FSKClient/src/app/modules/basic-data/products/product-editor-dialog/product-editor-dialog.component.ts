@@ -100,7 +100,7 @@ export class ProductEditorDialogComponent implements OnInit, AfterViewInit, OnDe
 
   add() {
     if (this.data && this.data.productModel && this.data?.productModel.code == this.formGroup.get('code')?.value && this.data.isCopy) {
-      this.confirmDialogService.openError("Kérem módosítsa a kód mezőt, a termékkód már létezik.").subscribe(x=>{
+      this.confirmDialogService.openError("product.existingCode").subscribe(x=>{
         return;
 
       });

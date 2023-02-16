@@ -1,11 +1,15 @@
 {
+  "application": "Applikation",
   "lang": "Sprache",
+  "version": "Version",
   "exit": "Ausfahrt",
   "save": "Speichern",
+  "yes": "Ja",
   "cancel": "Absage",
   "close": "Schließen",
   "back": "Zurück",
   "next": "Nächste",
+  "ok": "Ok",
   "nextandsave": "Speichern und nächste",
   "saveandclose": "Speichern und schließen",
   "add": "Neue hinzufügen",
@@ -121,7 +125,7 @@
   "operations": {
     "title": "Operationen",
     "add": "Neue hinzufügen",
-    "edit": "Betrieb bearbeiten",
+    "edit": "Operation bearbeiten",
     "norma": "Norm",
     "operationTime": "Betriebszeit"
   },
@@ -168,13 +172,47 @@
   "crapcost": "Schrott kostet",
   "ppm": "PPM",
   "unsuccessfulSave": "Speichern fehlgeschlagen",
+  "succesfulSave": "Änderungen erfolgreich gespeichert",
+  "confirmDialog": {
+    "warning": "Warnung",
+    "error": "Fehler",
+    "information": "Information",
+    "ready": "Fertig",
+    "delete": "Löschen",
+    "helpFromIT": "Bitte kontaktieren Sie Ihren Systemadministrator",
+    "confirmCanDeactivate": "Sind Sie sicher, dass Sie wegnavigieren? Du hast nicht gespeicherte Änderungen. Ihre Änderungen gehen verloren"
+  },
+  "account": {
+    "existingCode": "Der Benutzercode existiert bereits",
+    "wrongPassword": "Das eingegebene Passwort ist falsch",
+    "changePassSuccesful": "Die Passwortänderung ist erfolgreich",
+    "loginSuccesful": "Anmeldung erfolgreic",
+    "loginUnSuccesful": "Fehler bei der Anmeldung"
+  },
+  "role": {
+    "notFound": "Die Rolle nicht gefunden",
+    "deleteSuccesful": "Die Rolle wurde erfolgreich gelöscht",
+    "existingCode": "Der Rolle existiert bereits",
+    "addSuccesful": "Der Rolle wurde erfolgreich registriert",
+    "updateSuccesful": "Der Rolle wurde erfolgreich geändert",
+    "confirmDelete": "Möchten Sie die ausgewählte Rolle wirklich löschen?"
+  },
+  "user": {
+    "notFound": "Der Benutzer nicht gefunden",
+    "deleteSuccesful": "A felhasználó sikeresen törölve",
+    "existingCode": "Der Benutzercode existiert bereits",
+    "addSuccesful": "Der Benutzer wurde erfolgreich registriert",
+    "updateSuccesful": "Der Benutzer wurde erfolgreich geändert",
+    "confirmDelete": "Möchten Sie den ausgewählten Benutzer wirklich löschen?"
+  },
   "fehler": {
     "notFound": "Der Fehler nicht gefunden",
     "existingRelation": "Der Fehler kann nicht gelöscht werden, da die Fehlersammelkarten dazu gehören",
     "deleteSuccesful": "Der Fehler wurde erfolgreich gelöscht",
     "existingCode": "Der Fehlercode existiert bereits",
     "addSuccesful": "Der Fehler wurde erfolgreich registriert",
-    "updateSuccesful": "Der Fehler wurde erfolgreich geändert"
+    "updateSuccesful": "Der Fehler wurde erfolgreich geändert",
+    "confirmDelete": "Möchten Sie den ausgewählten Fehler wirklich löschen?"
   },
   "operation": {
     "notFound": "Die Operation nicht gefunden",
@@ -182,7 +220,46 @@
     "deleteSuccesful": "Der Operation wurde erfolgreich gelöscht",
     "existingCode": "Die Operationcode existiert bereits",
     "addSuccesful": "Die Operation wurde erfolgreich registriert",
-    "updateSuccesful": "Die Operation wurde erfolgreich geändert"
+    "updateSuccesful": "Die Operation wurde erfolgreich geändert",
+    "confirmDelete": "Möchten Sie die ausgewählte Operation wirklich löschen?"
+  },
+  "product": {
+    "notFound": "Das Product nicht gefunden",
+    "existingRelation": "Das Produkt kann nicht gelöscht werden, da ihm Operationen zugeordnet sind",
+    "deleteSuccesful": "Das Produkt wurde erfolgreich gelöscht",
+    "existingCode": "Der Produktcode existiert bereits",
+    "addSuccesful": "Das Produkt wurde erfolgreich registriert",
+    "updateSuccesful": "Das Produkt wurde erfolgreich geändert",
+    "saveSuccesful": "Das Produkt wurde erfolgreich gespeichert",
+    "confirmDelete": "Möchten Sie das ausgewählte Produkt wirklich löschen?"
+  },
+  "workshop": {
+    "notFound": "Werkstatt nicht gefunden",
+    "existingRelation": "Die Werkstatt kann nicht gelöscht werden, da er Produkte enthält",
+    "deleteSuccesful": "Die Werkstatt wurde erfolgreich gelöscht",
+    "existingCode": "Die Werkstatt existiert bereits",
+    "addSuccesful": "Die Werkstatt wurde erfolgreich registriert",
+    "updateSuccesful": "Die Werkstatt wurde erfolgreich geändert",
+    "confirmDelete": "Möchten Sie die ausgewählte Werkstatt wirklich löschen?"
+  },
+  "summaryCard": {
+    "notFound": "Die Fehlersammelkarte nicht gefunden",
+    "deleteSuccesful": "Die Fehlersammelkarte wurde erfolgreich gelöscht",
+    "addSuccesful": "Die Fehlersammelkarte wurde erfolgreich registriert",
+    "updateSuccesful": "Die Fehlersammelkarte wurde erfolgreich geändert",
+    "fehlerItemNotFound": "Die Fehlersammelkarte Fehlerelement nicht gefunden",
+    "confirmDelete": "Möchten Sie die ausgewählte Fehlersammelkarte wirklich löschen?"
+  },
+  "defectGroup": {
+    "notFound": "Fehlerzusammenfassung nicht gefunden",
+    "deleteSuccesful": "Fehlerzusammenfassung wurde erfolgreich gelöscht",
+    "addSuccesful": "Fehlerzusammenfassung wurde erfolgreich registriert",
+    "updateSuccesful": "Fehlerzusammenfassung wurde erfolgreich geändert",
+    "saveSuccesful": "Fehlerzusammenfassung wurde erfolgreich gespeichert",
+    "confirmDelete": "Möchten Sie die ausgewählte Fehlerzusammenfassung wirklich löschen?",
+    "confirmDeleteGroup": "Möchten Sie die ausgewählte Fehlerzusammenfassunggruppe wirklich löschen?",
+    "confirmDeleteOperationGroup": "Möchten Sie die ausgewählte Operationgruppe wirklich löschen?",
+    "confirmDeleteDefectGroup": "Möchten Sie die ausgewählte Fehlergruppe wirklich löschen?"
   }
 }
 

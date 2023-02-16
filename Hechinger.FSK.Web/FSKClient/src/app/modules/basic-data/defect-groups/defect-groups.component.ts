@@ -200,7 +200,7 @@ export class DefectGroupsComponent implements OnInit {
   }
 
   delete(node: TreeItemFlatNode<EntityGroupModel>) { 
-    let message = node.item.node.groupType == GroupTypes.Group ? "hibaösszesítő csoportot" : "hibaösszesítőt"
+    let message = node.item.node.groupType == GroupTypes.Group ? 'defectGroup.confirmDeleteGroup' : 'defectGroup.confirmDelete'
     this.confirmDialogService.openDeleteConfirm(message).subscribe(result => {
       if (result) {
         let request: DeleteEntityGroup = { id: node.item.node.id };

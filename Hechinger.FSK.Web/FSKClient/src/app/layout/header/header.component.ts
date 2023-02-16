@@ -34,6 +34,7 @@ export class HeaderComponent implements OnInit {
   applicationInformation: ApplicationInfo;
   personalSettingsModule: TreeItem<MenuItemModel>[];
   constructor(public languageService: LanguageService,
+    public translateService: TranslateService,
     private readonly accountService: AccountService,
     private readonly applicationService: ApplicationService,
     private readonly dialog: MatDialog,

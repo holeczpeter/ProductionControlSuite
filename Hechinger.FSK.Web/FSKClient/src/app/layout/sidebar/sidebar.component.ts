@@ -27,6 +27,7 @@ export class SidebarComponent implements OnInit, DoCheck, AfterViewInit {
   applicationInformation: ApplicationInfo;
   imageSrc = 'assets/images/logo.png';
   constructor(private readonly menudataService: MenuDataService,
+    public translateService: TranslateService,
     private readonly applicationService: ApplicationService,
     private differs: IterableDiffers,
     private readonly router: Router,

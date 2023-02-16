@@ -1,11 +1,15 @@
 {
+  "application": "rendszer",
   "lang": "Nyelv",
+  "version": "Verzió",
   "exit": "Kilépés",
   "save": "Mentés",
+  "yes": "Igen",
   "cancel": "Mégsem",
   "close": "Bezár",
   "back": "Vissza",
   "next": "Következő",
+  "ok": "Rendben",
   "nextandsave": "Mentés és folytatás",
   "saveandclose": "Mentés és bezárás",
   "add": "Hozzáadás",
@@ -168,25 +172,38 @@
   "ppm": "PPM",
   "unsuccessfulSave": "Sikertelen mentés",
   "succesfulSave": "A módosítások elmentve",
+  "confirmDialog": {
+    "warning": "Figyelmeztetés",
+    "error": "Hiba",
+    "information": "Információ",
+    "ready": "Kész",
+    "delete": "Törlés",
+    "helpFromIT": "Kérjük forduljon a rendszergazdához.",
+    "confirmCanDeactivate": "Biztosan elnavigál? Önnek nem mentett módosításai vannak. A módosításai elvesznek"
+  },
+
   "account": {
-    "deleteSuccesful": "A szerepkör sikeresen törölve",
     "existingCode": "A felhasználói kód már létezik",
     "wrongPassword": "A megadott jelszó nem megfelelő",
-    "changePassSuccesful": "A jelszó változtatás sikeres"
+    "changePassSuccesful": "A jelszó változtatás sikeres",
+    "loginSuccesful": "Bejelentkezés sikeres",
+    "loginUnSuccesful": "Sikertelen bejelentkezés"
   },
   "role": {
     "notFound": "A szerepkör nem található",
     "deleteSuccesful": "A szerepkör sikeresen törölve",
     "existingCode": "A felhasználói kód már létezik",
     "addSuccesful": "A szerepkör sikeresen rögzítve",
-    "updateSuccesful": "A szerepkör sikeresen módosítva"
+    "updateSuccesful": "A szerepkör sikeresen módosítva",
+    "confirmDelete": "Valóban törölni szeretné a kiválasztott szerepkört?"
   },
   "user": {
     "notFound": "A felhasználó nem található",
     "deleteSuccesful": "A felhasználó sikeresen törölve",
     "existingCode": "A felhasználói kód már létezik",
     "addSuccesful": "A felhasználó sikeresen rögzítve",
-    "updateSuccesful": "A felhasználó adatai sikeresen módosítva"
+    "updateSuccesful": "A felhasználó adatai sikeresen módosítva",
+    "confirmDelete": "Valóban törölni szeretné a kiválasztott felhasználót?"
   },
   "fehler": {
     "notFound": "A hiba nem található",
@@ -194,7 +211,8 @@
     "deleteSuccesful": "A hiba sikeresen törölve",
     "existingCode": "A hibakód már létezik",
     "addSuccesful": "A hiba sikeresen rögzítve",
-    "updateSuccesful": "A hiba sikeresen módosítva"
+    "updateSuccesful": "A hiba sikeresen módosítva",
+    "confirmDelete": "Valóban törölni szeretné a kiválasztott hibát?"
   },
   "operation": {
     "notFound": "A művelet nem található",
@@ -202,7 +220,8 @@
     "deleteSuccesful": "A művelet sikeresen törölve",
     "existingCode": "A műveletkód már létezik",
     "addSuccesful": "A művelet sikeresen rögzítve",
-    "updateSuccesful": "A művelet sikeresen módosítva"
+    "updateSuccesful": "A művelet sikeresen módosítva",
+    "confirmDelete": "Valóban törölni szeretné a kiválasztott műveletet?"
   },
   "product": {
     "notFound": "A termék nem található",
@@ -211,7 +230,8 @@
     "existingCode": "A termékkód már létezik",
     "addSuccesful": "A termék sikeresen rögzítve",
     "updateSuccesful": "A termék sikeresen módosítva",
-    "saveSuccesful": "A termék sikeresen mentve"
+    "saveSuccesful": "A termék sikeresen mentve",
+    "confirmDelete": "Valóban törölni szeretné a kiválasztott terméket?"
   },
   "workshop": {
     "notFound": "A műhely nem található",
@@ -219,20 +239,26 @@
     "deleteSuccesful": "A műhely sikeresen törölve",
     "existingCode": "A műhelykód már létezik",
     "addSuccesful": "A műhely sikeresen rögzítve",
-    "updateSuccesful": "A műhely sikeresen módosítva"
+    "updateSuccesful": "A műhely sikeresen módosítva",
+    "confirmDelete": "Valóban törölni szeretné a kiválasztott műhelyt?"
   },
   "summaryCard": {
     "notFound": "A hibagyűjtő nem található",
     "deleteSuccesful": "A hibagyűjtő sikeresen törölve",
     "addSuccesful": "A hibagyűjtő sikeresen rögzítve",
     "updateSuccesful": "A hibagyűjtő sikeresen módosítva",
-    "fehlerItemNotFound": "A hibagyűjtő hiba tétele nem található"
+    "fehlerItemNotFound": "A hibagyűjtő hiba tétele nem található",
+    "confirmDelete": "Valóban törölni szeretné a kiválasztott hibagyűjtő kártyát?"
   },
   "defectGroup": {
     "notFound": "A hibaösszesítő nem található",
     "deleteSuccesful": "A hibaösszesítő sikeresen törölve",
     "addSuccesful": "A hibaösszesítő sikeresen rögzítve",
     "updateSuccesful": "A hibaösszesítő sikeresen módosítva",
-    "saveSuccesful": "A hibaösszesítő sikeresen mentve"
+    "saveSuccesful": "A hibaösszesítő sikeresen mentve",
+    "confirmDelete": "Valóban törölni szeretné a kiválasztott hibaösszesítőt?",
+    "confirmDeleteGroup": "Valóban törölni szeretné a kiválasztott hibaösszesítő csoportot?",
+    "confirmDeleteOperationGroup": "Valóban törölni szeretné a kiválasztott műveletcsoportot?",
+    "confirmDeleteDefectGroup": "Valóban törölni szeretné a kiválasztott hibacsoportot?"
   }
 }

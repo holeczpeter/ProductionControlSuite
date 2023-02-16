@@ -26,9 +26,9 @@
       </div>
       <div class="information-container">
         <div>
-          <h1>{{data.title}}</h1>
+          <h1>{{data.title | translate}}</h1>
         </div>
-        <div class="message" [innerHTML]="data.content">
+        <div class="message" [innerHTML]="data.content | translate">
         </div>
       </div>
     </div>
@@ -39,14 +39,14 @@
         <button mat-flat-button
                 color="blue" class="confirm-button"
                 (click)="close(currentButton.value)">
-          {{currentButton.text}}
+          {{currentButton.text | translate}}
         </button>
       </ng-container>
       <ng-template #stroked>
         <button mat-stroked-button class="confirm-button"
                 color="blue"
                 (click)="close(currentButton.value)">
-          {{currentButton.text}}
+          {{currentButton.text | translate}}
         </button>
       </ng-template>
     </ng-container>

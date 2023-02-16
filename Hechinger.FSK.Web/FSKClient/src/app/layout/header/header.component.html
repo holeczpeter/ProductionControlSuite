@@ -1,7 +1,7 @@
 <mat-toolbar>
   <mat-toolbar-row class="info-row">
     <div class="names">
-      <div class="header-main">FSK {{ applicationInformation?.enviromentName}} rendszer</div>
+      <div class="header-main">FSK {{ applicationInformation?.enviromentName}}  {{ 'application' | translate }}</div>
       <div class="header-alt">{{companyName}}</div>
     </div>
     <span class="example-spacer"></span>
@@ -35,7 +35,7 @@
               [routerLink]="[menu.node.path]"
               mat-menu-item>
         <mat-icon>{{menu.node.icon}}</mat-icon>
-        <span>{{ (languageService.getCurrentLanguage() | async) === 'hu' ? menu.node.title : menu.node.translatedTitle}}</span>
+        <span>{{ translateService.currentLang === 'hu' ? menu.node.title : menu.node.translatedTitle}}</span>
 
       </button>
       <button (click)="onLogout()" mat-menu-item>
@@ -50,7 +50,7 @@
               routerLinkActive="active"
               mat-stroked-button
               [routerLink]="[module.node.path]">
-        {{ (languageService.getCurrentLanguage() | async) === 'hu' ? module.node.title : module.node.translatedTitle}}
+        {{ translateService.currentLang === 'hu' ? module.node.title : module.node.translatedTitle}}
       </button>
     </ng-container>
   </mat-toolbar-row>

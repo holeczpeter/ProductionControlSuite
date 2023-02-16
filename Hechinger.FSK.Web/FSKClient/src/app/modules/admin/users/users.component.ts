@@ -152,7 +152,7 @@ export class UsersComponent implements OnInit {
   }
   
   onDelete(id: number) {
-    this.confirmDialogService.openDeleteConfirm('felhasználót').subscribe(result => {
+    this.confirmDialogService.openDeleteConfirm('user.confirmDelete').subscribe(result => {
       if (result) {
         let model: DeleteUser = { id: id };
         this.userDataService.delete(model).subscribe(result => {

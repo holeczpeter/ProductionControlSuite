@@ -22,10 +22,10 @@ export class ConfirmDialogService {
 
   openSuccess(message: string) {
     let data = new ConfirmDialogDataBuilder()
-      .setTitle('Kész!')
+      .setTitle('confirmDialog.ready')
       .setContent(message)
       .setType(ConfirmationTypes.Success)
-      .setButtons([{ text: 'Rendben', value: true }])
+      .setButtons([{ text: 'ok', value: true }])
       .build();
     return this.dialog.open(ConfirmDialogComponent, {
       autoFocus: false,
@@ -36,10 +36,10 @@ export class ConfirmDialogService {
   }
   openInformation(message: string) {
     let data = new ConfirmDialogDataBuilder()
-      .setTitle('Információ')
+      .setTitle('confirmDialog.information')
       .setContent(message)
       .setType(ConfirmationTypes.Information)
-      .setButtons([{ text: 'Rendben', value: true }])
+      .setButtons([{ text: 'ok', value: true }])
       .build();
     return this.dialog.open(ConfirmDialogComponent, {
       autoFocus: false,
@@ -51,10 +51,10 @@ export class ConfirmDialogService {
 
   openConfirmWarning(message: string) {
     let data = new ConfirmDialogDataBuilder()
-      .setTitle('Figyelmeztetés!')
+      .setTitle('confirmDialog.warning')
       .setContent(message)
       .setType(ConfirmationTypes.Warning)
-      .setButtons([{ text: 'Igen', value: true }, { text: 'Mégsem', value: false }])
+      .setButtons([{ text: 'yes', value: true }, { text: 'cancel', value: false }])
       .build();
     return this.dialog.open(ConfirmDialogComponent, {
       autoFocus: false,
@@ -66,10 +66,10 @@ export class ConfirmDialogService {
 
   openWarning(message: string) {
     let data = new ConfirmDialogDataBuilder()
-      .setTitle('Figyelmeztetés!')
+      .setTitle('confirmDialog.warning')
       .setContent(message)
       .setType(ConfirmationTypes.Warning)
-      .setButtons([{ text: 'Rendben', value: true }, { text: 'Mégsem', value: false }])
+      .setButtons([{ text: 'yes', value: true }, { text: 'cancel', value: false }])
       .build();
     return this.dialog.open(ConfirmDialogComponent, {
       autoFocus: false,
@@ -81,10 +81,10 @@ export class ConfirmDialogService {
 
   openError(message: string) {
     let data = new ConfirmDialogDataBuilder()
-      .setTitle('Hiba!')
+      .setTitle('confirmDialog.error')
       .setContent(message)
       .setType(ConfirmationTypes.Error)
-      .setButtons([{ text: 'Rendben', value: true }])
+      .setButtons([{ text: 'ok', value: true }])
       .build();
     return this.dialog.open(ConfirmDialogComponent, {
       autoFocus: false,
@@ -94,16 +94,15 @@ export class ConfirmDialogService {
     }).afterClosed();
   }
 
-  openDeleteConfirm(subject: string, description?: string) {
-    const content: string = `Valóban törölni szeretné a kiválasztott ${subject}? ${description ? description : ""}`
-    const buttons: Array<ConfirmDialogResult> = [{ text: 'Törlés', value: true }, { text: 'Mégsem', value: false }]
+  openDeleteConfirm(subject: string) {
+    const buttons: Array<ConfirmDialogResult> = [{ text: 'confirmDialog.delete', value: true }, { text: 'cancel', value: false }]
     let data = new ConfirmDialogDataBuilder()
-      .setTitle('Törlés')
-      .setContent(content)
+      .setTitle('confirmDialog.delete')
+      .setContent(subject)
       .setType(ConfirmationTypes.Delete)
       .setButtons(buttons)
       .build();
-
+    console.log(data)
     return this.dialog.open(ConfirmDialogComponent, {
       autoFocus: false,
       data: data,
@@ -113,7 +112,7 @@ export class ConfirmDialogService {
   }
 
   confirmClose(ref: MatDialogRef<any>) {
-    this.openConfirmWarning('Biztosan elnavigál? Önnek nem mentett módosításai vannak. A módosításai elvesznek').subscribe(result => {
+    this.openConfirmWarning("confirmDialog.confirmCanDeactivate").subscribe(result => {
       if (result) {
         sessionStorage.removeItem("originalForm");
         ref.close();
@@ -122,6 +121,6 @@ export class ConfirmDialogService {
   }
 
   confirmUnsavedChanges() {
-    return this.openConfirmWarning('Biztosan elnavigál? Önnek nem mentett módosításai vannak. A módosításai elvesznek');
+    return this.openConfirmWarning("confirmDialog.confirmCanDeactivate");
   }
 }

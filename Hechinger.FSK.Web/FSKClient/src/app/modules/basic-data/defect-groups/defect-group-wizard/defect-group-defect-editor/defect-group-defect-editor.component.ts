@@ -64,7 +64,7 @@ export class DefectGroupDefectEditorComponent implements OnInit, OnChanges {
   }
 
   remove(i: number) {
-    this.confirmDialogService.openDeleteConfirm('hibacsoportot').subscribe(result => {
+    this.confirmDialogService.openDeleteConfirm('defectGroup.confirmDeleteDefectGroup').subscribe(result => {
       if (result) {
         this.entityGroupService.removeChildFromParent(this.tree, i);
         this.dataSource = new MatTableDataSource((this.entityGroupService.getChildrenByCurrentForm(this.tree) as FormArray).controls);

@@ -97,11 +97,11 @@ export class ProductContextService {
     operation?.defects?.forEach(d => this.addDefect(d, operations.length-1));
   }
   removeOperation(i: number) {
-    this.confirmDialogService.openDeleteConfirm('műveletet').subscribe(result => {
+    this.confirmDialogService.openDeleteConfirm('operation.confirmDelete').subscribe(result => {
       if (result) {
         const remove = this.getOperations;
         let current = this.getOperations.controls[i];
-        if (current && current.get('hasDefect')?.value == true) this.confirmDialogService.openError("A művelet nem törölhető, mert vannak hozzátartozó hibák").subscribe();
+        if (current && current.get('hasDefect')?.value == true) this.confirmDialogService.openError("operation.existingRelation").subscribe();
         else remove.removeAt(i);
       }
     });
@@ -122,11 +122,11 @@ export class ProductContextService {
   }
 
   removeDefect(i: number, opIndex: number) {
-    this.confirmDialogService.openDeleteConfirm('hibát').subscribe(result => {
+    this.confirmDialogService.openDeleteConfirm('fehler.confirmDelete').subscribe(result => {
       if (result) {
         const remove = this.getDefects(opIndex);
         let current = remove.controls[i];
-        if (current && current.get('hasCard')?.value == true) this.confirmDialogService.openError("A hiba nem törölhető, mert vannak hozzátartozó hibagyűjtők").subscribe();
+        if (current && current.get('hasCard')?.value == true) this.confirmDialogService.openError("fehler.existingRelation").subscribe();
         else remove.removeAt(i);
       }
     });

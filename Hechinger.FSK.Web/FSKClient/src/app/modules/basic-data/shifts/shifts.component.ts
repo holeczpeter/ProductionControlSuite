@@ -129,7 +129,7 @@ export class ShiftsComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }
   onDelete(id: number) {
-    this.confirmDialogService.openDeleteConfirm('műveletet').subscribe(result => {
+    this.confirmDialogService.openDeleteConfirm('shift.confirmDelete').subscribe(result => {
       if (result) {
         let model: DeleteWorkshop = { id: id };
         this.shiftDataService.delete(model).subscribe(result => {

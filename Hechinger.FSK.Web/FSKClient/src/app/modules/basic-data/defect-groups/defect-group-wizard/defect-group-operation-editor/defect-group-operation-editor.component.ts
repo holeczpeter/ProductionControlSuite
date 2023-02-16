@@ -90,7 +90,7 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
    
   }
   remove(i: number) {
-    this.confirmDialogService.openDeleteConfirm('műveletcsoportot').subscribe(result => {
+    this.confirmDialogService.openDeleteConfirm('defectGroup.confirmDeleteOperationGroup').subscribe(result => {
       if (result) {
         this.entityGroupService.removeChildFromParent(this.entityGroupService.treeForm,i);
       }

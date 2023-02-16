@@ -7,6 +7,7 @@ export class ResultBuilder {
     this.result = {
       isSuccess: false,
       entities: null,
+      currentError:"",
       errors: new Array<string>(),
       message: '',
     };

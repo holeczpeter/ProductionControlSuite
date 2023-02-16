@@ -57,7 +57,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<H
     nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     if (!component.hasUnsavedChanges()) return of(true);
-    else return this.confirmDialogService.openConfirmWarning('Biztosan elnavigál? Önnek nem mentett módosításai vannak. A módosításai elvesznek');
+    else return this.confirmDialogService.openConfirmWarning("confirmDialog.confirmCanDeactivate");
   }
   canLoad(
     route: Route,

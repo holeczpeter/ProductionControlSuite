@@ -179,7 +179,7 @@ export class OperationsComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }
   onDelete(id: number) {
-    this.confirmDialogService.openDeleteConfirm('műveletet').subscribe(result => {
+    this.confirmDialogService.openDeleteConfirm('operation.confirmDelete').subscribe(result => {
       if (result) {
         let model: DeleteOperation = { id: id };
         this.operationDataService.delete(model).subscribe(result => {

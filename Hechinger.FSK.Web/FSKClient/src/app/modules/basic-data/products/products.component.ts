@@ -190,7 +190,7 @@ export class ProductsComponent implements OnInit, AfterViewInit{
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }
   onDelete(id: number) {
-    this.confirmDialogService.openDeleteConfirm('terméket').subscribe(result => {
+    this.confirmDialogService.openDeleteConfirm('product.confirmDelete').subscribe(result => {
       if (result) {
         let model: DeleteProduct = { id: id };
         this.productDataService.delete(model).subscribe(result => {

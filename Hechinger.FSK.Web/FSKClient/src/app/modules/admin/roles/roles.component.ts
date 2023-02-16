@@ -66,7 +66,7 @@ export class RolesComponent implements OnInit {
   }
 
   onDelete(id: number) {
-    this.confirmDialogService.openDeleteConfirm('szerepkört').subscribe(result => {
+    this.confirmDialogService.openDeleteConfirm('role.confirmDelete').subscribe(result => {
       if (result) {
         let model: DeleteRole = { id: id };
         this.roleDataService.delete(model).subscribe(result => {

@@ -83,11 +83,9 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
   }
 
   add() {
-   
     if (this.data && this.data.defectModel && this.data?.defectModel.code == this.formGroup.get('code')?.value && this.data.isCopy) {
-      this.confirmDialogService.openError("Kérem módosítsa a kód mezőt, a hibakód már létezik.").subscribe(x => {
+      this.confirmDialogService.openError("fehler.existingCode").subscribe(x => {
         return;
-
       });
     }
     else {

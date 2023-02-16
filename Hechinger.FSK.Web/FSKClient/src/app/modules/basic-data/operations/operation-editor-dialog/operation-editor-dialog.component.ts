@@ -82,7 +82,7 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
 
   add() {
     if (this.data && this.data.operationModel && this.data?.operationModel.code == this.formGroup.get('code')?.value && this.data.isCopy) {
-      this.confirmDialogService.openError("Kérem módosítsa a kód mezőt, a műveletkód már létezik.").subscribe(x => {
+      this.confirmDialogService.openError("operation.existingCode").subscribe(x => {
         return;
 
       });

@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
   forgotPassword() {
-    this.confirmDialogService.openInformation("Kérjük forduljon a rendszergazdához.").subscribe();
+    this.confirmDialogService.openInformation("confirmDialog.helpFromIT").subscribe();
   }
   onSubmit() {
     let request: LoginModel = { code: this.formGroup.get('code')?.value, password: this.formGroup.get('password')?.value }
@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
       switch (x.loginStatus) {
 
         case LoginResults.Success:
-          let success = new ResultBuilder().setSuccess(true).setMessage(`Sikeres bejelentkezés\nÜdv, ${x.userInfo.name}`).build();
+          let success = new ResultBuilder().setSuccess(true).setMessage("account.loginSuccesful").setErrors([`Üdv, ${x.userInfo.name}`]).build();
           this.snackBarService.open(success);
           this.router.navigateByUrl('/home');
           break;
@@ -49,19 +49,19 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl('account/change-temporary-password');
           break;
         case LoginResults.IsNotValidPassword:
-          const isNotValidPassword = "Nem megfelelő jelszó";
-          let isNotValidPasswordRes = new ResultBuilder().setSuccess(false).setMessage(`Sikertelen bejelentkezés!\n${isNotValidPassword}`).build();
+          const isNotValidPassword = "account.wrongPassword";
+          let isNotValidPasswordRes = new ResultBuilder().setSuccess(false).setMessage('account.loginUnSuccesful').setErrors([isNotValidPassword]).build();
           this.snackBarService.open(isNotValidPasswordRes);
           break;
         case LoginResults.NotExistUser:
-          const notExistUser = "Felhasználó nem létezik";
-          let notExistUserRes = new ResultBuilder().setSuccess(false).setMessage(`Sikertelen bejelentkezés!\n${notExistUser}`).build();
+          const notExistUser = "user.notFound";
+          let notExistUserRes = new ResultBuilder().setSuccess(false).setMessage('account.loginUnSuccesful').setErrors([notExistUser]).build();
           this.snackBarService.open(notExistUserRes);
           break;
         default:
       }
     }, err => {
-      let notExistUserRes = new ResultBuilder().setSuccess(false).setMessage(`Sikertelen bejelentkezés!\n${err}`).build();
+      let notExistUserRes = new ResultBuilder().setSuccess(false).setMessage('account.loginUnSuccesful').setErrors([err]).build();
       this.snackBarService.open(notExistUserRes);
     });
   }

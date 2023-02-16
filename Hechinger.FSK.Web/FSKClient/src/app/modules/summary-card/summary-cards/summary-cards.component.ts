@@ -198,7 +198,7 @@ export class SummaryCardsComponent implements OnInit, OnDestroy {
   }
   
   onDelete(id: number) {
-    this.confirmDialogService.openDeleteConfirm('hibagyűjtőt').subscribe(result => {
+    this.confirmDialogService.openDeleteConfirm('summaryCard.confirmDelete').subscribe(result => {
       if (result) {
         let model: DeleteSummaryCard = { id: id };
         this.summaryCardDataService.delete(model).subscribe(result => {

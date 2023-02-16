@@ -124,7 +124,7 @@ export class WorkshopsComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }
   onDelete(id: number) {
-    this.confirmDialogService.openDeleteConfirm('műhelyt').subscribe(result => {
+    this.confirmDialogService.openDeleteConfirm('workshop.confirmDelete').subscribe(result => {
       if (result) {
         let model: DeleteWorkshop = { id: id };
         this.workshopDataService.delete(model).subscribe(result => {

@@ -178,7 +178,7 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
   }
   onDelete(id: number) {
     
-    this.confirmDialogService.openDeleteConfirm('hibát').subscribe(result => {
+    this.confirmDialogService.openDeleteConfirm('fehler.confirmDelete').subscribe(result => {
       if (result) {
         let model: DeleteDefect = { id: id };
         this.defectDataService.delete(model).subscribe(result => {
