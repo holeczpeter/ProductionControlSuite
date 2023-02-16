@@ -91,6 +91,7 @@
   "selectable": "Választható",
   "rows": "sorok",
   "help": "Információk",
+  "minError": "Az érték nem lehet negatív",
   "months": [
     { "January": "Január" },
     { "February": "Február" },

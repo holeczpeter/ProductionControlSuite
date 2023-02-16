@@ -18,11 +18,20 @@
           </mat-error>
         </mat-form-field>
       </div>
+      <mat-form-field>
+        <input matInput type="number" [formControlName]="'order'" [placeholder]="'order' | translate" required />
+        <mat-error class="col" *ngIf="formGroup.get('order')?.hasError('required')">
+          {{'order'| translate}} {{'required' | translate}}
+        </mat-error>
+        <mat-error class="col" *ngIf="formGroup.get('order')?.hasError('min')">
+          {{'order'| translate}} {{'minError' | translate}}
+        </mat-error>
+      </mat-form-field>
       <div class="row pt-2">
         <mat-form-field class="col">
           <input matInput type="number" [formControlName]="'norma'" [placeholder]="'operations.norma' | translate" required />
-          <mat-error class="col" *ngIf="formGroup.get('norma')?.hasError('required')">
-            {{'operations.norma'| translate}} {{'required' | translate}}
+          <mat-error class="col" *ngIf="formGroup.get('norma')?.hasError('min')">
+            {{'operations.norma'| translate}} {{'minError' | translate}}
           </mat-error>
         </mat-form-field>
       </div>
@@ -32,12 +41,17 @@
           <mat-error class="col" *ngIf="formGroup.get('operationTime')?.hasError('required')">
             {{'operations.operationTime'| translate}} {{'required' | translate}}
           </mat-error>
+          <mat-error class="col" *ngIf="formGroup.get('operationTime')?.hasError('min')">
+            {{'operations.operationTime'| translate}} {{'minError' | translate}}
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="row pt-2">
         <mat-form-field class="col">
           <input matInput type="number" [formControlName]="'ppmGoal'" [placeholder]="'goal' | translate" />
-          
+          <mat-error class="col" *ngIf="formGroup.get('ppmGoal')?.hasError('min')">
+            {{'goal'| translate}} {{'minError' | translate}}
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="row pt-2">

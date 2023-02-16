@@ -19,9 +19,12 @@
               </mat-error>
             </mat-form-field>
             <mat-form-field>
-              <input matInput [formControlName]="'order'" [placeholder]="'order' | translate" required />
+              <input matInput type="number" [formControlName]="'order'" [placeholder]="'order' | translate" required />
               <mat-error class="col" *ngIf="productContextService.getOperations.controls[i].get('order')?.hasError('required')">
                 {{'order'| translate}} {{'required' | translate}}
+              </mat-error>
+              <mat-error class="col" *ngIf="productContextService.getOperations.controls[i].get('order')?.hasError('min')">
+                {{'order'| translate}} {{'minError' | translate}}
               </mat-error>
             </mat-form-field>
           </div>
@@ -37,15 +40,24 @@
             <div class="flex-operation">
               <mat-form-field>
                 <input matInput type="number" [formControlName]="'norma'" [placeholder]="'operations.norma' | translate" />
-
+                <mat-error class="col" *ngIf="productContextService.getOperations.controls[i].get('norma')?.hasError('min')">
+                  {{'operations.norma'| translate}} {{'minError' | translate}}
+                </mat-error>
               </mat-form-field>
               <mat-form-field class="col">
                 <input matInput type="number" [formControlName]="'operationTime'" [placeholder]="'operations.operationTime' | translate" />
-
+                <mat-error class="col" *ngIf="productContextService.getOperations.controls[i].get('operationTime')?.hasError('required')">
+                  {{'operations.operationTime'| translate}} {{'required' | translate}}
+                </mat-error>
+                <mat-error class="col" *ngIf="productContextService.getOperations.controls[i].get('operationTime')?.hasError('min')">
+                  {{'operations.operationTime'| translate}} {{'minError' | translate}}
+                </mat-error>
               </mat-form-field>
               <mat-form-field class="col">
                 <input matInput type="number" [formControlName]="'ppmGoal'" [placeholder]="'goal' | translate" />
-
+                <mat-error class="col" *ngIf="productContextService.getOperations.controls[i].get('ppmGoal')?.hasError('min')">
+                  {{'goal'| translate}} {{'minError' | translate}}
+                </mat-error>
               </mat-form-field>
             </div>
           </div>

@@ -28,6 +28,7 @@
                 current.Code = request.Code;
                 current.TranslatedName = request.TranslatedName;
                 current.Norma = request.Norma;
+                current.Order = request.Order;  
                 current.OperationTime = request.OperationTime;
                 current.Product = currentProduct;
                 current.PpmGoal = request.PpmGoal;  

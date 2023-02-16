@@ -30,6 +30,7 @@
                 Code = request.Code,
                 TranslatedName = request.TranslatedName,
                 Norma = request.Norma,
+                Order = request.Order,  
                 PpmGoal = request.PpmGoal,
                 OperationTime = request.OperationTime,  
                 Product = currentProduct

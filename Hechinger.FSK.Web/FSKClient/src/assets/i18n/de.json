@@ -91,6 +91,7 @@
   "selectable": "Wählbare",
   "rows": "Reihen",
   "help": "Information",
+  "minError": "Der Wert darf nicht negativ sein",
   "months": [
     { "January": "Januar" },
     { "February": "Februar" },
