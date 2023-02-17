@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.applicationService.get().subscribe(appInfo => {
+    this.applicationService.getApplicationInfo().subscribe(appInfo => {
       this.applicationInformation = appInfo;
     });
   }

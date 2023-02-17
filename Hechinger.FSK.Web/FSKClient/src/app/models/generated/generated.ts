@@ -23,6 +23,14 @@ export interface GroupTypeColor {
   name: string,
   color: string,
 }
+export interface HelpCenter {
+  supportName: string,
+  supportContact: string,
+  itName: string,
+  itContact: string,
+  adminName: string,
+  adminContact: string,
+}
 export interface IntervalModel {
   startDate: Date,
   endDate: Date,

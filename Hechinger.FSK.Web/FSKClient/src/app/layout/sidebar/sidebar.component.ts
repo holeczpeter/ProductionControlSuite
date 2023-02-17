@@ -38,7 +38,7 @@ export class SidebarComponent implements OnInit, DoCheck, AfterViewInit {
     
 
   ngOnInit(): void {
-    this.applicationService.get().subscribe(appInfo => {
+    this.applicationService.getApplicationInfo().subscribe(appInfo => {
       this.applicationInformation = appInfo;
     });
   }

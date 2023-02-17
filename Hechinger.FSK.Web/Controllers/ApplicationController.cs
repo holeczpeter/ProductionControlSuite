@@ -1,8 +1,10 @@
 ﻿using Hechinger.FSK.Application.Common;
+using Hechinger.FSK.Application.Common.Models;
 using System.Reflection;
 
 namespace Hechinger.FSK.Web.Controllers
 {
+    [Authorize]
     public class ApplicationController : ControllerBase
     {
         [HttpGet]
@@ -18,6 +20,12 @@ namespace Hechinger.FSK.Web.Controllers
             };
 
             return res;
-        }     
+        }
+
+        [HttpGet]
+        public HelpCenter GetHelpCenterInformation()
+        {
+            return FskEnvironment.HelpCenter;
+        }
     }
 }

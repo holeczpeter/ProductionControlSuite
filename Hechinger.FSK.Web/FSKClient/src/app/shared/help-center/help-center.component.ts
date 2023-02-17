@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ApplicationInfo } from '../../models/generated/generated';
+import { forkJoin } from 'rxjs';
+import { ApplicationInfo, HelpCenter } from '../../models/generated/generated';
 import { ApplicationService } from '../../services/data/application.service';
 
 @Component({
@@ -11,13 +12,9 @@ import { ApplicationService } from '../../services/data/application.service';
 export class HelpCenterComponent implements OnInit {
   title: string;
   applicationInformation: ApplicationInfo;
+  helpCenterInformation: HelpCenter;
   imageSrc = 'assets/images/logo.png';
-  applicationAdministratorName = "Farkas Aleaxandra";
-  applicationAdministratorEmail =  "a.farkas@hechinger-hungary.hu";
-  systemAdministratorName = "Pesti Rajmund";
-  systemAdministratorEmail =  "r.pesti@hechinger-hungary.hu";
-  developerName = "Holecz Péter";
-  developerEmail =  "h-peter@hechinger-hungary.hu";
+ 
   constructor(private readonly dialogRef: MatDialogRef<HelpCenterComponent>,
     private readonly applicationService: ApplicationService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -25,8 +22,10 @@ export class HelpCenterComponent implements OnInit {
 
   ngOnInit(): void {
     this.title = "help";
-    this.applicationService.get().subscribe(appInfo => {
+    forkJoin(this.applicationService.getApplicationInfo(), this.applicationService.getHelpCenterInfo()).subscribe(([appInfo,helpCenterinfo]) => {
       this.applicationInformation = appInfo;
+      this.helpCenterInformation = helpCenterinfo;
+      console.log(this.helpCenterInformation)
     });
     
 

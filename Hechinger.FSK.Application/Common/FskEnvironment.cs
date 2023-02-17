@@ -30,10 +30,30 @@ namespace Hechinger.FSK.Application.Common
                 return environtmentInformation;
             }
         }
+        private static HelpCenter helpCenter;
+
+        public static HelpCenter HelpCenter
+        {
+            get
+            {
+                return helpCenter;
+            }
+        }
         public static void SetConfiguration(IConfiguration configuration)
         {
             appURL = configuration["URL"];
             environtmentInformation = configuration["Environment"];
+            IConfigurationSection helpCenterConfiguration = configuration.GetSection("HelpCenter");
+            helpCenter = new HelpCenter
+            {
+                SupportName = helpCenterConfiguration["SupportName"] != null ? helpCenterConfiguration["SupportName"] : string.Empty,
+                SupportContact = helpCenterConfiguration["SupportContact"] != null ? helpCenterConfiguration["SupportContact"] : string.Empty,
+                ItName = helpCenterConfiguration["ITName"] != null ? helpCenterConfiguration["ITName"] : string.Empty,
+                ItContact = helpCenterConfiguration["ITContact"] != null ? helpCenterConfiguration["ITContact"] : string.Empty,
+                AdminName = helpCenterConfiguration["AdminName"] != null ? helpCenterConfiguration["AdminName"] : string.Empty,
+                AdminContact = helpCenterConfiguration["AdminContact"] != null ? helpCenterConfiguration["AdminContact"] : string.Empty,
+                
+            };
         }
 
     }

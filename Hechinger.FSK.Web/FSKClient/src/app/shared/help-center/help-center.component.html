@@ -3,17 +3,17 @@
 
   </dialog-header>
   <mat-dialog-content>
-    <div class="name">{{applicationAdministratorName}}</div>
-    <div class="email"><a href="mailto:{{applicationAdministratorEmail}}">{{applicationAdministratorEmail}}</a></div>
-    <div class="name"> {{systemAdministratorName}}</div>
-    <div class="email"><a href="mailto:{{systemAdministratorEmail}}">{{systemAdministratorEmail}}</a></div>
-    <div class="name">{{developerName}}</div>
-    <div class="email"><a href="mailto:{{developerEmail}}">{{developerEmail}}</a></div>
+    <div class="name">{{helpCenterInformation?.supportName}}</div>
+    <div class="email"><a href="mailto:{{helpCenterInformation?.supportContact}}">{{helpCenterInformation?.supportContact}}</a></div>
+    <div class="name"> {{helpCenterInformation?.itName}}</div>
+    <div class="email"><a href="mailto:{{helpCenterInformation?.itContact}}">{{helpCenterInformation?.itContact}}</a></div>
+    <div class="name">{{helpCenterInformation?.adminName}}</div>
+    <div class="email"><a href="mailto:{{helpCenterInformation?.adminContact}}">{{helpCenterInformation?.adminContact}}</a></div>
     <div class="documentation"><a href="/images/myw3schoolsimage.jpg" download>Felhasználói kézikönyv</a></div>
 
     <img class="logo" [src]="imageSrc" class="logo" />
     <div class="version">
-      <div>Verzió: {{applicationInformation?.version}}</div>
+      <div>{{'version' | translate}}{{applicationInformation?.version}}</div>
       <div>{{applicationInformation?.copyRight}}</div>
     </div>
   </mat-dialog-content>

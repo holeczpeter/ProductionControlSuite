@@ -42,7 +42,7 @@ export class LayoutComponent  {
         if (x.url.includes('change-temporary-password')) this.loaderData.title = "changepasswordinprogress";
       }
     });
-    this.applicationService.get().subscribe(appInfo => {
+    this.applicationService.getApplicationInfo().subscribe(appInfo => {
       this.applicationInformation = appInfo;
     });
     if (this.accountService.isAuthenticated()) this.router.navigate(['/']);
