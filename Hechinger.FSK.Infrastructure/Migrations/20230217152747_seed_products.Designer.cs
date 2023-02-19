@@ -4,6 +4,7 @@ using Hechinger.FSK.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hechinger.FSK.Infrastructure.Migrations
 {
     [DbContext(typeof(FSKDbContext))]
-    partial class FSKDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230217152747_seed_products")]
+    partial class seed_products
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

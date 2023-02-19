@@ -25,11 +25,9 @@ export class HelpCenterComponent implements OnInit {
     forkJoin(this.applicationService.getApplicationInfo(), this.applicationService.getHelpCenterInfo()).subscribe(([appInfo,helpCenterinfo]) => {
       this.applicationInformation = appInfo;
       this.helpCenterInformation = helpCenterinfo;
-      console.log(this.helpCenterInformation)
     });
-    
-
   }
+
   onCancel() {
     this.dialogRef.close(false);
   }

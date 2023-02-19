@@ -102,7 +102,6 @@ export class ConfirmDialogService {
       .setType(ConfirmationTypes.Delete)
       .setButtons(buttons)
       .build();
-    console.log(data)
     return this.dialog.open(ConfirmDialogComponent, {
       autoFocus: false,
       data: data,

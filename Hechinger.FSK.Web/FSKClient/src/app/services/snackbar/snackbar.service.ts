@@ -43,10 +43,8 @@ export class SnackbarService {
         else panelClass = 'error';
         setTimeout(() => {
           forkJoin(this.translate.get(result.message), this.translate.get(result.errors)).subscribe(([resultText, error]) => {
-            console.log(this.translate.currentLang);
-            console.log(resultText);
+         
             let currentLangMessage = result.isSuccess ? resultText : resultText + ": " + error;
-            //let message = result.isSuccess ? result.message : result.message + ": " + result.errors;
             this.snackBar.open(currentLangMessage, 'Bezár', {
               duration: this.timeOut,
               horizontalPosition: 'right',

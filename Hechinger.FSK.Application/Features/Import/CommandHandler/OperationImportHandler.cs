@@ -16,9 +16,14 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
         public async Task<Result<IEnumerable<ImportError>>> Handle(OperationImport request, CancellationToken cancellationToken)
         {
             var result = new ResultBuilder<IEnumerable<ImportError>>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var products = await this.context.Products.ToListAsync(cancellationToken);
             var errors = new List<ImportError>();
             try
             {
+                NumberFormatInfo providerNorm = new NumberFormatInfo();
+                providerNorm.NumberDecimalSeparator = ".";
+                providerNorm.NumberGroupSeparator = ",";
+
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
                 provider.NumberGroupSeparator = ",";
@@ -28,70 +33,52 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
                     
                     
                     List<OperationImportModel> items = JsonConvert.DeserializeObject<List<OperationImportModel>>(json);
-                    var workshops = await this.context.Workshops.Select(x => new { Id = x.Id }).ToListAsync(cancellationToken);
-                    var products = items.GroupBy(x => new { code = x.Termekszam, name = x.Termeknev, workshop = x.muhely }).Select(x => new
+                    foreach (var item in items)
                     {
-                        prodCode = x.Key.code,
-                        prodName = x.Key.name,
-                        workshop = x.Key.workshop,
-                        operations = x.ToList()
-                    }).ToList();
-                    foreach (var product in products)
-                    {
-                        var workshopId = 1;
-                        if (int.TryParse(product.workshop, out int j))
+                        if (item.Termekszam == null)
                         {
-                            workshopId = workshops.Where(x => x.Id == j).Select(x => x.Id).FirstOrDefault();
+                            this.logger.LogError($"Hibás rekord, termék nem található:{ item.muv_kod }");
+                            errors.Add(new ImportError() { Type = "Művelet", Code = item.muv_kod, ErrorText = $"Hibás rekord, termék nem található:{ item.muv_kod }" });
+                            continue;
                         }
-                        else
+                        var product = products.Where(x => x.Code == item.Termekszam.ToUpper()).FirstOrDefault();
+                        if (product == null) 
                         {
-                            this.logger.LogError($"Hibás rekord, műhely nem található:{ product.workshop }");
-                            errors.Add(new ImportError() { Type = "Termék", Code = product.prodCode, ErrorText = $"Hibás rekord, műhely nem található:{ product.workshop }" });
+                            this.logger.LogError($"Hibás rekord, termék nem található:{ item.Termekszam }");
+                            errors.Add(new ImportError() { Type = "Művelet", Code = item.muv_kod, ErrorText = $"Hibás rekord, termék nem található:{ item.Termekszam }" });
+                            continue;
                         }
-                        var productEntity = new Product()
+                      
+                       
+                        var orderAsString = item.muv_kod.Substring(item.muv_kod.Length - 2);
+                        double normVal = Convert.ToDouble(item.Norma, providerNorm);
+                        double opTimeVal = Convert.ToDouble(item.muveleti_ido, provider);
+                        var componentQuantity = 1;
+                        var ppmGoal = 100;
+                        var order = 1;
+                        int.TryParse(orderAsString, out order);
+                        int.TryParse(item.muv_alk_db, out componentQuantity);
+                        int.TryParse(item.muv_cel, out ppmGoal);
+                       
+                        var operation = new Operation()
                         {
-
-                            Code = product.prodCode,
-                            Name = product.prodName,
-                            TranslatedName = product.prodName,
-                            WorkshopId = workshopId != 0 ? workshopId : 1,
+                            Code = item.muv_kod,
+                            Name = item.muv_nev,
+                            ComponentQuantity = componentQuantity,
+                            PpmGoal = ppmGoal,
+                            Order = order,
+                            TranslatedName = item.muv_nev_nemet,
+                            Norma = normVal,
+                            OperationTime = opTimeVal,
+                            Product = product,
                             Created = DateTime.Now,
                             Creator = "SYSTEM",
                             LastModified = DateTime.Now,
                             LastModifier = "SYSTEM",
-
                         };
-                        await this.context.AddAsync(productEntity, cancellationToken);
-                        foreach (var op in product.operations)
-                        {
-                            var orderAsString = op.muv_kod.Substring(op.muv_kod.Length - 2);
-                            double doubleVal = Convert.ToDouble(op.Norma, provider);
-                            var componentQuantity = 1;
-                            var ppmGoal = 100;
-                            var order = 1;
-                            int.TryParse(orderAsString, out order);
-                            int.TryParse(op.muv_alk_db, out componentQuantity);
-                            int.TryParse(op.muv_cel, out ppmGoal);
-                            int.TryParse(op.muv_cel, out ppmGoal);
-                            var operation = new Operation()
-                            {
-                                Code = op.muv_kod,
-                                Name = op.muv_nev,
-                                ComponentQuantity = componentQuantity,
-                                PpmGoal = ppmGoal,
-                                Order = order,
-                                TranslatedName = op.muv_nev_nemet,
-                                Norma = doubleVal,
-                                Product = productEntity,
-                                Created = DateTime.Now,
-                                Creator = "SYSTEM",
-                                LastModified = DateTime.Now,
-                                LastModifier = "SYSTEM",
-                            };
-                            await this.context.AddAsync(operation, cancellationToken);
-                        }
-
+                        await this.context.AddAsync(operation, cancellationToken);
                     }
+                    
                     await this.context.SaveChangesAsync(cancellationToken);
                     this.logger.LogError($"Import eredmény: {JsonConvert.SerializeObject(errors)}");
                     result.IsSuccess = true;

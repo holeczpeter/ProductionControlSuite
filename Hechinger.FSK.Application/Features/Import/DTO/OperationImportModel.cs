@@ -6,7 +6,6 @@
 
         public string muv_kod { get; set; }
         public string muv_nev { get; set; }
-
         public string muv_nev_nemet { get; set; }
         public string muv_cel { get; set; }
         public string muv_alk_db { get; set; }
@@ -14,7 +13,7 @@
         public string Termeknev { get; set; }
         public string muhely { get; set; }
         public string Norma { get; set; }
-        public string limit { get; set; }
-        public string aktiv { get; set; }
+        public string muveleti_ido { get; set; }
+
     }
 }

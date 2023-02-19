@@ -30,7 +30,7 @@ namespace Hechinger.FSK.Web.Controllers
             var userRefreshToken = new UserRefreshToken
             {
                 UserId = item.UserInfo.Id,
-                Expiration = DateTime.Now.AddHours(3),
+                Expiration = DateTime.Now.AddMinutes(30),
                 RefreshToken = item.RefreshToken
             };
             await this.mediator.Send(userRefreshToken, cancellationToken);
