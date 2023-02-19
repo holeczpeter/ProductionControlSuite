@@ -115,6 +115,9 @@
     <None Update="FSKClient\src\assets\wallpaper01.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="UserManual\FSK_FelhKK_v1.0_2022.12.21.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   
     
     <TypeScriptCompile Update="FSKClient\src\app\models\generated\generated.ts">
@@ -129,6 +132,7 @@
     <Folder Include="FSKClient\src\app\services\navigation\" />
     <Folder Include="FSKClient\src\app\services\image\" />
     <Folder Include="FSKClient\src\app\services\chart\" />
+    <Folder Include="UserManual\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="FSKClient\src\app\extensions\formgroup-extensions.ts" />

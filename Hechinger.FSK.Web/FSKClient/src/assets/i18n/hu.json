@@ -179,7 +179,6 @@
     "helpFromIT": "Kérjük forduljon a rendszergazdához.",
     "confirmCanDeactivate": "Biztosan elnavigál? Önnek nem mentett módosításai vannak. A módosításai elvesznek"
   },
-
   "account": {
     "existingCode": "A felhasználói kód már létezik",
     "wrongPassword": "A megadott jelszó nem megfelelő",
