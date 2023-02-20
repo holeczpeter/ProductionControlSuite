@@ -32,7 +32,6 @@ builder.Host
     .MinimumLevel.Debug()
     .WriteTo.Console() 
     .WriteTo.File("logs/log.log", rollingInterval: RollingInterval.Day));
-
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddWebApplicationServices(builder.Configuration);
