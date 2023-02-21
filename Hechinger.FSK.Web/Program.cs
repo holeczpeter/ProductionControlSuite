@@ -81,6 +81,7 @@ app.UseSpa(spa =>
 });
 
 app.Run();
+
 internal sealed class FixIisBaseProblem : IRule
 {
     public void ApplyRule(RewriteContext context)
