@@ -42,7 +42,6 @@ if (!app.Environment.IsDevelopment())
     using IServiceScope serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
     using FSKDbContext context = serviceScope.ServiceProvider.GetService<FSKDbContext>();
     context?.Database.Migrate();
-
 }
 app.ConfigureExceptionHandler();
 app.UseForwardedHeaders();
@@ -52,7 +51,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 RewriteOptions rewriteOptions = new RewriteOptions().Add(new FixIisBaseProblem());
