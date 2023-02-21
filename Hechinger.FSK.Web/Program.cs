@@ -79,7 +79,6 @@ app.UseSpa(spa =>
         spa.UseAngularCliServer(npmScript: "start");
     }
 });
-
 app.Run();
 
 internal sealed class FixIisBaseProblem : IRule
