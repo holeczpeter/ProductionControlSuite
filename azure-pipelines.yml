@@ -1,34 +1,42 @@
-# ASP.NET
-# Build and test ASP.NET projects.
-# Add steps that publish symbols, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
-
-trigger:
-- master
-
 pool:
-  vmImage: 'windows-latest'
+  name: 'FSK'
+  #demands:
+  #- Agent.ComputerName -equals DMS-BUILD
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+  major: 2
+  minor: 0
+  build: $[counter(format('{0}.{1}',variables['major'],variables['minor']), 0)]
+
+name: $(major).$(minor).$(build).0 - $(Date:yyyy.MM.dd)
 
 steps:
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
+- task: NodeTool@0
+  displayName: Install Node.js
   inputs:
-    restoreSolution: '$(solution)'
-
-- task: VSBuild@1
+    versionSpec: 16.x
+    checkLatest: true
+- task: UseDotNet@2
+  displayName: Install .NET 6.0
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.ArtifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
+    packageType: sdk
+    version: 6.0.x
+- task: DotNetCoreCLI@2
+  displayName: Restore packages
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: restore
+    projects: '**/*.csproj'
+- task: DotNetCoreCLI@2
+  displayName: Build website
+  inputs:
+    command: publish
+    projects: '**/Hechinger.FSK.csproj'
+    arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory) -p:VersionPrefix=$(major).$(minor).$(build) -p:InformationalVersion="$(Build.BuildNumber)"'
+    publishWebProjects: true
+    zipAfterPublish: true
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish ZIP files
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'FSK'
