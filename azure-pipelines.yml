@@ -1,7 +1,6 @@
 pool:
-  name: 'FSK'
-  #demands:
-  #- Agent.ComputerName -equals DMS-BUILD
+  vmImage: 'windows-latest'
+ 
 
 variables:
   major: 2
