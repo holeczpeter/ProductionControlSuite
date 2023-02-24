@@ -1,22 +1,24 @@
-<button mat-icon-button
+<!--<button mat-icon-button
         [useExistingCss]="true"
         printSectionId="print-section"
         ngxPrint color="primary">
   <mat-icon>
     print
   </mat-icon>
-</button>
-<div *ngIf="printableOperation" id="print-section"
-     >
+</button>-->
+<div class="button-container">
+  <button mat-raised-button
+          [useExistingCss]="true"
+          printSectionId="print-section"
+          [disabled]="!printableOperation"
+          ngxPrint color="primary">
+    {{'print' | translate}}
+  </button>
+</div>
+<div *ngIf="printableOperation" id="print-section">
   <div *ngFor="let number of [0,1]; index as i;"
        [ngClass]="printableOperation?.defects.length <= 8 ? 'item': 'break-item'">
-    <!--<ng-container *ngIf="i>0">
-      <div class="divider">
-
-
-        <mat-divider vertical style="height:100px"></mat-divider>
-      </div>
-    </ng-container>-->
+    
 
     <div class="preview-content">
       

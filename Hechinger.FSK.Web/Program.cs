@@ -33,7 +33,6 @@ builder.Host
     .MinimumLevel.Debug()
     .WriteTo.Console() 
     .WriteTo.File("logs/log.log", rollingInterval: RollingInterval.Day));
-
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddWebApplicationServices(builder.Configuration);
@@ -44,7 +43,6 @@ if (!app.Environment.IsDevelopment())
     using IServiceScope serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
     using FSKDbContext context = serviceScope.ServiceProvider.GetService<FSKDbContext>();
     context?.Database.Migrate();
-
 }
 app.ConfigureExceptionHandler();
 app.UseForwardedHeaders();
@@ -54,7 +52,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 RewriteOptions rewriteOptions = new RewriteOptions().Add(new FixIisBaseProblem());
@@ -84,8 +81,8 @@ app.UseSpa(spa =>
         spa.UseAngularCliServer(npmScript: "start");
     }
 });
-
 app.Run();
+
 internal sealed class FixIisBaseProblem : IRule
 {
     public void ApplyRule(RewriteContext context)

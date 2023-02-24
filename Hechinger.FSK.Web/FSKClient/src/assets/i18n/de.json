@@ -133,7 +133,6 @@
     "select": "Produkt wählen"
 
   },
-
   "shifts": {
     "title": "Arbeitsschichte",
     "add": "Neue hinzufügen",
@@ -168,7 +167,6 @@
   "qualityhistorymonthly": {
     "title": "Qualitätsverlauf monatlich"
   },
-
   "workercompare": {
     "title": "Arbeiter fehlers meldung"
   },
@@ -205,9 +203,9 @@
   "role": {
     "notFound": "Die Rolle nicht gefunden",
     "deleteSuccesful": "Die Rolle wurde erfolgreich gelöscht",
-    "existingCode": "Der Rolle existiert bereits",
-    "addSuccesful": "Der Rolle wurde erfolgreich registriert",
-    "updateSuccesful": "Der Rolle wurde erfolgreich geändert",
+    "existingCode": "Die Rolle existiert bereits",
+    "addSuccesful": "Die Rolle wurde erfolgreich registriert",
+    "updateSuccesful": "Die Rolle wurde erfolgreich geändert",
     "confirmDelete": "Möchten Sie die ausgewählte Rolle wirklich löschen?"
   },
   "user": {
@@ -268,8 +266,6 @@
     "add": "Neue Fehlersammelkarte hinzufügen",
     "edit": "Fehlersammelkarte bearbeiten",
     "type": "Fehlersammelkarte Typ",
-    "addoperationrow": "Neue Operationgruppe Reihe",
-    "adddefectrow": "Neue Defectgruppe Reihe",
     "defectGroup": "Fehlersammelkarte",
     "defectGroupGroup": "Fehlersammlungsgruppe",
     "notFound": "Fehlerzusammenfassung nicht gefunden",
