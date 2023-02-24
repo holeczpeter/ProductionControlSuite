@@ -1,25 +1,22 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime, map } from 'rxjs';
+import { debounceTime } from 'rxjs';
 import { DefectEditorModel } from '../../../models/dialog-models/defect-editor-model';
 import { DefectModel, DeleteDefect } from '../../../models/generated/generated';
-import { TableColumnModel } from '../../../models/table-column-model';
-import { AccountService } from '../../../services/account.service';
+import { ColumnTypes, TableColumnModel } from '../../../models/table-column-model';
 import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 import { DefectDataService } from '../../../services/data/defect-data.service';
-import { LanguageService } from '../../../services/language/language.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { CompareService } from '../../../services/sort/sort.service';
 import { DefectFilterService } from '../../../services/table/defect-filter.service';
 import { PaginationService } from '../../../services/table/pagination.service';
 import { SortService } from '../../../services/table/sort.service';
 import { TableExportService } from '../../../services/table/table-export.service';
-import { TableFilterService } from '../../../services/table/table-filter.service';
 import { DefectEditorDialogComponent } from './defect-editor-dialog/defect-editor-dialog.component';
 
 @Component({
@@ -30,47 +27,60 @@ import { DefectEditorDialogComponent } from './defect-editor-dialog/defect-edito
 export class DefectsComponent implements OnInit,AfterViewInit  {
   dataSource!: MatTableDataSource<DefectModel>;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array<string> = ['name','translatedName', 'code', 'operationName', 'operationCode','defectCategoryName', 'copy', 'edit', 'delete']
+  columnNames: Array<string> = ['name','translatedName', 'code', 'operationName', 'operationCode','statusName','defectCategoryName', 'copy', 'edit', 'delete']
   title = "defects.title";
   filterableColumns: Array<TableColumnModel> = [
     {
       name: 'name',
       displayName: 'Név',
       exportable: true,
-      columnDef: 'nameFilter'
+      columnDef: 'nameFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'translatedName',
       displayName: 'Német megnevezés',
       exportable: true,
-      columnDef: 'translatedNameFilter'
+      columnDef: 'translatedNameFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'code',
       displayName: 'Kód',
       exportable: true,
-      columnDef: 'codeFilter'
+      columnDef: 'codeFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'operationName',
       displayName: 'Termék',
       exportable: true,
-      columnDef: 'operationNameFilter'
+      columnDef: 'operationNameFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'operationCode',
       displayName: 'Termék kód',
       exportable: true,
-      columnDef: 'operationCodeFilter'
+      columnDef: 'operationCodeFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'defectCategoryName',
       displayName: 'Hiba kategória',
       exportable: true,
-      columnDef: 'defectCategoryNameFilter'
+      columnDef: 'defectCategoryNameFilter',
+      type: ColumnTypes.Text
+    },
+    {
+      name: 'statusName',
+      displayName: 'Státusz',
+      exportable: true,
+      columnDef: 'statusNameFilter',
+      type: ColumnTypes.Text
     },
   ];
-  filterableColumnNames: Array<string> = ['nameFilter', 'translatedNameFilter', 'codeFilter', 'operationNameFilter', 'operationCodeFilter', 'defectCategoryNameFilter', 'more'];
+  filterableColumnNames: Array<string> = ['nameFilter', 'translatedNameFilter', 'codeFilter', 'operationNameFilter', 'operationCodeFilter','statusNameFilter', 'defectCategoryNameFilter', 'more'];
   filterForm: UntypedFormGroup;
   totalCount!: number;
   constructor(private readonly defectDataService: DefectDataService,

@@ -18,56 +18,65 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
             var result = new ResultBuilder<IEnumerable<ImportError>>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
             var products = await this.context.Products.ToListAsync(cancellationToken);
             var errors = new List<ImportError>();
+            var results = new List<OperationImportItem>();
             try
             {
-                NumberFormatInfo providerNorm = new NumberFormatInfo();
-                providerNorm.NumberDecimalSeparator = ".";
-                providerNorm.NumberGroupSeparator = ",";
-
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
-                provider.NumberGroupSeparator = ",";
+
                 using (var reader = new StreamReader(request.File.OpenReadStream()))
                 {
                     var json = await reader.ReadToEndAsync();
                     
-                    
-                    List<OperationImportModel> items = JsonConvert.DeserializeObject<List<OperationImportModel>>(json);
+                    var model  = JsonConvert.DeserializeObject<OperationImportModel>(json);
+                    var items = model.Operations.Where(x=>x.ProductCode != null).ToList();
+                    var allOperation = model.Operations.Where(o => products.Select(p => p.Code.Trim().ToUpper()).Contains(o.ProductCode.Trim().ToUpper()));
+                    var allOperationCount = allOperation.Count();
+                    var onlyOperations = allOperation.Where(x => x.Nr != "00");
+                    var onlyOperationsCount = onlyOperations.Count();   
                     foreach (var item in items)
                     {
-                        if (item.Termekszam == null)
+                        var order = 1;
+                        var orderAsString = item.Nr;
+                        int.TryParse(orderAsString, out order);
+                        if (item.Nr == "00")
                         {
-                            this.logger.LogError($"Hibás rekord, termék nem található:{ item.muv_kod }");
-                            errors.Add(new ImportError() { Type = "Művelet", Code = item.muv_kod, ErrorText = $"Hibás rekord, termék nem található:{ item.muv_kod }" });
+                            item.IsImported = "0";
+                            item.Description = "Csak termékkód";
+                            results.Add(item);
                             continue;
                         }
-                        var product = products.Where(x => x.Code == item.Termekszam.ToUpper()).FirstOrDefault();
+
+                        if (item.ProductCode == null)
+                        {
+                            item.IsImported = "0";
+                            item.Description = $"Termékkód null: { item.ProductCode }";
+                            results.Add(item);
+                            continue;
+                        }
+                        var product = products.Where(x => x.Code.Trim().ToUpper() == item.ProductCode.Trim().ToUpper()).FirstOrDefault();
                         if (product == null) 
                         {
-                            this.logger.LogError($"Hibás rekord, termék nem található:{ item.Termekszam }");
-                            errors.Add(new ImportError() { Type = "Művelet", Code = item.muv_kod, ErrorText = $"Hibás rekord, termék nem található:{ item.Termekszam }" });
+                            item.IsImported = "0";
+                            item.Description = $"Termék nem található: { item.ProductCode }";
+                            results.Add(item);
                             continue;
                         }
-                      
-                       
-                        var orderAsString = item.muv_kod.Substring(item.muv_kod.Length - 2);
-                        double normVal = Convert.ToDouble(item.Norma, providerNorm);
-                        double opTimeVal = Convert.ToDouble(item.muveleti_ido, provider);
+                        
+
+
+                        double normVal = Convert.ToDouble(item.Norm, provider);
+                        double opTimeVal = Convert.ToDouble(item.OperationTime, provider);
                         var componentQuantity = 1;
                         var ppmGoal = 100;
-                        var order = 1;
-                        int.TryParse(orderAsString, out order);
-                        int.TryParse(item.muv_alk_db, out componentQuantity);
-                        int.TryParse(item.muv_cel, out ppmGoal);
-                       
+
                         var operation = new Operation()
                         {
-                            Code = item.muv_kod,
-                            Name = item.muv_nev,
+                            Code = item.OperationCode,
+                            Name = item.Name,
                             ComponentQuantity = componentQuantity,
                             PpmGoal = ppmGoal,
                             Order = order,
-                            TranslatedName = item.muv_nev_nemet,
                             Norma = normVal,
                             OperationTime = opTimeVal,
                             Product = product,
@@ -75,12 +84,16 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
                             Creator = "SYSTEM",
                             LastModified = DateTime.Now,
                             LastModifier = "SYSTEM",
+                            EntityStatus = order != 0 && item.IsActive == "NULL" ? EntityStatuses.InActive : EntityStatuses.Active
                         };
                         await this.context.AddAsync(operation, cancellationToken);
+                        
                     }
                     
                     await this.context.SaveChangesAsync(cancellationToken);
-                    this.logger.LogError($"Import eredmény: {JsonConvert.SerializeObject(errors)}");
+                    var jsonResult = JsonConvert.SerializeObject(results);
+                    this.logger.LogError($"Import eredmény: {jsonResult}");
+                    File.WriteAllText("import.json", jsonResult);
                     result.IsSuccess = true;
                     result.Message = "Sikeres import";
                     result.Entities = errors;

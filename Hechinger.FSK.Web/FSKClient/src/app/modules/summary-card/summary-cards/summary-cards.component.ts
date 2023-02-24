@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
 import { DeleteSummaryCard, IntervalModel, IntervalOption, SummaryCardModel, Views } from '../../../models/generated/generated';
-import { TableColumnModel } from '../../../models/table-column-model';
+import { ColumnTypes, TableColumnModel } from '../../../models/table-column-model';
 import { AccountService } from '../../../services/account.service';
 import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 import { SummaryCardDataService } from '../../../services/data/summary-card-data.service';
@@ -50,50 +50,58 @@ export class SummaryCardsComponent implements OnInit, OnDestroy {
       name: 'date',
       displayName: 'Dátum',
       exportable: true,
-      columnDef: 'dateFilter'
+      columnDef: 'dateFilter',
+      type: ColumnTypes.Date
     },
     {
       name: 'shiftName',
       displayName: 'Műszak',
       exportable: true,
-      columnDef: 'shiftNameFilter'
+      columnDef: 'shiftNameFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'workerCode',
       displayName: 'Dolgozó',
       exportable: true,
-      columnDef: 'workerNameFilter'
+      columnDef: 'workerNameFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'operationCode',
       displayName: 'Művelet kód',
       exportable: true,
-      columnDef: 'operationCodeFilter'
+      columnDef: 'operationCodeFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'operationName',
       displayName: 'Művelet',
       exportable: true,
-      columnDef: 'operationNameFilter'
+      columnDef: 'operationNameFilter',
+      type: ColumnTypes.Text
     },
     
     {
       name: 'quantity',
       displayName: 'Mennyiség',
       exportable: true,
-      columnDef: 'quantityFilter'
+      columnDef: 'quantityFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'userName',
       displayName: 'Felhasználó',
       exportable: true,
-      columnDef: 'userNameFilter'
+      columnDef: 'userNameFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'created',
       displayName: 'Rögzítés időpontja',
       exportable: true,
-      columnDef: 'createdFilter'
+      columnDef: 'createdFilter',
+      type: ColumnTypes.Text
     },
   ];
   filterableColumnNames: Array<string> = [

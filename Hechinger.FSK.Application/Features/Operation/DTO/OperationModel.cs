@@ -15,5 +15,8 @@
         public bool HasDefect { get;  set; }
         public int Order { get;  set; }
         public int PpmGoal { get; set; }
+        public EntityStatuses Status { get; set; }
+        public string StatusName { get;  set; }
+        public int DefectsCount { get;  set; }
     }
 }

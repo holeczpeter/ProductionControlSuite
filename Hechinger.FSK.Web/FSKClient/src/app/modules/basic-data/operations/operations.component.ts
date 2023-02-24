@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
 import { OperationEditorModel } from '../../../models/dialog-models/operation-editor-model';
 import { DeleteOperation, DeleteProduct, OperationModel } from '../../../models/generated/generated';
-import { TableColumnModel } from '../../../models/table-column-model';
+import { ColumnTypes, TableColumnModel } from '../../../models/table-column-model';
 import { AccountService } from '../../../services/account.service';
 import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
@@ -34,41 +34,82 @@ export class OperationsComponent implements OnInit, AfterViewInit {
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array<string> = ['name', 'translatedName', 'code', 'productName', 'productCode', 'norma', 'operationTime','ppmGoal', 'copy', 'edit', 'delete']
+  columnNames: Array<string> = ['name', 'translatedName', 'code', 'productName', 'productCode', 'norma', 'operationTime', 'ppmGoal', 'statusName', 'defectsCount','copy', 'edit', 'delete']
   title = "operations.title";
   filterableColumns: Array<TableColumnModel> = [
     {
       name: 'name',
       displayName: 'Név',
       exportable: true,
-      columnDef: 'nameFilter'
+      columnDef: 'nameFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'translatedName',
       displayName: 'Német megnevezés',
       exportable: true,
-      columnDef: 'translatedNameFilter'
+      columnDef: 'translatedNameFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'code',
       displayName: 'Kód',
       exportable: true,
-      columnDef: 'codeFilter'
-    },
-    {
-      name: 'productName',
-      displayName: 'Termék',
-      exportable: true,
-      columnDef: 'productNameFilter'
+      columnDef: 'codeFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'productCode',
       displayName: 'Termék kód',
       exportable: true,
-      columnDef: 'productCodeFilter'
+      columnDef: 'productCodeFilter',
+      type: ColumnTypes.Text
+    },
+    {
+      name: 'productName',
+      displayName: 'Termék',
+      exportable: true,
+      columnDef: 'productNameFilter',
+      type: ColumnTypes.Text
+    },
+    {
+      name: 'norma',
+      displayName: 'Norma',
+      exportable: true,
+      columnDef: 'normaFilter',
+      type: ColumnTypes.Text
+    },
+    {
+      name: 'ppmGoal',
+      displayName: 'PPM cél',
+      exportable: true,
+      columnDef: 'ppmGoalFilter',
+      type: ColumnTypes.Text
+    },
+    {
+      name: 'operationTime',
+      displayName: 'Műveleti idő',
+      exportable: true,
+      columnDef: 'operationTimeFilter',
+      type: ColumnTypes.Text
+    },
+    
+    {
+      name: 'statusName',
+      displayName: 'Státusz',
+      exportable: true,
+      columnDef: 'statusNameFilter',
+      type: ColumnTypes.Text
+    },
+    {
+      name: 'defectsCount',
+      displayName: 'Hibák száma',
+      exportable: true,
+      columnDef: 'defectsCountFilter',
+      type: ColumnTypes.Text
     },
   ];
-  filterableColumnNames: Array<string> = ['nameFilter', 'codeFilter', 'translatedNameFilter', 'productNameFilter', 'productCodeFilter', 'more',];
+  filterableColumnNames: Array<string> = ['nameFilter', 'translatedNameFilter', 'codeFilter', 'productNameFilter', 'productCodeFilter', 'normaFilter', 'operationTimeFilter', 'ppmGoalFilter', 'statusNameFilter','defectsCountFilter',  'more',];
   filterForm: UntypedFormGroup;
   totalCount!: number;
   constructor(private readonly operationDataService: OperationDataService,

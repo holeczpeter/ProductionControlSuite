@@ -22,6 +22,13 @@ export class ImportComponent implements OnInit {
       this.snakBarService.open(result);
     });
   }
+  onUpdateOperations(event: FileSnippet) {
+    let formDataToSend = new FormData();
+    formDataToSend.set('file', event.file);
+    this.importService.updateImportedOperation(formDataToSend).subscribe(result => {
+      this.snakBarService.open(result);
+    });
+  }
   onUploadDefects(event: FileSnippet) {
     let formDataToSend = new FormData();
     formDataToSend.set('file', event.file);

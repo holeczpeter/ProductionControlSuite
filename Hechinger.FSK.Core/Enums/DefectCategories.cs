@@ -11,15 +11,17 @@ namespace Hechinger.FSK.Core.Enums
         F0 = 0,
 
         /// <summary>
-        /// Törölt
+        /// F1
         /// </summary>
         [Description("F1")]
         F1 = 1,
 
         /// <summary>
-        /// Inaktív
+        /// F2
         /// </summary>
         [Description("F2")]
         F2 = 2,
+
+        
     }
 }

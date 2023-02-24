@@ -81,6 +81,7 @@
   "print": "Drucken",
   "basicdata": "Stammdaten",
   "categoryName": "Fehler Kategorie",
+  "defectCategoryName": "Fehler Kategorie",
   "usersCount": "Person",
   "warning": "Warnung",
   "operationGroup": "Operation Gruppe",
@@ -93,6 +94,11 @@
   "help": "Information",
   "minError": "Der Wert darf nicht negativ sein",
   "datesValidator": "Der Beginn des Zeitraums kann nicht größer sein als das Ende des Zeitraums",
+  "defectsCount": "Anzahl der Fehler",
+  "operationsCount": "Anzahl Operationen",
+  "norma": "Norm",
+  "ppmGoal": "PPM Ziel",
+  "operationTime": "Betriebszeit",
   "months": [
     { "January": "Januar" },
     { "February": "Februar" },
@@ -118,6 +124,7 @@
     "edit": "Produkt bearbeiten",
     "copy": "Hinzufügen eines neuen Produkts durch Kopieren",
     "select": "Produkt wählen"
+
   },
 
   "shifts": {
@@ -154,7 +161,7 @@
   "qualityhistorymonthly": {
     "title": "Qualitätsverlauf monatlich"
   },
-  
+
   "workercompare": {
     "title": "Arbeiter fehlers meldung"
   },

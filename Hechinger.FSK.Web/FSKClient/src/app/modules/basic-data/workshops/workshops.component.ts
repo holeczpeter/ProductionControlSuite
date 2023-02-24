@@ -9,7 +9,7 @@ import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WorkshopEditorDialogComponent } from './workshop-editor-dialog/workshop-editor-dialog.component';
 import { AccountService } from '../../../services/account.service';
-import { TableColumnModel } from '../../../models/table-column-model';
+import { ColumnTypes, TableColumnModel } from '../../../models/table-column-model';
 import { UntypedFormGroup } from '@angular/forms';
 import { CompareService } from '../../../services/sort/sort.service';
 import { TableFilterService } from '../../../services/table/table-filter.service';
@@ -27,24 +27,33 @@ export class WorkshopsComponent implements OnInit, AfterViewInit {
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array<string> = ['name','translatedName', 'edit', 'delete']
+  columnNames: Array<string> = ['name', 'translatedName', 'statusName', 'edit', 'delete']
   title = "workshops.title";
   filterableColumns: Array<TableColumnModel> = [
     {
       name: 'name',
       displayName: 'Megnevezés',
       exportable: true,
-      columnDef: 'nameFilter'
+      columnDef: 'nameFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'translatedName',
       displayName: 'Német megnevezés',
       exportable: true,
-      columnDef: 'translatedNameFilter'
+      columnDef: 'translatedNameFilter',
+      type: ColumnTypes.Text
+    },
+    {
+      name: 'statusName',
+      displayName: 'Státusz',
+      exportable: true,
+      columnDef: 'statusNameFilter',
+      type: ColumnTypes.Select
     },
    
   ];
-  filterableColumnNames: Array<string> = ['nameFilter', 'translatedNameFilter', 'more'];
+  filterableColumnNames: Array<string> = ['nameFilter', 'translatedNameFilter','statusNameFilter','more'];
   filterForm: UntypedFormGroup;
   constructor(private readonly workshopdataService: WorkshopDataService,
     private readonly accountService: AccountService,

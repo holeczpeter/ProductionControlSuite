@@ -8,7 +8,9 @@ import { TableColumnModel } from '../../models/table-column-model';
 export class DefectFilterService {
  
   private form: UntypedFormGroup;
-
+  getForm() {
+    return this.form;
+  }
   
   getValue(prop: string): string {
     return this.form && this.form.get(prop) && this.form.get(prop)?.value != null ? this.form.get(prop)?.value : '';
@@ -21,6 +23,7 @@ export class DefectFilterService {
       this.form.addControl(x.name, new UntypedFormControl());
     });
     this.valueChanges();
+    console.log(this.form)
     return this.form;
   }
   valueChanges() {

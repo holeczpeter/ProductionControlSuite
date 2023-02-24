@@ -9,5 +9,8 @@
         public int WorkshopId { get; set; }
         public string WorkshopName { get; set; }
         public IEnumerable<OperationModel> Operations { get; set; }
+        public EntityStatuses Status { get; set; }
+        public string StatusName { get;  set; }
+        public int OperationsCount { get;  set; }
     }
 }

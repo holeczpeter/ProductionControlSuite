@@ -15,7 +15,9 @@ namespace Hechinger.FSK.Application.Features
         public string OperationName { get; set; }
         public string OperationTranslatedName { get; set; }
         public string DefectCategoryName { get;  set; }
-        
+
+        public EntityStatuses Status { get; set; }
+        public string StatusName { get;  set; }
     }
     
 }

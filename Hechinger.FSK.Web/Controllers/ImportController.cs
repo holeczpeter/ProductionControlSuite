@@ -23,6 +23,12 @@ namespace Hechinger.FSK.Web.Controllers
         }
         [HttpPost]
         [DisableRequestSizeLimit]
+        public async Task<Result<IEnumerable<ImportError>>> UpdateImportedOperation([FromForm] UpdateOperationImport request, CancellationToken cancellationToken)
+        {
+            return await this.mediator.Send(request, cancellationToken);
+        }
+        [HttpPost]
+        [DisableRequestSizeLimit]
         public async Task<Result<IEnumerable<ImportError>>> ImportDefect([FromForm] DefectImport request, CancellationToken cancellationToken)
         {
             return await this.mediator.Send(request, cancellationToken);
