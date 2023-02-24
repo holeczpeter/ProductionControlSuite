@@ -1,0 +1,55 @@
+<dialog-header [title]="title" (cancel)="onCancel()"></dialog-header>
+<mat-dialog-content>
+  
+    <table mat-table [dataSource]="dataSource"
+           matSort
+           class="w-100">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'name' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.name}}</td>
+      </ng-container>
+      <ng-container matColumnDef="translatedName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'translatedName' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.translatedName}}</td>
+      </ng-container>
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'code' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.code}}</td>
+      </ng-container>
+      <ng-container matColumnDef="norma">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'operations.norma' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.norma}}</td>
+      </ng-container>
+      <ng-container matColumnDef="operationTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'operations.operationTime' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.operationTime}}</td>
+      </ng-container>
+      <ng-container matColumnDef="ppmGoal">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'goal' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.ppmGoal}}</td>
+      </ng-container>
+      <ng-container matColumnDef="productName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'productName' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.productName}}</td>
+      </ng-container>
+      <ng-container matColumnDef="productCode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'productCode' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.productCode}}</td>
+      </ng-container>
+      <ng-container matColumnDef="statusName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'statusName' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.statusName}}</td>
+      </ng-container>
+     
+
+      <tr mat-header-row *matHeaderRowDef="columnNames; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnNames"></tr>
+    </table>
+    <mat-paginator [pageSize]="pageSize"
+                   [pageSizeOptions]="pageSizeOptions"
+                   showFirstLastButtons></mat-paginator>
+
+</mat-dialog-content>
+<div mat-dialog-actions>
+  <button mat-stroked-button color="blue" (click)="onCancel()">{{'close'| translate}} </button>
+</div>

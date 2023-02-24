@@ -49,7 +49,7 @@ export class WorkshopsComponent implements OnInit, AfterViewInit {
       displayName: 'Státusz',
       exportable: true,
       columnDef: 'statusNameFilter',
-      type: ColumnTypes.Select
+      type: ColumnTypes.Text
     },
    
   ];
@@ -80,6 +80,7 @@ export class WorkshopsComponent implements OnInit, AfterViewInit {
     });
   }
   createDinamicallyFormGroup(): void {
+    
     this.filterForm = this.tableFilterService.createFilterFormGroup(this.filterableColumns);
   }
 

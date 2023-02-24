@@ -49,7 +49,8 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
       displayName: 'Kód',
       exportable: true,
       columnDef: 'codeFilter',
-      type: ColumnTypes.Text
+      type: ColumnTypes.Text,
+      width: '100px',
     },
     {
       name: 'operationName',
@@ -63,21 +64,24 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
       displayName: 'Termék kód',
       exportable: true,
       columnDef: 'operationCodeFilter',
-      type: ColumnTypes.Text
+      type: ColumnTypes.Text,
+      width: '100px',
     },
     {
       name: 'defectCategoryName',
       displayName: 'Hiba kategória',
       exportable: true,
       columnDef: 'defectCategoryNameFilter',
-      type: ColumnTypes.Text
+      type: ColumnTypes.Text,
+      width: '100px',
     },
     {
       name: 'statusName',
       displayName: 'Státusz',
       exportable: true,
       columnDef: 'statusNameFilter',
-      type: ColumnTypes.Text
+      type: ColumnTypes.Text,
+      width: '100px',
     },
   ];
   filterableColumnNames: Array<string> = ['nameFilter', 'translatedNameFilter', 'codeFilter', 'operationNameFilter', 'operationCodeFilter','statusNameFilter', 'defectCategoryNameFilter', 'more'];

@@ -22,7 +22,7 @@
                     TranslatedName = !String.IsNullOrEmpty(x.TranslatedName) ? x.TranslatedName : x.Name,
                     Status = x.EntityStatus,
                     StatusName = x.EntityStatus.GetDescription(),
-                    OperationsCount = x.Operations.Count(),
+                    OperationsCount = x.Operations.Where(op=> op.EntityStatus == EntityStatuses.Active).Count(),
                     WorkshopId = x.Workshop.Id,
                     WorkshopName = x.Workshop.Name,
 

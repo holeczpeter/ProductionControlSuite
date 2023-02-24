@@ -24,7 +24,7 @@
         <td mat-cell *matCellDef="let element">{{element.code}}</td>
       </ng-container>
       <ng-container matColumnDef="defectCategoryName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'defects.defectCategoryName' | translate}}  </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header > {{'defects.defectCategoryName' | translate}}  </th>
         <td mat-cell *matCellDef="let element">{{element.defectCategoryName}}</td>
       </ng-container>
       <ng-container matColumnDef="operationName">
@@ -75,9 +75,20 @@
             <ng-container *ngSwitchCase="0">
               <ng-container [matColumnDef]="filter.columnDef">
                 <th mat-header-cell *matHeaderCellDef>
-                  <mat-form-field>
+                  <mat-form-field [ngStyle]="{'max-width':filter.width}">
                     <mat-label> {{'search' | translate}}</mat-label>
                     <input matInput [formControlName]="filter.name" />
+                    <mat-icon matSuffix>search</mat-icon>
+                  </mat-form-field>
+                </th>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase="3">
+              <ng-container [matColumnDef]="filter.columnDef">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-form-field [ngStyle]="{'max-width':filter.width}">
+                    <mat-label> {{'search' | translate}}</mat-label>
+                    <input matInput type="number" [formControlName]="filter.name" />
                     <mat-icon matSuffix>search</mat-icon>
                   </mat-form-field>
                 </th>
@@ -86,7 +97,7 @@
             <ng-container *ngSwitchDefault>
               <ng-container [matColumnDef]="filter.columnDef">
                 <th mat-header-cell *matHeaderCellDef>
-                  <mat-form-field>
+                  <mat-form-field [ngStyle]="{'max-width':filter.width}">
                     <mat-label> {{'search' | translate}}</mat-label>
                     <input matInput [formControlName]="filter.name" />
                     <mat-icon matSuffix>search</mat-icon>

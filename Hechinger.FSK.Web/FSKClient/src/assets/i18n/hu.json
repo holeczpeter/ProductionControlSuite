@@ -99,6 +99,13 @@
   "norma": "Norma",
   "ppmGoal": "PPM cél",
   "operationTime": "Műveleti idő",
+  "paginator": {
+    "firstpage": "Első",
+    "itemsperpage": "Találatok oldalanként",
+    "lastpage": "Utolsó",
+    "nextpage": "Következő oldal",
+    "previouspage": "Előző oldal"
+  },
   "months": [
     { "January": "Január" },
     { "February": "Február" },

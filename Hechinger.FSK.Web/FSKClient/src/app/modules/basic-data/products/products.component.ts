@@ -22,6 +22,7 @@ import { PaginationService } from '../../../services/table/pagination.service';
 import { DefectFilterService } from '../../../services/table/defect-filter.service';
 import { ProductWizardEditorComponent } from './product-wizard-editor/product-wizard-editor.component';
 import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
+import { OperationListComponent } from './operation-list/operation-list.component';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -44,7 +45,8 @@ export class ProductsComponent implements OnInit, AfterViewInit{
       displayName: 'Kód',
       exportable: true,
       columnDef: 'codeFilter',
-      type: ColumnTypes.Text
+      type: ColumnTypes.Text,
+      width: '150px',
     },
     {
       name: 'translatedName',
@@ -58,21 +60,24 @@ export class ProductsComponent implements OnInit, AfterViewInit{
       displayName: 'Műhely',
       exportable: true,
       columnDef: 'workshopNameFilter',
-      type: ColumnTypes.Text
+      type: ColumnTypes.Text,
+      width: '150px',
     },
     {
       name: 'statusName',
       displayName: 'Státusz',
       exportable: true,
       columnDef: 'statusNameFilter',
-      type: ColumnTypes.Text
+      type: ColumnTypes.Text,
+      width: '100px',
     },
     {
       name: 'operationsCount',
       displayName: 'Műveletek',
       exportable: true,
       columnDef: 'operationsCountFilter',
-      type: ColumnTypes.Text
+      type: ColumnTypes.Text,
+      width: '100px',
     },
   ];
   filterableColumnNames: Array<string> = ['nameFilter', 'translatedNameFilter', 'codeFilter', 'workshopNameFilter', 'statusNameFilter',  'operationsCountFilter', 'more'];
@@ -160,6 +165,15 @@ export class ProductsComponent implements OnInit, AfterViewInit{
       autoFocus: false,
       data: null,
       minWidth: '750px'
+    });
+    dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
+  }
+  onOpenOperations(data: ProductModel) {
+    let dialogRef = this.dialog.open(OperationListComponent, {
+      disableClose: true,
+      autoFocus: false,
+      data: data.id,
+      maxWidth: '1200px'
     });
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }

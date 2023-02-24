@@ -21,6 +21,7 @@ import { PaginationService } from '../../../services/table/pagination.service';
 import { SortService } from '../../../services/table/sort.service';
 import { TableExportService } from '../../../services/table/table-export.service';
 import { TableFilterService } from '../../../services/table/table-filter.service';
+import { DefectListComponent } from './defect-list/defect-list.component';
 import { OperationEditorDialogComponent } from './operation-editor-dialog/operation-editor-dialog.component';
 
 @Component({
@@ -56,14 +57,16 @@ export class OperationsComponent implements OnInit, AfterViewInit {
       displayName: 'Kód',
       exportable: true,
       columnDef: 'codeFilter',
-      type: ColumnTypes.Text
+      type: ColumnTypes.Text,
+      width: '150px',
     },
     {
       name: 'productCode',
       displayName: 'Termék kód',
       exportable: true,
       columnDef: 'productCodeFilter',
-      type: ColumnTypes.Text
+      type: ColumnTypes.Text,
+      width: '150px',
     },
     {
       name: 'productName',
@@ -77,21 +80,24 @@ export class OperationsComponent implements OnInit, AfterViewInit {
       displayName: 'Norma',
       exportable: true,
       columnDef: 'normaFilter',
-      type: ColumnTypes.Text
+      type: ColumnTypes.Text,
+      width: '100px',
     },
     {
       name: 'ppmGoal',
       displayName: 'PPM cél',
       exportable: true,
       columnDef: 'ppmGoalFilter',
-      type: ColumnTypes.Text
+      type: ColumnTypes.Text,
+      width: '100px',
     },
     {
       name: 'operationTime',
       displayName: 'Műveleti idő',
       exportable: true,
       columnDef: 'operationTimeFilter',
-      type: ColumnTypes.Text
+      type: ColumnTypes.Text,
+      width: '100px',
     },
     
     {
@@ -99,21 +105,22 @@ export class OperationsComponent implements OnInit, AfterViewInit {
       displayName: 'Státusz',
       exportable: true,
       columnDef: 'statusNameFilter',
-      type: ColumnTypes.Text
+      type: ColumnTypes.Text,
+      width: '100px',
     },
     {
       name: 'defectsCount',
       displayName: 'Hibák száma',
       exportable: true,
       columnDef: 'defectsCountFilter',
-      type: ColumnTypes.Text
+      type: ColumnTypes.Number,
+      width: '100px',
     },
   ];
   filterableColumnNames: Array<string> = ['nameFilter', 'translatedNameFilter', 'codeFilter', 'productNameFilter', 'productCodeFilter', 'normaFilter', 'operationTimeFilter', 'ppmGoalFilter', 'statusNameFilter','defectsCountFilter',  'more',];
   filterForm: UntypedFormGroup;
   totalCount!: number;
   constructor(private readonly operationDataService: OperationDataService,
-    private readonly productDataService: ProductDataService,
     private readonly confirmDialogService: ConfirmDialogService,
     private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
@@ -190,6 +197,15 @@ export class OperationsComponent implements OnInit, AfterViewInit {
       autoFocus: false,
       data: null,
       minWidth: '600px'
+    });
+    dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
+  }
+  onOpenDefects(data: OperationModel) {
+    let dialogRef = this.dialog.open(DefectListComponent, {
+      disableClose: true,
+      autoFocus: false,
+      data: data.id,
+      maxWidth: '1200px'
     });
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }

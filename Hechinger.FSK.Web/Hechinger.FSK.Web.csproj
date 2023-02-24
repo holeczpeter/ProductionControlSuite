@@ -129,6 +129,7 @@
     <Folder Include="FSKClient\src\app\services\navigation\" />
     <Folder Include="FSKClient\src\app\services\image\" />
     <Folder Include="FSKClient\src\app\services\chart\" />
+    <Folder Include="FSKClient\src\app\services\paginator\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="FSKClient\src\app\extensions\formgroup-extensions.ts" />

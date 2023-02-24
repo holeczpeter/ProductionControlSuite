@@ -101,7 +101,7 @@ export class SummaryCardsComponent implements OnInit, OnDestroy {
       displayName: 'Rögzítés időpontja',
       exportable: true,
       columnDef: 'createdFilter',
-      type: ColumnTypes.Text
+      type: ColumnTypes.Date
     },
   ];
   filterableColumnNames: Array<string> = [

@@ -99,6 +99,13 @@
   "norma": "Norm",
   "ppmGoal": "PPM Ziel",
   "operationTime": "Betriebszeit",
+  "paginator": {
+    "firstpage": "Erste Seite",
+    "itemsperpage": "Ergebnisse pro Seite",
+    "lastpage": "Letzte Seite",
+    "nextpage": "Nächste Seite",
+    "previouspage": "Vorherige Seite"
+  },
   "months": [
     { "January": "Januar" },
     { "February": "Februar" },

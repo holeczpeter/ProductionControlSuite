@@ -29,8 +29,8 @@
                     ProductCode = x.Product.Code,
                     Status = x.EntityStatus,
                     StatusName = x.EntityStatus.GetDescription(),
-                    DefectsCount = x.Defects.Count(),
-                    HasDefect = x.Defects.Any(),
+                    DefectsCount = x.Defects.Where(d => d.EntityStatus == EntityStatuses.Active).Count(),
+                    HasDefect = x.Defects.Where(d => d.EntityStatus == EntityStatuses.Active).Any(),
                 }).FilterOperation(request.Parameters);
 
           

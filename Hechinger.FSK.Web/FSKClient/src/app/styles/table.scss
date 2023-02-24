@@ -70,3 +70,30 @@ tr.mat-footer-row {
 .table-toolbar {
   text-align: right;
 }
+.status {
+  .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+    max-width: 150px;
+  }
+}
+.th-align-right {
+  text-align: right !important;
+  direction: rtl; // also moves sorting arrow to the left
+  padding-left: 18px;
+}
+
+.th-align-right > div > .mat-sort-header-content {
+  text-align: right !important;
+  margin-left: 6px; // restores sort actual arrow margin
+}
+
+.th-align-center {
+  text-align: center !important;
+  justify-content: center !important;
+  padding-left: 18px;
+}
+
+.th-align-center > div {
+  text-align: center !important;
+  justify-content: center !important;
+  padding-left: 18px;
+}
