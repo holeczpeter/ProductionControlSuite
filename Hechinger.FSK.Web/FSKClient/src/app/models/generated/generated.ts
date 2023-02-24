@@ -230,6 +230,7 @@ export interface DefectModel {
   operationName: string,
   operationTranslatedName: string,
   defectCategoryName: string,
+  statusName: string,
 }
 export interface ParameterResult {
   count: number,
@@ -334,6 +335,9 @@ export interface OperationImport {
 export interface SummaryCardImport {
   file: any,
 }
+export interface UpdateOperationImport {
+  file: any,
+}
 export interface ImportError {
   type: string,
   code: string,
@@ -396,6 +400,8 @@ export interface OperationModel {
   hasDefect: boolean,
   order: number,
   ppmGoal: number,
+  statusName: string,
+  defectsCount: number,
 }
 export interface OperationPrintModel {
   id: number,
@@ -520,6 +526,8 @@ export interface ProductModel {
   workshopId: number,
   workshopName: string,
   operations: Array<OperationModel>,
+  statusName: string,
+  operationsCount: number,
 }
 export interface GetAllProducts {
 }
@@ -1045,6 +1053,7 @@ export interface WorkshopModel {
   id: number,
   name: string,
   translatedName: string,
+  statusName: string,
 }
 export interface GetAllWorkshops {
 }

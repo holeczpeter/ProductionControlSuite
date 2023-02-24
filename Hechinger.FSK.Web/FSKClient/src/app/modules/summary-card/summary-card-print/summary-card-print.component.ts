@@ -2,7 +2,7 @@ import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementR
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { debounceTime, forkJoin, ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { SelectModel } from '../../../models/generated/generated';
+import { OperationPrintModel, SelectModel } from '../../../models/generated/generated';
 import { OperationDataService } from '../../../services/data/operation-data.service';
 import { LanguageService } from '../../../services/language/language.service';
 @Component({
@@ -34,7 +34,6 @@ export class SummaryCardPrintComponent implements OnInit, AfterViewChecked, OnDe
         debounceTime(500)).subscribe(filter => {
           this.filter();
         })
-     
       this.filtered.next(this.operations.slice());
     })
   }

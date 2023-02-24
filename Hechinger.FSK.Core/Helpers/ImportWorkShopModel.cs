@@ -2,8 +2,8 @@
 {
     public class ImportWorkshopModel
     {
-        public string muhelynev { get; set; }
-        public string kod { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
 
 
     }

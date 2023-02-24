@@ -16,84 +16,84 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
         public async Task<Result<IEnumerable<ImportError>>> Handle(OperationImport request, CancellationToken cancellationToken)
         {
             var result = new ResultBuilder<IEnumerable<ImportError>>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
+            var products = await this.context.Products.ToListAsync(cancellationToken);
             var errors = new List<ImportError>();
+            var results = new List<OperationImportItem>();
             try
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
-                provider.NumberGroupSeparator = ",";
+
                 using (var reader = new StreamReader(request.File.OpenReadStream()))
                 {
                     var json = await reader.ReadToEndAsync();
                     
-                    
-                    List<OperationImportModel> items = JsonConvert.DeserializeObject<List<OperationImportModel>>(json);
-                    var workshops = await this.context.Workshops.Select(x => new { Id = x.Id }).ToListAsync(cancellationToken);
-                    var products = items.GroupBy(x => new { code = x.Termekszam, name = x.Termeknev, workshop = x.muhely }).Select(x => new
+                    var model  = JsonConvert.DeserializeObject<OperationImportModel>(json);
+                    var items = model.Operations.Where(x=>x.ProductCode != null).ToList();
+                    var allOperation = model.Operations.Where(o => products.Select(p => p.Code.Trim().ToUpper()).Contains(o.ProductCode.Trim().ToUpper()));
+                    var allOperationCount = allOperation.Count();
+                    var onlyOperations = allOperation.Where(x => x.Nr != "00");
+                    var onlyOperationsCount = onlyOperations.Count();   
+                    foreach (var item in items)
                     {
-                        prodCode = x.Key.code,
-                        prodName = x.Key.name,
-                        workshop = x.Key.workshop,
-                        operations = x.ToList()
-                    }).ToList();
-                    foreach (var product in products)
-                    {
-                        var workshopId = 1;
-                        if (int.TryParse(product.workshop, out int j))
+                        var order = 1;
+                        var orderAsString = item.Nr;
+                        int.TryParse(orderAsString, out order);
+                        if (item.Nr == "00")
                         {
-                            workshopId = workshops.Where(x => x.Id == j).Select(x => x.Id).FirstOrDefault();
+                            item.IsImported = "0";
+                            item.Description = "Csak termékkód";
+                            results.Add(item);
+                            continue;
                         }
-                        else
-                        {
-                            this.logger.LogError($"Hibás rekord, műhely nem található:{ product.workshop }");
-                            errors.Add(new ImportError() { Type = "Termék", Code = product.prodCode, ErrorText = $"Hibás rekord, műhely nem található:{ product.workshop }" });
-                        }
-                        var productEntity = new Product()
-                        {
 
-                            Code = product.prodCode,
-                            Name = product.prodName,
-                            TranslatedName = product.prodName,
-                            WorkshopId = workshopId != 0 ? workshopId : 1,
+                        if (item.ProductCode == null)
+                        {
+                            item.IsImported = "0";
+                            item.Description = $"Termékkód null: { item.ProductCode }";
+                            results.Add(item);
+                            continue;
+                        }
+                        var product = products.Where(x => x.Code.Trim().ToUpper() == item.ProductCode.Trim().ToUpper()).FirstOrDefault();
+                        if (product == null) 
+                        {
+                            item.IsImported = "0";
+                            item.Description = $"Termék nem található: { item.ProductCode }";
+                            results.Add(item);
+                            continue;
+                        }
+                        
+
+
+                        double normVal = Convert.ToDouble(item.Norm, provider);
+                        double opTimeVal = Convert.ToDouble(item.OperationTime, provider);
+                        var componentQuantity = 1;
+                        var ppmGoal = 100;
+
+                        var operation = new Operation()
+                        {
+                            Code = item.OperationCode,
+                            Name = item.Name,
+                            ComponentQuantity = componentQuantity,
+                            PpmGoal = ppmGoal,
+                            Order = order,
+                            Norma = normVal,
+                            OperationTime = opTimeVal,
+                            Product = product,
                             Created = DateTime.Now,
                             Creator = "SYSTEM",
                             LastModified = DateTime.Now,
                             LastModifier = "SYSTEM",
-
+                            EntityStatus = order != 0 && item.IsActive == "NULL" ? EntityStatuses.InActive : EntityStatuses.Active
                         };
-                        await this.context.AddAsync(productEntity, cancellationToken);
-                        foreach (var op in product.operations)
-                        {
-                            var orderAsString = op.muv_kod.Substring(op.muv_kod.Length - 2);
-                            double doubleVal = Convert.ToDouble(op.Norma, provider);
-                            var componentQuantity = 1;
-                            var ppmGoal = 100;
-                            var order = 1;
-                            int.TryParse(orderAsString, out order);
-                            int.TryParse(op.muv_alk_db, out componentQuantity);
-                            int.TryParse(op.muv_cel, out ppmGoal);
-                            int.TryParse(op.muv_cel, out ppmGoal);
-                            var operation = new Operation()
-                            {
-                                Code = op.muv_kod,
-                                Name = op.muv_nev,
-                                ComponentQuantity = componentQuantity,
-                                PpmGoal = ppmGoal,
-                                Order = order,
-                                TranslatedName = op.muv_nev_nemet,
-                                Norma = doubleVal,
-                                Product = productEntity,
-                                Created = DateTime.Now,
-                                Creator = "SYSTEM",
-                                LastModified = DateTime.Now,
-                                LastModifier = "SYSTEM",
-                            };
-                            await this.context.AddAsync(operation, cancellationToken);
-                        }
-
+                        await this.context.AddAsync(operation, cancellationToken);
+                        
                     }
+                    
                     await this.context.SaveChangesAsync(cancellationToken);
-                    this.logger.LogError($"Import eredmény: {JsonConvert.SerializeObject(errors)}");
+                    var jsonResult = JsonConvert.SerializeObject(results);
+                    this.logger.LogError($"Import eredmény: {jsonResult}");
+                    File.WriteAllText("import.json", jsonResult);
                     result.IsSuccess = true;
                     result.Message = "Sikeres import";
                     result.Entities = errors;

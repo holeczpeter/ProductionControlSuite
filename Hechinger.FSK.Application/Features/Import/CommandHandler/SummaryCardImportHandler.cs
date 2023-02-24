@@ -21,6 +21,7 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
             {
                 using (var reader = new StreamReader(request.File.OpenReadStream()))
                 {
+                    DateTime firstDate = new DateTime(DateTime.Now.Year, 1, 1);
                     var json = await reader.ReadToEndAsync();
                     List<SummaryCardImportModel> items = JsonConvert.DeserializeObject<List<SummaryCardImportModel>>(json);
                     var summaryCards = items.GroupBy(x => x.hgyid).Select(x => new { item = x.Key, items = x }).ToList();
@@ -34,7 +35,15 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
                     {
                         var shiftId = 1;
                         var db = 0;
-                        DateTime date = DateTime.Now;
+                        DateTime date = DateTime.MinValue;
+                        if (!DateTime.TryParse(item.items.First().Datum, out date))
+                        {
+
+                            this.logger.LogError($"Hibás rekord, dátum nem megfelelő:{item.items.First().Datum }");
+                            errors.Add(new ImportError() { Type = "Hibagyűjtő", Code = "", ErrorText = $"Hibás rekord, dátum nem megfelelő:{item.items.First().Datum }" });
+                            continue;
+                        }
+                        if (date < firstDate) continue;
                         if (int.TryParse(item.items.First().muszak, out int j))
                         {
                             shiftId = shifts.Where(x => x.Id == j).Select(x => x.Id).FirstOrDefault();
@@ -52,13 +61,7 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
                             errors.Add(new ImportError() { Type = "Hibagyűjtő", Code = "", ErrorText = $"Hibás rekord, művelet nem található:{ item.items.First().Muveletkod }" });
                             continue;
                         }
-                        if (!DateTime.TryParse(item.items.First().Datum, out date))
-                        {
-                            
-                            this.logger.LogError($"Hibás rekord, dátum nem megfelelő:{item.items.First().Datum }");
-                            errors.Add(new ImportError() { Type = "Hibagyűjtő", Code = "", ErrorText = $"Hibás rekord, dátum nem megfelelő:{item.items.First().Datum }" });
-                            continue;
-                        }
+                       
                         if (!int.TryParse(item.items.First().Gyartott_db, out db))
                         {
                             this.logger.LogError($"Hibás rekord, darabszám nem konvertálható:{ item.items.First().Gyartott_db }");

@@ -32,10 +32,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Persistence\Resources\fsk_trigger.sql">
+    <None Update="Resources\audit_triggers.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\muhelyek.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\products.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\workshops.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -78,6 +78,7 @@ import { TooltipDirective } from '../directives/tooltip.directive';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { InitialAvatarComponent } from './initial-avatar/initial-avatar.component';
 import { HelpCenterComponent } from './help-center/help-center.component';
+import { TranslatedPaginatorService } from '../services/paginator/translated-paginator.service';
 
 
 @NgModule({
@@ -239,7 +240,7 @@ import { HelpCenterComponent } from './help-center/help-center.component';
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' },
-    { provide: MatPaginatorIntl, useValue: CustomPaginator() },
+    { provide: MatPaginatorIntl, useClass: TranslatedPaginatorService },
     MatDatepickerModule,
     SnackbarService,
     HttpCancelService,
@@ -254,14 +255,4 @@ import { HelpCenterComponent } from './help-center/help-center.component';
   ]
 })
 export class SharedModule { }
-export function CustomPaginator() {
-  const customPaginatorIntl = new MatPaginatorIntl();
 
-  customPaginatorIntl.itemsPerPageLabel = 'Találatok oldalanként:';
-  customPaginatorIntl.firstPageLabel = 'Első';
-  customPaginatorIntl.lastPageLabel = 'Utolsó';
-  customPaginatorIntl.nextPageLabel = 'Következő oldal';
-  customPaginatorIntl.previousPageLabel = 'Előző oldal';
-
-  return customPaginatorIntl;
-}

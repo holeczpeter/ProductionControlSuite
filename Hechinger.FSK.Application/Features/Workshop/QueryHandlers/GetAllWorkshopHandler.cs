@@ -19,6 +19,7 @@
                     Id = x.Id,
                     Name = x.Name,
                     TranslatedName = x.TranslatedName,
+                    StatusName = x.EntityStatus.GetDescription(),
                 })
                 .ToListAsync(cancellationToken);
         }

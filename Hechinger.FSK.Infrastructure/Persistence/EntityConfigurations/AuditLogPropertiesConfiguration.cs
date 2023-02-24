@@ -1,21 +1,35 @@
-﻿using Hechinger.FSK.Core.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
+﻿namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
 {
     internal class AuditLogPropertiesConfiguration : IEntityTypeConfiguration<AuditLogProperty>
     {
         public void Configure(EntityTypeBuilder<AuditLogProperty> builder)
         {
-            EntityConfiguration.ConfigureEntity(builder);
+
+            builder.HasKey(c => c.Id);
+
             builder
-                .HasOne(x => x.AuditLogEntity)
-                .WithMany(x => x.AuditLogProperties)
-                .HasForeignKey(x => x.AuditLogEntityId)
-                .HasConstraintName("FK_AUDITLOGENTITYANDPROPS_CONNECTION")
-                .OnDelete(DeleteBehavior.Restrict)
+                .Property(e => e.Created)
                 .IsRequired();
+            builder
+                .Property(e => e.Creator);
+            builder
+                .Property(e => e.LastModified)
+                .IsRequired();
+            builder
+                .Property(e => e.LastModifier);
+
+            builder
+                .Property(e => e.RowVersion)
+                .IsRowVersion();
+
+            builder
+               .HasOne(c => c.AuditLogEntity)
+               .WithMany(g => g.AuditLogProperties)
+               .HasForeignKey(s => s.AuditLogEntityId)
+               .HasConstraintName("FK_AUDITANDITEMS_CONNECTION")
+               .OnDelete(DeleteBehavior.Restrict);
+
+
         }
     }
 }

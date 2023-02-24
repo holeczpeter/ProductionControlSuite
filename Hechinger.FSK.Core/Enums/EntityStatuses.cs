@@ -4,6 +4,7 @@ namespace Hechinger.FSK.Core.Enums
 {
     public enum EntityStatuses
     {   
+       
         /// <summary>
         /// Aktív
         /// </summary>

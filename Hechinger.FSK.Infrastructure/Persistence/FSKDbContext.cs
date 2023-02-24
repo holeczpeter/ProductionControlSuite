@@ -26,11 +26,13 @@ namespace Hechinger.FSK.Infrastructure.Persistence
         public IHttpContextAccessor httpContextAccessor;
         public FSKDbContext(DbContextOptions options) : base(options)
         {
+            this.Database.SetCommandTimeout((int)TimeSpan.FromMinutes(5).TotalSeconds);
         }
       
         public FSKDbContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
-           this.httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+            this.Database.SetCommandTimeout((int)TimeSpan.FromMinutes(5).TotalSeconds);
+            this.httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

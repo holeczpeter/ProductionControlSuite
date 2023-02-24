@@ -26,29 +26,21 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnOrder(0);
+                        .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("EntityId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("EntityName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("EntityStatus")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("datetime2");
@@ -63,8 +55,6 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EntityStatus");
-
                     b.ToTable("AuditLogEntities");
                 });
 
@@ -72,8 +62,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnOrder(0);
+                        .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
@@ -84,17 +73,10 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<int>("EntityStatus")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("datetime2");
@@ -119,8 +101,6 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AuditLogEntityId");
-
-                    b.HasIndex("EntityStatus");
 
                     b.ToTable("AuditLogProperties");
                 });
@@ -1147,7 +1127,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasForeignKey("AuditLogEntityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_AUDITLOGENTITYANDPROPS_CONNECTION");
+                        .HasConstraintName("FK_AUDITANDITEMS_CONNECTION");
 
                     b.Navigation("AuditLogEntity");
                 });

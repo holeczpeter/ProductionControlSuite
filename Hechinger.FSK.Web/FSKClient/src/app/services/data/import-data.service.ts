@@ -13,6 +13,10 @@ export class ImportDataService {
   importOperation(formData: FormData): Observable<Result> {
     return this.httpClient.post<Result>('Import/ImportOperation', formData)
   }
+  updateImportedOperation(formData: FormData): Observable<Result> {
+    return this.httpClient.post<Result>('Import/UpdateImportedOperation', formData)
+  }
+  
   importDefect(formData: FormData): Observable<Result> {
     return this.httpClient.post<Result>('Import/ImportDefect', formData)
   }

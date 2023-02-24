@@ -81,6 +81,7 @@
   "print": "Drucken",
   "basicdata": "Stammdaten",
   "categoryName": "Fehler Kategorie",
+  "defectCategoryName": "Fehler Kategorie",
   "usersCount": "Person",
   "warning": "Warnung",
   "operationGroup": "Operation Gruppe",
@@ -93,6 +94,18 @@
   "help": "Information",
   "minError": "Der Wert darf nicht negativ sein",
   "datesValidator": "Der Beginn des Zeitraums kann nicht größer sein als das Ende des Zeitraums",
+  "defectsCount": "Anzahl der Fehler",
+  "operationsCount": "Anzahl Operationen",
+  "norma": "Norm",
+  "ppmGoal": "PPM Ziel",
+  "operationTime": "Betriebszeit",
+  "paginator": {
+    "firstpage": "Erste Seite",
+    "itemsperpage": "Ergebnisse pro Seite",
+    "lastpage": "Letzte Seite",
+    "nextpage": "Nächste Seite",
+    "previouspage": "Vorherige Seite"
+  },
   "months": [
     { "January": "Januar" },
     { "February": "Februar" },
@@ -118,8 +131,8 @@
     "edit": "Produkt bearbeiten",
     "copy": "Hinzufügen eines neuen Produkts durch Kopieren",
     "select": "Produkt wählen"
-  },
 
+  },
   "shifts": {
     "title": "Arbeitsschichte",
     "add": "Neue hinzufügen",
@@ -154,7 +167,6 @@
   "qualityhistorymonthly": {
     "title": "Qualitätsverlauf monatlich"
   },
-  
   "workercompare": {
     "title": "Arbeiter fehlers meldung"
   },
@@ -191,9 +203,9 @@
   "role": {
     "notFound": "Die Rolle nicht gefunden",
     "deleteSuccesful": "Die Rolle wurde erfolgreich gelöscht",
-    "existingCode": "Der Rolle existiert bereits",
-    "addSuccesful": "Der Rolle wurde erfolgreich registriert",
-    "updateSuccesful": "Der Rolle wurde erfolgreich geändert",
+    "existingCode": "Die Rolle existiert bereits",
+    "addSuccesful": "Die Rolle wurde erfolgreich registriert",
+    "updateSuccesful": "Die Rolle wurde erfolgreich geändert",
     "confirmDelete": "Möchten Sie die ausgewählte Rolle wirklich löschen?"
   },
   "user": {
@@ -254,8 +266,6 @@
     "add": "Neue Fehlersammelkarte hinzufügen",
     "edit": "Fehlersammelkarte bearbeiten",
     "type": "Fehlersammelkarte Typ",
-    "addoperationrow": "Neue Operationgruppe Reihe",
-    "adddefectrow": "Neue Defectgruppe Reihe",
     "defectGroup": "Fehlersammelkarte",
     "defectGroupGroup": "Fehlersammlungsgruppe",
     "notFound": "Fehlerzusammenfassung nicht gefunden",

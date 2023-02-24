@@ -15,7 +15,11 @@ import { LayoutComponent } from './layout/layout/layout.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { SharedModule } from './shared/shared.module';
 
-
+declare global {
+  interface Navigator {
+    msSaveBlob?: (blob: any, defaultName?: string) => boolean
+  }
+}
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');

@@ -6,7 +6,7 @@ import * as XLSX from 'xlsx';
 import { EnumModel, IntervalModel, OperationItem, QuantityOperationReportModel, ShiftModel } from '../../../../../models/generated/generated';
 import { QuantityTableModel } from '../../../../../models/quantity-table-model';
 import { TableColumn } from '../../../../../models/table-column';
-import { TableColumnModel } from '../../../../../models/table-column-model';
+import { ColumnTypes, TableColumnModel } from '../../../../../models/table-column-model';
 import { TableHeader } from '../../../../../models/table-header';
 import { ShiftDataService } from '../../../../../services/data/shift-data.service';
 import { LanguageService } from '../../../../../services/language/language.service';
@@ -100,6 +100,7 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
                 displayName: currentDate.toString() + "_" + this.shifts[j].id + "_" + c.id,
                 columnDef: currentDate.toString() + "_" + this.shifts[j].id + "_" + c.id,
                 exportable: true,
+                type: ColumnTypes.Text
               }
               this.filterableColumns.push(f);
             });

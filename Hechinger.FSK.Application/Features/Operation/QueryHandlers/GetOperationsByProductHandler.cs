@@ -28,6 +28,8 @@
                                                ProductId = x.ProductId,
                                                ProductName = x.Product.Name,
                                                ProductCode = x.Product.Code,
+                                               Status = x.EntityStatus,
+                                               StatusName = x.EntityStatus.GetDescription(),
                                                HasDefect = x.Defects.Any(),
                                            })
                                            .OrderBy(x => x.Order)

@@ -28,7 +28,9 @@
                     OperationId = x.OperationId,
                     OperationCode = x.Operation.Code,
                     OperationName = x.Operation.Name,
-
+                    DefectCategoryName = x.DefectCategory.GetDescription(),
+                    Status = x.EntityStatus,
+                    StatusName = x.EntityStatus.GetDescription(),
                 }).OrderBy(x=>x.Order).ToListAsync(cancellationToken);
         }
     }

@@ -13,7 +13,7 @@ import { ProductEditorModel } from '../../../models/dialog-models/product-editor
 import { AccountService } from '../../../services/account.service';
 import { TableFilterService } from '../../../services/table/table-filter.service';
 import { UntypedFormGroup } from '@angular/forms';
-import { TableColumnModel } from '../../../models/table-column-model';
+import { ColumnTypes, TableColumnModel } from '../../../models/table-column-model';
 import { debounceTime, filter } from 'rxjs';
 import { CompareService } from '../../../services/sort/sort.service';
 import { TableExportService } from '../../../services/table/table-export.service';
@@ -22,6 +22,7 @@ import { PaginationService } from '../../../services/table/pagination.service';
 import { DefectFilterService } from '../../../services/table/defect-filter.service';
 import { ProductWizardEditorComponent } from './product-wizard-editor/product-wizard-editor.component';
 import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
+import { OperationListComponent } from './operation-list/operation-list.component';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -30,34 +31,56 @@ import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-d
 export class ProductsComponent implements OnInit, AfterViewInit{
   dataSource!: MatTableDataSource<ProductModel>;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array<string> = ['name', 'translatedName', 'code', 'workshopName', 'copy', 'edit', 'delete'];
+  columnNames: Array<string> = ['name', 'translatedName', 'code', 'workshopName', 'statusName', 'operationsCount','copy', 'edit', 'delete'];
   filterableColumns: Array<TableColumnModel> =[
     {
       name: 'name',
       displayName: 'Név',
       exportable: true,
-      columnDef: 'nameFilter'
+      columnDef: 'nameFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'code',
       displayName: 'Kód',
       exportable: true,
-      columnDef: 'codeFilter'
+      columnDef: 'codeFilter',
+      type: ColumnTypes.Text,
+      width: '150px',
     },
     {
       name: 'translatedName',
       displayName: 'Német megnevezés',
       exportable: true,
-      columnDef: 'translatedNameFilter'
+      columnDef: 'translatedNameFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'workshopName',
       displayName: 'Műhely',
       exportable: true,
-      columnDef: 'workshopNameFilter'
+      columnDef: 'workshopNameFilter',
+      type: ColumnTypes.Text,
+      width: '150px',
+    },
+    {
+      name: 'statusName',
+      displayName: 'Státusz',
+      exportable: true,
+      columnDef: 'statusNameFilter',
+      type: ColumnTypes.Text,
+      width: '100px',
+    },
+    {
+      name: 'operationsCount',
+      displayName: 'Műveletek',
+      exportable: true,
+      columnDef: 'operationsCountFilter',
+      type: ColumnTypes.Text,
+      width: '100px',
     },
   ];
-  filterableColumnNames: Array<string> = ['nameFilter', 'translatedNameFilter', 'codeFilter', 'workshopNameFilter','more'];
+  filterableColumnNames: Array<string> = ['nameFilter', 'translatedNameFilter', 'codeFilter', 'workshopNameFilter', 'statusNameFilter',  'operationsCountFilter', 'more'];
   title = "products.title";
   filterForm: UntypedFormGroup;
   totalCount!: number;
@@ -111,6 +134,7 @@ export class ProductsComponent implements OnInit, AfterViewInit{
       const isAsc = sort.direction === 'asc';
       this.sortService.sort(sortProperty, isAsc);
       this.getAll();
+      this.sortService.sort('id', isAsc);
     }
   }
 
@@ -141,6 +165,15 @@ export class ProductsComponent implements OnInit, AfterViewInit{
       autoFocus: false,
       data: null,
       minWidth: '750px'
+    });
+    dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
+  }
+  onOpenOperations(data: ProductModel) {
+    let dialogRef = this.dialog.open(OperationListComponent, {
+      disableClose: true,
+      autoFocus: false,
+      data: data.id,
+      maxWidth: '1200px'
     });
     dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
   }

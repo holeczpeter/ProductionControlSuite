@@ -13,7 +13,7 @@
         {
             var permittedOperation = await this.permissionService.GetPermissionToWorkshops(cancellationToken);
             var operations = this.context.Operations
-                .Where(x => x.EntityStatus == EntityStatuses.Active && permittedOperation.Contains(x.Product.WorkshopId))
+                .Where(x => (x.EntityStatus == EntityStatuses.Active) && permittedOperation.Contains(x.Product.WorkshopId))
                 .Select(x => new OperationModel()
                 {
                     Id = x.Id,
@@ -27,7 +27,10 @@
                     ProductId = x.ProductId,
                     ProductName = x.Product.Name,
                     ProductCode = x.Product.Code,
-                    HasDefect = x.Defects.Any(),
+                    Status = x.EntityStatus,
+                    StatusName = x.EntityStatus.GetDescription(),
+                    DefectsCount = x.Defects.Where(d => d.EntityStatus == EntityStatuses.Active).Count(),
+                    HasDefect = x.Defects.Where(d => d.EntityStatus == EntityStatuses.Active).Any(),
                 }).FilterOperation(request.Parameters);
 
           

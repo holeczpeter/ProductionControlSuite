@@ -54,18 +54,46 @@
       </ng-container>
       <ng-container [formGroup]="filterForm">
         <ng-container *ngFor="let filter of filterableColumns; let i = index">
-          <ng-container [matColumnDef]="filter.columnDef">
-            <th mat-header-cell *matHeaderCellDef>
-              <mat-form-field>
-                <mat-label> {{'search' | translate}}</mat-label>
-                <input matInput [formControlName]="filter.name" />
-                <mat-icon matSuffix>search</mat-icon>
-              </mat-form-field>
-            </th>
+          <ng-container [ngSwitch]="filter.type">
+            <ng-container *ngSwitchCase="0">
+              <ng-container [matColumnDef]="filter.columnDef">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-form-field [ngStyle]="{'max-width':filter.width}">
+                    <mat-label> {{'search' | translate}}</mat-label>
+                    <input matInput [formControlName]="filter.name" />
+                    <mat-icon matSuffix>search</mat-icon>
+                  </mat-form-field>
+                </th>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase="1">
+              <ng-container [matColumnDef]="filter.columnDef">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-form-field>
+                    <mat-label> {{'search' | translate}}</mat-label>
+                    <input matInput [matDatepicker]="pickerStart" [formControlName]="filter.name" required>
+                    <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerStart></mat-datepicker>
+                    <mat-icon matSuffix>search</mat-icon>
+                  </mat-form-field>
+                </th>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase="3">
+              <ng-container [matColumnDef]="filter.columnDef">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-form-field [ngStyle]="{'max-width':filter.width}">
+                    <mat-label> {{'search' | translate}}</mat-label>
+                    <input matInput type="number" [formControlName]="filter.name" />
+                    <mat-icon matSuffix>search</mat-icon>
+                  </mat-form-field>
+                </th>
+              </ng-container>
+            </ng-container>
           </ng-container>
         </ng-container>
         <ng-container matColumnDef="more">
-          <th mat-header-cell *matHeaderCellDef class="text-center" [attr.colspan]="4"> </th>
+          <th mat-header-cell *matHeaderCellDef class="text-center" [attr.colspan]="2"> </th>
         </ng-container>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="columnNames"></tr>

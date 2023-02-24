@@ -7,7 +7,7 @@ namespace Hechinger.FSK.Infrastructure.Persistence
         public FSKDbContext CreateDbContext(string[] args)
         {
             var contextBuilder = new DbContextOptionsBuilder<FSKDbContext>();
-            contextBuilder.UseSqlServer("Server=DESKTOP-QMEJOI6\\SQLEXPRESS;Database=FSK_DEV;Integrated Security=SSPI;MultipleActiveResultSets=true;");
+            contextBuilder.UseSqlServer("Server=DESKTOP-QMEJOI6\\SQLEXPRESS;Database=FSK_DEV_TESZT;Integrated Security=SSPI;MultipleActiveResultSets=true;");
             return new FSKDbContext(contextBuilder.Options);
         }
     }

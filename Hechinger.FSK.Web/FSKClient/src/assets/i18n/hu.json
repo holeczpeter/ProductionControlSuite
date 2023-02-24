@@ -81,6 +81,7 @@
   "print": "Nyomtatás",
   "basicdata": "Törzsadat",
   "categoryName": "Hiba kategória",
+  "defectCategoryName": "Hiba kategória",
   "usersCount": "fő",
   "warning": "Figyelmeztetések",
   "operationGroup": "Műveletcsoport",
@@ -93,6 +94,18 @@
   "help": "Információk",
   "minError": "Az érték nem lehet negatív",
   "datesValidator": "Az időszak kezdete nem lehet nagyobb, mint az időszak vége",
+  "defectsCount": "Hibák száma",
+  "operationsCount": "Műveletek száma",
+  "norma": "Norma",
+  "ppmGoal": "PPM cél",
+  "operationTime": "Műveleti idő",
+  "paginator": {
+    "firstpage": "Első",
+    "itemsperpage": "Találatok oldalanként",
+    "lastpage": "Utolsó",
+    "nextpage": "Következő oldal",
+    "previouspage": "Előző oldal"
+  },
   "months": [
     { "January": "Január" },
     { "February": "Február" },
@@ -179,7 +192,6 @@
     "helpFromIT": "Kérjük forduljon a rendszergazdához.",
     "confirmCanDeactivate": "Biztosan elnavigál? Önnek nem mentett módosításai vannak. A módosításai elvesznek"
   },
-
   "account": {
     "existingCode": "A felhasználói kód már létezik",
     "wrongPassword": "A megadott jelszó nem megfelelő",

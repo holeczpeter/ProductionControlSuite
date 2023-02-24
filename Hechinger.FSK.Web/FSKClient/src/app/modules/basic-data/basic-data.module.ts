@@ -25,6 +25,8 @@ import { DefectGroupOperationEditorComponent } from './defect-groups/defect-grou
 import { DefectGroupDefectEditorComponent } from './defect-groups/defect-group-wizard/defect-group-defect-editor/defect-group-defect-editor.component';
 import { DefectGroupOperationChildComponent } from './defect-groups/defect-group-wizard/defect-group-operation-editor/defect-group-operation-child/defect-group-operation-child.component';
 import { DefectGroupDefectChildComponent } from './defect-groups/defect-group-wizard/defect-group-defect-editor/defect-group-defect-child/defect-group-defect-child.component';
+import { OperationListComponent } from './products/operation-list/operation-list.component';
+import { DefectListComponent } from './operations/defect-list/defect-list.component';
 
 
 
@@ -52,6 +54,8 @@ import { DefectGroupDefectChildComponent } from './defect-groups/defect-group-wi
     DefectGroupDefectEditorComponent,
     DefectGroupOperationChildComponent,
     DefectGroupDefectChildComponent,
+    OperationListComponent,
+    DefectListComponent,
   ],
   imports: [
     CommonModule,

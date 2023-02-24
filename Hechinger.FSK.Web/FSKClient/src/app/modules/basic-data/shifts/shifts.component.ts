@@ -6,7 +6,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import { DeleteWorkshop, ShiftModel, WorkshopModel } from '../../../models/generated/generated';
-import { TableColumnModel } from '../../../models/table-column-model';
+import { ColumnTypes, TableColumnModel } from '../../../models/table-column-model';
 import { AccountService } from '../../../services/account.service';
 import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 import { ShiftDataService } from '../../../services/data/shift-data.service';
@@ -34,19 +34,22 @@ export class ShiftsComponent implements OnInit, AfterViewInit {
       name: 'name',
       displayName: 'Megnevezés',
       exportable: true,
-      columnDef: 'nameFilter'
+      columnDef: 'nameFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'translatedName',
       displayName: 'Német megnevezés',
       exportable: true,
-      columnDef: 'translatedNameFilter'
+      columnDef: 'translatedNameFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'shortName',
       displayName: 'Rövid megnevezés',
       exportable: true,
-      columnDef: 'shortNameFilter'
+      columnDef: 'shortNameFilter',
+      type: ColumnTypes.Text
     },
   ];
   filterableColumnNames: Array<string> = ['nameFilter', 'translatedNameFilter','shortNameFilter', 'more'];

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hechinger.FSK.Application.Features
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class OperationRequestParameters : RequestParameters
     {
@@ -13,5 +7,13 @@ namespace Hechinger.FSK.Application.Features
         public string ProductTranslatedName { get; set; }
 
         public string ProductCode { get; set; }
+
+        public string OperationTime { get; set; }
+
+        public string Norma { get; set; }
+
+        public string DefectsCount { get; set; }
+
+        public string PpmGoal { get; set; }
     }
 }

@@ -34,7 +34,7 @@ namespace Hechinger.FSK.Web.Controllers
                 var userRefreshToken = new UserRefreshToken()
                 {
                     UserId = user.UserId,
-                    Expiration = DateTime.Now.AddHours(3),
+                    Expiration = DateTime.Now.AddMinutes(30),
                     Token = newJwtToken,
                     RefreshToken = newRefreshToken,
                 };

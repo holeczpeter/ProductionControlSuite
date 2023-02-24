@@ -18,13 +18,7 @@ export class TableFilterService {
   createFilterFormGroup(filterableColumns: Array<TableColumnModel>): UntypedFormGroup {
     let form = new UntypedFormGroup({});
     form.addControl("textSearchSetting", new UntypedFormControl(this.textSearchSettings.isStartsWith.toString()));
-   /* let dateArray: string[] = [];*/
-
-    //filterableColumns.forEach(m => {
-    //  if (m.type == FrontEndControlTypes.Date || m.type == FrontEndControlTypes.DateTime)
-    //    dateArray.push(m.name);
-    //});
-    //form.addControl("dateTypes", new UntypedFormControl(dateArray.toString()));
+  
     filterableColumns.forEach(x => {
       form.addControl(x.name, new UntypedFormControl());
     });

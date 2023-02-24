@@ -29,7 +29,8 @@ namespace Hechinger.FSK.Application.Features
                     OperationId = x.OperationId,
                     OperationCode = x.Operation.Code,
                     OperationName = x.Operation.Name,
-
+                    Status = x.EntityStatus,
+                    StatusName = x.EntityStatus.GetDescription(),
                 })
                 .FilterDefect(request.Parameters);
 

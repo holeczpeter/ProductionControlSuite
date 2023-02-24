@@ -16,17 +16,11 @@ $mat-tooltip-icon-size: 18px * $mat-icon-margin-compensation;
 
 
 .mat-icon-button i, .mat-icon-button .mat-icon {
-  /*font-size: $mat-icon-size !important;
-  width: $mat-icon-size !important;
-  height: $mat-icon-size !important;
-  line-height: $mat-icon-size !important;*/
+  
 }
 
 .mat-icon-button {
-  /*font-size: $mat-icon-size !important;
-  width: $mat-icon-size !important;
-  height: $mat-icon-size !important;
-  line-height: $mat-icon-size !important;*/
+  
 }
 
 
@@ -51,4 +45,14 @@ $mat-tooltip-icon-size: 18px * $mat-icon-margin-compensation;
 .sidebar-icon {
   color: #FFFFFF;
   font-size: 14px;
+}
+.mat-badge-content {
+  width: auto;
+  display: grid;
+  width: $mat-icon-size !important;
+  height: $mat-icon-size !important;
+  font-size:10px;
+  text-align: center;
+  align-items: center;
+ 
 }

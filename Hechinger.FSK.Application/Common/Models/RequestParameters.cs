@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hechinger.FSK.Application.Common.Models
+﻿namespace Hechinger.FSK.Application.Common.Models
 {
-    
+
     public class RequestParameters
     {
         public string Lang { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
         public string TranslatedName { get; set; }
+        public string StatusName { get; set; }
         public string OrderBy { get; set; }
         public bool IsAsc { get; set; }
 

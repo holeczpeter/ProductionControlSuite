@@ -60,6 +60,7 @@ export class DefectDataService {
         operationCode: this.filterService.getValue('operationCode'),
         operationName: this.filterService.getValue('operationName'),
         defectCategoryName: this.filterService.getValue('defectCategoryName'),
+        statusName: this.filterService.getValue('statusName'),
         orderBy: this.sortService.orderBy,
         isAsc: this.sortService.isAsc,
         page: this.paginationService.page,

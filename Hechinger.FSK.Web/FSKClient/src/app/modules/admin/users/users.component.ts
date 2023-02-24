@@ -6,7 +6,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import { DeleteUser, UserModel } from '../../../models/generated/generated';
-import { TableColumnModel } from '../../../models/table-column-model';
+import { ColumnTypes, TableColumnModel } from '../../../models/table-column-model';
 import { AccountService } from '../../../services/account.service';
 import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
 import { UserDataService } from '../../../services/data/user-data.service';
@@ -35,31 +35,36 @@ export class UsersComponent implements OnInit {
       name: 'fullName',
       displayName: 'Név',
       exportable: true,
-      columnDef: 'fullNameFilter'
+      columnDef: 'fullNameFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'code',
       displayName: 'Kód',
       exportable: true,
-      columnDef: 'codeFilter'
+      columnDef: 'codeFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'roleName',
       displayName: 'Szerepkör',
       exportable: true,
-      columnDef: 'roleNameFilter'
+      columnDef: 'roleNameFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'languageName',
       displayName: 'Nyelv',
       exportable: true,
-      columnDef: 'languageNameFilter'
+      columnDef: 'languageNameFilter',
+      type: ColumnTypes.Text
     },
     {
       name: 'statusName',
       displayName: 'Státusz',
       exportable: true,
-      columnDef: 'statusNameFilter'
+      columnDef: 'statusNameFilter',
+      type: ColumnTypes.Text
     },
   ];
   filterableColumnNames: Array<string> = ['fullNameFilter', 'codeFilter', 'roleNameFilter', 'languageNameFilter', 'statusNameFilter', 'more'];
