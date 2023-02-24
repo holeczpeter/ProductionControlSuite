@@ -38,6 +38,8 @@ namespace Hechinger.FSK.Web
             services.Configure<ForwardedHeadersOptions>(options => options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto);
             services.Configure<FormOptions>(options => 
             {
+          
+                options.BufferBodyLengthLimit = int.MaxValue;
                 options.ValueLengthLimit = int.MaxValue;
                 options.MultipartBodyLengthLimit = int.MaxValue; 
                 options.MultipartHeadersLengthLimit = int.MaxValue;
@@ -46,11 +48,13 @@ namespace Hechinger.FSK.Web
 
             services.Configure<IISServerOptions>(options =>
             {
+                options.MaxRequestBodyBufferSize = int.MaxValue;
                 options.MaxRequestBodySize = int.MaxValue;
             });
 
             services.Configure<KestrelServerOptions>(options =>
             {
+                options.Limits.MaxRequestBufferSize = int.MaxValue;
                 options.Limits.MaxRequestBodySize = int.MaxValue;
             });
             services.AddHttpClient();
