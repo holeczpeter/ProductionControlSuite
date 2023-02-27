@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -19,7 +20,14 @@ import { UserEditorDialogComponent } from './user-editor-dialog/user-editor-dial
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  styleUrls: ['./users.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class UsersComponent implements OnInit {
 
@@ -28,7 +36,9 @@ export class UsersComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnNames: Array<string> = ['fullName', 'code', 'roleName','languageName', 'statusName','password', 'edit', 'delete']
+  columnNames: Array<string> = ['fullName', 'code', 'roleName', 'languageName', 'statusName', 'workshops', 'password', 'edit', 'delete']
+  rowsText: Array<string> = ['fullName', 'code', 'roleName', 'languageName', 'statusName', 'workshops', 'password', 'edit', 'delete']
+  expandedElement: UserModel | null;
   title = "users.title";
   filterableColumns: Array<TableColumnModel> = [
     {

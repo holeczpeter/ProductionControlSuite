@@ -13,6 +13,6 @@
         public string LanguageName { get; set; }
         public EntityStatuses Status { get; set; }
         public string StatusName { get; set; }
-     
+        public IEnumerable<string> Workshops { get;  set; }
     }
 }
