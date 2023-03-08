@@ -23,7 +23,6 @@ export class DefectFilterService {
       this.form.addControl(x.name, new UntypedFormControl());
     });
     this.valueChanges();
-    console.log(this.form)
     return this.form;
   }
   valueChanges() {

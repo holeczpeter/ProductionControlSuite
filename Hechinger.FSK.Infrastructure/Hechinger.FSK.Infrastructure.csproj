@@ -41,6 +41,9 @@
     <None Update="Resources\products.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\users.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\workshops.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

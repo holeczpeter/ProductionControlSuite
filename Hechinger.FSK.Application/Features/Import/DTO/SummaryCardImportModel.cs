@@ -30,5 +30,11 @@
         public string beido { get; set; }
 
         public string megjegyzes { get; set; }
+
+        public bool IsSuccess { get; set; }
+
+        public string ErrorText { get; set; }
+
+        public string ErrorObject { get; set; }
     }
 }

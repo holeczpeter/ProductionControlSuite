@@ -9,5 +9,10 @@
         public string sulyossag { get; set; }
         public string photolink { get; set; }
         public string kataloguskep { get; set; }
+        public bool IsSuccess { get; set; }
+
+        public string ErrorText { get; set; }
+
+        public string ErrorObject { get; set; }
     }
 }

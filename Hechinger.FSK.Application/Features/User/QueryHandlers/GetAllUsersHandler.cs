@@ -22,7 +22,7 @@
                 LanguageName = u.Language.Name,
                 Status = u.EntityStatus,
                 StatusName = u.EntityStatus.GetDescription(),
-                Workshops = u.WorkShops.Select(x => x.Workshop.Name)
+                Workshops =  u.WorkShops.Select(x => x.Workshop.Name)
 
             }).ToListAsync(cancellationToken);
         }

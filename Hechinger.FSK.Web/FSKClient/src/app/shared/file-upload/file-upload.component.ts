@@ -15,7 +15,6 @@ export class FileUploadComponent implements OnInit {
   }
   onClick() {
     const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
-
     this.processFile(fileUpload);
   }
   processFile(imageInput: any) {
