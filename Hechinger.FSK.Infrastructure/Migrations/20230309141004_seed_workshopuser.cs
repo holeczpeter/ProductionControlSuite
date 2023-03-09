@@ -9,9 +9,9 @@ namespace Hechinger.FSK.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             var k = 0;
-            for (int i = 1; i < 8; i++)
+            for (int i = 2; i < 9; i++)
             {
-                for (int j = 1; j < 6; j++)
+                for (int j = 1; j < 7; j++)
                 {
                     k++;
                     migrationBuilder.InsertData(
