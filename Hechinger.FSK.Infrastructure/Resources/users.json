@@ -190,21 +190,14 @@
  },
  {
   "Id": 28,
-  "Code": ,
-  "LastName": "Murányi",
-  "FirstName": "K",
-  "RoleId": 1
- },
- {
-  "Id": 29,
-  "Code": ,
+  "Code": 5171,
   "LastName": "Szabó",
   "FirstName": "Mónika",
   "RoleId": 1
  },
  {
-  "Id": 30,
-  "Code": ,
+  "Id": 29,
+  "Code": 5170,
   "LastName": "Kurucz",
   "FirstName": "Zs",
   "RoleId": 1
