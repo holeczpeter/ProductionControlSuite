@@ -58,6 +58,10 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
                             continue;
                         }
                         var product = products.Where(x => x.Code.Trim().ToUpper() == item.ProductCode.Trim().ToUpper()).FirstOrDefault();
+                        if(!string.IsNullOrEmpty(item.IsActive) && item.IsActive != "NULL" && item.IsActive.Trim().ToUpper() != item.ProductCode.Trim().ToUpper() && product == null)
+                        {
+                            product = products.Where(x => x.Code.Trim().ToUpper() == item.IsActive.Trim().ToUpper()).FirstOrDefault();
+                        }
                         if (product == null) 
                         {
                             item.IsSuccess = false;
