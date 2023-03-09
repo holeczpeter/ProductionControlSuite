@@ -118,6 +118,9 @@
     <None Update="UserManual\FSK_FelhKK_v1.0_2022.12.21.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="UserManual\FSK_FelhKK_v1.0_2022.12.21.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   
     
     <TypeScriptCompile Update="FSKClient\src\app\models\generated\generated.ts">
