@@ -230,7 +230,9 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
                 {"v.ando"    ,"9274"    },
                 {"v.toth"    ,"9552"    },
                 {"v.varadi"  ,"9296"    },
-                {"zs.polovics","9066"   }
+                {"zs.polovics","9066"   },
+                {"monika.szabo","5171"   },
+                {"zs.kurucz","5170"   }
             };
         }
     }

@@ -1,202 +1,208 @@
-[
- {
+[{
   "Id": 1,
+  "Code": 0000,
+  "LastName": "-",
+  "FirstName": "-",
+  "RoleId": 1
+ },
+ {
+  "Id": 2,
   "Code": 9999,
   "LastName": "Holecz",
   "FirstName": "Péter",
   "RoleId": 2
  },
  {
-  "Id": 2,
+  "Id": 3,
   "Code": 1417,
   "LastName": "Nagy",
   "FirstName": "Csaba",
   "RoleId": 3
  },
  {
-  "Id": 3,
+  "Id": 4,
   "Code": 1454,
   "LastName": "Pálfia",
   "FirstName": "Ádám",
   "RoleId": 3
  },
  {
-  "Id": 4,
+  "Id": 5,
   "Code": 1445,
   "LastName": "Pesti ",
   "FirstName": "Rajmund",
   "RoleId": 3
  },
  {
-  "Id": 5,
+  "Id": 6,
   "Code": 1470,
   "LastName": "Dr. Babák",
   "FirstName": "Ferenc",
   "RoleId": 3
  },
  {
-  "Id": 6,
+  "Id": 7,
   "Code": 9033,
   "LastName": "Kerekes",
   "FirstName": "Tibor",
   "RoleId": 3
  },
  {
-  "Id": 7,
+  "Id": 8,
   "Code": 9536,
   "LastName": "Farkas",
   "FirstName": "Alexa",
   "RoleId": 3
  },
  {
-  "Id": 8,
+  "Id": 9,
   "Code": 9178,
   "LastName": "Parádi ",
   "FirstName": "Andrea",
   "RoleId": 1
  },
  {
-  "Id": 9,
+  "Id": 10,
   "Code": 2190,
   "LastName": "Fehér ",
   "FirstName": "Csaba",
   "RoleId": 1
  },
  {
-  "Id": 10,
+  "Id": 11,
   "Code": 9392,
   "LastName": "Csábi ",
   "FirstName": "Éva",
   "RoleId": 1
  },
  {
-  "Id": 11,
+  "Id": 12,
   "Code": 5127,
   "LastName": "Deák",
   "FirstName": "Diána",
   "RoleId": 1
  },
  {
-  "Id": 12,
+  "Id": 13,
   "Code": 9598,
   "LastName": "Baranyi",
   "FirstName": "Ernő",
   "RoleId": 1
  },
  {
-  "Id": 13,
+  "Id": 14,
   "Code": 9124,
   "LastName": "Mondi ",
   "FirstName": "Ferenc",
   "RoleId": 1
  },
  {
-  "Id": 14,
+  "Id": 15,
   "Code": 5003,
   "LastName": "Varga",
   "FirstName": "Ferenc",
   "RoleId": 1
  },
  {
-  "Id": 15,
+  "Id": 16,
   "Code": 2006,
   "LastName": "Deli ",
   "FirstName": "Gábor",
   "RoleId": 1
  },
  {
-  "Id": 16,
+  "Id": 17,
   "Code": 9441,
   "LastName": "Bárány ",
   "FirstName": "János",
   "RoleId": 1
  },
  {
-  "Id": 17,
+  "Id": 18,
   "Code": 9016,
   "LastName": "Kósa",
   "FirstName": "István",
   "RoleId": 1
  },
  {
-  "Id": 18,
+  "Id": 19,
   "Code": 1851,
   "LastName": "Bóka",
   "FirstName": "János",
   "RoleId": 1
  },
  {
-  "Id": 19,
+  "Id": 20,
   "Code": 5125,
   "LastName": "Murányi",
   "FirstName": "Katalin",
   "RoleId": 1
  },
  {
-  "Id": 20,
+  "Id": 21,
   "Code": 9302,
   "LastName": "Váradi ",
   "FirstName": "Nikolett",
   "RoleId": 1
  },
  {
-  "Id": 21,
+  "Id": 22,
   "Code": 9376,
   "LastName": "Pásztiné",
   "FirstName": "Mihályné",
   "RoleId": 1
  },
  {
-  "Id": 22,
+  "Id": 23,
   "Code": 9505,
   "LastName": "Sólyom",
   "FirstName": "Sándor",
   "RoleId": 1
  },
  {
-  "Id": 23,
+  "Id": 24,
   "Code": 1401,
   "LastName": "Demeter",
   "FirstName": "Tamás",
   "RoleId": 1
  },
  {
-  "Id": 24,
+  "Id": 25,
   "Code": 9274,
   "LastName": "Andó",
   "FirstName": "Virginia",
   "RoleId": 1
  },
  {
-  "Id": 25,
+  "Id": 26,
   "Code": 9552,
   "LastName": "Tóth",
   "FirstName": "Viktor",
   "RoleId": 1
  },
  {
-  "Id": 26,
+  "Id": 27,
   "Code": 9296,
   "LastName": "Váradi ",
   "FirstName": "Viktória",
   "RoleId": 1
  },
  {
-  "Id": 27,
+  "Id": 28,
   "Code": 9066,
   "LastName": "Polovics",
   "FirstName": "Zsolt",
   "RoleId": 1
  },
  {
-  "Id": 28,
+  "Id": 29,
   "Code": 5171,
   "LastName": "Szabó",
   "FirstName": "Mónika",
   "RoleId": 1
  },
  {
-  "Id": 29,
+  "Id": 30,
   "Code": 5170,
   "LastName": "Kurucz",
   "FirstName": "Zs",
