@@ -18,7 +18,6 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
             var result = new ResultBuilder<IEnumerable<ImportError>>().SetMessage("Sikertelen mentés").SetIsSuccess(false).Build();
             var products = await this.context.Products.ToListAsync(cancellationToken);
             var errors = new List<ImportError>();
-            var results = new List<OperationImportItem>();
             try
             {
                 NumberFormatInfo provider = new NumberFormatInfo();
@@ -33,7 +32,9 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
                     var allOperation = model.Operations.Where(o => products.Select(p => p.Code.Trim().ToUpper()).Contains(o.ProductCode.Trim().ToUpper()));
                     var allOperationCount = allOperation.Count();
                     var onlyOperations = allOperation.Where(x => x.Nr != "00");
-                    var onlyOperationsCount = onlyOperations.Count();   
+                    var onlyOperationsCount = onlyOperations.Count();
+                    var jsonResult = new List<OperationImportItem>();
+
                     foreach (var item in items)
                     {
                         var order = 1;
@@ -41,25 +42,33 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
                         int.TryParse(orderAsString, out order);
                         if (item.Nr == "00")
                         {
-                            item.IsImported = "0";
-                            item.Description = "Csak termékkód";
-                            results.Add(item);
+                            item.IsSuccess = false;
+                            item.ErrorText = "Csak termékkód";
+                            item.ErrorObject = item.ProductCode;
+                            jsonResult.Add(item);
                             continue;
                         }
 
                         if (item.ProductCode == null)
                         {
-                            item.IsImported = "0";
-                            item.Description = $"Termékkód null: { item.ProductCode }";
-                            results.Add(item);
+                            item.IsSuccess = false;
+                            item.ErrorText = "Termékkód null";
+                            item.ErrorObject = item.ProductCode;
+                            jsonResult.Add(item);
                             continue;
                         }
                         var product = products.Where(x => x.Code.Trim().ToUpper() == item.ProductCode.Trim().ToUpper()).FirstOrDefault();
+                        if(!string.IsNullOrEmpty(item.IsActive) && item.IsActive != "NULL" && item.IsActive.Trim().ToUpper() != item.ProductCode.Trim().ToUpper() && product == null)
+                        {
+                            product = products.Where(x => x.Code.Trim().ToUpper() == item.IsActive.Trim().ToUpper()).FirstOrDefault();
+                        }
                         if (product == null) 
                         {
-                            item.IsImported = "0";
-                            item.Description = $"Termék nem található: { item.ProductCode }";
-                            results.Add(item);
+                            item.IsSuccess = false;
+                            item.ErrorText = "Termékkód nem található";
+                            item.ErrorObject = item.ProductCode;
+                            jsonResult.Add(item);
+                           
                             continue;
                         }
                         
@@ -91,9 +100,8 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
                     }
                     
                     await this.context.SaveChangesAsync(cancellationToken);
-                    var jsonResult = JsonConvert.SerializeObject(results);
-                    this.logger.LogError($"Import eredmény: {jsonResult}");
-                    File.WriteAllText("import.json", jsonResult);
+                    var jsonResults = JsonConvert.SerializeObject(jsonResult);
+                    File.WriteAllText("muvelet_import_eredmeny.json", jsonResults);
                     result.IsSuccess = true;
                     result.Message = "Sikeres import";
                     result.Entities = errors;

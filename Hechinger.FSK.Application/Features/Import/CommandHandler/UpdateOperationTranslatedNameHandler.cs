@@ -32,7 +32,7 @@ namespace Hechinger.FSK.Application.Features
                     var items = model.Sheet1;
                     foreach (var item in items)
                     {
-                        var currentOperation = await this.context.Operations.Where(x => x.Code == item.muv_kod).FirstOrDefaultAsync(cancellationToken);
+                        var currentOperation = await this.context.Operations.Where(x => x.Code.Trim().ToUpper() == item.muv_kod.Trim().ToUpper()).FirstOrDefaultAsync(cancellationToken);
 
                         var ppm = 1;
                         int.TryParse(item.muv_cel, out ppm);

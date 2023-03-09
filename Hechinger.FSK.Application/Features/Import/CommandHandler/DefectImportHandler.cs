@@ -24,20 +24,23 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
                     List<DefectImportModel> items = JsonConvert.DeserializeObject<List<DefectImportModel>>(json);
                     var count = items.Count();
                     var entities = new List<Defect>();
-                   
+                    var jsonResult = new List<DefectImportModel>();
+
                     var operations = await this.context.Operations.Select(x => new { Id = x.Id, Code = x.Code }).ToListAsync(cancellationToken);
                     foreach (var fehler in items.Select((value, i) => (value, i)))
                     {
                         int index = fehler.i;
                         var defectCategory = 1;
                         int.TryParse(fehler.value.Hibakategoria, out defectCategory);
-                        var operation = operations.Where(x => fehler.value.Hibakod.Contains(x.Code)).FirstOrDefault();
+                        var operation = operations.Where(x => fehler.value.Hibakod.Trim().ToUpper().Contains(x.Code.Trim().ToUpper())).FirstOrDefault();
                         if (operation == null)
                         {
-                            this.logger.LogError($"Hibás rekord, művelet nem található:{ fehler.value.Hibakod }");
-                            errors.Add(new ImportError() { Type = "Hibakód", Code = fehler.value.Hibakod, ErrorText = $"Hibás rekord, művelet nem található:{ fehler.value.Hibakod }" });
-                            
+                            fehler.value.IsSuccess = false;
+                            fehler.value.ErrorText = "Hibás rekord, művelet nem található";
+                            fehler.value.ErrorObject = fehler.value.Hibakod;
+                            jsonResult.Add(fehler.value);
                             continue;
+                            
                         }
 
                         var orderstring = fehler.value.Hibakod.Substring(fehler.value.Hibakod.Length - 2);
@@ -46,7 +49,7 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
 
                         var fehlerEntity = new Defect()
                         {
-                            Code = fehler.value.Hibakod,
+                            Code = fehler.value.Hibakod.Trim().ToUpper(),
                             Name = fehler.value.Hiba_nev,
                             TranslatedName = fehler.value.Nemet_hiba_nev,
                             Order = order,
@@ -60,11 +63,15 @@ namespace Hechinger.FSK.Application.Features.Import.CommandHandler
 
                         };
                         entities.Add(fehlerEntity);
+                        fehler.value.IsSuccess = true;
+                        jsonResult.Add(fehler.value);
+                        continue;
 
                     }
                     await this.context.AddRangeAsync(entities, cancellationToken);
                     await this.context.SaveChangesAsync(cancellationToken);
-                    this.logger.LogError($"Import eredmény: {JsonConvert.SerializeObject(errors)}");
+                    var jsonResults = JsonConvert.SerializeObject(jsonResult);
+                    File.WriteAllText("hibakodok_import_eredmeny.json", jsonResults);
                     result.IsSuccess = true;
                     result.Message = "Sikeres import";
                     result.Entities = errors;

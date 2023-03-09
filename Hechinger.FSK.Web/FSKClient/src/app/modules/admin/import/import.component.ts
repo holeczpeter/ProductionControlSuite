@@ -27,6 +27,7 @@ export class ImportComponent implements OnInit {
     formDataToSend.set('file', event.file);
     this.importService.updateImportedOperation(formDataToSend).subscribe(result => {
       this.snakBarService.open(result);
+
     });
   }
   onUploadDefects(event: FileSnippet) {

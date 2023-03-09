@@ -29,9 +29,7 @@ export class FileDataService {
 
   download(observable: Observable<Blob>) {
     return observable.pipe(tap((response) => {
-      console.log(response)
       const a = document.createElement('a');
-      console.log(a)
       const objectUrl = URL.createObjectURL(response);
       a.href = objectUrl;
       a.download = "a";

@@ -15,9 +15,11 @@
         public string OperationTime { get; set; }
         public string Name { get; set; }
         public string Norm { get; set; }
-        public string IsImported { get; set; }
+        public bool IsSuccess { get; set; }
 
-        public string Description { get; set; }
+        public string ErrorText { get; set; }
+
+        public string ErrorObject { get; set; }
     }
 
 }

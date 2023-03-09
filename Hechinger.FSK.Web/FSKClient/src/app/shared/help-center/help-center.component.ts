@@ -35,17 +35,12 @@ export class HelpCenterComponent implements OnInit {
         this.applicationInformation = appInfo;
         this.helpCenterInformation = helpCenterinfo;
         if (userManual.body) {
-          console.log(userManual.body)
           this.currentFilename = decodeURIComponent(userManual.headers.get('content-disposition').split(';')[2].split('filename')[1].split('=')[1].slice(7).trim());
           this.pdfUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(userManual.body));
-          console.log(this.currentFilename);
-          console.log(this.pdfUrl)
         }
-      
     });
   }
-  
-  
+
   onCancel() {
     this.dialogRef.close(false);
   }

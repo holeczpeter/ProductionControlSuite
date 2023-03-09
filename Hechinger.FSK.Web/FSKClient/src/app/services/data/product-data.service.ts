@@ -58,7 +58,6 @@ export class ProductDataService {
   }
   getProductsByParameters(totalCount: number | null): Observable<any> {
     let count = totalCount != null ? totalCount : this.paginationService.pageCount;
-    console.log(this.filterService.getForm())
     return this.httpClient.get<any>('Product/GetProductsByParameters', {
       params:
       {
