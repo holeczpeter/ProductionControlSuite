@@ -1,11 +1,4 @@
-<!--<button mat-icon-button
-        [useExistingCss]="true"
-        printSectionId="print-section"
-        ngxPrint color="primary">
-  <mat-icon>
-    print
-  </mat-icon>
-</button>-->
+
 <div class="button-container">
   <button mat-raised-button
           [useExistingCss]="true"
@@ -15,9 +8,11 @@
     {{'print' | translate}}
   </button>
 </div>
-<div *ngIf="printableOperation" id="print-section">
-  <div *ngFor="let number of [0,1]; index as i;"
-       [ngClass]="printableOperation?.defects.length <= 8 ? 'item': 'break-item'">
+<div *ngIf="printableOperation && numbers" id="print-section">
+  <div *ngFor="let number of numbers; index as i;"
+       [ngClass]="{'one-item': numbers.length === 1,
+     'two-item': numbers.length === 2,
+     'four-item': numbers.length === 4}">
     <div class="preview-content">
       <table border='0' class="main-table">
         <td align='center'>

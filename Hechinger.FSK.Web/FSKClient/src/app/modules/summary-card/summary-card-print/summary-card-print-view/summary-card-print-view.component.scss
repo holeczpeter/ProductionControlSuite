@@ -1,34 +1,37 @@
 .button-container{
     margin-bottom:20px;
 }
-.preview {
-  background: white;
-  
+.text {
+  font-size: 10px;
 }
-.text{
-    font-size:10px;
-}
+
 .preview-content {
   min-height: 1px;
   break-inside: avoid;
   break-after: page;
 }
 .main-table {
-  max-width:500px;
+  max-width: 500px;
   break-inside: avoid;
-  
+  break-after: auto;
 }
 .inside-row {
   break-inside: avoid;
   break-after: auto;
 }
-.break-item {
+.one-item {
   break-before: page;
   break-inside: auto;
   break-after: page;
  
 }
-.item {
+.two-item {
+  display: inline-block;
+  page-break-before: always;
+  page-break-inside: auto;
+  page-break-after: always;
+}
+.four-item {
   display: inline-block;
   page-break-before: always;
   page-break-inside: auto;
@@ -51,18 +54,21 @@
   .hidden {
     display: block;
   }
-  .item {
+ 
+  .one-item {
+    display: block;
+    column-count: 2;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+  }
+  .two-item {
     display: inline-block;
     /*column-count: 2;
     -webkit-column-count: 2;
     -moz-column-count: 2;*/
   }
-  .break-item {
-    display:block;
-    column-count: 2;
-    -webkit-column-count: 2;
-    -moz-column-count: 2;
+  .four-item{
+
   }
-  
 }
 

@@ -13,6 +13,7 @@ export class SummaryCardPrintViewComponent implements OnInit, OnChanges {
   printableOperation: OperationPrintModel;
   @ViewChild('content') content: ElementRef<HTMLElement>;
   code: string;
+  numbers: Array<number>
   constructor(private readonly operationDataService: OperationDataService,
     public languageService: LanguageService) { }
     
@@ -25,6 +26,10 @@ export class SummaryCardPrintViewComponent implements OnInit, OnChanges {
       this.code = this.operation.code;
       this.operationDataService.getPrint({ id: this.operation.id }).subscribe(result => {
         this.printableOperation = result;
+        if (this.printableOperation.defects.length <= 7) this.numbers = Array(4).fill(0).map((x, i) => i);
+        if (this.printableOperation.defects.length > 7 && this.printableOperation.defects.length <= 33) this.numbers = Array(2).fill(0).map((x, i) => i);
+        if (this.printableOperation.defects.length > 33) this.numbers = Array(1).fill(0).map((x, i) => i);
+        console.log(this.numbers)
       });
     }
   }
