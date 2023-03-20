@@ -1,83 +1,117 @@
 .button-container{
     margin-bottom:20px;
 }
-.text {
-  font-size: 10px;
+.paper {
+  height: 21cm;
+  min-width: 29.7cm;
+  padding: 2cm;
+  margin: 1cm auto;
+  border: 1px #D3D3D3 solid;
+  border-radius: 5px;
+  background: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.row {
+  margin-left: -5px;
+  margin-right: -5px;
+  margin-bottom:10px;
 }
 
-.preview-content {
-  min-height: 1px;
-  break-inside: avoid;
-  break-after: page;
+.column-four {
+  float: left;
+  width: 50%;
+  padding: 5px;
+  border-right: 1px dotted black;
+  border-bottom: 1px dotted black;
 }
+.column-four:nth-child(even) {
+  border-right: none;
+}
+.column-four:nth-child(3) {
+  border-bottom: none;
+}
+.column-four:nth-child(4) {
+  border-bottom: none;
+}
+.column-two {
+  float: left;
+  width: 50%;
+  padding: 5px;
+  border-right: 1px dotted black;
+}
+.column-two:nth-child(even) {
+  border-right: none;
+}
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.one-element {
+  
+}
+
 .main-table {
-  width:450px;
-  margin-left:20px;
-  break-inside: avoid;
+  overflow: hidden;
+  //width: 450px;
+  //margin-left: 20px;
+   break-inside: avoid;
   break-after: auto;
 }
 .inside-row {
-  break-inside: avoid;
+  page-break-inside: avoid;
+  page-break-after: auto;
   break-after: auto;
 }
-.one-item {
-  
-  display: inline-block;
-  break-before: page;
-  break-inside: auto;
-  break-after: page;
+
+.text-center {
+  font-size: 10px;
+  text-align: center;
 }
-.two-item {
-  margin-left: 20px;
-  display: inline-block;
-  page-break-before: always;
-  page-break-inside: auto;
-  page-break-after: always;
-  break-before: page;
-  break-inside: avoid;
-  break-after: auto;
+.text-left {
+  font-size: 10px;
+  text-align:left;
 }
-.four-item {
-  margin-left: 20px;
-  display: inline-block;
-  page-break-before: always;
-  page-break-inside: auto;
-  page-break-after: always;
-  break-before: page;
-  break-inside: avoid;
-  break-after: auto;
+.text-right {
+  font-size: 10px;
+  text-align: right;
 }
 .divider {
   display: inline-block;
 }
+.info-table {
+  font-size: 10px;
 
+  td {
+    border-bottom: thin dashed black;
+  }
+}
+.defect-table {
+  td {
+    border: 1.5px solid black;
+  }
+}
+.operation-info {
+  border-bottom:none !important;
+}
+.footer {
+  border: none !important;
+  border-bottom: none !important;
+}
 @media print {
   @page {
     size: A4 landscape;
     margin: 10mm 10mm 10mm 10mm;
   }
 
+  .one-element {
   
-  .one-item {
-    display: block;
-    column-count: 2;
-    margin-bottom: 20px;
-    -webkit-column-count: 2;
-    -moz-column-count: 2;
-  }
-  .two-item {
-    display: inline-grid;
-    column-count: 2;
-    margin-bottom: 20px;
-    -webkit-column-count: 2;
-    -moz-column-count: 2;
-  }
-  .four-item {
-    display: inline-grid;
-    column-count: 2;
-    margin-bottom: 20px;
-    -webkit-column-count: 2;
-    -moz-column-count: 2;
   }
 }
+
+
+
+
 

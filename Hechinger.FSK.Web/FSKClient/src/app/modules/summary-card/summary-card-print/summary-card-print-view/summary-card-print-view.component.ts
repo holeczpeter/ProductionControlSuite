@@ -13,7 +13,9 @@ export class SummaryCardPrintViewComponent implements OnInit, OnChanges {
   printableOperation: OperationPrintModel;
   @ViewChild('content') content: ElementRef<HTMLElement>;
   code: string;
-  numbers: Array<number>
+  numbers: Array<number>;
+  count: number;
+  currentDate= new Date();
   constructor(private readonly operationDataService: OperationDataService,
     public languageService: LanguageService) { }
     
@@ -26,10 +28,12 @@ export class SummaryCardPrintViewComponent implements OnInit, OnChanges {
       this.code = this.operation.code;
       this.operationDataService.getPrint({ id: this.operation.id }).subscribe(result => {
         this.printableOperation = result;
-        if (this.printableOperation.defects.length <= 14) this.numbers = Array(4).fill(0).map((x, i) => i);
-        if (this.printableOperation.defects.length > 14 && this.printableOperation.defects.length <= 33) this.numbers = Array(2).fill(0).map((x, i) => i);
-        if (this.printableOperation.defects.length > 33) this.numbers = Array(1).fill(0).map((x, i) => i);
-        console.log(this.numbers)
+        if (this.printableOperation.defects.length <= 10)  this.count = 4;
+        if (this.printableOperation.defects.length > 10 && this.printableOperation.defects.length <= 33) this.count = 2;
+        if (this.printableOperation.defects.length > 33) this.count = 1;
+        this.numbers = Array(this.count).fill(0).map((x, i) => i);
+        console.log(this.numbers);
+        console.log(this.count)
       });
     }
   }

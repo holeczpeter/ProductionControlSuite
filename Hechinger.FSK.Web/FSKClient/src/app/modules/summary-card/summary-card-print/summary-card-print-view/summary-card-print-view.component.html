@@ -8,127 +8,132 @@
     {{'print' | translate}}
   </button>
 </div>
-<div *ngIf="printableOperation && numbers" id="print-section">
-  <div *ngFor="let number of numbers; index as i;"
-       [ngClass]="{'one-item': numbers.length === 1,
-     'two-item': numbers.length === 2,
-     'four-item': numbers.length === 4}">
-    <div class="preview-content">
-      <table border='0' class="main-table">
-        <td align='center'>
-          <app-summary-card-header [code]="code"></app-summary-card-header>
-          
-          <table cellspacing='0' width='100%' class="defect-table">
-            <tr>
-              <td align='left' width='13%' style='border-bottom: thin dashed black;'>
-                <div class="text">
-                  {{'date'| translate }}:
-                </div>
-              </td>
-              <td width='20%' style='border-bottom: thin dashed black;'>&nbsp;</td>
-              <td align='left' width='13%' style='border-bottom: thin dashed black;'>
-                <div class="text">
-                  {{ 'quantity' | translate }}:
-                </div>
-              </td>
-              <td width='20%' style='border-bottom: thin dashed black;'>&nbsp;</td>
-              <td align='left' width='33%' style='border-bottom: thin dashed black;' colspan='4'>
-                <div class="text">
-                  {{ 'defectQuantity' | translate }}:
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td align='left' width='13%' style='border-bottom: thin dashed black;'>
-                <div class="text">
-                  {{ 'worker' | translate}}:
-                </div>
-              </td>
-              <td width='20%' style='border-bottom: thin dashed black;'>&nbsp;</td>
-              <td align='left' width='13%' style='border-bottom: thin dashed black;'>
-                <div class="text">
-                  {{ 'productName' | translate}}:
-                </div>
-              </td>
-              <td width='20%' style='border-bottom: thin dashed black;' colspan='5'>
-                <div class="text">
-                  {{ printableOperation.productName }}
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td align='left' width='13%' style='border-bottom: thin dashed black;'>
-                <div class="text">{{ 'operationCode' | translate}}:</div>
-              </td>
-              <td width='20%' style='border-bottom: thin dashed black;' align='center'>
+<div *ngIf="printableOperation && numbers && count" id="print-section" class="paper">
+  <ng-container [ngSwitch]="count">
+    <ng-container *ngSwitchCase="'1'">
+      <div class="one-element">
+        <ng-container *ngTemplateOutlet="table"></ng-container>
+      </div>
+    </ng-container>
+    <ng-container *ngSwitchCase="'2'">
+      <div class="row">
+        <div class="column-two" *ngFor="let number of numbers; index as i;">
+          <ng-container *ngTemplateOutlet="table"></ng-container>
 
-                <div class="text"> {{ printableOperation.code }}:</div>
-              </td>
-              <td align='left' width='13%' style='border-bottom: thin dashed black;'>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngSwitchCase="'4'">
+      <div class="row">
+        <div class="column-four" *ngFor="let number of numbers; index as i;">
+          <ng-container *ngTemplateOutlet="table"></ng-container>
 
-                <div class="text">  {{'productCode'| translate}}:</div>
-              </td>
-              <td width='20%' style='border-bottom: thin dashed black;' align='center'>
-                <div class="text">  {{ printableOperation.productCode }}</div>
-              </td>
-              <td align='left' width='18%' style='border-bottom: thin dashed black;'>
-                <div class="text">  {{ 'shiftName'| translate }}</div>
-              </td>
-              <td width='10%' align='center' style='border-bottom: thin dashed black;' colspan="3">
-                <div class="text">  1. 2. 3. </div>
-              </td>
-            </tr>
-            <tr>
-              <td align='center' colspan='8'>
-                <div class="text">
-                  {{ 'operationName' | translate }} : {{ (languageService.getCurrentLanguage() | async) == 'hu' ? printableOperation.name : printableOperation.translatedName}}
-                </div>
-              </td>
-            </tr>
-          </table>
-          <table cellspacing='0' width='100%' style='border: thin solid black;'>
-            <tr>
-              <td align='center' width='5%' style='border: thin solid black;'>
-                <div class="text"><b>Nr.:</b></div>
-              </td>
-              <td align='center' width='60%' style='border: thin solid black;'>
-                <div class="text"> <b>{{ 'defectName' | translate}}</b></div>
-              </td>
-              <td align='center' width='5%' style='border: thin solid black;'>
-                <div class="text"> <b>{{ 'categoryName' | translate}}</b></div>
-              </td>
-              <td align='center' width='20%' style='border: thin solid black;'>
-                <div class="text"><b>{{ 'defectQuantity' | translate }}</b></div>
-              </td>
-              <td align='center' width='10%' style='border: thin solid black;'>
-                <div class="text"><b>{{ 'sum' | translate }}</b></div>
-              </td>
-            </tr>
-            <ng-container *ngFor="let defect of printableOperation?.defects">
-              <tr class="inside-row">
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
 
-                <td style='border: thin solid black;border-left: thin solid black; border-right: thin solid black; ' align='center' width='5%'><div class="text">{{ defect.order }}</div></td>
-
-
-                <td style='border: thin solid black;' align='left' width='60%'>
-                  <div class="text">{{ (languageService.getCurrentLanguage() | async) == 'hu' ? defect.name : defect.translatedName}}</div>
-                </td>
-
-                <td style='border: thin solid black;' align='center' width='5%'> <div class="text">{{ defect.defectCategory | category}}</div></td>
-                <td style='border: thin solid black;border-left: thin solid black; border-right: thin solid black;' align='center' width='20%'></td>
-                <td style='border: thin solid black;border-right: thin solid black; ' align='center' width='10%'></td>
-              </tr>
-            </ng-container>
-            <tr>
-              <td><div class="text">Ellenőrizte:</div></td>
-              <td><div class="text">2023.01.23</div></td>
-            </tr>
-          </table>
-        </td>
-      </table>
-    </div>
-
-  </div>
 </div>
+<ng-template #table>
+  <table border='0' class="main-table">
+    <td align='center'>
+      <app-summary-card-header [code]="code"></app-summary-card-header>
+      <table cellspacing='0' class="info-table">
+        <tr>
+          <td width='13%'>
+            <div class="text-left">
+              {{'date'| translate }}:
+            </div>
+          </td>
+          <td width='20%'>&nbsp;</td>
+          <td width='13%'>
+            <div class="text-left">
+              {{ 'quantity' | translate }}:
+            </div>
+          </td>
+          <td width='20%'>&nbsp;</td>
+          <td width='33%' colspan='4'>
+            <div class="text-left">
+              {{ 'defectQuantity' | translate }}:
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td width='13%'>
+            <div class="text-left">
+              {{ 'worker' | translate}}:
+            </div>
+          </td>
+          <td width='20%'>&nbsp;</td>
+          <td width='40%' colspan='5'>
+            <div class="text-left">
+              {{ 'productName' | translate}}: {{ printableOperation.productName }}
+            </div>
+          </td>
 
-
+        </tr>
+        <tr>
+          <td width='13%' colspan="2">
+            <div class="text-left">{{ 'operationCode' | translate}}: {{ printableOperation.code }}</div>
+          </td>
+          <td width='40%' colspan="3">
+            <div class="text-left">  {{'productCode'| translate}}: {{ printableOperation.productCode }}</div>
+          </td>
+          <td width='18%'>
+            <div class="text-left">  {{ 'shiftName'| translate }}</div>
+          </td>
+          <td width='10%' colspan="3">
+            <div class="text-left">  1. 2. 3. </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan='8' class="operation-info">
+            <div class="text-center">
+              {{ 'operationName' | translate }} : {{ (languageService.getCurrentLanguage() | async) == 'hu' ? printableOperation.name : printableOperation.translatedName}}
+            </div>
+          </td>
+        </tr>
+      </table>
+      <table class="defect-table">
+        <tr>
+          <td width='5%'>
+            <div class="text-center"><b>Nr.:</b></div>
+          </td>
+          <td width='60%'>
+            <div class="text-center"> <b>{{ 'defectName' | translate}}</b></div>
+          </td>
+          <td width='5%'>
+            <div class="text-center"> <b>Kat</b></div>
+          </td>
+          <td width='20%'>
+            <div class="text-center"><b>{{ 'defectQuantity' | translate }}</b></div>
+          </td>
+          <td width='10%'>
+            <div class="text-center"><b>{{ 'sum' | translate }}</b></div>
+          </td>
+        </tr>
+        <ng-container *ngFor="let defect of printableOperation?.defects">
+          <tr class="inside-row">
+            <td class="defect-td" width='5%'>
+              <div class="text-center">
+                {{ defect.order }}
+              </div>
+            </td>
+            <td class="defect-td" width='60%'>
+              <div class="text-left">{{ (languageService.getCurrentLanguage() | async) == 'hu' ? defect.name : defect.translatedName}}</div>
+            </td>
+            <td class="defect-td" width='5%'>
+              <div class="text-center">{{ defect.defectCategory | category}}</div>
+            </td>
+            <td class="defect-td" width='20%'></td>
+            <td class="defect-td" width='10%'></td>
+          </tr>
+        </ng-container>
+        <tr>
+          <td class="footer" colspan="4"><div class="text-left">Ellenőrizte:</div></td>
+          <td class="footer"><div class="text-right">{{ currentDate | date:'yyyy.MM.dd' }}</div></td>
+        </tr>
+      </table>
+    </td>
+  </table>
+</ng-template>

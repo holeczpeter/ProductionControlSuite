@@ -1,6 +1,6 @@
 table {
   width: 100%;
-  border: thin solid black;
+  border: 1.5px  solid black;
 }
 h1{
   margin:0px;
@@ -17,10 +17,10 @@ h1{
   text-align: center;
 }
 .title {
-  width:50%;
-  text-align:center;
-  border-right: thin solid black;
-  border-left: thin solid black;
+  width: 50%;
+  text-align: center;
+  border-right: 1.5px  solid black;
+  border-left: 1.5px  solid black;
 }
 .version-item {
   width: 20%;
