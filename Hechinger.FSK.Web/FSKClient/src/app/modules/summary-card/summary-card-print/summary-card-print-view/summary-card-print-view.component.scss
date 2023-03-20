@@ -49,21 +49,11 @@
   display: table;
 }
 
-.one-element {
-  
-}
-
-.main-table {
-  overflow: hidden;
-  //width: 450px;
-  //margin-left: 20px;
-   break-inside: avoid;
-  break-after: auto;
-}
-.inside-row {
-  page-break-inside: avoid;
-  page-break-after: auto;
-  break-after: auto;
+.content {
+  columns: 2;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
 }
 
 .text-center {
@@ -78,17 +68,20 @@
   font-size: 10px;
   text-align: right;
 }
-.divider {
-  display: inline-block;
-}
+
 .info-table {
   font-size: 10px;
+
+  tr {
+   height:20px;
+  }
 
   td {
     border-bottom: thin dashed black;
   }
 }
 .defect-table {
+
   td {
     border: 1.5px solid black;
   }
@@ -103,11 +96,7 @@
 @media print {
   @page {
     size: A4 landscape;
-    margin: 10mm 10mm 10mm 10mm;
-  }
-
-  .one-element {
-  
+    margin: 5mm 5mm 5mm 5mm;
   }
 }
 
