@@ -96,8 +96,9 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
         defectCategory: this.formGroup.get('defectCategory')?.value,
         translatedName: this.formGroup.get('translatedName')?.value,
         operationId: this.formGroup.get('operation')?.value.id,
-        order: this.formGroup.get('order')?.value.id,
+        order: this.formGroup.get('order')?.value,
       };
+      console.log(model)
       this.defectDataService.add(model).subscribe(result => {
         this.snackBar.open(result);
         if (result.isSuccess) this.dialogRef.close(true);
@@ -115,7 +116,7 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
       defectCategory: this.formGroup.get('defectCategory')?.value,
       translatedName: this.formGroup.get('translatedName')?.value,
       operationId: this.formGroup.get('operation')?.value.id,
-      order: this.formGroup.get('order')?.value.id,
+      order: this.formGroup.get('order')?.value,
     };
     this.defectDataService.update(model).subscribe(result => {
       this.snackBar.open(result);

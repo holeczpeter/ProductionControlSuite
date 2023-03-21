@@ -1,66 +1,106 @@
 .button-container{
     margin-bottom:20px;
 }
-.preview {
+.paper {
+  height: 21cm;
+  min-width: 29.7cm;
+  padding: 2cm;
+  margin: 1cm auto;
+  border: 1px #D3D3D3 solid;
+  border-radius: 5px;
   background: white;
-  
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.row {
+  margin-left: -5px;
+  margin-right: -5px;
+  margin-bottom:10px;
 }
 
-.preview-content {
-  min-height: 1px;
-  break-inside: avoid;
-  break-after: page;
+.column-four {
+  float: left;
+  width: 50%;
+  padding: 5px;
+  border-right: 1px dotted black;
+  border-bottom: 1px dotted black;
 }
-.main-table {
-  max-width:500px;
-  break-inside: avoid;
-  
+.column-four:nth-child(even) {
+  border-right: none;
 }
-.inside-row {
-  break-inside: avoid;
-  break-after: auto;
+.column-four:nth-child(3) {
+  border-bottom: none;
 }
-.break-item {
-  break-before: page;
-  break-inside: auto;
-  break-after: page;
- 
+.column-four:nth-child(4) {
+  border-bottom: none;
 }
-.item {
-  display: inline-block;
-  page-break-before: always;
-  page-break-inside: auto;
-  page-break-after: always;
+.column-two {
+  float: left;
+  width: 50%;
+  padding: 5px;
+  border-right: 1px dotted black;
 }
-.divider {
-  display: inline-block;
+.column-two:nth-child(even) {
+  border-right: none;
+}
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
 }
 
+.content {
+  columns: 2;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.text-center {
+  font-size: 10px;
+  text-align: center;
+}
+.text-left {
+  font-size: 10px;
+  text-align:left;
+}
+.text-right {
+  font-size: 10px;
+  text-align: right;
+}
+
+.info-table {
+  font-size: 10px;
+
+  tr {
+   height:20px;
+  }
+
+  td {
+    border-bottom: thin dashed black;
+  }
+}
+.defect-table {
+
+  td {
+    border: 1.5px solid black;
+  }
+}
+.operation-info {
+  border-bottom:none !important;
+}
+.footer {
+  border: none !important;
+  border-bottom: none !important;
+}
 @media print {
   @page {
     size: A4 landscape;
-    margin: 10mm 10mm 10mm 10mm;
+    margin: 5mm 5mm 5mm 5mm;
   }
-  .preview-content {
-    column-count: 1;
-    -webkit-column-count: 1;
-    -moz-column-count: 1;
-  }
-  .hidden {
-    display: block;
-  }
-  .item {
-    display: inline-block;
-    /*column-count: 2;
-    -webkit-column-count: 2;
-    -moz-column-count: 2;*/
-  }
-  .break-item {
-    display:block;
-    column-count: 2;
-    -webkit-column-count: 2;
-    -moz-column-count: 2;
-  }
-  
 }
+
+
+
+
 
