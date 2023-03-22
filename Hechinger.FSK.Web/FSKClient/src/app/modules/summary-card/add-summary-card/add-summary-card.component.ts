@@ -26,20 +26,22 @@ export class AddSummaryCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cardForm = this.formBuilder.group({
-      id: [ 0, [Validators.required]],
-      date: [ new Date(), [Validators.required]],
-      workerCode: ['', [Validators.required]],
-      operation: [null, [Validators.required]],
-      quantity: [ '', [Validators.required]],
-      los: [ ''],
-      shiftId: ['', [Validators.required]],
-      items: this.formBuilder.array([])
-    }).setOriginalForm();
+    this.createForm(new Date());
     
 
   }
-
+  createForm(currentDate: Date) {
+    this.cardForm = this.formBuilder.group({
+      id: [0, [Validators.required]],
+      date: [currentDate, [Validators.required]],
+      workerCode: ['', [Validators.required]],
+      operation: [null, [Validators.required]],
+      quantity: ['', [Validators.required]],
+      los: [''],
+      shiftId: ['', [Validators.required]],
+      items: this.formBuilder.array([])
+    }).setOriginalForm();
+  }
   onSave() {
     let items = new Array<AddSummaryCardItem>();
     this.items.controls.forEach(data => {
@@ -64,7 +66,7 @@ export class AddSummaryCardComponent implements OnInit {
       this.snackBar.open(result);
       if (result.isSuccess) {
         this.items.clear();
-        this.ngOnInit();
+        this.createForm(currentDate);
       } 
     });
   }

@@ -47,7 +47,7 @@
                        OperationId = g.Key.OperationId,
                        OperationCode = op != null ? op.Code : String.Empty,
                        OperationName = op != null ? op.Name : String.Empty,
-                       OperationTranslatedName = op != null ? op.TranslatedName : String.Empty,
+                       OperationTranslatedName = op != null ? !String.IsNullOrEmpty(op.TranslatedName) ? op.TranslatedName : op.Name : string.Empty,
                        Date = g.Key.Date,
                        SummaryGoal = g.Key.SummaryGoal,
                        ShiftId = g.Key.Shift,
