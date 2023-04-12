@@ -230,6 +230,7 @@ export interface DefectModel {
   operationName: string,
   operationTranslatedName: string,
   defectCategoryName: string,
+  status: EntityStatuses,
   statusName: string,
 }
 export interface ParameterResult {
@@ -248,6 +249,7 @@ export interface DefectRequestParameters {
   code: string,
   name: string,
   translatedName: string,
+  statusName: string,
   orderBy: string,
   isAsc: boolean,
   page: number,
@@ -400,6 +402,7 @@ export interface OperationModel {
   hasDefect: boolean,
   order: number,
   ppmGoal: number,
+  status: EntityStatuses,
   statusName: string,
   defectsCount: number,
 }
@@ -430,10 +433,15 @@ export interface OperationRequestParameters {
   productName: string,
   productTranslatedName: string,
   productCode: string,
+  operationTime: string,
+  norma: string,
+  defectsCount: string,
+  ppmGoal: string,
   lang: string,
   code: string,
   name: string,
   translatedName: string,
+  statusName: string,
   orderBy: string,
   isAsc: boolean,
   page: number,
@@ -459,6 +467,7 @@ export interface RequestParameters {
   code: string,
   name: string,
   translatedName: string,
+  statusName: string,
   orderBy: string,
   isAsc: boolean,
   page: number,
@@ -526,6 +535,7 @@ export interface ProductModel {
   workshopId: number,
   workshopName: string,
   operations: Array<OperationModel>,
+  status: EntityStatuses,
   statusName: string,
   operationsCount: number,
 }
@@ -545,10 +555,12 @@ export interface GetProductsByParameters {
 }
 export interface ProductRequestParameters {
   workshopName: string,
+  operationsCount: string,
   lang: string,
   code: string,
   name: string,
   translatedName: string,
+  statusName: string,
   orderBy: string,
   isAsc: boolean,
   page: number,
@@ -952,6 +964,7 @@ export interface SummaryCardRequestParameters {
   code: string,
   name: string,
   translatedName: string,
+  statusName: string,
   orderBy: string,
   isAsc: boolean,
   page: number,
@@ -1002,6 +1015,7 @@ export interface UserModel {
   languageName: string,
   status: EntityStatuses,
   statusName: string,
+  workshops: Array<string>,
 }
 export interface GetAllUsers {
 }
@@ -1063,6 +1077,13 @@ export interface GetWorkshop {
 export interface GetWorkshopByFilter {
   filter: string,
 }
+export interface DownloadDocument {
+  file: any,
+  mimeType: string,
+  documentName: string,
+}
+export interface GetUserMaual {
+}
 export enum ConfirmationTypes {
   Information = 0,
   Warning = 1,
@@ -1093,6 +1114,11 @@ export enum DefectCategories {
   F1 = 1,
   F2 = 2,
 }
+export enum EntityStatuses {
+  Active = 1,
+  Deleted = 2,
+  InActive = 3,
+}
 export enum GroupTypes {
   Group = 0,
   Head = 1,
@@ -1108,11 +1134,6 @@ export enum MenuTypes {
   Module = 0,
   MainMenu = 1,
   SubMenu = 2,
-}
-export enum EntityStatuses {
-  Active = 1,
-  Deleted = 2,
-  InActive = 3,
 }
 export enum EnvironmentTypes {
   TEST = 0,

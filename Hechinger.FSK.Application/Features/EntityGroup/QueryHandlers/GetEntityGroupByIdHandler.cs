@@ -1,4 +1,7 @@
-﻿namespace Hechinger.FSK.Application.Features
+﻿using System.Diagnostics;
+using System.Linq;
+
+namespace Hechinger.FSK.Application.Features
 {
     public class GetEntityGroupByIdHandler : IRequestHandler<GetEntityGroupById, TreeItem<EntityGroupModel>>
     {
@@ -10,46 +13,82 @@
         public async Task<TreeItem<EntityGroupModel>> Handle(GetEntityGroupById request, CancellationToken cancellationToken)
         {
 
-            var groups = this.context.EntityGroups.Where(x => x.EntityStatus == EntityStatuses.Active).ToList().Select(item => new EntityGroupModel()
+            Stopwatch queres = new Stopwatch();
+            queres.Start();
+           
+            var products = await this.context.Products.Select(relation => new EntityGroupRelationModel()
             {
-                Id = item.Id,
-                Name = item.Name,
-                ParentId = item.ParentId != null ? item.ParentId.Value : 0,
-                TranslatedName = item.TranslatedName,
-                GroupType = item.GroupType,
-                Order = item.Order,
-                PpmGoal  = item.PpmGoal,
-                Relations = item.EntityGroupRelations.Where(x => x.EntityStatus == EntityStatuses.Active)
-                                                    .ToList()
-                                                    .Select(relation =>
-                                                    {
-                                                        var entity = relation.EntityType == EntityTypes.Product ? this.context.Products.Where(p => p.Id == relation.EntityId).Select(p => new { Code = p.Code, Name = p.Name }).FirstOrDefault() :
-                                                                     (relation.EntityType == EntityTypes.Operation ? this.context.Operations.Where(o => o.Id == relation.EntityId).Select(o => new { Code = o.Code, Name = o.Name }).FirstOrDefault() :
-                                                                    this.context.Defects.Where(d => d.Id == relation.EntityId).Select(d => new { Code = d.Code, Name = d.Name }).FirstOrDefault());
-                                                        return new EntityGroupRelationModel()
-                                                        {
 
-                                                            Id = relation.Id,
-                                                            Code = entity != null ? entity.Code : String.Empty,
-                                                            Name = entity != null ? entity.Name : String.Empty,
-                                                            EntityGroupId = relation.EntityGroupId,
-                                                            EntityId = relation.EntityId,
-                                                            EntityType = relation.EntityType,
-                                                        };
-                                                    }).ToList(),
-            });
-
-            var results = groups.GenerateTree(i => i.Id, i => i.ParentId).ToList();
-            foreach (var item in results)
+                Id = relation.Id,
+                Code = relation.Code,
+                Name = relation.Name,
+            }).AsNoTracking().ToListAsync(cancellationToken);
+            var operations = await this.context.Operations.Select(relation => new EntityGroupRelationModel()
             {
-                var result = TreeHelper.FindNode(item, request.Id);
-                if (result != null) 
-                {
-                    return result;
-                }
-                
-            }
-            return null;
+
+                Id = relation.Id,
+                Code = relation.Code,
+                Name = relation.Name,
+            }).AsNoTracking().ToListAsync(cancellationToken);
+            var defects = await this.context.Defects.Select(relation => new EntityGroupRelationModel()
+            {
+
+                Id = relation.Id,
+                Code = relation.Code,
+                Name = relation.Name,
+            }).AsNoTracking().ToListAsync(cancellationToken);
+            Debug.WriteLine("Lekérdezések: " + queres.Elapsed.TotalMilliseconds);
+            Stopwatch query = new Stopwatch();
+            query.Start();
+            
+            var groups = this.context.EntityGroups
+                        .Where(x => x.EntityStatus == EntityStatuses.Active)
+                        .Include(x => x.EntityGroupRelations)
+                        .AsNoTracking()
+                        .ToList()
+                        .Select(item => new EntityGroupModel()
+                        {
+                            Id = item.Id,
+                            Name = item.Name,
+                            ParentId = item.ParentId ?? 0,
+                            TranslatedName = item.TranslatedName,
+                            GroupType = item.GroupType,
+                            Order = item.Order,
+                            PpmGoal = item.PpmGoal,
+                            Relations = item.EntityGroupRelations
+                                .Where(x => x.EntityStatus == EntityStatuses.Active)
+                                .Select(relation =>
+                                {
+                                    var entity = relation.EntityType == EntityTypes.Product ? products.FirstOrDefault(p => p.Id == relation.EntityId) :
+                                        (relation.EntityType == EntityTypes.Operation ? operations.FirstOrDefault(o => o.Id == relation.EntityId) :
+                                        defects.FirstOrDefault(d => d.Id == relation.EntityId));
+                                    return new EntityGroupRelationModel()
+                                    {
+
+                                        Id = relation.Id,
+                                        Code = entity?.Code ?? string.Empty,
+                                        Name = entity?.Name ?? string.Empty,
+                                        EntityGroupId = relation.EntityGroupId,
+                                        EntityId = relation.EntityId,
+                                        EntityType = relation.EntityType,
+                                    };
+                                }).ToList(),
+                        }).ToList();
+
+            query.Stop();
+            Debug.WriteLine("Lekérdezés: " + query.Elapsed.TotalMilliseconds);
+
+
+            Stopwatch tree = new Stopwatch();
+            tree.Start();
+            var parent = groups.Where(x => x.Id == request.Id).Select(x => x.ParentId).FirstOrDefault();
+            var results = groups.GenerateSubtree(i => i.Id, i => i.ParentId, parent).ToList();
+
+
+            tree.Stop();
+            Debug.WriteLine("Fa: " + tree.Elapsed.TotalMilliseconds);
+
+            return results.FirstOrDefault();
         }
     }
 }
