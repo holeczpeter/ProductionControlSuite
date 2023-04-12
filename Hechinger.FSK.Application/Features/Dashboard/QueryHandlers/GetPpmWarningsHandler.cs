@@ -11,10 +11,16 @@
         }
         public async Task<IEnumerable<PpmWarning>> Handle(GetPpmWarnings request, CancellationToken cancellationToken)
         {
+            var ops = await this.context.Operations.Where(x=>x.EntityStatus == EntityStatuses.Active)
+                .AsNoTracking()
+                .Select(x => new { Id = x.Id, Name = x.Name, Code = x.Code, TranslatedName = x.TranslatedName })
+                .ToListAsync(cancellationToken);
+
             var workshops = await this.context.Workshops
                 .AsNoTracking()
                 .Select(w => new { Id = w.Id, Name = w.Name })
                 .ToListAsync(cancellationToken);
+
             var items = await this.context.SummaryCards
                .Where(sc => sc.Date.Date >= request.StartDate.Date.Date &&
                             sc.Date.Date <= request.EndDate.Date &&
@@ -41,7 +47,7 @@
                })
                .Select(g =>
                {
-                   var op = this.context.Operations.Where(x => x.Id == g.Key.OperationId).Select(x => new { Name = x.Name, Code = x.Code, TranslatedName = x.TranslatedName }).FirstOrDefault();
+                   var op = ops.Where(x => x.Id == g.Key.OperationId).Select(x=>x).FirstOrDefault();
                    return new PpmWarning()
                    {
                        OperationId = g.Key.OperationId,

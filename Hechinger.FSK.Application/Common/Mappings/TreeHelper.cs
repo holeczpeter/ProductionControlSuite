@@ -1,9 +1,12 @@
 ﻿using Hechinger.FSK.Application.Features;
+using System.Linq.Expressions;
 
 namespace Hechinger.FSK.Application.Common
 {
     public static class TreeHelper
     {
+       
+        
         public static IEnumerable<TreeItem<T>> GenerateTree<T, K>(
             this IEnumerable<T> collection,
             Func<T, K> id_selector,
@@ -20,7 +23,23 @@ namespace Hechinger.FSK.Application.Common
                 };
             }
         }
-
+        public static IEnumerable<TreeItem<T>> GenerateSubtree<T, K>(
+         this List<T> collection,
+         Func<T, K> id_selector,
+         Func<T, K> parent_id_selector,
+         K id)
+        {
+            var nodes = collection.ToDictionary(x => id_selector(x), x => x);
+            foreach (var c in collection.Where(c => parent_id_selector(c).Equals(id)))
+            {
+                yield return new TreeItem<T>
+                {
+                    Node = c,
+                    Children = GenerateSubtree(collection, id_selector, parent_id_selector, id_selector(c)),
+                    Collapsed = false
+                };
+            }
+        }
         public static IEnumerable<TreeItem<EntityGroupRelation>> GenerateTreeExtension<T, K>(
             this IEnumerable<EntityGroupRelation> collection,
             Func<EntityGroupRelation, K> id_selector,

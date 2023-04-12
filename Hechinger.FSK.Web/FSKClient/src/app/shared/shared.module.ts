@@ -79,6 +79,7 @@ import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { InitialAvatarComponent } from './initial-avatar/initial-avatar.component';
 import { HelpCenterComponent } from './help-center/help-center.component';
 import { TranslatedPaginatorService } from '../services/paginator/translated-paginator.service';
+import { CancelHttpInterceptor } from '../services/interceptors/cancel-http.interceptor';
 
 
 @NgModule({
@@ -247,6 +248,8 @@ import { TranslatedPaginatorService } from '../services/paginator/translated-pag
     { provide: DateAdapter, useClass: LocaleDateAdapterService },
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    
+    
   ],
   entryComponents: [
     LoaderComponent,

@@ -56,7 +56,7 @@ import { TokenRequestModel } from '../../models/generated/generated';
           }),
           catchError((err) => {
             this.isRefreshing = false;
-
+            this.snackBarService.open(new ResultBuilder().setSuccess(false).setMessage("Az Ön munkamenete lejárt").build());
             this.accountService.logout();
             throw new Error(JSON.stringify(err));
           })
