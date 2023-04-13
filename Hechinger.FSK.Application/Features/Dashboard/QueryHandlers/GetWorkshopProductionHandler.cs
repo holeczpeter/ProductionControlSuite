@@ -9,6 +9,8 @@
             this.context = context ?? throw new ArgumentNullException(nameof(context));
             this.qualityService = qualityService ?? throw new ArgumentNullException(nameof(qualityService));
         }
+
+
         public async Task<IEnumerable<WorkshopProduction>> Handle(GetWorkshopProduction request, CancellationToken cancellationToken)
         {
             var workshops = await this.context.Workshops
@@ -26,7 +28,7 @@
                      Quantity = sc.Quantity,
                      DefectQuantity = sc.DefectQuantity
                  }).ToListAsync(cancellationToken);
-           
+
 
             var items = cardItems.GroupBy(sc => new { WorkshopId = sc.WorkshopId, Date = sc.Date.Date }).Select(g => new ProductionDayInfo()
             {
@@ -35,12 +37,12 @@
                 DefectQuantity = g.ToList().Select(x => x.DefectQuantity).Sum(),
                 Quantity = g.ToList().Select(x => x.Quantity).Sum(),
             }).ToList();
-            
+
             var results = workshops.Select(w => new WorkshopProduction()
             {
                 WorkshopId = w.Id,
                 WorkshopName = w.Name,
-                Days = items.Where(x=>x.WorkshopId == w.Id).ToList(),
+                Days = items.Where(x => x.WorkshopId == w.Id).ToList(),
 
             }).ToList();
             return results;

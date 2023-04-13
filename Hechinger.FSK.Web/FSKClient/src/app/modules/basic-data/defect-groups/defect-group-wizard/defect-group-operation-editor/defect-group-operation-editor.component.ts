@@ -53,7 +53,7 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
         params = params.append('productIds', productIds);
         params = params.append('groupId', this.entityGroupService.treeForm.get('node')?.value.id);
         this.entityGroupDataService.getOperationsForRelation(params).subscribe(res => {
-       
+          if (res == null) res = new Array<EntityGroupRelationModel>();
           this.entityGroupService.allOperations = res;
           const allUsed = this.entityGroupService.getAllOperationRelation();
           const difference = this.entityGroupService.allOperations.filter(x => !allUsed.map((x: EntityGroupRelationModel) => x.entityId).includes(x.entityId));

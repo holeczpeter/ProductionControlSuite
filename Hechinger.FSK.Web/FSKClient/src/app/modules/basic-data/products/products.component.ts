@@ -107,7 +107,7 @@ export class ProductsComponent implements OnInit, AfterViewInit{
   initalize() {
     this.productDataService.getProductsByParameters(null).subscribe(result => {
       this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
-      console.log(this.totalCount)
+      
       this.dataSource = new MatTableDataSource<ProductModel>(result.body);
       this.createDinamicallyFormGroup();
       this.filterForm.valueChanges.pipe(

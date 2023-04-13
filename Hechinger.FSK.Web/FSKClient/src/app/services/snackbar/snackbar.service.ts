@@ -25,7 +25,8 @@ export class SnackbarService {
   open(result: Result) {
     if (result && result.isSuccess) this.config.panelClass = 'success';
     else this.config.panelClass = 'error';
-    let errorText = result.errors && result.errors.length > 0 ? result.errors[0] : "a";
+    let errorText = result.errors && result.errors.length > 0 ? result.errors[0] : " ";
+    
     forkJoin(this.translate.get(result.message), this.translate.get(errorText), this.translate.get("close")).subscribe(([resultText, error, close]) => {
       let errorInfo = result.errors.length > 1 ? " - " + result.errors[1] : "";
       let currentLangMessage = result.isSuccess ? resultText : resultText + ": " + error +  errorInfo;

@@ -29,7 +29,7 @@ export class SpinnerInterceptor implements HttpInterceptor {
       .pipe(
         tap((event: HttpEvent<any>) => {
           if (event.type === HttpEventType.UploadProgress) {
-            const progressValue = event ?  Math.round((100 * event.loaded) / event.total!) : 0;
+            const progressValue = event ? Math.round((100 * event.loaded) / event.total!) : 0;
             let propressPercent = progressValue + " %";
             if (progressValue === 100) {
               setTimeout(() => {
@@ -45,9 +45,11 @@ export class SpinnerInterceptor implements HttpInterceptor {
           }
 
         }, (error) => {
+          console.log(error)
           this.currentRequests = 0;
           this.spinnerService.hide();
         })
+        
       );
   }
 

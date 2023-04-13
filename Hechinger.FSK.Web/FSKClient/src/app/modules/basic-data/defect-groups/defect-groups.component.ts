@@ -102,7 +102,10 @@ export class DefectGroupsComponent implements OnInit {
 
       this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
       this.refresh(this.results);
-      
+      if (expandedElement) {
+        this.treeControl.expandDescendants(expandedElement);
+      } 
+     
     });
   }
   refresh(items: Array<TreeItem<EntityGroupModel>>) {
@@ -111,17 +114,21 @@ export class DefectGroupsComponent implements OnInit {
 
   getParentNode(node: TreeItemFlatNode<EntityGroupModel>): TreeItemFlatNode<EntityGroupModel> | null {
     const currentLevel = this.getLevel(node);
+    console.log(currentLevel)
     if (currentLevel < 1) return null;
     const startIndex = this.treeControl.dataNodes.indexOf(node) - 1;
+    console.log(startIndex)
     for (let i = startIndex; i >= 0; i--) {
       const currentNode = this.treeControl.dataNodes[i];
+      console.log(currentLevel)
       if (this.getLevel(currentNode) < currentLevel) {
+        console.log(currentNode)
         return currentNode;
       }
     }
     return null;
   }
- 
+  
 
   addGroupFromNode() {
     let current: EntityGroupModel = {
@@ -143,7 +150,10 @@ export class DefectGroupsComponent implements OnInit {
       disableClose: true,
       autoFocus: false,
       data: tree,
-      minWidth: '750px'
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+      height: '95%',
+      width: '95%',
     });
     dialogRef.afterClosed().subscribe((result) => {
       this.initalize(null);
@@ -174,7 +184,11 @@ export class DefectGroupsComponent implements OnInit {
           disableClose: true,
           autoFocus: false,
           data: tree,
-          minWidth: '750px'
+          maxWidth: '95vw',
+          maxHeight: '95vh',
+          height: '95%',
+          width: '95%',
+          
         });
         dialogRef.afterClosed().subscribe((result) => {
           this.initalize(null);
@@ -185,16 +199,20 @@ export class DefectGroupsComponent implements OnInit {
   }
   edit(node: TreeItemFlatNode<EntityGroupModel>) {
     const currentNode = this.flatNodeMap.get(node);
+    
     if (currentNode) {
       let dialogRef = this.dialog.open(DefectGroupWizardComponent, {
         disableClose: true,
         autoFocus: false,
         data: currentNode,
-        minWidth:'1400px'
+        maxWidth: '95vw',
+        maxHeight: '95vh',
+        height: '95%',
+        width: '95%',
       });
       dialogRef.afterClosed().subscribe((result) => {
         this.initalize(node);
-        this.treeControl.expand(node);
+       
       });
     }
   }

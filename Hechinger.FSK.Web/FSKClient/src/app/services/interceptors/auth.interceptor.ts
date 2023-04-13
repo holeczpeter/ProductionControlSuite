@@ -11,6 +11,7 @@ import { AccountService } from '../account.service';
 import { SnackbarService } from '../snackbar/snackbar.service';
 import { ResultBuilder } from '../result/result-builder';
 import { TokenRequestModel } from '../../models/generated/generated';
+import { SpinnerService } from '../spinner/spinner.service';
 
 @Injectable()
 
@@ -18,7 +19,10 @@ import { TokenRequestModel } from '../../models/generated/generated';
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(private accountService: AccountService, private snackBarService: SnackbarService) { }
+  constructor(private accountService: AccountService,
+    private snackBarService: SnackbarService,
+    private spinnerService: SpinnerService) {
+  }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let authReq = req;
@@ -55,8 +59,10 @@ import { TokenRequestModel } from '../../models/generated/generated';
             return next.handle(this.addTokenHeader(request, token.token));
           }),
           catchError((err) => {
+           
             this.isRefreshing = false;
-            this.snackBarService.open(new ResultBuilder().setSuccess(false).setMessage("Az Ön munkamenete lejárt").build());
+            this.spinnerService.hide;
+            this.snackBarService.open(new ResultBuilder().setSuccess(false).setMessage("tokenExpiration").build());
             this.accountService.logout();
             throw new Error(JSON.stringify(err));
           })

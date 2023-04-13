@@ -38,8 +38,7 @@ export class SummaryCardPrintViewComponent implements OnInit, OnChanges {
           this.secondList = this.printableOperation.defects.slice(33, this.printableOperation.defects.length-1);
         } 
         this.numbers = Array(this.count).fill(0).map((x, i) => i);
-        console.log(this.numbers);
-        console.log(this.count)
+        
       });
     }
   }

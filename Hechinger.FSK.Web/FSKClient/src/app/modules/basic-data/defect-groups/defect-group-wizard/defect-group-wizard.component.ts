@@ -40,15 +40,27 @@ export class DefectGroupWizardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let request = { id: this.incomingData.node.id };
-    this.entityGroupDataService.get(request).subscribe(x => {
-      this.data = x;
-      if (this.data) this.entityGroupService.refreshTree(this.data);
-      else this.entityGroupService.refreshTree(this.incomingData);
+    
+    if (this.incomingData.node.id == 0) {
+      this.data = this.incomingData;
+      this.entityGroupService.refreshTree(this.incomingData);
       this.entityGroupService.treeForm.get('node')?.get('groupType')?.valueChanges.pipe(startWith(this.entityGroupService.treeForm.get('node')?.get('groupType')?.value)).subscribe(x => {
         this.isHead = x == GroupTypes.Head;
       });
-    });
+    }
+    else {
+      let request = { id: this.incomingData.node.id };
+      this.entityGroupDataService.get(request).subscribe(x => {
+        this.data = x;
+        this.entityGroupService.refreshTree(this.data);
+        //if (this.data) this.entityGroupService.refreshTree(this.data);
+        //else this.entityGroupService.refreshTree(this.incomingData);
+        this.entityGroupService.treeForm.get('node')?.get('groupType')?.valueChanges.pipe(startWith(this.entityGroupService.treeForm.get('node')?.get('groupType')?.value)).subscribe(x => {
+          this.isHead = x == GroupTypes.Head;
+        });
+      });
+    }
+    
   }
   
   public onStepChange(event: any): void {

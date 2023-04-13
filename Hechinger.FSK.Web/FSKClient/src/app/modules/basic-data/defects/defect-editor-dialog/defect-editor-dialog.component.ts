@@ -98,7 +98,7 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
         operationId: this.formGroup.get('operation')?.value.id,
         order: this.formGroup.get('order')?.value,
       };
-      console.log(model)
+     
       this.defectDataService.add(model).subscribe(result => {
         this.snackBar.open(result);
         if (result.isSuccess) this.dialogRef.close(true);
