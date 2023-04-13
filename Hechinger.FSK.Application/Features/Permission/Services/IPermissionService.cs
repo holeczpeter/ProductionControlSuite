@@ -8,7 +8,7 @@ namespace Hechinger.FSK.Application.Features
         /// </summary>
         /// <param name="cancellation"></param>
         /// <returns></returns>
-        Task<IEnumerable<int>> GetPermissionToDefects(CancellationToken cancellation);
+        Task<List<int>> GetPermissionToDefects(CancellationToken cancellation);
 
 
         /// <summary>
@@ -16,7 +16,7 @@ namespace Hechinger.FSK.Application.Features
         /// </summary>
         /// <param name="cancellation"></param>
         /// <returns></returns>
-        Task<IEnumerable<int>> GetPermissionToOperations(CancellationToken cancellation);
+        Task<List<int>> GetPermissionToOperations(CancellationToken cancellation);
 
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Hechinger.FSK.Application.Features
         /// </summary>
         /// <param name="cancellation"></param>
         /// <returns></returns>
-        Task<IEnumerable<int>> GetPermissionToProducts(CancellationToken cancellation);
+        Task<List<int>> GetPermissionToProducts(CancellationToken cancellation);
 
 
         /// <summary>
@@ -32,6 +32,6 @@ namespace Hechinger.FSK.Application.Features
         /// </summary>
         /// <param name="cancellation"></param>
         /// <returns></returns>
-        Task<IEnumerable<int>> GetPermissionToWorkshops(CancellationToken cancellation);
+        Task<List<int>> GetPermissionToWorkshops(CancellationToken cancellation);
     }
 }

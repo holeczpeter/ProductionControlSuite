@@ -12,7 +12,7 @@
         {
             var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
 
-            var currentEntity = await this.context.EntityGroups.Where(x => x.Id == item.Node.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync();
+            var currentEntity = await this.context.EntityGroups.Where(x => x.Id == item.Node.Id && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
             if (currentEntity == null) currentEntity = new EntityGroup();
             currentEntity.Name = item.Node.Name;
             currentEntity.TranslatedName = item.Node.TranslatedName;
@@ -67,7 +67,7 @@
         {
             var result = new ResultBuilder<bool>().SetMessage("unsuccessfulSave").SetIsSuccess(false).Build();
 
-            var currentEntity = await this.context.EntityGroups.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var currentEntity = await this.context.EntityGroups.Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
             if (currentEntity == null)
             {
                 result.Errors.Add("defectGroup.notFound");

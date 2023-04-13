@@ -16,15 +16,15 @@ import { AccountService } from '../account.service';
 @Injectable()
 export class SpinnerInterceptor implements HttpInterceptor {
 
-  private currentRequests: number;
+  
   constructor(private spinnerService: SpinnerService,
     router: Router) {
-    this.currentRequests = 0;
+    this.spinnerService.currentRequests = 0;
     
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.incrementRequestCount();
+    this.spinnerService.incrementRequestCount();
     return next.handle(request)
       .pipe(
         tap((event: HttpEvent<any>) => {
@@ -41,23 +41,13 @@ export class SpinnerInterceptor implements HttpInterceptor {
             }
           }
           if (event instanceof HttpResponse) {
-            this.decrementRequestCount();
+            this.spinnerService.decrementRequestCount();
           }
 
         }, (error) => {
           console.log(error)
-          this.currentRequests = 0;
           this.spinnerService.hide();
         })
-        
       );
-  }
-
-  private decrementRequestCount(): void {
-    if (--this.currentRequests === 0 && this.spinnerService.enabled$.value) this.spinnerService.hide();
-  }
-
-  private incrementRequestCount(): void {
-    if (this.currentRequests++ === 0 && this.spinnerService.enabled$.value) this.spinnerService.show();
   }
 }

@@ -16,7 +16,7 @@
                     items.Add(new EnumModel() { Id = item, Name = ((GroupTypes)item).GetDescription() });
                 }
                 return request.IsAll ? items : items.Where(x=>x.Id == 0 || x.Id == 1);
-            });
+            }, cancellationToken);
 
         }
     }

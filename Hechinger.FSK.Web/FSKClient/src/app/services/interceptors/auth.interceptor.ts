@@ -59,7 +59,7 @@ import { SpinnerService } from '../spinner/spinner.service';
             return next.handle(this.addTokenHeader(request, token.token));
           }),
           catchError((err) => {
-           
+            console.log(err)
             this.isRefreshing = false;
             this.spinnerService.hide;
             this.snackBarService.open(new ResultBuilder().setSuccess(false).setMessage("tokenExpiration").build());

@@ -36,25 +36,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     public translateService: TranslateService,
     private chartService: ChartService,
     private readonly intervalPanelService: IntervalViewService) {
-    if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
-    this.langChangeSubscription = this.translateService.onLangChange.subscribe(lang => {
-      this.subtitle = this.chartService.getChartInterval(this.currentInterval);
-      this.ppmSummary = this.getSummaryPPM();
-      this.crapCostSummary = this.getSummaryCrapCost();
-      this.quanitySummary = this.getSummaryQuantity();
-      this.defectQuantitySummary = this.getSummaryDefectQuantity();
-    });
-    this.selectedView = this.intervalOptions.find(x => x.isDefault)!.value;
-    if (this.intervalSubscription) this.intervalSubscription.unsubscribe();
-    this.intervalSubscription = this.intervalPanelService.getCurrentIntervalModel()
-      .pipe(distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)))
-      .subscribe((x: IntervalModel) => {
-        this.currentInterval = x;
-        this.selectedView = x.selectedView;
-        this.createChart();
-        this.subtitle = this.chartService.getChartInterval(this.currentInterval);
-      });
-    this.intervalPanelService.setViews(this.selectedView, new Date());
+    
 
   }
   createChart() {
@@ -144,7 +126,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit(): void {
-
+    if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
+    this.langChangeSubscription = this.translateService.onLangChange.subscribe(lang => {
+      this.subtitle = this.chartService.getChartInterval(this.currentInterval);
+      this.ppmSummary = this.getSummaryPPM();
+      this.crapCostSummary = this.getSummaryCrapCost();
+      this.quanitySummary = this.getSummaryQuantity();
+      this.defectQuantitySummary = this.getSummaryDefectQuantity();
+    });
+    this.selectedView = this.intervalOptions.find(x => x.isDefault)!.value;
+    if (this.intervalSubscription) this.intervalSubscription.unsubscribe();
+    this.intervalSubscription = this.intervalPanelService.getCurrentIntervalModel()
+      .pipe(distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)))
+      .subscribe((x: IntervalModel) => {
+        this.currentInterval = x;
+        this.selectedView = x.selectedView;
+        this.createChart();
+        this.subtitle = this.chartService.getChartInterval(this.currentInterval);
+      });
+    this.intervalPanelService.setViews(this.selectedView, new Date());
   }
   ngOnDestroy() {
     if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();

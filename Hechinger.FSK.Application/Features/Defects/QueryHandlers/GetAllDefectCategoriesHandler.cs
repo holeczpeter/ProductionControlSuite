@@ -18,7 +18,7 @@ namespace Hechinger.FSK.Application.Features
                     items.Add(new EnumModel() { Id = item, Name = ((DefectCategories)item).GetDescription() });
                 }
                 return items;
-            });
+            }, cancellationToken);
 
         }
     }

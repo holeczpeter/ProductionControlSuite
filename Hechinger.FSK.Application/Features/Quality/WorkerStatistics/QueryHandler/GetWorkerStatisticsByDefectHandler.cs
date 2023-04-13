@@ -20,7 +20,7 @@
                 Name = x.Name,  
                 TranslatedName = x.TranslatedName,
                 Category = x.DefectCategory,
-            }).FirstOrDefaultAsync();
+            }).FirstOrDefaultAsync(cancellationToken);
             var items = await (from c in this.context.SummaryCards
                                join i in this.context.SummaryCardItems on c.Id equals i.SummaryCardId
                                where c.Date.Date >= request.StartDate &&

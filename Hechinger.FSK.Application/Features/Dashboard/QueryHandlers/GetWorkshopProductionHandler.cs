@@ -1,4 +1,6 @@
-﻿namespace Hechinger.FSK.Application.Features
+﻿using System.Diagnostics;
+
+namespace Hechinger.FSK.Application.Features
 {
     public class GetWorkshopProductionHandler : IRequestHandler<GetWorkshopProduction, IEnumerable<WorkshopProduction>>
     {
@@ -13,10 +15,12 @@
 
         public async Task<IEnumerable<WorkshopProduction>> Handle(GetWorkshopProduction request, CancellationToken cancellationToken)
         {
+            if(cancellationToken.IsCancellationRequested) { Debug.WriteLine("CancellationToken"); }
             var workshops = await this.context.Workshops
                 .AsNoTracking()
                 .Select(w => new { Id = w.Id, Name = w.Name })
                 .ToListAsync(cancellationToken);
+            if (cancellationToken.IsCancellationRequested) { return null; }
             var cardItems = await this.context.SummaryCards
                  .Where(sc => sc.Date.Date >= request.StartDate.Date.Date &&
                               sc.Date.Date <= request.EndDate.Date &&
@@ -28,7 +32,7 @@
                      Quantity = sc.Quantity,
                      DefectQuantity = sc.DefectQuantity
                  }).ToListAsync(cancellationToken);
-
+            if (cancellationToken.IsCancellationRequested) { Debug.WriteLine("CancellationToken"); }
 
             var items = cardItems.GroupBy(sc => new { WorkshopId = sc.WorkshopId, Date = sc.Date.Date }).Select(g => new ProductionDayInfo()
             {
@@ -37,7 +41,7 @@
                 DefectQuantity = g.ToList().Select(x => x.DefectQuantity).Sum(),
                 Quantity = g.ToList().Select(x => x.Quantity).Sum(),
             }).ToList();
-
+            if (cancellationToken.IsCancellationRequested) { Debug.WriteLine("CancellationToken"); }
             var results = workshops.Select(w => new WorkshopProduction()
             {
                 WorkshopId = w.Id,
@@ -45,6 +49,7 @@
                 Days = items.Where(x => x.WorkshopId == w.Id).ToList(),
 
             }).ToList();
+            if (cancellationToken.IsCancellationRequested) { Debug.WriteLine("CancellationToken"); }
             return results;
 
         }

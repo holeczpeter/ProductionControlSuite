@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
-
-namespace Hechinger.FSK.Application.Features
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class PermissionService : IPermissionService
     {
@@ -10,7 +7,7 @@ namespace Hechinger.FSK.Application.Features
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));        }
 
-        public async Task<IEnumerable<int>> GetPermissionToWorkshops(CancellationToken cancellationToken)
+        public async Task<List<int>> GetPermissionToWorkshops(CancellationToken cancellationToken)
         {
             var userId = this.context.GetCurrentUser();
             return await (from u in this.context.WorkshopUsers
@@ -21,7 +18,7 @@ namespace Hechinger.FSK.Application.Features
                           select w.Id).ToListAsync(cancellationToken);
             
         }
-        public async Task<IEnumerable<int>> GetPermissionToProducts(CancellationToken cancellationToken)
+        public async Task<List<int>> GetPermissionToProducts(CancellationToken cancellationToken)
         {
             var userId = this.context.GetCurrentUser();
             return await (from u in this.context.WorkshopUsers
@@ -34,7 +31,7 @@ namespace Hechinger.FSK.Application.Features
                           select p.Id).ToListAsync(cancellationToken);
 
         }
-        public async Task<IEnumerable<int>> GetPermissionToOperations(CancellationToken cancellationToken)
+        public async Task<List<int>> GetPermissionToOperations(CancellationToken cancellationToken)
         {
             var userId = this.context.GetCurrentUser();
           
@@ -51,7 +48,7 @@ namespace Hechinger.FSK.Application.Features
             
 
         }
-        public async Task<IEnumerable<int>> GetPermissionToDefects(CancellationToken cancellationToken)
+        public async Task<List<int>> GetPermissionToDefects(CancellationToken cancellationToken)
         {
             var userId = this.context.GetCurrentUser();
             return await (from u in this.context.WorkshopUsers

@@ -43,7 +43,7 @@
                     Ppm = this.qualityService.GetPpm(g.ToList().Select(x => x.Quantity).Sum(), g.ToList().Select(x => x.DefectQuantity).Sum()),
                 }).ToList();
 
-
+            //TODO: DEfect query
             //TODO: A DAYS QUERY JÓ-E. HA EGY IDŐSZAKBAN NEM MINDEN RÉSZIDŐSZAKBAN volt gyártás, akkor az átlag nem jó:
             //3200 + 2000 +1000 / 3
             //3200 + 0 + 0 / 1
