@@ -12,7 +12,7 @@
     <div class="documentation"> <a [href]="pdfUrl" [download]="currentFilename"> Felhasználói kézikönyv</a></div>
     <img class="logo" [src]="imageSrc" class="logo" />
     <div class="version">
-      <div>{{'version' | translate}}{{applicationInformation?.version}}</div>
+      <div>{{'version' | translate}}: {{applicationInformation?.version}}</div>
       <div>{{applicationInformation?.copyRight}}</div>
     </div>
   </mat-dialog-content>
