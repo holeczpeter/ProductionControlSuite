@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Hechinger.FSK.Application.Common;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Hechinger.FSK.Application.Features
@@ -12,7 +13,7 @@ namespace Hechinger.FSK.Application.Features
         }
         public async Task<TreeItem<EntityGroupModel>> Handle(GetEntityGroupById request, CancellationToken cancellationToken)
         {
-
+            
             Stopwatch queres = new Stopwatch();
             queres.Start();
            
@@ -23,6 +24,7 @@ namespace Hechinger.FSK.Application.Features
                 Code = relation.Code,
                 Name = relation.Name,
             }).AsNoTracking().ToListAsync(cancellationToken);
+
             var operations = await this.context.Operations.Select(relation => new EntityGroupRelationModel()
             {
 
@@ -30,6 +32,7 @@ namespace Hechinger.FSK.Application.Features
                 Code = relation.Code,
                 Name = relation.Name,
             }).AsNoTracking().ToListAsync(cancellationToken);
+
             var defects = await this.context.Defects.Select(relation => new EntityGroupRelationModel()
             {
 
@@ -37,6 +40,7 @@ namespace Hechinger.FSK.Application.Features
                 Code = relation.Code,
                 Name = relation.Name,
             }).AsNoTracking().ToListAsync(cancellationToken);
+
             Debug.WriteLine("Lekérdezések: " + queres.Elapsed.TotalMilliseconds);
             Stopwatch query = new Stopwatch();
             query.Start();
@@ -78,17 +82,16 @@ namespace Hechinger.FSK.Application.Features
             query.Stop();
             Debug.WriteLine("Lekérdezés: " + query.Elapsed.TotalMilliseconds);
 
-
             Stopwatch tree = new Stopwatch();
             tree.Start();
-            var parent = groups.Where(x => x.Id == request.Id).Select(x => x.ParentId).FirstOrDefault();
-            var results = groups.GenerateSubtree(i => i.Id, i => i.ParentId, parent).ToList();
+            
+            var results = groups.GenerateSubtreeCurrent(i => i.Id, i => i.ParentId, request.Id).ToList();
 
 
             tree.Stop();
             Debug.WriteLine("Fa: " + tree.Elapsed.TotalMilliseconds);
 
-            return results.FirstOrDefault();
+            return results.Where(x=>x.Node.Id == request.Id).FirstOrDefault();
         }
     }
 }

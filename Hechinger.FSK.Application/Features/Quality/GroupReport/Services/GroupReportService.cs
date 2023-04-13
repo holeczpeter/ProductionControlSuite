@@ -70,8 +70,8 @@ namespace Hechinger.FSK.Application.Features
 
             foreach (var op in operationsGroupsId)
             {
-                var operationCodes = this.context.Operations.Where(x => op.RelationsIds.Select(i => i.EntityId).Contains(x.Id)).Select(x => x.Code).ToList();
-                var operationCodeList = operationCodes.Aggregate((current, next) => current + ", " + next);
+                var operationCodes = await this.context.Operations.Where(x => op.RelationsIds.Select(i => i.EntityId).Contains(x.Id)).Select(x => x.Code).ToListAsync(cancellationToken);
+                var operationCodeList = operationCodes.Any() ? operationCodes.Aggregate((current, next) => current + ", " + next) : string.Empty;
                 var cards = await this.context.SummaryCards
                            .Where(sc =>
                                  op.RelationsIds.Select(r => r.EntityId).Contains(sc.OperationId) &&

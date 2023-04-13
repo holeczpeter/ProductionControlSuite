@@ -31,6 +31,7 @@
   "logininprogress": "Anmeldung im Gange...",
   "newpasswordrequestinprogress": "Neue Passwortanforderung läuft...",
   "changepasswordinprogress": "Passwortänderung ist im Gange...",
+  "tokenExpiration": "Ihre Sitzung ist abgelaufen",
   "applicationsettings": "Applicationeinstellungen",
   "spreadsheet": "Kalkulationstabelle",
   "loading": "Wird geladen",
@@ -197,7 +198,7 @@
     "existingCode": "Der Benutzercode existiert bereits",
     "wrongPassword": "Das eingegebene Passwort ist falsch",
     "changePassSuccesful": "Die Passwortänderung ist erfolgreich",
-    "loginSuccesful": "Anmeldung erfolgreic",
+    "loginSuccesful": "Anmeldung erfolgreich",
     "loginUnSuccesful": "Fehler bei der Anmeldung"
   },
   "role": {
