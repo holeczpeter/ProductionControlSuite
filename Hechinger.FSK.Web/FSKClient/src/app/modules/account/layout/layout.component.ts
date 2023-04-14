@@ -14,7 +14,7 @@ import { SpinnerService } from '../../../services/spinner/spinner.service';
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent  {
+export class LayoutComponent implements OnInit {
 
   loaderData: SpinnerData = {
     type: 'ProgressBar',
@@ -33,20 +33,24 @@ export class LayoutComponent  {
     private accountService: AccountService,
     public readonly spinnerService: SpinnerService,
     public translateService: TranslateService) {
-    if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
-    this.langChangeSubscription = this.translateService.onLangChange.subscribe(x => this.currentLang = x.lang);
-    this.router.events.subscribe(x => {
-      if (x instanceof NavigationEnd) {
-        if (x.url.includes('login')) this.loaderData.title = "logininprogress";
-        if (x.url.includes('forgot-password')) this.loaderData.title = "newpasswordrequestinprogress";
-        if (x.url.includes('change-temporary-password')) this.loaderData.title = "changepasswordinprogress";
-      }
-    });
-    this.applicationService.getApplicationInfo().subscribe(appInfo => {
-      this.applicationInformation = appInfo;
-    });
-    if (this.accountService.isAuthenticated()) this.router.navigate(['/']);
+    
   }
+    ngOnInit(): void {
+      if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
+      this.langChangeSubscription = this.translateService.onLangChange.subscribe(x => this.currentLang = x.lang);
+      this.router.events.subscribe(x => {
+        if (x instanceof NavigationEnd) {
+          if (x.url.includes('login')) this.loaderData.title = "logininprogress";
+          if (x.url.includes('forgot-password')) this.loaderData.title = "newpasswordrequestinprogress";
+          if (x.url.includes('change-temporary-password')) this.loaderData.title = "changepasswordinprogress";
+        }
+      });
+      this.applicationService.getApplicationInfo().subscribe(appInfo => {
+        console.log(appInfo)
+        this.applicationInformation = appInfo;
+      });
+      if (this.accountService.isAuthenticated()) this.router.navigate(['/']);
+    }
   setLanguage(key: string, $event: any) {
     $event.stopPropagation();
     $event.preventDefault();
