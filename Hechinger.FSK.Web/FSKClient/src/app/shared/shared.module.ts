@@ -248,7 +248,7 @@ import { CancelHttpInterceptor } from '../services/interceptors/cancel-http.inte
     { provide: DateAdapter, useClass: LocaleDateAdapterService },
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: CancelHttpInterceptor, multi: true },
+    /*{ provide: HTTP_INTERCEPTORS, useClass: CancelHttpInterceptor, multi: true },*/
     
   ],
   entryComponents: [

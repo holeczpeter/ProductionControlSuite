@@ -23,7 +23,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "outputHashing": "all",
+            "outputHashing": "none",
             "assets": [
               "src/favicon.ico",
               "src/assets",
@@ -68,7 +68,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "none"
             },
             "development": {
               "buildOptimizer": false,

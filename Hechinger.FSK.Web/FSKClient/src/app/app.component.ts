@@ -11,10 +11,11 @@ export class AppComponent implements OnInit {
   supportedLanguages = ['hu', 'de'];
   constructor(private translateService: TranslateService,
     private readonly router: Router) {
-  }
-  ngOnInit(): void {
     this.translateService.addLangs(this.supportedLanguages);
     this.translateService.currentLang = this.supportedLanguages[0];
     this.translateService.setDefaultLang(this.supportedLanguages[0]);
+  }
+  ngOnInit(): void {
+    
   }
 }
