@@ -5,3 +5,5 @@ global using System.Threading;
 global using System.Threading.Tasks;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Authorization;
+global using Hechinger.FSK.Application.Features;
+global using Microsoft.Extensions.Logging;

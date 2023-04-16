@@ -31,7 +31,7 @@
   "logininprogress": "Anmeldung im Gange...",
   "newpasswordrequestinprogress": "Neue Passwortanforderung läuft...",
   "changepasswordinprogress": "Passwortänderung ist im Gange...",
-  "tokenExpiration": "Ihre Sitzung ist abgelaufen",
+  "tokenExpiration": "Ihre Sitzung ist abgelaufen, bitte melden Sie sich bei der Anwendung an",
   "applicationsettings": "Applicationeinstellungen",
   "spreadsheet": "Kalkulationstabelle",
   "loading": "Wird geladen",

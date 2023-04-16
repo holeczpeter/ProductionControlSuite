@@ -1,5 +1,4 @@
-﻿using Hechinger.FSK.Application.Features;
-using Microsoft.Extensions.Logging;
+﻿
 
 namespace Hechinger.FSK.Web.Controllers
 {

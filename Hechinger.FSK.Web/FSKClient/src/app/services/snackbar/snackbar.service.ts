@@ -10,6 +10,7 @@ import { LanguageService } from '../language/language.service';
   providedIn: 'root'
 })
 export class SnackbarService {
+ 
   timeOut = 1500;
   actionButtonLabel: 'Ok' | undefined;
   config: MatSnackBarConfig = {
@@ -25,15 +26,18 @@ export class SnackbarService {
   open(result: Result) {
     if (result && result.isSuccess) this.config.panelClass = 'success';
     else this.config.panelClass = 'error';
-    let errorText = result.errors && result.errors.length > 0 ? result.errors[0] : " ";
-    
-    forkJoin(this.translate.get(result.message), this.translate.get(errorText), this.translate.get("close")).subscribe(([resultText, error, close]) => {
-      let errorInfo = result.errors.length > 1 ? " - " + result.errors[1] : "";
-      let currentLangMessage = result.isSuccess ? resultText : resultText + ": " + error +  errorInfo;
-      this.snackBar.open(currentLangMessage, close, this.config);
+    this.openInfo(result);
+  }
+  openInfo(result: Result) {
+    this.config.panelClass = 'info';
+    this.openSnackbar(result)
+  }
+  openSnackbar(result: Result)
+  {
+    forkJoin(this.translate.get(result.message), this.translate.get("close")).subscribe(([resultText, close]) => {
+      this.snackBar.open(resultText, close, this.config);
     });
   }
-
   openMore(results: Array<Result>) {
 
     if (results) {

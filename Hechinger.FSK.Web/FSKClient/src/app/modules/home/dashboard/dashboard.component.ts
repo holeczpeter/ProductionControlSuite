@@ -4,7 +4,6 @@ import { distinctUntilChanged, forkJoin, Subject, Subscription, takeUntil } from
 import { DashboardCrapCostChartModel, DashboardPpmChartModel, DashboardWorkshopCrapCost, GetDashboardWorkshopCrapCost, GetDashboardWorkshopPpm, GetPpmWarnings, GetWorkshopProduction, IntervalModel, IntervalOption, PpmWarning, SummaryModel, Views, WorkshopProduction, WorkshopProductionChartModel, WorkshopUserInfo } from '../../../models/generated/generated';
 import { ChartService } from '../../../services/chart/chart.service';
 import { DashboardDataService } from '../../../services/data/dashboard-data.service';
-import { HttpCancelService } from '../../../services/http-cancel.service';
 import { IntervalViewService } from '../../../services/interval-view/interval-view.service';
 
 @Component({

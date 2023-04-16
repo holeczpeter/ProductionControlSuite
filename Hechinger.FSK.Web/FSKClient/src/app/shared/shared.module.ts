@@ -47,7 +47,6 @@ import { DateWithNamePipe } from '../pipes/date-with-name.pipe';
 import { EnumPipe } from '../pipes/enum.pipe';
 import { ShiftNamePipe } from '../pipes/shift-name.pipe';
 import { SumCategoryPipe } from '../pipes/sum-category.pipe';
-import { HttpCancelService } from '../services/http-cancel.service';
 import { AuthInterceptor } from '../services/interceptors/auth.interceptor';
 import { SpinnerInterceptor } from '../services/interceptors/spinner.interceptor';
 import { SnackbarService } from '../services/snackbar/snackbar.service';
@@ -79,7 +78,6 @@ import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { InitialAvatarComponent } from './initial-avatar/initial-avatar.component';
 import { HelpCenterComponent } from './help-center/help-center.component';
 import { TranslatedPaginatorService } from '../services/paginator/translated-paginator.service';
-import { CancelHttpInterceptor } from '../services/interceptors/cancel-http.interceptor';
 
 
 @NgModule({
@@ -244,12 +242,9 @@ import { CancelHttpInterceptor } from '../services/interceptors/cancel-http.inte
     { provide: MatPaginatorIntl, useClass: TranslatedPaginatorService },
     MatDatepickerModule,
     SnackbarService,
-    HttpCancelService,
     { provide: DateAdapter, useClass: LocaleDateAdapterService },
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    /*{ provide: HTTP_INTERCEPTORS, useClass: CancelHttpInterceptor, multi: true },*/
-    
   ],
   entryComponents: [
     LoaderComponent,

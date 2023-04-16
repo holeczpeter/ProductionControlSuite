@@ -31,7 +31,7 @@
   "logininprogress": "Belépés folyamatban...",
   "newpasswordrequestinprogress": "Jelszó igénylése folyamatban...",
   "changepasswordinprogress": "Jelszó beállítása folyamatban......",
-  "tokenExpiration": "Az Ön munkamenete lejárt",
+  "tokenExpiration": "Az Ön munkamenete lejárt, kérem jelentkezzen be az alkalmazásba",
   "applicationsettings": "Alkalmazás beállítások",
   "spreadsheet": "Táblázat",
   "loading": "Adatok betöltése",

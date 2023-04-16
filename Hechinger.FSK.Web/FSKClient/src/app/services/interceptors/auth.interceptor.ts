@@ -35,7 +35,7 @@ import { SpinnerService } from '../spinner/spinner.service';
       if (error.status === 401 && !authReq.url.includes('Token/Refresh')) {
         return this.handle401Error(req, next);
       }
-      this.snackBarService.open(new ResultBuilder().setSuccess(false).setMessage("A művelet során hiba történt").build());
+      this.snackBarService.openInfo(new ResultBuilder().setSuccess(false).setMessage("A művelet során hiba történt").build());
       console.log(error)
       throw new Error(JSON.stringify(error));
     }));
