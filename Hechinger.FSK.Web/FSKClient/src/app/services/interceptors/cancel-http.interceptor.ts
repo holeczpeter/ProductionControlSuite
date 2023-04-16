@@ -15,7 +15,7 @@ export class CancelHttpInterceptor implements HttpInterceptor {
   constructor(router: Router, private httpCancelService: HttpCancelService) {
     router.events.subscribe(event => {
       if (event instanceof ActivationEnd) {
-        this.httpCancelService.cancelPendingRequests();
+        setTimeout(() => this.httpCancelService.cancelPendingRequests(), 0);
       }
     });
   }
