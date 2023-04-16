@@ -145,15 +145,14 @@ export class SummaryCardsComponent implements OnInit, OnDestroy {
   }
 
   initalize() {
-    this.summaryCardDataService.getAllSummaryCardsByParameters(this.currentInterval,null).subscribe(result => {
-      this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
-      this.dataSource = new MatTableDataSource<SummaryCardModel>(result.body);
+    this.summaryCardDataService.getAllSummaryCardsByParameters(this.currentInterval, null).subscribe(result => {
+      this.refreshDataSource(result);
       this.createDinamicallyFormGroup();
       this.filterForm.valueChanges.pipe(
         debounceTime(500)).subscribe(x => {
           this.getAll();
         })
-      this.dataSource.sort = this.sort;
+     
     });
   }
   createDinamicallyFormGroup(): void {

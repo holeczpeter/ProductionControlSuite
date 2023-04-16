@@ -39,15 +39,16 @@ export class HeaderComponent implements OnInit {
     private readonly applicationService: ApplicationService,
     private readonly dialog: MatDialog,
     private navigationService: NavigationService) {
-    this.navigationService.getMenuItems().subscribe(modules => {
-      this.modules = modules.filter(y => y.node.type === MenuTypes.Module);
-      this.personalSettingsModule = this.modules.flatMap(x => x.children).filter(i => i.node.path.includes('/settings'))
-     
-    });
+    
   }
 
 
   ngOnInit(): void {
+    this.navigationService.getMenuItems().subscribe(modules => {
+      this.modules = modules.filter(y => y.node.type === MenuTypes.Module);
+      this.personalSettingsModule = this.modules.flatMap(x => x.children).filter(i => i.node.path.includes('/settings'))
+
+    });
     this.applicationService.getApplicationInfo().subscribe(appInfo => {
       this.applicationInformation = appInfo;
     });
@@ -55,8 +56,10 @@ export class HeaderComponent implements OnInit {
   setLanguage(key: string, $event:any) {
     $event.stopPropagation();
     $event.preventDefault();
+    console.log(key)
     this.languageService.setLang(key);
   }
+ 
   settingsOpened() {
     this.panelOpenState = true;
   }

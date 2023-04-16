@@ -1,19 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-root',
   template: `<router-outlet></router-outlet>`
 })
-export class AppComponent {
-  
+export class AppComponent implements OnInit {
+
   title = 'FSK';
   supportedLanguages = ['hu', 'de'];
   constructor(private translateService: TranslateService,
-    private readonly router: Router ) {
-    
-    translateService.addLangs(this.supportedLanguages);
-    translateService.currentLang = this.supportedLanguages[0];
-    translateService.setDefaultLang(this.supportedLanguages[0]);
+    private readonly router: Router) {
+  }
+  ngOnInit(): void {
+    this.translateService.addLangs(this.supportedLanguages);
+    this.translateService.currentLang = this.supportedLanguages[0];
+    this.translateService.setDefaultLang(this.supportedLanguages[0]);
   }
 }

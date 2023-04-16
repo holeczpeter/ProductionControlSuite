@@ -19,8 +19,9 @@
         </div>
         <router-outlet>
         </router-outlet>
-        <span><a (click)="setLanguage('hu', $event)" class="lang">hu</a></span>
-        <span><a (click)="setLanguage('de' , $event)" class="lang">de</a></span>
+        <span><a (click)="setLanguage('hu', $event)" [ngClass]="translateService.currentLang == 'hu' ? 'selected-lang' : 'lang'">hu</a></span>
+        <span>|</span>
+        <span><a (click)="setLanguage('de' , $event)" [ngClass]="translateService.currentLang == 'de' ? 'selected-lang' : 'lang'">de</a></span>
       </div>
     </mat-card>
   </div>

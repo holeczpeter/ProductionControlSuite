@@ -99,3 +99,29 @@ h3 {
 .lang:hover {
   cursor: pointer;
 }
+.lang {
+  text-decoration: none;
+  padding-left: 5px;
+  padding-right: 5px;
+  z-index: 1000;
+  letter-spacing: 1.5px;
+}
+
+.selected-lang {
+
+  padding-left: 5px;
+  padding-right: 5px;
+  z-index: 1000;
+  letter-spacing: 1.5px;
+  text-decoration: underline;
+}
+
+.lang:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.selected-lang:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

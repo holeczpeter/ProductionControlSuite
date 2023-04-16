@@ -5,16 +5,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Globalization;
 using System.Linq;
-using System.Reflection;
 
 namespace Hechinger.FSK.Web
 {
@@ -22,10 +19,19 @@ namespace Hechinger.FSK.Web
     {
         public static IServiceCollection AddWebApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddControllers().AddNewtonsoftJson(options =>
+            services.AddControllers(options =>
             {
-                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                options.Filters.Add(new ResponseCacheAttribute()
+                {
+                    NoStore = true,
+                    Location = ResponseCacheLocation.None
+                });
+            }
+            ).AddNewtonsoftJson(json =>
+            {
+                json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                json.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                
             });
             FskEnvironment.SetConfiguration(configuration); 
             services.AddHttpContextAccessor();

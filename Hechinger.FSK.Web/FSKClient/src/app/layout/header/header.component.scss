@@ -12,29 +12,57 @@ mat-toolbar-row {
 .example-spacer {
   flex: 1 1 auto;
 }
-.language {
-    font-weight:500;
-  font-size: 16px;
-  padding-left: 5px;
-  padding-right: 5px;
-  letter-spacing:1.5px;
-}
-.lang {
-  font-weight: 500;
+.help {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: nowrap;
+  font-weight: 400;
   font-size: 16px;
   padding-left: 5px;
   padding-right: 5px;
   z-index: 1000;
   letter-spacing: 1.5px;
 }
-
+.language {
+    font-weight:400;
+  font-size: 16px;
+  padding-left: 5px;
+  padding-right: 5px;
+  letter-spacing:1.5px;
+}
+.lang {
+  font-weight: 400;
+  font-size: 16px;
+  padding-left: 5px;
+  padding-right: 5px;
+  z-index: 1000;
+  letter-spacing: 1.5px;
+}
+.selected-lang {
+  font-weight: 400;
+  font-size: 16px;
+  padding-left: 5px;
+  padding-right: 5px;
+  z-index: 1000;
+  letter-spacing: 1.5px;
+  text-decoration: underline;
+}
 .login-name {
   font-size: 16px !important;
   font-weight: 400 !important;
   letter-spacing: 1px !important;
+  padding-left: 0px !important;
 }
 .lang:hover {
   cursor: pointer;
+  text-decoration: underline;
+}
+.selected-lang:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.account-icon {
+  cursor: default;
 }
 .logo-span {
   display: inline-block;

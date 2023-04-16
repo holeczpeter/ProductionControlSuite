@@ -23,10 +23,16 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "outputHashing": "all",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
-              
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets",
+                "ignore": [ "**/*.jpg", "**/*.png" ]
+              }
             ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.css",
