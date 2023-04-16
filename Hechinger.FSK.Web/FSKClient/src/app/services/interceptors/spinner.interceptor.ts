@@ -45,7 +45,6 @@ export class SpinnerInterceptor implements HttpInterceptor {
           }
 
         }, (error) => {
-          console.log(error)
           this.spinnerService.hide();
         })
       );

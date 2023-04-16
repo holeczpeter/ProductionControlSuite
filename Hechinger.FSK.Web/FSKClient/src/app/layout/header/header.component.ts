@@ -56,7 +56,6 @@ export class HeaderComponent implements OnInit {
   setLanguage(key: string, $event:any) {
     $event.stopPropagation();
     $event.preventDefault();
-    console.log(key)
     this.languageService.setLang(key);
   }
  

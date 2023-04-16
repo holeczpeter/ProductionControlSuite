@@ -52,18 +52,15 @@ import { SpinnerService } from '../spinner/spinner.service';
         return this.accountService.refreshToken().pipe(
           switchMap((token: TokenRequestModel) => {
             this.isRefreshing = false;
-
             this.accountService.saveToken(token.token, token.refreshToken);
             this.refreshTokenSubject.next(token.token);
-
             return next.handle(this.addTokenHeader(request, token.token));
           }),
           catchError((err) => {
-            console.log(err)
             this.isRefreshing = false;
             this.spinnerService.hide;
-            this.snackBarService.open(new ResultBuilder().setSuccess(false).setMessage("tokenExpiration").build());
             this.accountService.logout();
+            this.snackBarService.open(new ResultBuilder().setSuccess(false).setMessage("tokenExpiration").build());
             throw new Error(JSON.stringify(err));
           })
         );

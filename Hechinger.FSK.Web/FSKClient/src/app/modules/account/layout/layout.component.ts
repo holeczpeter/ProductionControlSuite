@@ -46,7 +46,6 @@ export class LayoutComponent implements OnInit {
         }
       });
       this.applicationService.getApplicationInfo().subscribe(appInfo => {
-        console.log(appInfo)
         this.applicationInformation = appInfo;
       });
       if (this.accountService.isAuthenticated()) this.router.navigate(['/']);

@@ -114,15 +114,15 @@ export class DefectGroupsComponent implements OnInit {
 
   getParentNode(node: TreeItemFlatNode<EntityGroupModel>): TreeItemFlatNode<EntityGroupModel> | null {
     const currentLevel = this.getLevel(node);
-    console.log(currentLevel)
+    
     if (currentLevel < 1) return null;
     const startIndex = this.treeControl.dataNodes.indexOf(node) - 1;
-    console.log(startIndex)
+
     for (let i = startIndex; i >= 0; i--) {
       const currentNode = this.treeControl.dataNodes[i];
-      console.log(currentLevel)
+   
       if (this.getLevel(currentNode) < currentLevel) {
-        console.log(currentNode)
+        
         return currentNode;
       }
     }
