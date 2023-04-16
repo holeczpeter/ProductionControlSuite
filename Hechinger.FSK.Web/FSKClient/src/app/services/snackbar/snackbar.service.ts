@@ -26,7 +26,7 @@ export class SnackbarService {
   open(result: Result) {
     if (result && result.isSuccess) this.config.panelClass = 'success';
     else this.config.panelClass = 'error';
-    this.openInfo(result);
+    this.openSnackbar(result);
   }
   openInfo(result: Result) {
     this.config.panelClass = 'info';
