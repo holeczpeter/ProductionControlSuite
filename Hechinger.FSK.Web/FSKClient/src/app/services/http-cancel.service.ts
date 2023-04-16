@@ -6,11 +6,12 @@ import { SpinnerService } from './spinner/spinner.service';
   providedIn: 'root'
 })
 export class HttpCancelService {
-  private pendingHTTPRequests$ = new Subject<void>();
+  public pendingHTTPRequests$ = new Subject<void>();
   constructor(private spinnerserice: SpinnerService) { }
 
   public cancelPendingRequests() {
     this.pendingHTTPRequests$.next();
+    this.pendingHTTPRequests$.complete();
     this.spinnerserice.hide();
   }
 

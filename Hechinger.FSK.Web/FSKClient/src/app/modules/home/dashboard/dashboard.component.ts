@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { distinctUntilChanged, forkJoin, Subscription } from 'rxjs';
+import { distinctUntilChanged, forkJoin, Subject, Subscription, takeUntil } from 'rxjs';
 import { DashboardCrapCostChartModel, DashboardPpmChartModel, DashboardWorkshopCrapCost, GetDashboardWorkshopCrapCost, GetDashboardWorkshopPpm, GetPpmWarnings, GetWorkshopProduction, IntervalModel, IntervalOption, PpmWarning, SummaryModel, Views, WorkshopProduction, WorkshopProductionChartModel, WorkshopUserInfo } from '../../../models/generated/generated';
 import { ChartService } from '../../../services/chart/chart.service';
 import { DashboardDataService } from '../../../services/data/dashboard-data.service';
+import { HttpCancelService } from '../../../services/http-cancel.service';
 import { IntervalViewService } from '../../../services/interval-view/interval-view.service';
 
 @Component({
@@ -32,12 +33,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   quanitySummary: SummaryModel;
   defectQuantitySummary: SummaryModel;
   ppmWarningList: PpmWarning[];
+  private destroy$: Subject<void> = new Subject<void>();
   constructor(private dashBoardDataService: DashboardDataService,
     public translateService: TranslateService,
-    private chartService: ChartService,
+    private chartService: ChartService, 
     private readonly intervalPanelService: IntervalViewService) {
-    
-
   }
   createChart() {
     let getWorkshopPPmData: GetDashboardWorkshopPpm = {
@@ -62,8 +62,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.dashBoardDataService.getProductionInfo(getProductionInfo),
       this.dashBoardDataService.getWorkshopUserStats({}),
       this.dashBoardDataService.getPpmWarnings(getPpmWarnings)])
+      .pipe(takeUntil(this.destroy$))
       .subscribe(([ppmList, crapcostList, products, usersStats,ppmWarningList]) => {
-
         this.dashboardPpmChartModel = { items: ppmList, interval: this.currentInterval }
         this.dashboardCrapCostChartModel = { items: crapcostList, interval: this.currentInterval };
         this.workshopProduction = products;
@@ -147,6 +147,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.intervalPanelService.setViews(this.selectedView, new Date());
   }
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();
     if (this.intervalSubscription) this.intervalSubscription.unsubscribe();
   }

@@ -36,7 +36,7 @@ import { SpinnerService } from '../spinner/spinner.service';
         return this.handle401Error(req, next);
       }
       this.snackBarService.open(new ResultBuilder().setSuccess(false).setMessage("A művelet során hiba történt").build());
-
+      console.log(error)
       throw new Error(JSON.stringify(error));
     }));
   }
@@ -57,6 +57,7 @@ import { SpinnerService } from '../spinner/spinner.service';
             return next.handle(this.addTokenHeader(request, token.token));
           }),
           catchError((err) => {
+            
             this.isRefreshing = false;
             this.spinnerService.hide;
             this.accountService.logout();

@@ -13,15 +13,15 @@ import { ActivationEnd, Router } from '@angular/router';
 export class CancelHttpInterceptor implements HttpInterceptor {
 
   constructor(router: Router, private httpCancelService: HttpCancelService) {
-    router.events.subscribe(event => {
-      if (event instanceof ActivationEnd) {
-        setTimeout(() => this.httpCancelService.cancelPendingRequests(), 0);
-      }
-    });
+    //router.events.subscribe(event => {
+    //  if (event instanceof ActivationEnd) {
+    //    setTimeout(() => this.httpCancelService.cancelPendingRequests(), 0);
+    //  }
+    //});
   }
   intercept<T>(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
     const modifiedReq = req.clone();
     return next.handle(modifiedReq).pipe(
-      takeUntil(this.httpCancelService.onCancelPendingRequests()))
+      takeUntil(this.httpCancelService.pendingHTTPRequests$))
   }
 }
