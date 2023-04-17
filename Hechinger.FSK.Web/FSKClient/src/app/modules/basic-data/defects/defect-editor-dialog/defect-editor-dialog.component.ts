@@ -24,8 +24,10 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
   categories!: EnumModel[];
   public filterCtrl: FormControl = new FormControl();
   public filtered: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
-  protected _onDestroy = new Subject<void>();
   @ViewChild('singleSelect') singleSelect: MatSelect;
+  private destroy$: Subject<void> = new Subject<void>();
+
+
   constructor(private readonly dialogRef: MatDialogRef<DefectEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DefectEditorModel,
     private readonly defectDataService: DefectDataService,
@@ -43,7 +45,7 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
     let currentOperationId = this.defect ? this.defect.operationId : 0;
     forkJoin([this.operationDataService.get({ id: currentOperationId }),
     this.operationDataService.getByFilter(''),
-    this.defectDataService.getAllDefectCategories()]).subscribe(([current, operations, categories]) => {
+      this.defectDataService.getAllDefectCategories()]).pipe(takeUntil(this.destroy$)).subscribe(([current, operations, categories]) => {
       this.operations = operations;
       if (current) this.operations.splice(1, 0, { id: current.id, code: current.code, name: current.name, translatedName: current.translatedName });
       this.categories = categories;
@@ -56,7 +58,7 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
         defectCategory: [this.defect ? this.defect.defectCategory : '', [Validators.required]],
         operation: [this.defect ? this.operations.find(ws => ws.id == this.defect!.operationId) : null, [Validators.required]],
       }).setOriginalForm();
-      this.filterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
+        this.filterCtrl.valueChanges.pipe(takeUntil(this.destroy$)).pipe(
         debounceTime(500)).subscribe(filter => {
           this.filter();
         });
@@ -74,7 +76,7 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
       return;
     }
     else search = search.toLowerCase();
-    this.operationDataService.getByFilter(search).subscribe((result: any) => {
+    this.operationDataService.getByFilter(search).pipe(takeUntil(this.destroy$)).subscribe((result: any) => {
       this.operations = result;
       this.filtered.next(this.operations.slice());
     });
@@ -133,7 +135,7 @@ export class DefectEditorDialogComponent implements OnInit, AfterViewInit, OnDes
   }
 
   ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

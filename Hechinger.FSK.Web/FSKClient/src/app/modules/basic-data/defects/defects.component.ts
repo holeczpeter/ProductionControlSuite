@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime } from 'rxjs';
+import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { DefectEditorModel } from '../../../models/dialog-models/defect-editor-model';
 import { DefectModel, DeleteDefect } from '../../../models/generated/generated';
 import { ColumnTypes, TableColumnModel } from '../../../models/table-column-model';
@@ -24,7 +24,7 @@ import { DefectEditorDialogComponent } from './defect-editor-dialog/defect-edito
   templateUrl: './defects.component.html',
   styleUrls: ['./defects.component.scss']
 })
-export class DefectsComponent implements OnInit,AfterViewInit  {
+export class DefectsComponent implements OnInit, AfterViewInit, OnDestroy {
   dataSource!: MatTableDataSource<DefectModel>;
   @ViewChild(MatSort) sort!: MatSort;
   columnNames: Array<string> = ['name','translatedName', 'code', 'operationName', 'operationCode','statusName','defectCategoryName', 'copy', 'edit', 'delete']
@@ -87,6 +87,8 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
   filterableColumnNames: Array<string> = ['nameFilter', 'translatedNameFilter', 'codeFilter', 'operationNameFilter', 'operationCodeFilter','statusNameFilter', 'defectCategoryNameFilter', 'more'];
   filterForm: UntypedFormGroup;
   totalCount!: number;
+  private destroy$: Subject<void> = new Subject<void>();
+
   constructor(private readonly defectDataService: DefectDataService,
     private readonly dialog: MatDialog,
     private readonly confirmDialogService: ConfirmDialogService,
@@ -98,21 +100,21 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
     public paginationService: PaginationService,
     private readonly filterService: DefectFilterService) {
   }
+  
 
   ngOnInit(): void {
     this.initalize();
   }
 
   initalize() {
-    this.defectDataService.getAllDefectByParameters(null).subscribe(result => {
-      this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
-      this.dataSource = new MatTableDataSource<DefectModel>(result.body);
+    this.defectDataService.getAllDefectByParameters(null).pipe(takeUntil(this.destroy$)).subscribe(result => {
+      this.refreshDataSource(result);
       this.createDinamicallyFormGroup();
-      this.filterForm.valueChanges.pipe(
+      this.filterForm.valueChanges.pipe(takeUntil(this.destroy$),
         debounceTime(500)).subscribe(x => {
         this.getAll();
       })
-      this.dataSource.sort = this.sort;
+     
     });
   }
 
@@ -141,12 +143,12 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
     this.getAll();
   }
   getAll(): void {
-    this.defectDataService.getAllDefectByParameters(null).subscribe((result: any) => {
+    this.defectDataService.getAllDefectByParameters(null).pipe(takeUntil(this.destroy$)).subscribe((result: any) => {
         this.refreshDataSource(result);
       });
   }
   onExport() {
-    this.defectDataService.getAllDefectByParameters(this.totalCount).subscribe((result: any) => {
+    this.defectDataService.getAllDefectByParameters(this.totalCount).pipe(takeUntil(this.destroy$)).subscribe((result: any) => {
       this.translate.get(this.title).subscribe(title => {
         this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
         let dataSource = new MatTableDataSource<DefectModel>(result.body);
@@ -208,5 +210,9 @@ export class DefectsComponent implements OnInit,AfterViewInit  {
     if (this.dataSource) {
       this.dataSource.sort = this.sort;
     }
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
