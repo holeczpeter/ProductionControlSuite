@@ -1,8 +1,4 @@
-﻿
-using System.Diagnostics;
-using System.Globalization;
-
-namespace Hechinger.FSK.Application.Features
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class GroupReportService : IGroupReportService
     {

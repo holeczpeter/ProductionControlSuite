@@ -1,10 +1,4 @@
-﻿using Hechinger.FSK.Application.Common;
-using Hechinger.FSK.Application.Common.Models;
-using Hechinger.FSK.Application.Features;
-using Microsoft.AspNetCore.Authorization;
-using Newtonsoft.Json;
-
-namespace Hechinger.FSK.Web.Controllers
+﻿namespace Hechinger.FSK.Web.Controllers
 {
     [Authorize]
     public class SummaryCardController : ControllerBase

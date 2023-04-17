@@ -1,8 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-
-namespace Hechinger.FSK.Application.Features.Import.CommandHandler
-{
+﻿namespace Hechinger.FSK.Application.Features.Import
+{ 
     public class DefectImportHandler : IRequestHandler<DefectImport, Result<IEnumerable<ImportError>>>
     {
         private readonly ILogger<DefectImportHandler> logger;

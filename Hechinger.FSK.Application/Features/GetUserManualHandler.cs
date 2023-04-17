@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.StaticFiles;
+﻿
 namespace Hechinger.FSK.Application.Features
 {
     public class GetUserManualHandler : IRequestHandler<GetUserMaual, DownloadDocument>

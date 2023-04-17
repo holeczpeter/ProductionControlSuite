@@ -1,8 +1,4 @@
-﻿using Hechinger.FSK.Application.Common.Security;
-using Hechinger.FSK.Application.Features;
-using System.Linq;
-
-namespace Hechinger.FSK.Web.Controllers
+﻿namespace Hechinger.FSK.Web.Controllers
 {
 
     public class TokenController

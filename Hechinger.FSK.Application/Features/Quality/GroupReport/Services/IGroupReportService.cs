@@ -1,5 +1,4 @@
-﻿
-namespace Hechinger.FSK.Application.Features
+﻿namespace Hechinger.FSK.Application.Features
 {
     public interface IGroupReportService
     {

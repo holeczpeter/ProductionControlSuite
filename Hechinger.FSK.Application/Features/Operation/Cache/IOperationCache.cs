@@ -1,6 +1,4 @@
-﻿using Hechinger.FSK.Application.Features;
-
-namespace Hechinger.FSK.Application
+﻿namespace Hechinger.FSK.Application
 {
 
     public interface IOperationCache

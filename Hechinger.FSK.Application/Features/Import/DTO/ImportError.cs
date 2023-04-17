@@ -1,4 +1,4 @@
-﻿namespace Hechinger.FSK.Application.Features
+﻿namespace Hechinger.FSK.Application.Features.Import
 {
     public class ImportError : BaseModel
     {

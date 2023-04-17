@@ -1,7 +1,4 @@
-﻿
-using Microsoft.Extensions.Localization;
-
-namespace Hechinger.FSK.Application.Features
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class LoginHandler : IRequestHandler<LoginModel, UserDataModel>
     {
@@ -17,8 +14,9 @@ namespace Hechinger.FSK.Application.Features
            
             var result = new UserDataModel() { UserInfo = new UserInfo() };
             var code = request.Code.Trim().ToLower();
-            var currentUser = await this.context.Users.Where(x => x.Code.ToLower() == code.ToLower()).FirstOrDefaultAsync(cancellationToken);
-            if (currentUser == null || currentUser.EntityStatus != EntityStatuses.Active)
+            var currentUser = await this.context.Users.Where(x => x.Code.ToLower() == code.ToLower() && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
+
+            if (currentUser == null)
             {
                 result.LoginStatus = LoginResults.NotExistUser;
                 return result;

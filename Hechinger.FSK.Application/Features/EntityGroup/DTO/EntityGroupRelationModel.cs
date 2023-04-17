@@ -1,6 +1,4 @@
-﻿using Hechinger.FSK.Core.Common;
-
-namespace Hechinger.FSK.Application.Features
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class EntityGroupRelationModel: BaseModel
     {

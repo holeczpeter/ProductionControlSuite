@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using System.Text;
-
-namespace Hechinger.FSK.Application.Common
+﻿namespace Hechinger.FSK.Application.Common
 {
     public static class Hash
     {
@@ -17,13 +14,10 @@ namespace Hechinger.FSK.Application.Common
             return Convert.ToBase64String(valueBytes);
         }
 
-        // public static bool Validate(string value, string salt, string hash)  => Create(value, salt) == hash;
-
         public static bool Validate(string value, string salt, string hash)
         {
             var result = Create(value, salt) == hash;
             return result;
         }
-
     }
 }

@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Hechinger.FSK.Infrastructure
+﻿namespace Hechinger.FSK.Infrastructure
 {
     public static class ConfigureServices
     {

@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
+﻿namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
 {
     public class UserConfiguration : IEntityTypeConfiguration<User>
     {

@@ -1,4 +1,4 @@
-﻿namespace Hechinger.FSK.Application.Features.Quality.CrapCostReport.QueryHandler
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class GetCrapCostByProductHandler : IRequestHandler<GetCrapCostByProduct, CrapCostProductModel>
     {

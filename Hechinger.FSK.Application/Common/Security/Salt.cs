@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace Hechinger.FSK.Application.Common
+﻿namespace Hechinger.FSK.Application.Common
 {
     public class Salt
     {

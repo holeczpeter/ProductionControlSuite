@@ -1,6 +1,4 @@
-﻿using Hechinger.FSK.Application.Features;
-
-namespace Hechinger.FSK.Application.Common
+﻿namespace Hechinger.FSK.Application.Common
 {
     public static class TreeHelper
     {

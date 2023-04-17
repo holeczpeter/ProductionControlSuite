@@ -1,8 +1,4 @@
-﻿using Hechinger.FSK.Application.Common;
-using System.Diagnostics;
-using System.Linq;
-
-namespace Hechinger.FSK.Application.Features
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class GetEntityGroupByIdHandler : IRequestHandler<GetEntityGroupById, TreeItem<EntityGroupModel>>
     {

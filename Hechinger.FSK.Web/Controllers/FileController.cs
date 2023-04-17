@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-
-namespace Hechinger.FSK.Web.Controllers
+﻿namespace Hechinger.FSK.Web.Controllers
 {
     [Authorize]
     public class FileController : ControllerBase

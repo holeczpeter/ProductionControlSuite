@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Hechinger.FSK.Application.Features
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class DefectModel : BaseModel
     {

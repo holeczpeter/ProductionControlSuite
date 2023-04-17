@@ -1,7 +1,4 @@
-﻿using Hechinger.FSK.Application.Common.Models;
-using Hechinger.FSK.Application.Features;
-
-namespace Hechinger.FSK.Web.Controllers
+﻿namespace Hechinger.FSK.Web.Controllers
 {
     [Authorize]
     public class EntityGroupController : ControllerBase

@@ -1,8 +1,4 @@
-﻿using Hechinger.FSK.Core.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
+﻿namespace Hechinger.FSK.Infrastructure.Persistence.EntityConfigurations
 {
     public class ShiftConfiguration : IEntityTypeConfiguration<Shift>
     {

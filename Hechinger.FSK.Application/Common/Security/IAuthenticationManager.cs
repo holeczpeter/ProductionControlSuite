@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-
-namespace Hechinger.FSK.Application.Common.Security
+﻿namespace Hechinger.FSK.Application.Common.Security
 {
     public interface IAuthenticationManager
     {

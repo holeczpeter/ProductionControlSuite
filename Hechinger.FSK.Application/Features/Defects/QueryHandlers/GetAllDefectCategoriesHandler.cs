@@ -1,6 +1,4 @@
-﻿using Hechinger.FSK.Core.Helpers;
-
-namespace Hechinger.FSK.Application.Features
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class GetAllDefectCategoriesHandler : IRequestHandler<GetAllDefectCategories, IEnumerable<EnumModel>>
     {

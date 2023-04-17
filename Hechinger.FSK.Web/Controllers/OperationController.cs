@@ -1,9 +1,4 @@
-﻿using Hechinger.FSK.Application.Common;
-using Hechinger.FSK.Application.Common.Models;
-using Hechinger.FSK.Application.Features;
-using Newtonsoft.Json;
-
-namespace Hechinger.FSK.Web.Controllers
+﻿namespace Hechinger.FSK.Web.Controllers
 {
     [Authorize]
     public class OperationController : ControllerBase

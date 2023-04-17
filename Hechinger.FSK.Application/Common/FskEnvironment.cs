@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-
-namespace Hechinger.FSK.Application.Common
+﻿namespace Hechinger.FSK.Application.Common
 {
 
     public static class FskEnvironment

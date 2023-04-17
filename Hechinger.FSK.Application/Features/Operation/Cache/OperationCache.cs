@@ -1,7 +1,4 @@
-﻿using Hechinger.FSK.Application.Features;
-using Microsoft.Extensions.Caching.Memory;
-
-namespace Hechinger.FSK.Application
+﻿namespace Hechinger.FSK.Application
 {
 
     public class OperationCache : IOperationCache

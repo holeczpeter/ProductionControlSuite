@@ -1,9 +1,4 @@
-﻿using Hechinger.FSK.Core.Attributes;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System.Reflection;
-
-namespace Hechinger.FSK.Application.Common.Behaviours.PipelineBehaviors
+﻿namespace Hechinger.FSK.Application.Common.Behaviours.PipelineBehaviors
 {
     public class LoggingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>

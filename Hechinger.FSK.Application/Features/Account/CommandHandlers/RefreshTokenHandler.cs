@@ -11,11 +11,16 @@
         {
             var result = new ResultBuilder<bool>().SetMessage("Token frissítés nem sikerült").SetIsSuccess(false).Build();
            
-            var currentUser = await this.context.Users.Where(x => x.Id == request.UserId).FirstOrDefaultAsync(cancellationToken);
+            var currentUser = await this.context.Users.Where(x => x.Id == request.UserId  && x.EntityStatus == EntityStatuses.Active).FirstOrDefaultAsync(cancellationToken);
+            if (currentUser == null) 
+            {
+                return result;
+            }
             currentUser.RefreshToken = request.RefreshToken;
             currentUser.ExpiryDate = request.Expiration;
 
             await  this.context.SaveChangesAsync(cancellationToken);
+
             result.Message = "A token frissítés sikerült";
             result.IsSuccess = true;
 

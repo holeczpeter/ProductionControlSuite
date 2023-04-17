@@ -1,8 +1,4 @@
-﻿using Hechinger.FSK.Core.Common;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace Hechinger.FSK.Infrastructure.Common
+﻿namespace Hechinger.FSK.Infrastructure.Common
 {
     public static class EntityConfiguration
     {

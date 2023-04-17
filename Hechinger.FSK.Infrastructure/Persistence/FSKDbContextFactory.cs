@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Design;
+﻿
 
 namespace Hechinger.FSK.Infrastructure.Persistence
 {
@@ -7,7 +7,7 @@ namespace Hechinger.FSK.Infrastructure.Persistence
         public FSKDbContext CreateDbContext(string[] args)
         {
             var contextBuilder = new DbContextOptionsBuilder<FSKDbContext>();
-            contextBuilder.UseSqlServer("Server=DESKTOP-QMEJOI6\\SQLEXPRESS;Database=FSK_DEV;Integrated Security=SSPI;MultipleActiveResultSets=true;");
+            contextBuilder.UseSqlServer("Server=DESKTOP-QMEJOI6\\SQLEXPRESS;Database=FSK_PROD;Integrated Security=SSPI;MultipleActiveResultSets=true;TrustServerCertificate=True");
             return new FSKDbContext(contextBuilder.Options);
         }
     }

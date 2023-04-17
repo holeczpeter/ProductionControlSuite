@@ -1,6 +1,4 @@
-﻿using Hechinger.FSK.Application.Common;
-
-namespace Hechinger.FSK.Application.Features
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class GetAccessMenuHandler : IRequestHandler<GetAccessMenu, IEnumerable<TreeItem<MenuItemModel>>>
     {

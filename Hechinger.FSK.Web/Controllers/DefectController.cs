@@ -1,14 +1,4 @@
-﻿using Hechinger.FSK.Application.Common;
-using Hechinger.FSK.Application.Common.Models;
-using Hechinger.FSK.Application.Features;
-using Hechinger.FSK.Core.Enums;
-using Hechinger.FSK.Core.Helpers;
-using Hechinger.FSK.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System.Linq;
-
-namespace Hechinger.FSK.Web.Controllers
+﻿namespace Hechinger.FSK.Web.Controllers
 {
     [Authorize]
     public class DefectController : ControllerBase

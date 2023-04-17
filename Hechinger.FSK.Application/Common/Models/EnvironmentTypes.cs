@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Hechinger.FSK.Application.Common
+﻿namespace Hechinger.FSK.Application.Common
 {
     public enum EnvironmentTypes
     {

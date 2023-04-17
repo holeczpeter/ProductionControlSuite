@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Hechinger.FSK.Web.Extensions
+﻿namespace Hechinger.FSK.Web.Extensions
 {
     public class ExceptionDetail
     {

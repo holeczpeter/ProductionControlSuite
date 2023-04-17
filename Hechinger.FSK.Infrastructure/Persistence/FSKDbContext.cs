@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
 
 namespace Hechinger.FSK.Infrastructure.Persistence
 {
@@ -34,7 +34,10 @@ namespace Hechinger.FSK.Infrastructure.Persistence
             this.Database.SetCommandTimeout((int)TimeSpan.FromMinutes(5).TotalSeconds);
             this.httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
-
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            configurationBuilder.Conventions.Add(_ => new BlankTriggerAddingConvention());
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -20,7 +20,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.AuditLogEntity", b =>
                 {
@@ -28,7 +28,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
@@ -55,7 +55,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AuditLogEntities");
+                    b.ToTable("AuditLogEntities", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.AuditLogProperty", b =>
@@ -64,7 +64,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Action")
                         .HasColumnType("nvarchar(max)");
@@ -102,7 +102,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("AuditLogEntityId");
 
-                    b.ToTable("AuditLogProperties");
+                    b.ToTable("AuditLogProperties", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Defect", b =>
@@ -112,7 +112,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
                         .HasMaxLength(25)
@@ -172,7 +172,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("TranslatedName");
 
-                    b.ToTable("Defects");
+                    b.ToTable("Defects", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.EntityGroup", b =>
@@ -182,7 +182,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
@@ -235,7 +235,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("EntityGroups");
+                    b.ToTable("EntityGroups", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.EntityGroupRelation", b =>
@@ -245,7 +245,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
@@ -286,7 +286,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("EntityStatus");
 
-                    b.ToTable("EntityGroupRelations");
+                    b.ToTable("EntityGroupRelations", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Language", b =>
@@ -296,7 +296,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
                         .HasMaxLength(25)
@@ -345,7 +345,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("TranslatedName");
 
-                    b.ToTable("Languages");
+                    b.ToTable("Languages", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Menu", b =>
@@ -355,7 +355,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
                         .HasMaxLength(25)
@@ -425,7 +425,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("TranslatedName");
 
-                    b.ToTable("Menus");
+                    b.ToTable("Menus", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.MenuRole", b =>
@@ -435,7 +435,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
@@ -475,7 +475,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("MenuRoles");
+                    b.ToTable("MenuRoles", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Operation", b =>
@@ -485,7 +485,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
                         .HasMaxLength(25)
@@ -557,7 +557,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("TranslatedName");
 
-                    b.ToTable("Operations");
+                    b.ToTable("Operations", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Picture", b =>
@@ -567,7 +567,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
@@ -605,7 +605,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("EntityStatus");
 
-                    b.ToTable("Pictures");
+                    b.ToTable("Pictures", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Product", b =>
@@ -615,7 +615,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
                         .HasMaxLength(25)
@@ -669,7 +669,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("WorkshopId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Role", b =>
@@ -679,7 +679,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
                         .HasMaxLength(25)
@@ -731,7 +731,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("TranslatedName");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Shift", b =>
@@ -741,7 +741,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
                         .HasMaxLength(25)
@@ -799,7 +799,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("TranslatedName");
 
-                    b.ToTable("Shifts");
+                    b.ToTable("Shifts", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.SummaryCard", b =>
@@ -809,7 +809,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
@@ -866,7 +866,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SummaryCards");
+                    b.ToTable("SummaryCards", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.SummaryCardItem", b =>
@@ -876,7 +876,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
@@ -922,7 +922,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("SummaryCardId");
 
-                    b.ToTable("SummaryCardItems");
+                    b.ToTable("SummaryCardItems", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.User", b =>
@@ -932,7 +932,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AvatarType")
                         .HasColumnType("int");
@@ -1008,7 +1008,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.Workshop", b =>
@@ -1018,7 +1018,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
                         .HasMaxLength(25)
@@ -1067,7 +1067,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("TranslatedName");
 
-                    b.ToTable("Workshops");
+                    b.ToTable("Workshops", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.WorkshopUser", b =>
@@ -1077,7 +1077,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
@@ -1117,7 +1117,7 @@ namespace Hechinger.FSK.Infrastructure.Migrations
 
                     b.HasIndex("WorkshopId");
 
-                    b.ToTable("WorkshopUsers");
+                    b.ToTable("WorkshopUsers", (string)null);
                 });
 
             modelBuilder.Entity("Hechinger.FSK.Core.Entities.AuditLogProperty", b =>

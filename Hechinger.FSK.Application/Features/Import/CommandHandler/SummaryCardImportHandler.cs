@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System.Collections;
-
-namespace Hechinger.FSK.Application.Features.Import.CommandHandler
+﻿namespace Hechinger.FSK.Application.Features.Import
 {
     public class SummaryCardImportHandler : IRequestHandler<SummaryCardImport, Result<IEnumerable<ImportError>>>
     {

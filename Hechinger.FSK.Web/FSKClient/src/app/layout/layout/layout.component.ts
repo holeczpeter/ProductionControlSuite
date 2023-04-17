@@ -36,8 +36,7 @@ export class LayoutComponent implements OnDestroy {
         this.navigationService.getMenuItems().subscribe(menuitems => {
           if (menuitems) {
             let currentModule = menuitems.find(menu => menu.node.path === `/${this.navigationService.moduleNameFromUrl(x.url)}`);
-            this.sidebarMenuItems = currentModule!.children;
-           
+            if (currentModule) this.sidebarMenuItems = currentModule!.children;
           }
         });
       }

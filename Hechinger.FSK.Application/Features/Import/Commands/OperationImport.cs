@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace Hechinger.FSK.Application.Features.Import.CommandHandler
+﻿namespace Hechinger.FSK.Application.Features.Import
 {
     public class OperationImport : IRequest<Result<IEnumerable<ImportError>>>
     {

@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System.Globalization;
-
-namespace Hechinger.FSK.Application.Features
+﻿namespace Hechinger.FSK.Application.Features.Import
 {
     public class UpdateOperationTranslatedNameHandler : IRequestHandler<UpdateOperationImport, Result<IEnumerable<ImportError>>>
     {

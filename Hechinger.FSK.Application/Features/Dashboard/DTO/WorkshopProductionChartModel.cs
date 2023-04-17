@@ -1,4 +1,4 @@
-﻿namespace Hechinger.FSK.Application.Features.Dashboard.DTO
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class WorkshopProductionChartModel: BaseModel
     {

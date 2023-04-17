@@ -1,6 +1,4 @@
-﻿
-
-namespace Hechinger.FSK.Application.Features
+﻿namespace Hechinger.FSK.Application.Features
 {
     public class UserSettingsModel : BaseModel
     {
