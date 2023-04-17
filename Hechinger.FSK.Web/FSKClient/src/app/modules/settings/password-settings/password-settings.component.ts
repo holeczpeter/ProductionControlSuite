@@ -22,10 +22,10 @@ export class PasswordSettingsComponent implements OnInit, OnDestroy, HasComponen
   hideNew = true;
   hideNewRe = true;
   destroy$: Subject<any> = new Subject();
+
   constructor(private fb: UntypedFormBuilder,
     private accountService: AccountService,
     private readonly snackBarService: SnackbarService,
-    private router: Router,
     public spinnerService: SpinnerService) { }
    
 
@@ -55,10 +55,12 @@ export class PasswordSettingsComponent implements OnInit, OnDestroy, HasComponen
       }
     });
   }
-  ngOnDestroy(): void {
-    this.destroy$.next(null);
-  }
+  
   hasUnsavedChanges(): boolean {
     return this.formGroup.isChanged();
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next(null);
+    this.destroy$.complete();
   }
 }
