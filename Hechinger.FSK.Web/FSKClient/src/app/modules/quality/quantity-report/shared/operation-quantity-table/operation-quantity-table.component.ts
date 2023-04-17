@@ -41,10 +41,9 @@ export class OperationQuantityTableComponent implements OnInit, OnChanges, DoChe
   shiftChanges: any;
   categoryChanges: any;
   filterableColumns: Array<TableColumnModel>;
+
   constructor(public languageService: LanguageService,
-    private differs: IterableDiffers,
-    private readonly exportService: TableExportService,
-    private readonly shiftDataServie: ShiftDataService) {
+    private differs: IterableDiffers) {
     this._differShifts = this.differs.find([]).create(this.trackByFn);
     this._differCategories = this.differs.find([]).create(this.trackByFn);
   }

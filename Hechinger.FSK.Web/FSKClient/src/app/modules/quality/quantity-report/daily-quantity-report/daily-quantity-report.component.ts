@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { distinctUntilChanged, forkJoin, Subscription } from 'rxjs';
+import { distinctUntilChanged, forkJoin, Subject, Subscription, takeUntil } from 'rxjs';
 import { EnumModel, GetQuantityReportByOperation, IntervalModel, IntervalOption, QuantityOperationReportModel, SelectModel, ShiftModel, Views } from '../../../../models/generated/generated';
 import { QuantityTableModel } from '../../../../models/quantity-table-model';
 import { DefectDataService } from '../../../../services/data/defect-data.service';
@@ -32,6 +32,8 @@ export class DailyQuantityReportComponent implements OnInit, OnDestroy {
   categories: EnumModel[];
   chartTitle: string | null;
   tableModel: QuantityTableModel;
+  private destroy$: Subject<void> = new Subject<void>();
+
   constructor(private readonly qualityDataService: QualityDataService,
     private readonly defectDataService: DefectDataService,
     public languageService: LanguageService,
@@ -40,7 +42,7 @@ export class DailyQuantityReportComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    forkJoin([this.shiftDataServie.getAll(), this.defectDataService.getAllDefectCategories()]).subscribe(([shifts, categories]) => {
+    forkJoin([this.shiftDataServie.getAll(), this.defectDataService.getAllDefectCategories()]).pipe(takeUntil(this.destroy$)).subscribe(([shifts, categories]) => {
       this.shifts = shifts;
       this.categories = categories;
     });
@@ -49,7 +51,7 @@ export class DailyQuantityReportComponent implements OnInit, OnDestroy {
     if (this.monthDataSubscription) this.monthDataSubscription.unsubscribe();
     if (this.intervalSubscription) this.intervalSubscription.unsubscribe();
     this.intervalSubscription = this.intervalPanelService.getCurrentIntervalModel()
-      .pipe(distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)))
+      .pipe(takeUntil(this.destroy$),distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)))
       .subscribe((x: IntervalModel) => {
         this.currentInterval = x;
         this.selectedView = x.selectedView;
@@ -65,7 +67,7 @@ export class DailyQuantityReportComponent implements OnInit, OnDestroy {
         startDate: this.currentInterval.startDate,
         endDate: this.currentInterval.endDate,
       }
-      this.qualityDataService.getQuantityReportByOperation(request).subscribe(reportModel => {
+      this.qualityDataService.getQuantityReportByOperation(request).pipe(takeUntil(this.destroy$)).subscribe(reportModel => {
         this.quantityReportModel = reportModel;
         this.tableModel = {
           interval: this.currentInterval,
@@ -85,5 +87,7 @@ export class DailyQuantityReportComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.monthDataSubscription) this.monthDataSubscription.unsubscribe();
     if (this.intervalSubscription) this.intervalSubscription.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
