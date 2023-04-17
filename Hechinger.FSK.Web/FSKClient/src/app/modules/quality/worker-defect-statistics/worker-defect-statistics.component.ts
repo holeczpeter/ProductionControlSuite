@@ -1,19 +1,14 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSelect } from '@angular/material/select';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, forkJoin, ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { DefectStatisticModel, GetDefectsByOperation, GetDefectStatisticsByUser, GetOperationsByProduct, SelectModel, WorkerModel, WorkerStatisticsModel } from '../../../models/generated/generated';
-import { AccountService } from '../../../services/account.service';
+import { DefectStatisticModel, GetDefectsByOperation, GetDefectStatisticsByUser, GetOperationsByProduct, SelectModel, WorkerModel } from '../../../models/generated/generated';
 import { DefectDataService } from '../../../services/data/defect-data.service';
 import { OperationDataService } from '../../../services/data/operation-data.service';
 import { ProductDataService } from '../../../services/data/product-data.service';
 import { QualityDataService } from '../../../services/data/quality-data.service';
 import { WorkerDataService } from '../../../services/data/worker-data.service';
 import { LanguageService } from '../../../services/language/language.service';
-import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-worker-defect-statistics',
