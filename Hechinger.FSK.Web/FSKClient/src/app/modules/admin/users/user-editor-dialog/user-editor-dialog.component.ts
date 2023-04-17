@@ -1,21 +1,20 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { AddUser, LanguageModel, RoleModel, UpdateUser, UserModel, WorkshopUserItem } from '../../../../models/generated/generated';
 import { ConfirmDialogService } from '../../../../services/confirm-dialog/confirm-dialog-service';
 import { LanguageDataService } from '../../../../services/data/language-data.service';
 import { RoleDataService } from '../../../../services/data/role-data.service';
 import { UserDataService } from '../../../../services/data/user-data.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
-import { CustomValidator } from '../../../../validators/custom-validator';
 
 @Component({
   selector: 'app-user-editor-dialog',
   templateUrl: './user-editor-dialog.component.html',
   styleUrls: ['./user-editor-dialog.component.scss']
 })
-export class UserEditorDialogComponent implements OnInit {
+export class UserEditorDialogComponent implements OnInit, OnDestroy {
   id: number = 0;
   title!: string;
   formGroup: UntypedFormGroup;
@@ -24,6 +23,8 @@ export class UserEditorDialogComponent implements OnInit {
   accessWorkshops!: Array<WorkshopUserItem>;
   hide = true;
   hideRe = true;
+  private destroy$: Subject<void> = new Subject<void>();
+
   constructor(private readonly dialogRef: MatDialogRef<UserEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: UserModel,
     private readonly userDataService: UserDataService,
@@ -60,7 +61,7 @@ export class UserEditorDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    forkJoin([this.roleDataService.getAll(), this.languageDataService.getAll()]).subscribe(([roles, languages]) => {
+    forkJoin([this.roleDataService.getAll(), this.languageDataService.getAll()]).pipe(takeUntil(this.destroy$)).subscribe(([roles, languages]) => {
       this.roles = roles;
       this.languages = languages;
     });
@@ -111,5 +112,9 @@ export class UserEditorDialogComponent implements OnInit {
   onCancel() {
     if (this.formGroup.isChanged()) this.confirmDialogService.confirmClose(this.dialogRef);
     else this.dialogRef.close(false);
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

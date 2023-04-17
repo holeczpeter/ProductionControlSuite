@@ -1,11 +1,12 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
 import { DeleteUser, UserModel } from '../../../models/generated/generated';
 import { ColumnTypes, TableColumnModel } from '../../../models/table-column-model';
 import { AccountService } from '../../../services/account.service';
@@ -29,7 +30,7 @@ import { UserEditorDialogComponent } from './user-editor-dialog/user-editor-dial
     ]),
   ],
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
 
   dataSource!: MatTableDataSource<UserModel>;
   pageSize = this.accountService.getPageSize();
@@ -79,6 +80,7 @@ export class UsersComponent implements OnInit {
   ];
   filterableColumnNames: Array<string> = ['fullNameFilter', 'codeFilter', 'roleNameFilter', 'languageNameFilter', 'statusNameFilter', 'more'];
   filterForm: UntypedFormGroup;
+  private destroy$: Subject<void> = new Subject<void>();
   constructor(private readonly userDataService: UserDataService,
     private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
@@ -87,13 +89,14 @@ export class UsersComponent implements OnInit {
     public translate: TranslateService,
     public sortService: CompareService,
     public tableFilterService: TableFilterService) { }
+   
 
   ngOnInit(): void {
     this.initalize();
   }
 
   initalize() {
-    this.userDataService.getAll().subscribe(users => {
+    this.userDataService.getAll().pipe(takeUntil(this.destroy$)).subscribe(users => {
       this.dataSource = new MatTableDataSource<UserModel>(users);
       this.createDinamicallyFormGroup();
       this.filterValueChanges();
@@ -184,5 +187,9 @@ export class UsersComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
