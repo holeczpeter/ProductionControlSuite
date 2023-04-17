@@ -81,6 +81,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   filterableColumnNames: Array<string> = ['fullNameFilter', 'codeFilter', 'roleNameFilter', 'languageNameFilter', 'statusNameFilter', 'more'];
   filterForm: UntypedFormGroup;
   private destroy$: Subject<void> = new Subject<void>();
+
   constructor(private readonly userDataService: UserDataService,
     private readonly accountService: AccountService,
     private readonly dialog: MatDialog,

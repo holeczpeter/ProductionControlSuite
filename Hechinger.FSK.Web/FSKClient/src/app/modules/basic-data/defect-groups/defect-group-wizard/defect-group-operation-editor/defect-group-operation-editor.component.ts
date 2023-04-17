@@ -1,9 +1,9 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { HttpParams } from '@angular/common/http';
-import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { startWith } from 'rxjs';
+import { startWith, Subject, takeUntil } from 'rxjs';
 import { AccordionConfig } from '../../../../../layout/sidebar/sidebar.component';
 import { EntityGroupModel, EntityGroupRelationModel, GroupTypes } from '../../../../../models/generated/generated';
 import { TreeItem } from '../../../../../models/tree-item';
@@ -25,7 +25,7 @@ import { LanguageService } from '../../../../../services/language/language.servi
     ]),
   ],
 })
-export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, AfterViewInit, AfterContentChecked {
+export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, AfterViewInit, AfterContentChecked, OnDestroy {
   
  
   config: AccordionConfig = { multi: false };
@@ -34,25 +34,27 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
   columnsToDisplay = ['order','name', 'relation', 'delete', 'expand'];
   expandedElement: TreeItem<EntityGroupModel> | null;
   openedSidebar = true;
+  protected onDestroy$ = new Subject<void>();
 
   constructor(private entityGroupDataService: EntityGroupDataService,
     public languageService: LanguageService,
     private changeDetector: ChangeDetectorRef,
     private readonly confirmDialogService: ConfirmDialogService,
     public entityGroupService: EntityGroupService) { }
+    
 
   ngOnInit(): void {
-    this.entityGroupService.treeForm.valueChanges.pipe(startWith(this.entityGroupService.treeForm.value)).subscribe(x => {
+    this.entityGroupService.treeForm.valueChanges.pipe(takeUntil(this.onDestroy$) ,startWith(this.entityGroupService.treeForm.value)).subscribe(x => {
       this.dataSource.data = this.entityGroupService.getChildren.controls;
     });
-    this.entityGroupService.getProductChanged().pipe(startWith(true)).subscribe(change => {
+    this.entityGroupService.getProductChanged().pipe(takeUntil(this.onDestroy$) ,startWith(true)).subscribe(change => {
       if (change) {
         let products = this.entityGroupService.getRelations.value;
         let productIds = products.map((x: EntityGroupRelationModel) => x.entityId).map((u: number) => u.toString()).join(',');
         let params = new HttpParams();
         params = params.append('productIds', productIds);
         params = params.append('groupId', this.entityGroupService.treeForm.get('node')?.value.id);
-        this.entityGroupDataService.getOperationsForRelation(params).subscribe(res => {
+        this.entityGroupDataService.getOperationsForRelation(params).pipe(takeUntil(this.onDestroy$)).subscribe(res => {
           if (res == null) res = new Array<EntityGroupRelationModel>();
           this.entityGroupService.allOperations = res;
           const allUsed = this.entityGroupService.getAllOperationRelation();
@@ -101,6 +103,10 @@ export class DefectGroupOperationEditorComponent implements OnInit, OnChanges, A
   }
   ngAfterViewInit(): void {
     this.changeDetector.detectChanges();
+  }
+  ngOnDestroy() {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
 

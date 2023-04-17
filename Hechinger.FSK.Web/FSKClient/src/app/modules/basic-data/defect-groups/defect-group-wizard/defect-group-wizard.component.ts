@@ -1,10 +1,9 @@
-import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatStepper } from '@angular/material/stepper';
-import { BehaviorSubject } from 'rxjs';
-import { startWith } from 'rxjs';
-import { EntityGroupModel, GroupTypes, ProductModel, SaveEntityGroup } from '../../../../models/generated/generated';
+import { startWith, Subject, takeUntil } from 'rxjs';
+import { EntityGroupModel, GroupTypes, SaveEntityGroup } from '../../../../models/generated/generated';
 import { TreeItem } from '../../../../models/tree-item';
 import { DefectGroupDataService } from '../../../../services/data/defect-group-data.service';
 import { EntityGroupDataService } from '../../../../services/data/entity-group-data.service';
@@ -18,7 +17,7 @@ import { SnackbarService } from '../../../../services/snackbar/snackbar.service'
   templateUrl: './defect-group-wizard.component.html',
   styleUrls: ['./defect-group-wizard.component.scss']
 })
-export class DefectGroupWizardComponent implements OnInit {
+export class DefectGroupWizardComponent implements OnInit, OnDestroy {
   title!: string;
   context: any;
   @ViewChild('singleSelect') singleSelect: MatSelect;
@@ -26,7 +25,9 @@ export class DefectGroupWizardComponent implements OnInit {
   totalStepsCount!: 3;
   isHead: boolean = false;
   data: TreeItem<EntityGroupModel>;
-  selectedIndex= 0;
+  selectedIndex = 0;
+  private destroy$: Subject<void> = new Subject<void>();
+
   constructor(private readonly dialogRef: MatDialogRef<DefectGroupWizardComponent>,
     @Inject(MAT_DIALOG_DATA) public incomingData: TreeItem<EntityGroupModel>,
     private entityGroupDataService: EntityGroupDataService,
@@ -44,18 +45,16 @@ export class DefectGroupWizardComponent implements OnInit {
     if (this.incomingData.node.id == 0) {
       this.data = this.incomingData;
       this.entityGroupService.refreshTree(this.incomingData);
-      this.entityGroupService.treeForm.get('node')?.get('groupType')?.valueChanges.pipe(startWith(this.entityGroupService.treeForm.get('node')?.get('groupType')?.value)).subscribe(x => {
+      this.entityGroupService.treeForm.get('node')?.get('groupType')?.valueChanges.pipe(takeUntil(this.destroy$) ,startWith(this.entityGroupService.treeForm.get('node')?.get('groupType')?.value)).subscribe(x => {
         this.isHead = x == GroupTypes.Head;
       });
     }
     else {
       let request = { id: this.incomingData.node.id };
-      this.entityGroupDataService.get(request).subscribe(x => {
+      this.entityGroupDataService.get(request).pipe(takeUntil(this.destroy$)).subscribe(x => {
         this.data = x;
         this.entityGroupService.refreshTree(this.data);
-        //if (this.data) this.entityGroupService.refreshTree(this.data);
-        //else this.entityGroupService.refreshTree(this.incomingData);
-        this.entityGroupService.treeForm.get('node')?.get('groupType')?.valueChanges.pipe(startWith(this.entityGroupService.treeForm.get('node')?.get('groupType')?.value)).subscribe(x => {
+        this.entityGroupService.treeForm.get('node')?.get('groupType')?.valueChanges.pipe(takeUntil(this.destroy$) ,startWith(this.entityGroupService.treeForm.get('node')?.get('groupType')?.value)).subscribe(x => {
           this.isHead = x == GroupTypes.Head;
         });
       });
@@ -89,5 +88,9 @@ export class DefectGroupWizardComponent implements OnInit {
   }
   ngAfterContentChecked() {
     this.changeDetector.detectChanges();
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

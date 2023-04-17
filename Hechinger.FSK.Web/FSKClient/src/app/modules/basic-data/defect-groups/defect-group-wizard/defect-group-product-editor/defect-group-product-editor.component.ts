@@ -1,10 +1,9 @@
 import { HttpParams } from '@angular/common/http';
-import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { debounceTime, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
-import { EntityGroupModel, EntityGroupRelationModel } from '../../../../../models/generated/generated';
-import { TreeItem } from '../../../../../models/tree-item';
+import { EntityGroupRelationModel } from '../../../../../models/generated/generated';
 import { EntityGroupDataService } from '../../../../../services/data/entity-group-data.service';
 import { EntityGroupService } from '../../../../../services/entity-group/entity-group-service.service';
 import { LanguageService } from '../../../../../services/language/language.service';
@@ -21,7 +20,7 @@ export class DefectGroupProductEditorComponent implements OnInit, OnChanges, Aft
   public filteredProductsMulti: ReplaySubject<EntityGroupRelationModel[]> = new ReplaySubject<EntityGroupRelationModel[]>(1);
   @ViewChild('multiSelect') multiSelect: MatSelect;
   selectedUsers: EntityGroupRelationModel[] = new Array<EntityGroupRelationModel>();
-  protected _onDestroy = new Subject<void>();
+  protected onDestroy$ = new Subject<void>();
 
   constructor(public languageService: LanguageService,
     public entityGroupDataService: EntityGroupDataService,
@@ -37,7 +36,7 @@ export class DefectGroupProductEditorComponent implements OnInit, OnChanges, Aft
       params = params.append('filter', '');
       this.entityGroupDataService.getProductsForRelation(params).subscribe(products => {
         this.products = products;
-        this.productFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
+        this.productFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy$)).pipe(
           debounceTime(500)).subscribe(filter => {
             this.filterProductsMulti();
           })
@@ -51,7 +50,7 @@ export class DefectGroupProductEditorComponent implements OnInit, OnChanges, Aft
   }
   protected setInitialValue() {
     this.filteredProductsMulti
-      .pipe(take(1), takeUntil(this._onDestroy))
+      .pipe(take(1), takeUntil(this.onDestroy$))
       .subscribe(() => {
         this.multiSelect.compareWith = (a: EntityGroupRelationModel, b: EntityGroupRelationModel) => a && b && a.entityId === b.entityId;
       });
@@ -69,7 +68,7 @@ export class DefectGroupProductEditorComponent implements OnInit, OnChanges, Aft
       let params = new HttpParams();
       params = params.append('groupId', this.entityGroupService.treeForm.get('node')?.value.id);
       params = params.append('filter', search);
-      this.entityGroupDataService.getProductsForRelation(params).subscribe((result: any) => {
+      this.entityGroupDataService.getProductsForRelation(params).pipe(takeUntil(this.onDestroy$)).subscribe((result: any) => {
         this.filteredProductsMulti.next(this.products.filter(product => (product.name && product.name.toLowerCase().indexOf(search) > -1) ||
           (product.code && product.code.toLowerCase().indexOf(search) > -1)));
       });
@@ -80,8 +79,8 @@ export class DefectGroupProductEditorComponent implements OnInit, OnChanges, Aft
   }
 
   ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
 

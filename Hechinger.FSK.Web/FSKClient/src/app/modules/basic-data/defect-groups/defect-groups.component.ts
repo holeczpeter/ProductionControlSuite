@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { TranslateService } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
 import { DeleteEntityGroup, EntityGroupModel, EntityGroupRelationModel, GroupTypes } from '../../../models/generated/generated';
 import { TreeItem } from '../../../models/tree-item';
 import { TreeItemFlatNode } from '../../../models/tree-item-flat-node';
@@ -74,6 +75,8 @@ export class DefectGroupsComponent implements OnInit {
   public get groupTypes(): typeof GroupTypes {
     return GroupTypes;
   }
+  private destroy$: Subject<void> = new Subject<void>();
+
   constructor(private readonly entityGroupDataService: EntityGroupDataService,
     public readonly entityGroupService: EntityGroupService,
     private readonly dialog: MatDialog,
@@ -90,7 +93,7 @@ export class DefectGroupsComponent implements OnInit {
     this.initalize(null);
   }
   initalize(expandedElement: TreeItemFlatNode<EntityGroupModel> | null) {
-    this.entityGroupDataService.getAll().subscribe(results => {
+    this.entityGroupDataService.getAll().pipe(takeUntil(this.destroy$)).subscribe(results => {
       this.results = results;
       this.treeFlattener = new MatTreeFlattener(
         this.transformer,
@@ -229,5 +232,9 @@ export class DefectGroupsComponent implements OnInit {
         });
       }
     });
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
