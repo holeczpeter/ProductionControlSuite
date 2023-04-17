@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
 import { DeleteWorkshop, ShiftModel, WorkshopModel } from '../../../models/generated/generated';
 import { ColumnTypes, TableColumnModel } from '../../../models/table-column-model';
 import { AccountService } from '../../../services/account.service';
@@ -21,7 +22,7 @@ import { ShiftEditorDialogComponent } from './shift-editor-dialog/shift-editor-d
   templateUrl: './shifts.component.html',
   styleUrls: ['./shifts.component.scss']
 })
-export class ShiftsComponent implements OnInit, AfterViewInit {
+export class ShiftsComponent implements OnInit, AfterViewInit, OnDestroy {
   dataSource!: MatTableDataSource<ShiftModel>;
   pageSize = this.accountService.getPageSize();
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
@@ -54,6 +55,8 @@ export class ShiftsComponent implements OnInit, AfterViewInit {
   ];
   filterableColumnNames: Array<string> = ['nameFilter', 'translatedNameFilter','shortNameFilter', 'more'];
   filterForm: UntypedFormGroup;
+  protected onDestroy$ = new Subject<void>();
+
   constructor(private readonly shiftDataService: ShiftDataService,
     private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
@@ -69,7 +72,7 @@ export class ShiftsComponent implements OnInit, AfterViewInit {
   }
 
   initalize() {
-    this.shiftDataService.getAll().subscribe(shifts => {
+    this.shiftDataService.getAll().pipe(takeUntil(this.onDestroy$)).subscribe(shifts => {
       this.dataSource = new MatTableDataSource<ShiftModel>(shifts);
       this.createDinamicallyFormGroup();
       this.filterValueChanges();
@@ -82,7 +85,7 @@ export class ShiftsComponent implements OnInit, AfterViewInit {
   }
 
   filterValueChanges(): void {
-    this.tableFilterService.getFiltered(this.filterForm, this.dataSource.data).subscribe(filtered => {
+    this.tableFilterService.getFiltered(this.filterForm, this.dataSource.data).pipe(takeUntil(this.onDestroy$)).subscribe(filtered => {
       this.refreshDataSource(filtered);
     });
   }
@@ -109,7 +112,7 @@ export class ShiftsComponent implements OnInit, AfterViewInit {
     this.refreshDataSource(sortedData);
   }
   onExport() {
-    this.translate.get(this.title).subscribe(title => {
+    this.translate.get(this.title).pipe(takeUntil(this.onDestroy$)).subscribe(title => {
       this.exportService.exportFromDataSource(this.dataSource, this.filterableColumns, title);
     });
   }
@@ -149,6 +152,10 @@ export class ShiftsComponent implements OnInit, AfterViewInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }
+  }
+  ngOnDestroy() {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
 

@@ -1,6 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
 import { AddShift, ShiftModel, UpdateShift } from '../../../../models/generated/generated';
 import { ConfirmDialogService } from '../../../../services/confirm-dialog/confirm-dialog-service';
 import { ShiftDataService } from '../../../../services/data/shift-data.service';
@@ -11,9 +12,11 @@ import { SnackbarService } from '../../../../services/snackbar/snackbar.service'
   templateUrl: './shift-editor-dialog.component.html',
   styleUrls: ['./shift-editor-dialog.component.scss']
 })
-export class ShiftEditorDialogComponent implements OnInit {
+export class ShiftEditorDialogComponent implements OnInit, OnDestroy {
   title!: string;
   formGroup: UntypedFormGroup;
+  protected onDestroy$ = new Subject<void>();
+
   constructor(private readonly dialogRef: MatDialogRef<ShiftEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ShiftModel,
     private readonly shiftDataService: ShiftDataService,
@@ -74,6 +77,10 @@ export class ShiftEditorDialogComponent implements OnInit {
   onCancel() {
     if (this.formGroup.isChanged()) this.confirmDialogService.confirmClose(this.dialogRef);
     else this.dialogRef.close(false);
+  }
+  ngOnDestroy() {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
 
