@@ -1,14 +1,13 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { forkJoin, map, Observable, startWith } from 'rxjs';
+import { forkJoin, map, Observable, startWith, Subject, takeUntil } from 'rxjs';
 import { GetUsersByRole, GetUsersExceptByRole, RoleUserItem } from '../../../../models/generated/generated';
 import { AccountService } from '../../../../services/account.service';
 import { RoleDataService } from '../../../../services/data/role-data.service';
-import { UserDataService } from '../../../../services/data/user-data.service';
 
 
 @Component({
@@ -16,7 +15,7 @@ import { UserDataService } from '../../../../services/data/user-data.service';
   templateUrl: './role-user-editor.component.html',
   styleUrls: ['./role-user-editor.component.scss']
 })
-export class RoleUserEditorComponent implements OnInit, OnChanges {
+export class RoleUserEditorComponent implements OnInit, OnChanges, OnDestroy{
   @Input() roleId!: number;
   @Output() resfresh = new EventEmitter<Array<RoleUserItem>>();
   dataSource!: MatTableDataSource<AbstractControl>;
@@ -29,8 +28,9 @@ export class RoleUserEditorComponent implements OnInit, OnChanges {
   allUsers!: Array<RoleUserItem>;
   userInputCtrl = new UntypedFormControl();
   @ViewChild('userNameInput') userNameInput!: ElementRef<HTMLInputElement>;
-
   formGroup!: UntypedFormGroup;
+  private destroy$: Subject<void> = new Subject<void>();
+
   get users(): FormArray<AbstractControl<RoleUserItem>> {
     return this.formGroup.get('users') as FormArray<AbstractControl<RoleUserItem>>;
   }
@@ -48,7 +48,7 @@ export class RoleUserEditorComponent implements OnInit, OnChanges {
     if (changes["roleId"]) {
       let getUserByRole: GetUsersByRole = { roleId: this.roleId };
       let getUserExceptRole: GetUsersExceptByRole = { roleId: this.roleId };
-      forkJoin([this.roleDataService.getUsersByRole(getUserByRole), this.roleDataService.getUsersExceptByRole(getUserExceptRole)]).subscribe(([usersByRole, users]) => {
+      forkJoin([this.roleDataService.getUsersByRole(getUserByRole), this.roleDataService.getUsersExceptByRole(getUserExceptRole)]).pipe(takeUntil(this.destroy$)).subscribe(([usersByRole, users]) => {
         this.allUsers = users;
         this.formGroup = this.formBuilder.group({
           users: this.formBuilder.array(new Array<RoleUserItem>())
@@ -109,5 +109,9 @@ export class RoleUserEditorComponent implements OnInit, OnChanges {
 
   trackByIdFn(option: number) {
     return option;
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

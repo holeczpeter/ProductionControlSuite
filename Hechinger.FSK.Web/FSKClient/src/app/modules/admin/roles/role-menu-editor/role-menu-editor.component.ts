@@ -1,8 +1,9 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { Subject, takeUntil } from 'rxjs';
 import { GetMenuByRole, RoleMenuItem } from '../../../../models/generated/generated';
 import { TreeItem } from '../../../../models/tree-item';
 import { TreeItemFlatNode } from '../../../../models/tree-item-flat-node';
@@ -13,7 +14,7 @@ import { RoleDataService } from '../../../../services/data/role-data.service';
   templateUrl: './role-menu-editor.component.html',
   styleUrls: ['./role-menu-editor.component.scss']
 })
-export class RoleMenuEditorComponent implements OnInit, OnChanges {
+export class RoleMenuEditorComponent implements OnInit, OnChanges, OnDestroy {
   @Input() roleId!: number;
   menu!: Array<TreeItem<RoleMenuItem>>;
   modules!: Array<any>;
@@ -24,16 +25,17 @@ export class RoleMenuEditorComponent implements OnInit, OnChanges {
   selectedParent: TreeItemFlatNode<RoleMenuItem> | null = null;
   checklistSelection = new SelectionModel<TreeItemFlatNode<RoleMenuItem>>(true);
   @Output() resfreshSelectionTree = new EventEmitter<SelectionModel<TreeItemFlatNode<RoleMenuItem>>>();
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private readonly roleDataService: RoleDataService) { }
 
-
   ngOnInit(): void {
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["roleId"]) {
       let request: GetMenuByRole = { roleId: this.roleId };
-      this.roleDataService.getMenuByRole(request).subscribe(menu => {
+      this.roleDataService.getMenuByRole(request).pipe(takeUntil(this.destroy$)).subscribe(menu => {
         this.menu = menu;
         this.modules = new Array<any>();
         this.menu.forEach((menu: TreeItem<RoleMenuItem>) => {
@@ -160,5 +162,9 @@ export class RoleMenuEditorComponent implements OnInit, OnChanges {
   getParentType(node: TreeItemFlatNode<RoleMenuItem>, treeControl: FlatTreeControl<TreeItemFlatNode<RoleMenuItem>>) {
     let parent = this.getParentNode(node, treeControl);
     return parent?.item.node.type;
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

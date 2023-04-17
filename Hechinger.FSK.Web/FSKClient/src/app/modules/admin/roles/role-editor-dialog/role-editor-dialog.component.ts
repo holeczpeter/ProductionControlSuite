@@ -1,10 +1,10 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
-import { BehaviorSubject, forkJoin, Subject } from 'rxjs';
+import { BehaviorSubject, forkJoin, Subject, takeUntil } from 'rxjs';
 import { AddRole, GetRole, RoleDetailModel, RoleMenuItem, RoleModel, RoleUserItem, UpdateRole } from '../../../../models/generated/generated';
 import { TreeItemFlatNode } from '../../../../models/tree-item-flat-node';
 import { ConfirmDialogService } from '../../../../services/confirm-dialog/confirm-dialog-service';
@@ -20,7 +20,7 @@ import { SnackbarService } from '../../../../services/snackbar/snackbar.service'
     useValue: { displayDefaultIndicatorType: false },
   },]
 })
-export class RoleEditorDialogComponent implements OnInit, AfterViewInit, AfterViewInit, AfterContentChecked{
+export class RoleEditorDialogComponent implements OnInit, AfterViewInit, AfterViewInit, AfterContentChecked, OnDestroy{
   isModifiedMenus = new BehaviorSubject<boolean>(false);
   isModifiedUsers = new BehaviorSubject<boolean>(false);
 
@@ -32,6 +32,8 @@ export class RoleEditorDialogComponent implements OnInit, AfterViewInit, AfterVi
   accessUsers!: Array<RoleUserItem>
   @ViewChild('mystepper') stepper: MatStepper;
   totalStepsCount!: 3;
+  private destroy$: Subject<void> = new Subject<void>();
+
   constructor(private readonly dialogRef: MatDialogRef<RoleEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: RoleModel,
     private readonly roleDataService: RoleDataService,
@@ -42,11 +44,12 @@ export class RoleEditorDialogComponent implements OnInit, AfterViewInit, AfterVi
     this.id = this.data ? this.data.id : 0;
     this.title = this.data ? "roles.edit" : "roles.add";
   }
+   
 
   ngOnInit(): void {
    
     let getRole: GetRole = { id: this.id  };
-    forkJoin([this.roleDataService.get(getRole)]).subscribe(([role]) => {
+    forkJoin([this.roleDataService.get(getRole)]).pipe(takeUntil(this.destroy$)).subscribe(([role]) => {
       this.role = role;
       this.formGroup = this.formBuilder.group({
         id: [this.role ? this.role.id : '0', [Validators.required]],
@@ -121,5 +124,13 @@ export class RoleEditorDialogComponent implements OnInit, AfterViewInit, AfterVi
   }
   ngAfterContentChecked() {
     this.changeDetector.detectChanges();
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.isModifiedMenus.next(false);
+    this.isModifiedMenus.complete();
+    this.isModifiedUsers.next(false);
+    this.isModifiedUsers.complete();
   }
 }

@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
 import { DeleteRole, RoleModel, SetDefaultRole, UserModel } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
@@ -17,7 +18,7 @@ import { RoleEditorDialogComponent } from './role-editor-dialog/role-editor-dial
   templateUrl: './roles.component.html',
   styleUrls: ['./roles.component.scss']
 })
-export class RolesComponent implements OnInit {
+export class RolesComponent implements OnInit, OnDestroy {
   dataSource!: MatTableDataSource<RoleModel>;
   pageSize = this.accountService.getPageSize();
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
@@ -25,6 +26,7 @@ export class RolesComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   columnNames: Array<string> = ['name','translatedName', 'code', 'isDefault', 'edit','delete']
   title = "roles.title";
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private readonly roleDataService: RoleDataService,
     private readonly accountService: AccountService,
@@ -32,13 +34,14 @@ export class RolesComponent implements OnInit {
     private readonly confirmDialogService: ConfirmDialogService,
     private readonly snackBar: SnackbarService,
     public translate: TranslateService) { }
+   
 
   ngOnInit(): void {
     this.initalize();
   }
 
   initalize() {
-    this.roleDataService.getAll().subscribe(roles => {
+    this.roleDataService.getAll().pipe(takeUntil(this.destroy$)).subscribe(roles => {
       this.dataSource = new MatTableDataSource<RoleModel>(roles);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -52,7 +55,7 @@ export class RolesComponent implements OnInit {
       data: null,
       minWidth: '800px'
     });
-    dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => { if (result) this.initalize() });
   }
   onEdit(data: UserModel) {
 
@@ -62,7 +65,7 @@ export class RolesComponent implements OnInit {
       data: data,
       minWidth: '800px'
     });
-    dialogRef.afterClosed().subscribe((result) => { if (result) this.initalize() });
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => { if (result) this.initalize() });
   }
 
   onDelete(id: number) {
@@ -87,5 +90,9 @@ export class RolesComponent implements OnInit {
         this.snackBar.open(result);
       });
     }
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
