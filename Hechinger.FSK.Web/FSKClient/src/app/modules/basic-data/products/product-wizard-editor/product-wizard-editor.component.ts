@@ -1,8 +1,8 @@
-import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatStepper } from '@angular/material/stepper';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { GetProductContext, ProductContext, SaveProductContext } from '../../../../models/generated/generated';
 import { ConfirmDialogService } from '../../../../services/confirm-dialog/confirm-dialog-service';
 import { ProductDataService } from '../../../../services/data/product-data.service';
@@ -15,13 +15,14 @@ import { SnackbarService } from '../../../../services/snackbar/snackbar.service'
   templateUrl: './product-wizard-editor.component.html',
   styleUrls: ['./product-wizard-editor.component.scss']
 })
-export class ProductWizardEditorComponent implements OnInit, AfterViewInit, AfterContentChecked {
+export class ProductWizardEditorComponent implements OnInit, AfterViewInit, AfterContentChecked, OnDestroy {
   title!: string;
   product: ProductContext;
   @ViewChild('singleSelect') singleSelect: MatSelect;
   @ViewChild('mystepper') stepper: MatStepper;
   totalStepsCount!: 3;
- 
+  private destroy$: Subject<void> = new Subject<void>();
+
   constructor(private readonly dialogRef: MatDialogRef<ProductWizardEditorComponent>,
     @Inject(MAT_DIALOG_DATA) public data: number,
     private readonly confirmDialogService: ConfirmDialogService,
@@ -41,7 +42,7 @@ export class ProductWizardEditorComponent implements OnInit, AfterViewInit, Afte
     let productRequest: GetProductContext = {
       id: productId,
     };
-    forkJoin([this.productDataService.getProductContext(productRequest)]).subscribe(([product]) => {
+    forkJoin([this.productDataService.getProductContext(productRequest)]).pipe(takeUntil(this.destroy$)).subscribe(([product]) => {
       this.product = product;
       this.productContextService.buildForm(this.product);
     });
@@ -82,6 +83,10 @@ export class ProductWizardEditorComponent implements OnInit, AfterViewInit, Afte
   }
   ngAfterContentChecked() {
     this.changeDetector.detectChanges();
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
 

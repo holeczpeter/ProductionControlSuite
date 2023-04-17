@@ -1,14 +1,12 @@
-import { AfterContentChecked, ChangeDetectorRef } from '@angular/core';
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormControl, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatStepper } from '@angular/material/stepper';
-import { forkJoin, map, Observable, ReplaySubject, startWith, Subject, take, takeUntil } from 'rxjs';
+import { forkJoin, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
 import { ProductEditorModel } from '../../../../models/dialog-models/product-editor-model';
-import { AddProduct, DefectModel, GetOperationsByProduct, OperationModel, ProductModel, UpdateProduct, WorkshopModel } from '../../../../models/generated/generated';
+import { AddProduct, GetOperationsByProduct, ProductModel, UpdateProduct, WorkshopModel } from '../../../../models/generated/generated';
 import { ConfirmDialogService } from '../../../../services/confirm-dialog/confirm-dialog-service';
-import { OperationDataService } from '../../../../services/data/operation-data.service';
 import { ProductDataService } from '../../../../services/data/product-data.service';
 import { WorkshopDataService } from '../../../../services/data/workshop-data.service';
 import { LanguageService } from '../../../../services/language/language.service';
@@ -27,14 +25,13 @@ export class ProductEditorDialogComponent implements OnInit, AfterViewInit, OnDe
   workshops!: WorkshopModel[];
   public filterCtrl: FormControl = new FormControl();
   public filtered: ReplaySubject<WorkshopModel[]> = new ReplaySubject<WorkshopModel[]>(1);
-  protected _onDestroy = new Subject<void>();
+  protected onDestroy$ = new Subject<void>();
   @ViewChild('singleSelect') singleSelect: MatSelect;
-  
-
   @ViewChild('mystepper') stepper: MatStepper;
   totalStepsCount!: 3;
   operationsIsValid: boolean = true;
   operationId: number;
+
   constructor(private readonly dialogRef: MatDialogRef<ProductEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ProductEditorModel,
     private readonly productDataService: ProductDataService,
@@ -54,8 +51,9 @@ export class ProductEditorDialogComponent implements OnInit, AfterViewInit, OnDe
     let request: GetOperationsByProduct = {
       productId: this.product ? this.product.id : 0
     }
-    forkJoin([this.workshopDataService.getAll()]).
-      subscribe(([workshops]) => {
+    forkJoin([this.workshopDataService.getAll()])
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(([workshops]) => {
         this.workshops = workshops;
         this.formGroup = this.formBuilder.group({
           id: [this.product && !this.data.isCopy ? this.product.id : '0', [Validators.required]],
@@ -66,7 +64,7 @@ export class ProductEditorDialogComponent implements OnInit, AfterViewInit, OnDe
         });
         this.filtered.next(this.workshops.slice());
         this.filterCtrl.valueChanges
-          .pipe(takeUntil(this._onDestroy))
+          .pipe(takeUntil(this.onDestroy$))
           .subscribe(() => {
             this.filterItems();
           });
@@ -74,7 +72,7 @@ export class ProductEditorDialogComponent implements OnInit, AfterViewInit, OnDe
   }
   protected setInitialValue() {
     this.filtered
-      .pipe(take(1), takeUntil(this._onDestroy))
+      .pipe(take(1), takeUntil(this.onDestroy$))
       .subscribe(() => {
         if (this.singleSelect) this.singleSelect.compareWith = (a: WorkshopModel, b: WorkshopModel) => a && b && a.id === b.id;
       });
@@ -147,8 +145,10 @@ export class ProductEditorDialogComponent implements OnInit, AfterViewInit, OnDe
   }
 
   ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+    this.filtered.next([]);
+    this.filtered.complete();
   }
 }
 
