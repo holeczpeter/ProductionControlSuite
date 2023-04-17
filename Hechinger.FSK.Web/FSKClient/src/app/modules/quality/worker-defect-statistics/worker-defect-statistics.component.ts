@@ -29,17 +29,13 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
   public productFilterCtrl: FormControl = new FormControl();
   public filteredProducts: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
   @ViewChild('productSelect') productSelect: MatSelect;
-
   operations!: SelectModel[];
   defects!: SelectModel[];
   protected _onDestroy = new Subject<void>();
-  
   public workerFilterCtrl: FormControl = new FormControl();
   public filteredWorkers: ReplaySubject<WorkerModel[]> = new ReplaySubject<WorkerModel[]>(1);
   @ViewChild('workerSelect') workerSelect: MatSelect;
-
   workers: WorkerModel[];
-
   model: DefectStatisticModel;
 
   constructor(private readonly workerDataService: WorkerDataService,
@@ -48,33 +44,34 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
     private readonly productDataService: ProductDataService,
     private readonly operatonDataService: OperationDataService,
     private readonly defectDataService: DefectDataService,
-    private readonly snackBar: SnackbarService,
-    public languageService: LanguageService,
-    private readonly accountService: AccountService) { }
+    public languageService: LanguageService) {
+  }
 
   ngOnInit(): void {
-    forkJoin([this.workerDataService.getAll(), this.productDataService.getByFilter('')]).subscribe(([workers, products]) => {
-      this.products = products;
-      this.workers = workers;
-      this.formGroup = this.formBuilder.group({
-        startDate: [new Date(new Date().getFullYear(), 0, 1), [Validators.required]],
-        endDate: [new Date(), [Validators.required]],
-        product: [null, [Validators.required]],
-        operation: [null, [Validators.required]],
-        worker: [null, [Validators.required]],
+    forkJoin([this.workerDataService.getAll(), this.productDataService.getByFilter('')])
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(([workers, products]) => {
+        this.products = products;
+        this.workers = workers;
+        this.formGroup = this.formBuilder.group({
+          startDate: [new Date(new Date().getFullYear(), 0, 1), [Validators.required]],
+          endDate: [new Date(), [Validators.required]],
+          product: [null, [Validators.required]],
+          operation: [null, [Validators.required]],
+          worker: [null, [Validators.required]],
+        });
+        this.valueChanges();
+        this.productFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
+          debounceTime(500)).subscribe(filter => {
+            this.filterProduct();
+          })
+        this.filteredProducts.next(this.products.slice());
+        this.workerFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
+          debounceTime(500)).subscribe(filter => {
+            this.filterWorker();
+          })
+        this.filteredWorkers.next(this.workers.slice());
       });
-      this.valueChanges();
-      this.productFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
-        debounceTime(500)).subscribe(filter => {
-          this.filterProduct();
-        })
-      this.filteredProducts.next(this.products.slice());
-      this.workerFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
-        debounceTime(500)).subscribe(filter => {
-          this.filterWorker();
-        })
-      this.filteredWorkers.next(this.workers.slice());
-    });
   }
 
   valueChanges() {
@@ -87,14 +84,14 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
   }
   getDefects() {
     let request: GetDefectsByOperation = { operationId: this.formGroup.get('operation')?.value.id };
-    this.defectDataService.getByOperation(request).subscribe(defects => {
+    this.defectDataService.getByOperation(request).pipe(takeUntil(this._onDestroy)).subscribe(defects => {
       this.defects = defects;
     });
   }
 
   getOperations() {
     let request: GetOperationsByProduct = { productId: this.formGroup.get('product')?.value.id };
-    this.operatonDataService.getByProduct(request).subscribe(operations => {
+    this.operatonDataService.getByProduct(request).pipe(takeUntil(this._onDestroy)).subscribe(operations => {
       this.operations = operations;
     });
   }
@@ -107,7 +104,7 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
       return;
     }
     else search = search.toLowerCase();
-    this.productDataService.getByFilter(search).subscribe((result: any) => {
+    this.productDataService.getByFilter(search).pipe(takeUntil(this._onDestroy)).subscribe((result: any) => {
       this.products = result;
       this.filteredProducts.next(this.products.slice());
     });
@@ -121,7 +118,7 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
       return;
     }
     else search = search.toLowerCase();
-    this.workerDataService.getByFilter(search).subscribe((result: any) => {
+    this.workerDataService.getByFilter(search).pipe(takeUntil(this._onDestroy)).subscribe((result: any) => {
       this.workers = result;
       this.filteredWorkers.next(this.workers.slice());
     });
@@ -138,10 +135,14 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
       this.model = results;
     });
   }
-  
+
   ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
+    this.filteredProducts.next([]);
+    this.filteredProducts.complete();
+    this.filteredWorkers.next([]);
+    this.filteredWorkers.complete();
   }
 
 }
