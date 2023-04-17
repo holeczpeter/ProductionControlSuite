@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartComponent } from 'ng-apexcharts';
 import { Subscription } from 'rxjs';
@@ -12,13 +12,14 @@ import { ChartOptions } from '../../quality-report-yearly-summary/quality-report
   templateUrl: './guality-group-report-weekly-chart.component.html',
   styleUrls: ['./guality-group-report-weekly-chart.component.scss']
 })
-export class GualityGroupReportWeeklyChartComponent implements OnInit {
+export class GualityGroupReportWeeklyChartComponent implements OnInit, OnDestroy {
   @Input() chartModel: OperationItem;
   @Input() chartTitle: string | null;
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
   chartModels: Array<QuantityChartModel>;
   langChangeSubscription: Subscription;
+
   constructor(public translateService: TranslateService,
     private readonly chartService: ChartService) {
     if (this.langChangeSubscription) this.langChangeSubscription.unsubscribe();

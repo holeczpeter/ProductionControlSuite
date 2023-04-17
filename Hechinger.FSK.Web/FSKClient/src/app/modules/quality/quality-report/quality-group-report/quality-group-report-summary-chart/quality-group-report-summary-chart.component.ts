@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartComponent } from 'ng-apexcharts';
 import { Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { ChartOptions } from '../../quality-report-yearly-summary/quality-report
   templateUrl: './quality-group-report-summary-chart.component.html',
   styleUrls: ['./quality-group-report-summary-chart.component.scss']
 })
-export class QualityGroupReportSummaryChartComponent implements OnInit {
+export class QualityGroupReportSummaryChartComponent implements OnInit, OnDestroy {
   @Input() chartModel: GroupReportModel;
   @Input() chartTitle: string | null;
   @ViewChild("chart") chart: ChartComponent;

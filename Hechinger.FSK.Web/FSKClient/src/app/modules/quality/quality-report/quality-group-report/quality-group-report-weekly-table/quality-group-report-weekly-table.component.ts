@@ -1,17 +1,14 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { getWeek } from 'date-fns';
 import eachWeekOfInterval from 'date-fns/eachWeekOfInterval';
+import { Subject, takeUntil } from 'rxjs';
 import { EnumModel, GroupReportModel, IntervalModel, OperationItem, QuantityOperationReportModel, Views } from '../../../../../models/generated/generated';
 import { TableColumn } from '../../../../../models/table-column';
 import { TableColumnModel } from '../../../../../models/table-column-model';
 import { TableHeader } from '../../../../../models/table-header';
 import { DefectDataService } from '../../../../../services/data/defect-data.service';
-import { ProductDataService } from '../../../../../services/data/product-data.service';
-import { QualityDataService } from '../../../../../services/data/quality-data.service';
-import { ShiftDataService } from '../../../../../services/data/shift-data.service';
 import { IntervalViewService } from '../../../../../services/interval-view/interval-view.service';
 import { LanguageService } from '../../../../../services/language/language.service';
 import { TableExportService } from '../../../../../services/table/table-export.service';
@@ -36,7 +33,7 @@ export interface TableGroupItem {
   styleUrls: ['./quality-group-report-weekly-table.component.scss']
 })
 
-export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges {
+export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges, OnDestroy {
   @Input() result: GroupReportModel;
   @Input() interval: IntervalModel;
   title = "defectGroup.title";
@@ -68,16 +65,15 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
   public get views(): typeof Views {
     return Views;
   }
+  private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private readonly qualityDataService: QualityDataService,
-    private readonly formBuilder: UntypedFormBuilder,
+  constructor(
     private readonly dialog: MatDialog,
     private intervalPanelService: IntervalViewService,
-    private productDataService: ProductDataService,
     private readonly defectDataService: DefectDataService,
     public languageService: LanguageService,
-    private readonly tableExportService: TableExportService,
-    private readonly shiftDataServie: ShiftDataService,) { }
+    private readonly tableExportService: TableExportService) {
+  }
 
   ngOnInit(): void {
 
@@ -86,7 +82,7 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
     if (changes["result"] || changes["interval"]) {
      
       if (!this.categories) {
-        this.defectDataService.getAllDefectCategories().subscribe(res => {
+        this.defectDataService.getAllDefectCategories().pipe(takeUntil(this.destroy$)).subscribe(res => {
           this.categories = res;
           this.createTable();
         });
@@ -285,7 +281,6 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
     }
   }
   getCategoryById(categoryId: number) {
-    
     switch (categoryId) {
       case 0: return "#FFCA39";
       case 1: return "#379DDA";
@@ -293,5 +288,10 @@ export class QualityGroupReportWeeklyTableComponent implements OnInit, OnChanges
       default:
         return "#F35B5A";
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

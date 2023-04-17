@@ -14,7 +14,7 @@ import { LanguageService } from '../../../../services/language/language.service'
   styleUrls: ['./daily-quantity-report.component.scss']
 })
 export class DailyQuantityReportComponent implements OnInit, OnDestroy {
- 
+
   operation: SelectModel;
   quantityReportModel: QuantityOperationReportModel;
   intervalOptions: Array<IntervalOption> = [
@@ -42,16 +42,18 @@ export class DailyQuantityReportComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    forkJoin([this.shiftDataServie.getAll(), this.defectDataService.getAllDefectCategories()]).pipe(takeUntil(this.destroy$)).subscribe(([shifts, categories]) => {
-      this.shifts = shifts;
-      this.categories = categories;
-    });
+    forkJoin([this.shiftDataServie.getAll(), this.defectDataService.getAllDefectCategories()])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([shifts, categories]) => {
+        this.shifts = shifts;
+        this.categories = categories;
+      });
 
     this.selectedView = this.intervalOptions.find(x => x.isDefault)!.value;
     if (this.monthDataSubscription) this.monthDataSubscription.unsubscribe();
     if (this.intervalSubscription) this.intervalSubscription.unsubscribe();
     this.intervalSubscription = this.intervalPanelService.getCurrentIntervalModel()
-      .pipe(takeUntil(this.destroy$),distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)))
+      .pipe(takeUntil(this.destroy$), distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)))
       .subscribe((x: IntervalModel) => {
         this.currentInterval = x;
         this.selectedView = x.selectedView;

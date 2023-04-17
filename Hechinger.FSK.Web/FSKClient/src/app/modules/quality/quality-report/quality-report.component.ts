@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { BehaviorSubject, distinctUntilChanged, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, Subject, Subscription, takeUntil } from 'rxjs';
 import { EntityGroupModel, GetGroupReport, GroupTypes, IntervalModel, IntervalOption, Views } from '../../../models/generated/generated';
 import { TreeItem } from '../../../models/tree-item';
 import { EntityGroupDataService } from '../../../services/data/entity-group-data.service';
-import { QualityDataService } from '../../../services/data/quality-data.service';
 import { EntityGroupService } from '../../../services/entity-group/entity-group-service.service';
 import { IntervalViewService } from '../../../services/interval-view/interval-view.service';
 import { LanguageService } from '../../../services/language/language.service';
@@ -16,7 +15,7 @@ import { LanguageService } from '../../../services/language/language.service';
   styleUrls: ['./quality-report.component.scss']
 })
 export class QualityReportComponent implements OnInit, OnDestroy {
-  protected _onDestroy = new Subject<void>();
+  
   dataSource: MatTableDataSource<any>;
   request: GetGroupReport;
   items: Array<TreeItem<EntityGroupModel>>;
@@ -34,7 +33,8 @@ export class QualityReportComponent implements OnInit, OnDestroy {
   monthDataSubscription: Subscription;
   title = "defectGroup.title";
   entityGroupId = new BehaviorSubject<number>(0);
- 
+  private destroy$: Subject<void> = new Subject<void>();
+
   constructor(public readonly entityGroupService: EntityGroupService,
     public languageService: LanguageService,
     private readonly entityGroupDataService: EntityGroupDataService,
@@ -46,7 +46,7 @@ export class QualityReportComponent implements OnInit, OnDestroy {
     if (this.monthDataSubscription) this.monthDataSubscription.unsubscribe();
     if (this.intervalSubscription) this.intervalSubscription.unsubscribe();
     this.intervalSubscription = this.intervalPanelService.getCurrentIntervalModel()
-      .pipe(distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)))
+      .pipe(takeUntil(this.destroy$),distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)))
       .subscribe((x: IntervalModel) => {
         this.currentInterval = x;
         this.selectedView = x.selectedView;
@@ -62,7 +62,7 @@ export class QualityReportComponent implements OnInit, OnDestroy {
      
     });
     this.intervalPanelService.setViews(this.selectedView, this.currentDate);
-    this.entityGroupDataService.getAll().subscribe(results => { this.items = results;});
+    this.entityGroupDataService.getAll().pipe(takeUntil(this.destroy$)).subscribe(results => { this.items = results;});
   }
   tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
     if (tabChangeEvent.index) {
@@ -80,8 +80,10 @@ export class QualityReportComponent implements OnInit, OnDestroy {
     this.entityGroupId.next(event.id);
   }
   ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.entityGroupId.next(0);
+    this.entityGroupId.complete();
   }
  
 }

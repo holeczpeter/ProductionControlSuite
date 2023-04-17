@@ -1,9 +1,7 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
+import { Component, Input, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { GetGroupReport, GetGroupReportYearlySummary, GroupReportYearlySummaryModel, IntervalModel } from '../../../../models/generated/generated';
-import { ProductDataService } from '../../../../services/data/product-data.service';
 import { QualityDataService } from '../../../../services/data/quality-data.service';
-import { IntervalViewService } from '../../../../services/interval-view/interval-view.service';
 import { LanguageService } from '../../../../services/language/language.service';
 
 export class QualityMonthlyTable {
@@ -18,18 +16,20 @@ export class QualityMonthlyTable {
   templateUrl: './quality-report-yearly-summary.component.html',
   styleUrls: ['./quality-report-yearly-summary.component.scss']
 })
-export class QualityReportYearlySummaryComponent implements OnInit {
+export class QualityReportYearlySummaryComponent implements OnInit, OnDestroy {
   @Input() request: GetGroupReport;
   @Input() interval: IntervalModel;
   results: Array<GroupReportYearlySummaryModel>;
   title = "qualityhistorymonthly.title";
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private readonly qualityDataService: QualityDataService,
-    private readonly formBuilder: UntypedFormBuilder,
-    private intervalPanelService: IntervalViewService,
-    private productDataService: ProductDataService,
     public languageService: LanguageService) {
   }
+
+  ngOnInit(): void {
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if ((changes["request"] && this.request) || (changes["interval"] && this.interval)) this.initalize();
   }
@@ -40,13 +40,15 @@ export class QualityReportYearlySummaryComponent implements OnInit {
         entityGroupId: this.request.entityGroupId,
         year: this.interval.currentYear
       }
-      this.qualityDataService.getGroupReportYearlySummary(request).subscribe(results => {
+      this.qualityDataService.getGroupReportYearlySummary(request).pipe(takeUntil(this.destroy$)).subscribe(results => {
         this.results = results;
       });
     }
-    
   }
-  ngOnInit(): void {
+  
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
 

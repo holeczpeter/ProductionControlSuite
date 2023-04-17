@@ -1,13 +1,8 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
-import { forkJoin } from 'rxjs';
-import { EnumModel, GetGroupReport, GroupReportModel, IntervalModel, ShiftModel, Views } from '../../../../models/generated/generated';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { forkJoin, Subject, takeUntil } from 'rxjs';
+import { GetGroupReport, GroupReportModel, IntervalModel, Views } from '../../../../models/generated/generated';
 import { QuantityTableModel } from '../../../../models/quantity-table-model';
-import { DefectDataService } from '../../../../services/data/defect-data.service';
-import { ProductDataService } from '../../../../services/data/product-data.service';
 import { QualityDataService } from '../../../../services/data/quality-data.service';
-import { ShiftDataService } from '../../../../services/data/shift-data.service';
-import { IntervalViewService } from '../../../../services/interval-view/interval-view.service';
 import { LanguageService } from '../../../../services/language/language.service';
 export interface Quality {
   tableModel: QuantityTableModel;
@@ -19,7 +14,7 @@ export interface Quality {
   templateUrl: './quality-group-report.component.html',
   styleUrls: ['./quality-group-report.component.scss']
 })
-export class QualityGroupReportComponent implements OnInit, OnChanges {
+export class QualityGroupReportComponent implements OnInit, OnChanges, OnDestroy {
   @Input() request: GetGroupReport;
   @Input() interval: IntervalModel;
   selectedView: Views;
@@ -28,13 +23,10 @@ export class QualityGroupReportComponent implements OnInit, OnChanges {
   public get views(): typeof Views {
     return Views;
   }
+  private destroy$: Subject<void> = new Subject<void>();
+
   constructor(private readonly qualityDataService: QualityDataService,
-    private readonly formBuilder: UntypedFormBuilder,
-    private intervalPanelService: IntervalViewService,
-    private productDataService: ProductDataService,
-    private readonly defectDataService: DefectDataService,
-    public languageService: LanguageService,
-    private readonly shiftDataServie: ShiftDataService,) { }
+    public languageService: LanguageService) { }
 
   ngOnInit(): void {
   }
@@ -46,9 +38,13 @@ export class QualityGroupReportComponent implements OnInit, OnChanges {
   initalize() {
     this.selectedView = this.interval.selectedView;
     if (this.interval && this.request) {
-      forkJoin([this.qualityDataService.getGroupReport(this.request)]).subscribe(([result]) => {
+      forkJoin([this.qualityDataService.getGroupReport(this.request)]).pipe(takeUntil(this.destroy$)).subscribe(([result]) => {
         this.result = result;
       });
     }
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
