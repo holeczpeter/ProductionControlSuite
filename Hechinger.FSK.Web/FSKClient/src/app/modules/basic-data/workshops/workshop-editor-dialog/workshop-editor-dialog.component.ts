@@ -1,6 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+
 import { AddWorkshop, UpdateWorkshop, WorkshopModel } from '../../../../models/generated/generated';
 import { ConfirmDialogService } from '../../../../services/confirm-dialog/confirm-dialog-service';
 import { WorkshopDataService } from '../../../../services/data/workshop-data.service';
@@ -12,9 +14,11 @@ import { SnackbarService } from '../../../../services/snackbar/snackbar.service'
   templateUrl: './workshop-editor-dialog.component.html',
   styleUrls: ['./workshop-editor-dialog.component.scss']
 })
-export class WorkshopEditorDialogComponent implements OnInit {
+export class WorkshopEditorDialogComponent implements OnInit, OnDestroy {
   title!: string;
   formGroup: UntypedFormGroup;
+  protected onDestroy$ = new Subject<void>();
+
   constructor(private readonly dialogRef: MatDialogRef<WorkshopEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: WorkshopModel,
     private readonly confirmDialogService: ConfirmDialogService,
@@ -63,6 +67,10 @@ export class WorkshopEditorDialogComponent implements OnInit {
   onCancel() {
     if (this.formGroup.isChanged()) this.confirmDialogService.confirmClose(this.dialogRef);
     else this.dialogRef.close(false);
+  }
+  ngOnDestroy() {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
 

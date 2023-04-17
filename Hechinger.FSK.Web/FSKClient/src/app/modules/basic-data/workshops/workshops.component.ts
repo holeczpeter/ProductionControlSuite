@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -15,13 +15,14 @@ import { CompareService } from '../../../services/sort/sort.service';
 import { TableFilterService } from '../../../services/table/table-filter.service';
 import { TableExportService } from '../../../services/table/table-export.service';
 import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-workshops',
   templateUrl: './workshops.component.html',
   styleUrls: ['./workshops.component.scss']
 })
-export class WorkshopsComponent implements OnInit, AfterViewInit {
+export class WorkshopsComponent implements OnInit, AfterViewInit, OnDestroy {
   dataSource!: MatTableDataSource<WorkshopModel>;
   pageSize = this.accountService.getPageSize();
   pageSizeOptions: number[] = [5, 10, 25, 50, 100];
@@ -55,6 +56,8 @@ export class WorkshopsComponent implements OnInit, AfterViewInit {
   ];
   filterableColumnNames: Array<string> = ['nameFilter', 'translatedNameFilter','statusNameFilter','more'];
   filterForm: UntypedFormGroup;
+  protected onDestroy$ = new Subject<void>();
+
   constructor(private readonly workshopdataService: WorkshopDataService,
     private readonly accountService: AccountService,
     private readonly dialog: MatDialog,
@@ -71,7 +74,7 @@ export class WorkshopsComponent implements OnInit, AfterViewInit {
   }
 
   initalize() {
-    this.workshopdataService.getAll().subscribe(workshops => {
+    this.workshopdataService.getAll().pipe(takeUntil(this.onDestroy$)).subscribe(workshops => {
       this.dataSource = new MatTableDataSource<WorkshopModel>(workshops);
       this.createDinamicallyFormGroup();
       this.filterValueChanges();
@@ -85,7 +88,7 @@ export class WorkshopsComponent implements OnInit, AfterViewInit {
   }
 
   filterValueChanges(): void {
-    this.tableFilterService.getFiltered(this.filterForm, this.dataSource.data).subscribe(filtered => {
+    this.tableFilterService.getFiltered(this.filterForm, this.dataSource.data).pipe(takeUntil(this.onDestroy$)).subscribe(filtered => {
       this.refreshDataSource(filtered);
     });
   }
@@ -111,7 +114,7 @@ export class WorkshopsComponent implements OnInit, AfterViewInit {
     this.refreshDataSource(sortedData);
   }
   onExport() {
-    this.translate.get(this.title).subscribe(title => {
+    this.translate.get(this.title).pipe(takeUntil(this.onDestroy$)).subscribe(title => {
       this.exportService.exportFromDataSource(this.dataSource, this.filterableColumns, title);
     });
   }
@@ -151,6 +154,10 @@ export class WorkshopsComponent implements OnInit, AfterViewInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }
+  }
+  ngOnDestroy() {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
 
