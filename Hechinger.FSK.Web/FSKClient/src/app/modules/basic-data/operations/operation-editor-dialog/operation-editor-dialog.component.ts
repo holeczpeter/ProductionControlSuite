@@ -1,3 +1,4 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -24,8 +25,10 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
   products!: SelectModel[];
   public filterCtrl: FormControl = new FormControl();
   public filtered: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
-  protected _onDestroy = new Subject<void>();
+  protected onDestroy$ = new Subject<void>();
   @ViewChild('singleSelect') singleSelect: MatSelect;
+
+
   constructor(private readonly dialogRef: MatDialogRef<OperationEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: OperationEditorModel,
     private readonly productDataService: ProductDataService,
@@ -40,7 +43,7 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
 
   ngOnInit(): void {
     let currentProductId = this.operation ? this.operation.productId : 0;
-    forkJoin([this.productDataService.get({ id: currentProductId }), this.productDataService.getByFilter('')]).subscribe(([current, products]) => {
+    forkJoin([this.productDataService.get({ id: currentProductId }), this.productDataService.getByFilter('')]).pipe(takeUntil(this.onDestroy$)).subscribe(([current, products]) => {
       this.products = products;
       if(current) this.products.splice(1, 0, { id: current.id, code: current.code, name: current.name, translatedName: current.translatedName });
       
@@ -55,7 +58,7 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
         translatedName: [this.operation ? this.operation.translatedName : '', [Validators.required]],
         product: [this.operation ? this.products.find(ws => ws.id == this.operation!.productId) : null, [Validators.required]],
       }).setOriginalForm();
-      this.filterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
+      this.filterCtrl.valueChanges.pipe(takeUntil(this.onDestroy$)).pipe(
         debounceTime(500)).subscribe(filter => {
           this.filter();
         })
@@ -70,7 +73,7 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
       return;
     }
     else search = search.toLowerCase();
-    this.productDataService.getByFilter(search).subscribe((result: any) => {
+    this.productDataService.getByFilter(search).pipe(takeUntil(this.onDestroy$)).subscribe((result: any) => {
       this.products = result;
       this.filtered.next(this.products.slice());
     });
@@ -135,8 +138,10 @@ export class OperationEditorDialogComponent implements OnInit, AfterViewInit, On
   }
 
   ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+    this.filtered.next([]);
+    this.filtered.complete();
   }
 }
 
