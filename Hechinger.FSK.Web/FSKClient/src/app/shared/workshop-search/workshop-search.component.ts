@@ -19,8 +19,6 @@ export class WorkshopSearchComponent implements OnInit, OnDestroy {
   public filteredWorkshops: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
   @ViewChild('workshopSelect') workshopSelect: MatSelect;
   operations!: SelectModel[];
-
-  
   protected _onDestroy = new Subject<void>();
 
   constructor(private readonly formBuilder: UntypedFormBuilder,
@@ -29,7 +27,7 @@ export class WorkshopSearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.workshopDataService.getByFilter('').subscribe(workshops => {
+    this.workshopDataService.getByFilter('').pipe(takeUntil(this._onDestroy)).subscribe(workshops => {
       this.workshops = workshops;
       this.formGroup = this.formBuilder.group({
         workshop: [null, [Validators.required]],
@@ -57,7 +55,7 @@ export class WorkshopSearchComponent implements OnInit, OnDestroy {
       return;
     }
     else search = search.toLowerCase();
-    this.workshopDataService.getByFilter(search).subscribe((result: any) => {
+    this.workshopDataService.getByFilter(search).pipe(takeUntil(this._onDestroy)).subscribe((result: any) => {
       this.workshops = result;
       this.filteredWorkshops.next(this.workshops.slice());
     });
@@ -66,6 +64,8 @@ export class WorkshopSearchComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
+    this.filteredWorkshops.next([]);
+    this.filteredWorkshops.complete();
   }
 
 }

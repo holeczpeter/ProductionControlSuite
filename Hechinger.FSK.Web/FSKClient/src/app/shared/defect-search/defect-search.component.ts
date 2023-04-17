@@ -15,17 +15,15 @@ import { LanguageService } from '../../services/language/language.service';
 })
 export class DefectSearchComponent implements OnInit, OnDestroy {
   @Output() select = new EventEmitter<SelectModel>();
-
   formGroup: UntypedFormGroup;
   products!: SelectModel[];
   public productFilterCtrl: FormControl = new FormControl();
   public filteredProducts: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
   @ViewChild('productSelect') productSelect: MatSelect;
-
   operations!: SelectModel[];
   defects!: SelectModel[];
-  protected _onDestroy = new Subject<void>();
-  
+  protected _onDestroy$ = new Subject<void>();
+
   constructor(private readonly formBuilder: UntypedFormBuilder,
     private readonly productDataService: ProductDataService,
     private readonly operatonDataService: OperationDataService,
@@ -33,7 +31,7 @@ export class DefectSearchComponent implements OnInit, OnDestroy {
     public languageService: LanguageService,) { }
 
   ngOnInit(): void {
-    this.productDataService.getByFilter('').subscribe(products => {
+    this.productDataService.getByFilter('').pipe(takeUntil(this._onDestroy$)).subscribe(products => {
       this.products = products;
       this.formGroup = this.formBuilder.group({
         product: [null, [Validators.required]],
@@ -41,7 +39,7 @@ export class DefectSearchComponent implements OnInit, OnDestroy {
         defect: [null, [Validators.required]],
       });
       this.valueChanges();
-      this.productFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
+      this.productFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy$)).pipe(
         debounceTime(500)).subscribe(filter => {
           this.filterProduct();
         })
@@ -49,26 +47,26 @@ export class DefectSearchComponent implements OnInit, OnDestroy {
     });
   }
   valueChanges() {
-    this.formGroup.get('product')?.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(x => {
+    this.formGroup.get('product')?.valueChanges.pipe(takeUntil(this._onDestroy$)).subscribe(x => {
       this.getOperationsByProduct();
     });
-    this.formGroup.get('operation')?.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(x => {
+    this.formGroup.get('operation')?.valueChanges.pipe(takeUntil(this._onDestroy$)).subscribe(x => {
       this.getDefectsByOperation();
     });
-    this.formGroup.get('defect')?.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(x => {
+    this.formGroup.get('defect')?.valueChanges.pipe(takeUntil(this._onDestroy$)).subscribe(x => {
       this.select.emit(x);
     });
   }
   getDefectsByOperation() {
     let request: GetDefectsByOperation = { operationId: this.formGroup.get('operation')?.value.id };
-    this.defectDataService.getByOperation(request).subscribe(defects => {
+    this.defectDataService.getByOperation(request).pipe(takeUntil(this._onDestroy$)).subscribe(defects => {
       this.defects = defects;
     });
 
   }
   getOperationsByProduct() {
     let request: GetOperationsByProduct = { productId: this.formGroup.get('product')?.value.id };
-    this.operatonDataService.getByProduct(request).subscribe(operations => {
+    this.operatonDataService.getByProduct(request).pipe(takeUntil(this._onDestroy$)).subscribe(operations => {
       this.operations = operations;
     });
   }
@@ -81,13 +79,15 @@ export class DefectSearchComponent implements OnInit, OnDestroy {
       return;
     }
     else search = search.toLowerCase();
-    this.productDataService.getByFilter(search).subscribe((result: any) => {
+    this.productDataService.getByFilter(search).pipe(takeUntil(this._onDestroy$)).subscribe((result: any) => {
       this.products = result;
       this.filteredProducts.next(this.products.slice());
     });
   }
   ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
+    this._onDestroy$.next();
+    this._onDestroy$.complete();
+    this.filteredProducts.next([]);
+    this.filteredProducts.complete();
   }
 }

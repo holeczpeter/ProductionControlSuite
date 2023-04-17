@@ -37,7 +37,7 @@ export class ProductMultiSelectSearchComponent implements OnInit, DoCheck {
   }
   
   initalize() {
-    this.productDataService.getAll().subscribe(products => {
+    this.productDataService.getAll().pipe(takeUntil(this._onDestroy)).subscribe(products => {
       this.products = products;
       let currentSelection = this.products.filter(x => this.productIds.includes(x.id));
       this.formGroup = this.formBuilder.group({
@@ -56,18 +56,6 @@ export class ProductMultiSelectSearchComponent implements OnInit, DoCheck {
   ngOnInit() {
     this.initalize();
   }
-  
-  ngAfterViewInit() {
-
-  }
-
-  ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
-  }
-
-
-
   protected filterProductsMulti() {
     if (!this.products) {
       return;
@@ -78,7 +66,7 @@ export class ProductMultiSelectSearchComponent implements OnInit, DoCheck {
       return;
     } else {
       search = search.toLowerCase();
-      this.productDataService.getByFilter(search).subscribe((result: any) => {
+      this.productDataService.getByFilter(search).pipe(takeUntil(this._onDestroy)).subscribe((result: any) => {
         this.products = result;
         this.filteredProductsMulti.next(
           this.products.filter(bank => bank.name.toLowerCase().indexOf(search) > -1)
@@ -86,4 +74,15 @@ export class ProductMultiSelectSearchComponent implements OnInit, DoCheck {
       });
     }
   }
+  ngAfterViewInit() {
+
+  }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+    this.filteredProductsMulti.next([]);
+    this.filteredProductsMulti.complete();
+  }
+
 }

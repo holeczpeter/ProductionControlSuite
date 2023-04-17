@@ -23,7 +23,7 @@ export class OperationSearchComponent implements OnInit, OnDestroy {
   public filteredProducts: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
   @ViewChild('productSelect') productSelect: MatSelect;
   operations!: SelectModel[];
-  protected _onDestroy = new Subject<void>();
+  protected _onDestroy$ = new Subject<void>();
 
   constructor(private readonly formBuilder: UntypedFormBuilder,
     private readonly productDataService: ProductDataService,
@@ -32,7 +32,7 @@ export class OperationSearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.productDataService.getByFilter('').subscribe(products => {
+    this.productDataService.getByFilter('').pipe(takeUntil(this._onDestroy$)).subscribe(products => {
       this.products = products;
       this.formGroup = this.formBuilder.group({
         product: [null, [Validators.required]],
@@ -40,7 +40,7 @@ export class OperationSearchComponent implements OnInit, OnDestroy {
         
       });
       this.valueChanges();
-      this.productFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
+      this.productFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy$)).pipe(
         debounceTime(500)).subscribe(filter => {
           this.filterProduct();
         })
@@ -48,17 +48,17 @@ export class OperationSearchComponent implements OnInit, OnDestroy {
     });
   }
   valueChanges() {
-    this.formGroup.get('product')?.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(x => {
+    this.formGroup.get('product')?.valueChanges.pipe(takeUntil(this._onDestroy$)).subscribe(x => {
       this.getOperationsByProduct();
     });
-    this.formGroup.get('operation')?.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(x => {
+    this.formGroup.get('operation')?.valueChanges.pipe(takeUntil(this._onDestroy$)).subscribe(x => {
       this.select.emit(x);
     });
   }
  
   getOperationsByProduct() {
     let request: GetOperationsByProduct = { productId: this.formGroup.get('product')?.value.id };
-    this.operatonDataService.getByProduct(request).subscribe(operations => {
+    this.operatonDataService.getByProduct(request).pipe(takeUntil(this._onDestroy$)).subscribe(operations => {
       this.operations = operations;
     });
   }
@@ -71,13 +71,15 @@ export class OperationSearchComponent implements OnInit, OnDestroy {
       return;
     }
     else search = search.toLowerCase();
-    this.productDataService.getByFilter(search).subscribe((result: any) => {
+    this.productDataService.getByFilter(search).pipe(takeUntil(this._onDestroy$)).subscribe((result: any) => {
       this.products = result;
       this.filteredProducts.next(this.products.slice());
     });
   }
   ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
+    this._onDestroy$.next();
+    this._onDestroy$.complete();
+    this.filteredProducts.next([]);
+    this.filteredProducts.complete();
   }
 }

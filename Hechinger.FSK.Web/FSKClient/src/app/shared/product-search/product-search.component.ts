@@ -29,7 +29,7 @@ export class ProductSearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.productDataService.getByFilter('').subscribe(products => {
+    this.productDataService.getByFilter('').pipe(takeUntil(this._onDestroy)).subscribe(products => {
       this.products = products;
       this.formGroup = this.formBuilder.group({
         product: [null, [Validators.required]],
@@ -57,7 +57,7 @@ export class ProductSearchComponent implements OnInit, OnDestroy {
       return;
     }
     else search = search.toLowerCase();
-    this.productDataService.getByFilter(search).subscribe((result: any) => {
+    this.productDataService.getByFilter(search).pipe(takeUntil(this._onDestroy)).subscribe((result: any) => {
       this.products = result;
       this.filteredProducts.next(this.products.slice());
     });
@@ -66,6 +66,8 @@ export class ProductSearchComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
+    this.filteredProducts.next([]);
+    this.filteredProducts.complete();
   }
 
 }
