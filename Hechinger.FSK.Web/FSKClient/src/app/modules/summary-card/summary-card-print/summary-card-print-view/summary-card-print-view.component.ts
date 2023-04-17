@@ -1,4 +1,5 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { DefectPrintModel, OperationPrintModel, SelectModel } from '../../../../models/generated/generated';
 import { OperationDataService } from '../../../../services/data/operation-data.service';
 import { LanguageService } from '../../../../services/language/language.service';
@@ -8,7 +9,7 @@ import { LanguageService } from '../../../../services/language/language.service'
   templateUrl: './summary-card-print-view.component.html',
   styleUrls: ['./summary-card-print-view.component.scss']
 })
-export class SummaryCardPrintViewComponent implements OnInit, OnChanges {
+export class SummaryCardPrintViewComponent implements OnInit, OnChanges, OnDestroy {
   @Input() operation: SelectModel;
   printableOperation: OperationPrintModel;
   @ViewChild('content') content: ElementRef<HTMLElement>;
@@ -17,18 +18,20 @@ export class SummaryCardPrintViewComponent implements OnInit, OnChanges {
   count: number;
   currentDate= new Date();
   firstList: DefectPrintModel[];
-    secondList: DefectPrintModel[];
-  constructor(private readonly operationDataService: OperationDataService,
-    public languageService: LanguageService) { }
-    
+  secondList: DefectPrintModel[];
+  protected onDestroy$ = new Subject<void>();
 
-  ngOnInit(): void {
-   
+  constructor(private readonly operationDataService: OperationDataService,
+    public languageService: LanguageService) {
   }
+    
+  ngOnInit(): void {
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['operation'] && this.operation) {
       this.code = this.operation.code;
-      this.operationDataService.getPrint({ id: this.operation.id }).subscribe(result => {
+      this.operationDataService.getPrint({ id: this.operation.id }).pipe(takeUntil(this.onDestroy$)).subscribe(result => {
         this.printableOperation = result;
         if (this.printableOperation.defects.length <= 10)  this.count = 4;
         if (this.printableOperation.defects.length > 10 && this.printableOperation.defects.length <= 33) this.count = 2;
@@ -41,5 +44,9 @@ export class SummaryCardPrintViewComponent implements OnInit, OnChanges {
         
       });
     }
+  }
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

@@ -16,21 +16,22 @@ export class SummaryCardPrintComponent implements OnInit, AfterViewChecked, OnDe
   destroy$: Subject<any> = new Subject();
   public filterCtrl: FormControl = new FormControl();
   public filtered: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
-  protected _onDestroy = new Subject<void>();
+  protected onDestroy$ = new Subject<void>();
   formGroup: UntypedFormGroup;
   @ViewChild('singleSelect') singleSelect: MatSelect;
+
   constructor(private readonly operationDataService: OperationDataService,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly changeDetectorRef: ChangeDetectorRef,
     public languageService: LanguageService) { }
 
   ngOnInit(): void {
-    forkJoin([this.operationDataService.getByFilter('')]).subscribe(([ operations]) => {
+    forkJoin([this.operationDataService.getByFilter('')]).pipe(takeUntil(this.onDestroy$)).subscribe(([ operations]) => {
       this.operations = operations;
       this.formGroup = this.formBuilder.group({
         operation: [null, [Validators.required]],
       });
-      this.filterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
+      this.filterCtrl.valueChanges.pipe(takeUntil(this.onDestroy$),
         debounceTime(500)).subscribe(filter => {
           this.filter();
         })
@@ -45,7 +46,7 @@ export class SummaryCardPrintComponent implements OnInit, AfterViewChecked, OnDe
       return;
     }
     else search = search.toLowerCase();
-    this.operationDataService.getByFilter(search).subscribe((result: any) => {
+    this.operationDataService.getByFilter(search).pipe(takeUntil(this.onDestroy$)).subscribe((result: any) => {
       this.operations = result;
       this.filtered.next(this.operations.slice());
     });
@@ -59,5 +60,7 @@ export class SummaryCardPrintComponent implements OnInit, AfterViewChecked, OnDe
   ngOnDestroy(): void {
     this.destroy$.next(null);
     this.destroy$.complete();
+    this.filtered.next([]);
+    this.filtered.complete();
   }
 }

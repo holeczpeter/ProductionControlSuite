@@ -6,7 +6,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject, Subscription, takeUntil } from 'rxjs';
 import { DeleteSummaryCard, IntervalModel, IntervalOption, SummaryCardModel, Views } from '../../../models/generated/generated';
 import { ColumnTypes, TableColumnModel } from '../../../models/table-column-model';
 import { AccountService } from '../../../services/account.service';
@@ -115,6 +115,8 @@ export class SummaryCardsComponent implements OnInit, OnDestroy {
     'createdFilter', 'more',];
   filterForm: UntypedFormGroup;
   totalCount!: number;
+  protected onDestroy$ = new Subject<void>();
+
   constructor(private readonly summaryCardDataService: SummaryCardDataService,
     private readonly accountService: AccountService,
     private readonly intervalPanelService: IntervalViewService,
@@ -135,7 +137,7 @@ export class SummaryCardsComponent implements OnInit, OnDestroy {
     this.selectedView = this.intervalOptions.find(x => x.isDefault)!.value;
     if (this.intervalSubscription) this.intervalSubscription.unsubscribe();
     this.intervalSubscription = this.intervalPanelService.getCurrentIntervalModel()
-      .pipe(distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)))
+      .pipe(takeUntil(this.onDestroy$),distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)))
       .subscribe((x: IntervalModel) => {
         this.currentInterval = x;
         this.selectedView = x.selectedView;
@@ -145,10 +147,11 @@ export class SummaryCardsComponent implements OnInit, OnDestroy {
   }
 
   initalize() {
-    this.summaryCardDataService.getAllSummaryCardsByParameters(this.currentInterval, null).subscribe(result => {
+    this.summaryCardDataService.getAllSummaryCardsByParameters(this.currentInterval, null).pipe(takeUntil(this.onDestroy$)).subscribe(result => {
       this.refreshDataSource(result);
       this.createDinamicallyFormGroup();
       this.filterForm.valueChanges.pipe(
+        takeUntil(this.onDestroy$),
         debounceTime(500)).subscribe(x => {
           this.getAll();
         })
@@ -180,12 +183,12 @@ export class SummaryCardsComponent implements OnInit, OnDestroy {
     this.getAll();
   }
   getAll(): void {
-    this.summaryCardDataService.getAllSummaryCardsByParameters(this.currentInterval,null).subscribe((result: any) => {
+    this.summaryCardDataService.getAllSummaryCardsByParameters(this.currentInterval, null).pipe(takeUntil(this.onDestroy$)).subscribe((result: any) => {
       this.refreshDataSource(result);
     });
   }
   onExport() {
-    this.summaryCardDataService.getAllSummaryCardsByParameters(this.currentInterval,this.totalCount).subscribe((result: any) => {
+    this.summaryCardDataService.getAllSummaryCardsByParameters(this.currentInterval, this.totalCount).pipe(takeUntil(this.onDestroy$)).subscribe((result: any) => {
       this.totalCount = JSON.parse(result.headers.get('X-Pagination')).totalCount;
       let dataSource = new MatTableDataSource<SummaryCardModel>(result.body);
       dataSource.sort = this.sort;
@@ -217,8 +220,11 @@ export class SummaryCardsComponent implements OnInit, OnDestroy {
     });
    
   }
-  ngOnDestroy(): void {
+ 
+  ngOnDestroy() {
     this.filterForm.reset();
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
 

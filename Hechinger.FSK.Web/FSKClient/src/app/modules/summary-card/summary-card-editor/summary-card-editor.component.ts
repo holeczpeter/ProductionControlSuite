@@ -16,8 +16,8 @@ import { LanguageService } from '../../../services/language/language.service';
   templateUrl: './summary-card-editor.component.html',
   styleUrls: ['./summary-card-editor.component.scss']
 })
-export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewChecked, OnDestroy,AfterViewInit {
-  
+export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewChecked, OnDestroy, AfterViewInit {
+
   @Input() cardForm!: UntypedFormGroup;
   operations!: SelectModel[];
   shifts!: ShiftModel[];
@@ -27,16 +27,15 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
   imageSrc = 'assets/images/logo.png';
   public filterCtrl: FormControl = new FormControl();
   public filtered: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
-  protected _onDestroy = new Subject<void>();
+  protected onDestroy$ = new Subject<void>();
   @ViewChild('singleSelect') singleSelect: MatSelect;
-
   currentOperation: OperationModel;
   code: string;
   get items(): FormArray {
     return this.cardForm.get('items') as FormArray;
   }
-
   barcodeValue: string;
+
   constructor(private readonly operationDataService: OperationDataService,
     private readonly shiftsDataService: ShiftDataService,
     private readonly defectsDataService: DefectDataService,
@@ -44,28 +43,30 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
     private readonly formBuilder: UntypedFormBuilder,
     private readonly changeDetectorRef: ChangeDetectorRef,
     public languageService: LanguageService) { }
-   
+
 
   ngOnInit(): void {
-    
+
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.dataSource = new MatTableDataSource<AbstractControl>();
     if (changes['cardForm'] && this.cardForm) {
       let currentOperationId = this.cardForm && this.cardForm.get('operation') && this.cardForm.get('operation')!.value != null && this.cardForm.get('operation')?.value.id ? this.cardForm.get('operation')?.value.id : 0;
-      forkJoin([this.getCurrentOperation({ id: currentOperationId}), this.getOperationSelectModel(''), this.getAllShifts()]).subscribe(([currentOperation,operations, shifts]) => {
-        this.operations = operations;
-        this.currentOperation = currentOperation;
-        if (currentOperation) this.operations.splice(0, 0, { id: currentOperation.id, code: currentOperation.code, name: currentOperation.name, translatedName: currentOperation.translatedName });
-        this.shifts = shifts;
-        if (this.items.length > 0) this.dataSource.data = this.items.controls;
-        this.valueChanges();
-        this.filterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).pipe(
-          debounceTime(500)).subscribe(filter => {
-            this.filter();
-          })
-        this.filtered.next(this.operations.slice());
-      })
+      forkJoin([this.getCurrentOperation({ id: currentOperationId }), this.getOperationSelectModel(''), this.getAllShifts()])
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe(([currentOperation, operations, shifts]) => {
+          this.operations = operations;
+          this.currentOperation = currentOperation;
+          if (currentOperation) this.operations.splice(0, 0, { id: currentOperation.id, code: currentOperation.code, name: currentOperation.name, translatedName: currentOperation.translatedName });
+          this.shifts = shifts;
+          if (this.items.length > 0) this.dataSource.data = this.items.controls;
+          this.valueChanges();
+          this.filterCtrl.valueChanges.pipe(takeUntil(this.onDestroy$)).pipe(
+            debounceTime(500)).subscribe(filter => {
+              this.filter();
+            })
+          this.filtered.next(this.operations.slice());
+        })
     }
   }
 
@@ -98,17 +99,17 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
   createTable() {
     let query: GetDefectsByOperation = { operationId: this.cardForm.get('operation')?.value.id }
     this.getDefectsByOperation(query).subscribe(results => {
-     
+
       this.items.clear();
       results.forEach((d: DefectModel) => this.addRow(d));
       this.dataSource.data = this.items.controls;
       this.changeDetectorRef.detectChanges();
     });
-    
+
   }
   addRow(d: DefectModel) {
     const row = this.formBuilder.group({
-    
+
       id: [0],
       order: [d.order],
       defectCode: [d.code],
@@ -129,7 +130,7 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
   getCurrentOperation(request: GetOperation) {
     return this.operationDataService.get(request);
   }
-  getOperationSelectModel(filter:string) {
+  getOperationSelectModel(filter: string) {
     return this.operationDataService.getByFilter(filter);
   }
   getAllShifts() {
@@ -146,5 +147,7 @@ export class SummaryCardEditorComponent implements OnInit, OnChanges, AfterViewC
   ngOnDestroy(): void {
     this.destroy$.next(null);
     this.destroy$.complete();
+    this.filtered.next([]);
+    this.filtered.complete();
   }
 }

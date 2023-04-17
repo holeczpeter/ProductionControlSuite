@@ -1,7 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { concatMap, forkJoin, map } from 'rxjs';
+import { concatMap, forkJoin, map, Subject, takeUntil } from 'rxjs';
 import { SelectModel, SummaryCardDetailModel, SummaryCardItemModel, UpdateSummaryCard, UpdateSummaryCardItem } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { ConfirmDialogService } from '../../../services/confirm-dialog/confirm-dialog-service';
@@ -13,7 +13,7 @@ import { SnackbarService } from '../../../services/snackbar/snackbar.service';
   templateUrl: './summary-card-editor-dialog.component.html',
   styleUrls: ['./summary-card-editor-dialog.component.scss']
 })
-export class SummaryCardEditorDialogComponent implements OnInit {
+export class SummaryCardEditorDialogComponent implements OnInit, OnDestroy {
   title!: string;
   summaryCard!: SummaryCardDetailModel;
   cardForm!: UntypedFormGroup;
@@ -21,6 +21,8 @@ export class SummaryCardEditorDialogComponent implements OnInit {
   get items(): FormArray {
     return this.cardForm.get('items') as FormArray;
   }
+  protected onDestroy$ = new Subject<void>();
+
   constructor(private readonly dialogRef: MatDialogRef<SummaryCardEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: number,
     private readonly confirmDialogService: ConfirmDialogService,
@@ -35,7 +37,7 @@ export class SummaryCardEditorDialogComponent implements OnInit {
   ngOnInit(): void {
     this.summaryCardDataService.get(this.data).pipe(
       concatMap(card => forkJoin([this.operationDataService.get({ id: card.operationId })])
-       .pipe(map(operation => ({ card, operation })))))
+        .pipe(takeUntil(this.onDestroy$),map(operation => ({ card, operation })))))
       .subscribe(results => {
         this.summaryCard = results.card;
         let currentOperation: SelectModel = {
@@ -110,5 +112,9 @@ export class SummaryCardEditorDialogComponent implements OnInit {
   onCancel() {
     if (this.cardForm.isChanged()) this.confirmDialogService.confirmClose(this.dialogRef);
     else this.dialogRef.close(this.isSaved);
+  }
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

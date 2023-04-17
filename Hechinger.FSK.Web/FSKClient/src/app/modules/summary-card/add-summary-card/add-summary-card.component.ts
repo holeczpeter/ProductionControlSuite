@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { AddSummaryCard, AddSummaryCardItem } from '../../../models/generated/generated';
 import { AccountService } from '../../../services/account.service';
 import { SummaryCardDataService } from '../../../services/data/summary-card-data.service';
@@ -10,10 +10,12 @@ import { SnackbarService } from '../../../services/snackbar/snackbar.service';
   templateUrl: './add-summary-card.component.html',
   styleUrls: ['./add-summary-card.component.scss']
 })
-export class AddSummaryCardComponent implements OnInit {
+export class AddSummaryCardComponent implements OnInit, OnDestroy {
   cardForm!: UntypedFormGroup;
   originalCardForm!: UntypedFormGroup;
   title = "summarycard";
+  protected onDestroy$ = new Subject<void>();
+
   get items(): FormArray {
     return this.cardForm.get('items') as FormArray;
   }
@@ -70,7 +72,13 @@ export class AddSummaryCardComponent implements OnInit {
       } 
     });
   }
+
   hasUnsavedChanges(): boolean {
     return this.cardForm.isChanged();
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
