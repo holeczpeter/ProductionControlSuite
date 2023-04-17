@@ -1,7 +1,7 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { distinctUntilChanged, forkJoin, Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { distinctUntilChanged, forkJoin, Subject, Subscription, takeUntil } from 'rxjs';
 import { CrapCostTableModel } from '../../../../models/crap-cost-table-model';
-import { CrapCostProductModel, CrapCostWorkshopModel, EnumModel, GetCrapCostByProduct, GetCrapCostByWorkshop, IntervalModel, IntervalOption, SelectModel, ShiftModel, Views } from '../../../../models/generated/generated';
+import { CrapCostWorkshopModel, EnumModel, GetCrapCostByWorkshop, IntervalModel, IntervalOption, SelectModel, ShiftModel, Views } from '../../../../models/generated/generated';
 import { DefectDataService } from '../../../../services/data/defect-data.service';
 import { QualityDataService } from '../../../../services/data/quality-data.service';
 import { ShiftDataService } from '../../../../services/data/shift-data.service';
@@ -35,7 +35,7 @@ export class WorkshopCrapCostComponent implements OnInit, OnDestroy {
   crapCostTableModels: Array<CrapCostTableModel>;
   max = 5;
   visibleitems: CrapCostTableModel[];
- 
+  private destroy$: Subject<void> = new Subject<void>();
   constructor(private readonly qualityDataService: QualityDataService,
     private readonly defectDataService: DefectDataService,
     public languageService: LanguageService,
@@ -44,7 +44,7 @@ export class WorkshopCrapCostComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    forkJoin([this.shiftDataServie.getAll(), this.defectDataService.getAllDefectCategories()]).subscribe(([shifts, categories]) => {
+    forkJoin([this.shiftDataServie.getAll(), this.defectDataService.getAllDefectCategories()]).pipe(takeUntil(this.destroy$)).subscribe(([shifts, categories]) => {
       this.shifts = shifts;
       this.categories = categories;
     });
@@ -70,7 +70,7 @@ export class WorkshopCrapCostComponent implements OnInit, OnDestroy {
         startDate: this.currentInterval.startDate,
         endDate: this.currentInterval.endDate,
       }
-      this.qualityDataService.getCrapCostByWorkshop(request).subscribe(reportModel => {
+      this.qualityDataService.getCrapCostByWorkshop(request).pipe(takeUntil(this.destroy$)).subscribe(reportModel => {
         this.max = 5;
         this.crapCostModel = reportModel;
         this.crapCostModel.products.forEach(p => {
@@ -104,6 +104,8 @@ export class WorkshopCrapCostComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.monthDataSubscription) this.monthDataSubscription.unsubscribe();
     if (this.intervalSubscription) this.intervalSubscription.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

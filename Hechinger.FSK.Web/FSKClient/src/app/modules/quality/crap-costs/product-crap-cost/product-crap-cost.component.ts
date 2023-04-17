@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { distinctUntilChanged, forkJoin, Subscription } from 'rxjs';
+import { distinctUntilChanged, forkJoin, Subject, Subscription, takeUntil } from 'rxjs';
 import { CrapCostTableModel } from '../../../../models/crap-cost-table-model';
 import { CrapCostProductModel, EnumModel, GetCrapCostByProduct, IntervalModel, IntervalOption, SelectModel, ShiftModel, Views } from '../../../../models/generated/generated';
 import { DefectDataService } from '../../../../services/data/defect-data.service';
@@ -32,6 +32,8 @@ export class ProductCrapCostComponent implements OnInit, OnDestroy {
   categories: EnumModel[];
   chartTitle: string | null;
   crapCostTableModel: CrapCostTableModel;
+  private destroy$: Subject<void> = new Subject<void>();
+
   constructor(private readonly qualityDataService: QualityDataService,
     private readonly defectDataService: DefectDataService,
     public languageService: LanguageService,
@@ -40,7 +42,7 @@ export class ProductCrapCostComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    forkJoin([this.shiftDataServie.getAll(), this.defectDataService.getAllDefectCategories()]).subscribe(([shifts, categories]) => {
+    forkJoin([this.shiftDataServie.getAll(), this.defectDataService.getAllDefectCategories()]).pipe(takeUntil(this.destroy$)).subscribe(([shifts, categories]) => {
       this.shifts = shifts;
       this.categories = categories;
     });
@@ -65,7 +67,7 @@ export class ProductCrapCostComponent implements OnInit, OnDestroy {
         startDate: this.currentInterval.startDate,
         endDate: this.currentInterval.endDate,
       }
-      this.qualityDataService.getCrapCostByProduct(request).subscribe(reportModel => {
+      this.qualityDataService.getCrapCostByProduct(request).pipe(takeUntil(this.destroy$)).subscribe(reportModel => {
         this.crapCostModel = reportModel;
         this.crapCostTableModel = { model: this.crapCostModel, interval: this.currentInterval }
       });
@@ -80,6 +82,8 @@ export class ProductCrapCostComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.monthDataSubscription) this.monthDataSubscription.unsubscribe();
     if (this.intervalSubscription) this.intervalSubscription.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }
