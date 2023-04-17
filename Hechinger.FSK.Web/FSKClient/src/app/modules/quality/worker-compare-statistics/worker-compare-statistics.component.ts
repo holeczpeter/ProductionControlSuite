@@ -24,11 +24,9 @@ export class WorkerCompareStatisticsComponent implements OnInit, OnDestroy {
   public productFilterCtrl: FormControl = new FormControl();
   public filteredProducts: ReplaySubject<SelectModel[]> = new ReplaySubject<SelectModel[]>(1);
   @ViewChild('productSelect') productSelect: MatSelect;
-
   operations!: SelectModel[];
   defects!: SelectModel[];
   protected _onDestroy = new Subject<void>();
-
   model: WorkerStatisticsModel;
   
   constructor(private readonly formBuilder: UntypedFormBuilder,
@@ -39,7 +37,7 @@ export class WorkerCompareStatisticsComponent implements OnInit, OnDestroy {
     public languageService: LanguageService) { }
 
   ngOnInit(): void {
-    this.productDataService.getByFilter('').subscribe(products => {
+    this.productDataService.getByFilter('').pipe(takeUntil(this._onDestroy)).subscribe(products => {
       this.products = products;
       this.formGroup = this.formBuilder.group({
         startDate: [new Date(new Date().getFullYear(),0,1), [Validators.required]],
@@ -66,14 +64,14 @@ export class WorkerCompareStatisticsComponent implements OnInit, OnDestroy {
   }
   getDefectsByOperation() {
     let request: GetDefectsByOperation = { operationId: this.formGroup.get('operation')?.value.id };
-    this.defectDataService.getByOperation(request).subscribe(defects => {
+    this.defectDataService.getByOperation(request).pipe(takeUntil(this._onDestroy)).subscribe(defects => {
       this.defects = defects;
     });
 
   }
   getOperationsByProduct() {
     let request: GetOperationsByProduct = { productId: this.formGroup.get('product')?.value.id };
-    this.operatonDataService.getByProduct(request).subscribe(operations => {
+    this.operatonDataService.getByProduct(request).pipe(takeUntil(this._onDestroy)).subscribe(operations => {
       this.operations = operations;
     });
   }
@@ -86,7 +84,7 @@ export class WorkerCompareStatisticsComponent implements OnInit, OnDestroy {
       return;
     }
     else search = search.toLowerCase();
-    this.productDataService.getByFilter(search).subscribe((result: any) => {
+    this.productDataService.getByFilter(search).pipe(takeUntil(this._onDestroy)).subscribe((result: any) => {
       this.products = result;
       this.filteredProducts.next(this.products.slice());
     });
@@ -99,7 +97,7 @@ export class WorkerCompareStatisticsComponent implements OnInit, OnDestroy {
       startDate: new Date(this.formGroup.get('startDate')?.value),
       endDate: new Date(this.formGroup.get('endDate')?.value),
     };
-    this.qualityDataService.getWorkerStatisticsByDefect(request).subscribe(result => {
+    this.qualityDataService.getWorkerStatisticsByDefect(request).pipe(takeUntil(this._onDestroy)).subscribe(result => {
       this.model = result;
     });
   }
@@ -107,5 +105,8 @@ export class WorkerCompareStatisticsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
+    this.filteredProducts.next([]);
+    this.filteredProducts.complete();
+  
   }
 }

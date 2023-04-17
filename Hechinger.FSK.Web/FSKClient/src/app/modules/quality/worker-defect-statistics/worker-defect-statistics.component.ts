@@ -126,7 +126,7 @@ export class WorkerDefectStatisticsComponent implements OnInit, OnDestroy {
       endDate: new Date(this.formGroup.get('endDate')?.value),
       operationId: this.formGroup.get('operation')?.value.id,
     };
-    this.qualityDataService.getDefectStatisticsByUser(request).subscribe(results => {
+    this.qualityDataService.getDefectStatisticsByUser(request).pipe(takeUntil(this._onDestroy)).subscribe(results => {
       this.model = results;
     });
   }
