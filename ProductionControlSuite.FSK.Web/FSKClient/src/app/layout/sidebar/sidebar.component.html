@@ -1,0 +1,72 @@
+<div class="box">
+  <div class="close-button-container">
+    <div>
+      <button mat-icon-button disableRipple="true">
+        <mat-icon class="side-icon" (click)="close()">arrow_back_ios</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <ng-template #recursiveRenderer let-menu let-position="idx">
+      <ng-container [ngSwitch]="menu?.node?.type">
+        <ng-container *ngSwitchCase="'0'">
+        </ng-container>
+        <ng-container *ngSwitchCase="'1'">
+          <mat-divider [style.--margin-top.px]="position == 0 ? 0 : 35"></mat-divider>
+          <div class="menu-text menu-main" (click)="toggle(position)">
+            <mat-icon matListIcon class="menu-item-icon">
+              {{menu.node.icon}}
+            </mat-icon>
+            <div class="title">
+              {{ translateService.currentLang === 'hu' ? menu.node.title : menu.node.translatedTitle}}
+
+            </div>
+            <ng-container *ngIf="menu.collapsed;else more">
+              <mat-icon class="menu-item-icon menu-item-arrow">arrow_back_ios</mat-icon>
+            </ng-container>
+            <ng-template #more>
+              <mat-icon class="menu-item-icon menu-item-arrow">arrow_forward_ios</mat-icon>
+            </ng-template>
+          </div>
+          <div #submenu
+               class="submenu-container"
+               [style.--max-height.px]="menu.collapsed ? submenu.scrollHeight : 0">
+            <ng-container *ngFor="let child of menu.children ; index as i">
+              <ng-container *ngTemplateOutlet="recursiveRenderer;context:{$implicit: child,idx: i}">
+              </ng-container>
+            </ng-container>
+          </div>
+        </ng-container>
+        
+        <ng-container *ngSwitchCase="'2'">
+          <div class="menu-text submenu-item"
+               [routerLink]="[menu.node.path]"
+               routerLinkActive="active">
+            <mat-icon matListIcon class="menu-item-icon">
+              {{menu.node.icon}}
+            </mat-icon>
+            <div>
+              {{ translateService.currentLang === 'hu' ? menu.node.title : menu.node.translatedTitle}}
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-template>
+    <ng-container *ngIf="!!sidebarMenuItems">
+      <ng-container *ngFor="let item of sidebarMenuItems; index as i">
+        <ng-container *ngTemplateOutlet="recursiveRenderer;context:{$implicit: item,idx: i}"></ng-container>
+      </ng-container>
+    </ng-container>
+
+  </div>
+  <img class="logo" [src]="imageSrc" class="logo" />
+  
+  <div class="version">
+    <div>{{'version' | translate}}: {{applicationInformation?.version}}</div>
+    <div>{{applicationInformation?.copyRight}}</div>
+  </div>
+</div>
+
+
+

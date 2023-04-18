@@ -1,0 +1,8 @@
+<dialog-header [title]="title" (cancel)="onCancel()"></dialog-header>
+<mat-dialog-content>
+  <app-summary-card-editor [cardForm]="cardForm"></app-summary-card-editor>
+</mat-dialog-content>
+<div mat-dialog-actions>
+  <button mat-raised-button cdkFocusInitial color="blue" (click)="onSave()">{{'save'| translate}} </button>
+  <button mat-stroked-button color="blue" (click)="onCancel()">{{'cancel'| translate}} </button>
+</div>

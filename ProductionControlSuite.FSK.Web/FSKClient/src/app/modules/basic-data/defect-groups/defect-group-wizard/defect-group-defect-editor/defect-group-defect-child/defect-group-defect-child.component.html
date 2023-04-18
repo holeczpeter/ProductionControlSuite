@@ -1,0 +1,15 @@
+<div cdkDropList
+     [cdkDropListData]="item.get('node').value.relations"
+     class="relation-list"
+     (cdkDropListDropped)="entityGroupService.drop($event,item,true,3)">
+  <ng-container *ngFor="let rel of item.get('node').value.relations; let i = index">
+    <div class="example-box"
+          matTooltip="{{rel.code}} - {{rel.name}}"
+         cdkDrag>
+      {{rel.code}}
+      <button mat-icon-button (click)="delete(i)" color="primary"><mat-icon>delete</mat-icon></button>
+    </div>
+  </ng-container>
+</div>
+
+

@@ -1,0 +1,63 @@
+.card-form {
+  background: white;
+  padding: 20px;
+}
+.header {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-evenly;
+  border: 1px solid #eceff1;
+  padding: 20px;
+  background: #FFFFFF;
+}
+.header div {
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+}
+.table {
+  border-spacing: 0 5px !important;
+}
+.mat-cell {
+  text-align: center;
+  justify-content: center;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #eceff1;
+}
+
+.mat-header-cell {
+  text-align: center;
+  justify-content: center;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #eceff1;
+}
+.logo {
+  width: 100px;
+}
+.mat-form-field .quantity {
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+
+.table-row {
+  height: 50px;
+}
+.text-cell {
+  border-bottom: thin dashed black;
+}
+.mat-radio-button {
+  padding-right: 30px;
+}
+.quantity{
+  text-align:center;
+}
+.defect {
+  border: thin solid black;
+}

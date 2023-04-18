@@ -1,0 +1,99 @@
+table {
+  width: 100%;
+}
+
+.th-align-right {
+  text-align: right !important;
+  direction: rtl; // also moves sorting arrow to the left
+  padding-left: 18px;
+}
+
+.th-align-right > div > .mat-sort-header-content {
+  margin-left: 6px; // restores sort actual arrow margin
+  padding-left: 18px;
+}
+
+.th-align-center {
+  text-align: center !important;
+  justify-content: center !important;
+  padding-left: 18px;
+}
+
+.th-align-center > div {
+  text-align: center !important;
+  justify-content: center !important;
+  padding-left: 18px;
+}
+
+.th-align-center > div > .mat-sort-header-content {
+  //margin-left: 16px; // compensates for sort arrow (which is 16px wide total)
+}
+
+td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type, th.mat-header-cell:first-of-type {
+  padding-left: 24px !important;
+  padding-right: 10px !important;
+}
+
+.search {
+  .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+    max-width: 150px;
+  }
+}
+
+tr.mat-footer-row {
+  font-weight: bold;
+}
+
+.responsive-table-container {
+  width: 100%;
+  overflow: auto;
+  padding-top: 10px;
+}
+
+.mat-paginator {
+  left: 0px;
+  bottom: 0px;
+  position: sticky;
+  z-index: 10;
+}
+
+.table-toolbar {
+  text-align: right;
+}
+.status {
+  .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+    max-width: 150px;
+  }
+}
+.th-align-right {
+  text-align: right !important;
+  direction: rtl; // also moves sorting arrow to the left
+  padding-left: 18px;
+}
+
+.th-align-right > div > .mat-sort-header-content {
+  text-align: right !important;
+  margin-left: 6px; // restores sort actual arrow margin
+}
+
+.th-align-center {
+  text-align: center !important;
+  justify-content: center !important;
+  padding-left: 18px;
+}
+
+.th-align-center > div {
+  text-align: center !important;
+  justify-content: center !important;
+  padding-left: 18px;
+}

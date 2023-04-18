@@ -1,0 +1,62 @@
+<mat-toolbar>
+  <mat-toolbar-row class="info-row">
+    <div class="names">
+      <div class="header-main">FSK {{ applicationInformation?.enviromentName}}  {{ 'application' | translate }}</div>
+      <div class="header-alt">{{companyName}}</div>
+    </div>
+    <span class="example-spacer"></span>
+    <span class="center-span"><img [src]="imageSrc" class="logo" /></span>
+    <div class="help">
+      <div>{{'help' | translate}}</div>
+      <button mat-icon-button (click)="onSupport()">
+        <mat-icon class="header-icon">help</mat-icon>
+      </button>
+    </div>
+   
+    <span class="language">{{'lang' | translate}}</span>
+    <span><a (click)="setLanguage('hu', $event)" [ngClass]="translateService.currentLang == 'hu' ? 'selected-lang' : 'lang'">hu</a></span>
+    <span>|</span>
+    <span><a (click)="setLanguage('de' , $event)" [ngClass]="translateService.currentLang == 'de' ? 'selected-lang' : 'lang'">de</a></span>
+
+    
+    <div class="login-name">
+      <button mat-icon-button>
+        <mat-icon class="header-icon account-icon">account_circle</mat-icon>
+      </button>
+      <button mat-button [matMenuTriggerFor]="beforeMenu"
+              (menuOpened)="settingsOpened()"
+              (menuClosed)="settingsClosed()"
+              class="login-name">
+        {{name}}
+        <mat-icon [@openClose]="panelOpenState? 'open' : 'closed'">expand_more</mat-icon>
+      </button>
+    </div>
+
+    <mat-menu #beforeMenu="matMenu" xPosition="before">
+      <app-personal-info></app-personal-info>
+
+      <button *ngFor="let menu of personalSettingsModule"
+              [routerLink]="[menu.node.path]"
+              mat-menu-item>
+        <mat-icon>{{menu.node.icon}}</mat-icon>
+        <span>{{ translateService.currentLang === 'hu' ? menu.node.title : menu.node.translatedTitle}}</span>
+
+      </button>
+      <button (click)="onLogout()" mat-menu-item>
+        <mat-icon>exit_to_app</mat-icon>
+        <span>{{'exit' | translate}}</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+    <ng-container *ngFor="let module of modules">
+      <button class="col me-2 ms-2 primary-dark"
+              routerLinkActive="active"
+              mat-stroked-button
+              [routerLink]="[module.node.path]">
+        {{ translateService.currentLang === 'hu' ? module.node.title : module.node.translatedTitle}}
+      </button>
+    </ng-container>
+  </mat-toolbar-row>
+</mat-toolbar>
+

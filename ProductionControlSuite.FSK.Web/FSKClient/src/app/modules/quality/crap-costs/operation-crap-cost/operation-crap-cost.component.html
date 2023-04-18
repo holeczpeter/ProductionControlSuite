@@ -1,0 +1,15 @@
+<div class="container-fluid">
+  <div class="flex-title">
+    <app-title class="flex-title-item" [title]="title"></app-title>
+  </div>
+  <div class="container-inside">
+    <app-operation-search (select)="onSelectedOperation($event)">
+    </app-operation-search>
+
+    <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
+    <div class="content">
+      <app-crap-cost-table [model]="crapCostTableModel"></app-crap-cost-table>
+    </div>
+  </div>
+</div>
+

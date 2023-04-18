@@ -1,0 +1,6 @@
+<app-quality-report-yearly-summary-table [items]="results"></app-quality-report-yearly-summary-table>
+<div>
+  <div *ngFor="let item of results" class="chart">
+    <app-quality-report-yearly-summary-chart [model]="item"></app-quality-report-yearly-summary-chart>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+.info-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+.avatar {
+  vertical-align: middle;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.menu-info {
+  width: 200px;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.divider {
+  color:white;
+  width: 250px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

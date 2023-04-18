@@ -1,0 +1,45 @@
+<dialog-header [title]="title" (cancel)="onCancel()"></dialog-header>
+<mat-dialog-content>
+  
+    <table mat-table [dataSource]="dataSource"
+           class="w-100"
+           matSort>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'name' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.name}}</td>
+      </ng-container>
+      <ng-container matColumnDef="translatedName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'translatedName' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.translatedName}}</td>
+      </ng-container>
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'code' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.code}}</td>
+      </ng-container>
+      <ng-container matColumnDef="defectCategoryName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'defects.defectCategoryName' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.defectCategoryName}}</td>
+      </ng-container>
+      <ng-container matColumnDef="operationName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'operationName' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.operationName}}</td>
+      </ng-container>
+      <ng-container matColumnDef="operationCode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'operationCode' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.operationCode}}</td>
+      </ng-container>
+      <ng-container matColumnDef="statusName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'statusName' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.statusName}}</td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnNames; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnNames"></tr>
+    </table>
+    <mat-paginator [pageSize]="pageSize"
+                   [pageSizeOptions]="pageSizeOptions"
+                   showFirstLastButtons></mat-paginator>
+  
+</mat-dialog-content>
+<div mat-dialog-actions>
+  <button mat-stroked-button color="blue" (click)="onCancel()">{{'close'| translate}} </button>
+</div>

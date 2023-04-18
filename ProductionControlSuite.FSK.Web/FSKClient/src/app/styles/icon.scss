@@ -1,0 +1,58 @@
+$mat-icon-margin-compensation: 1.2;
+$mat-icon-size: 14px * $mat-icon-margin-compensation;
+$mat-confirm-icon-size: 100px * $mat-icon-margin-compensation;
+$mat-header-icon-size: 24px;
+$mat-tooltip-icon-size: 18px * $mat-icon-margin-compensation;
+.mat-icon {
+  font-size: $mat-icon-size !important;
+  width: $mat-icon-size !important;
+  height: $mat-icon-size !important;
+  line-height: $mat-icon-size !important;
+}
+
+.mat-icon-button.mat-blue {
+  color: #14416A;
+}
+
+
+.mat-icon-button i, .mat-icon-button .mat-icon {
+  
+}
+
+.mat-icon-button {
+  
+}
+
+
+.confirm-icon {
+  font-size: $mat-confirm-icon-size !important;
+  height: $mat-confirm-icon-size !important;
+  width: $mat-confirm-icon-size !important;
+  line-height: $mat-confirm-icon-size !important;
+}
+.header-icon {
+  font-size: $mat-header-icon-size !important;
+  height: $mat-header-icon-size !important;
+  width: $mat-header-icon-size !important;
+  line-height: $mat-header-icon-size !important;
+}
+.tooltip-icon {
+  font-size: $mat-tooltip-icon-size !important;
+  height: $mat-tooltip-icon-size !important;
+  width: $mat-tooltip-icon-size !important;
+  line-height: $mat-tooltip-icon-size !important;
+}
+.sidebar-icon {
+  color: #FFFFFF;
+  font-size: 14px;
+}
+.mat-badge-content {
+  width: auto;
+  display: grid;
+  width: $mat-icon-size !important;
+  height: $mat-icon-size !important;
+  font-size:10px;
+  text-align: center;
+  align-items: center;
+ 
+}

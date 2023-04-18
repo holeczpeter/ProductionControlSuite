@@ -1,0 +1,88 @@
+<div class="container-fluid">
+  <div class="title">
+    <app-title class="flex-title-item" [title]="title" [contentTemplate]="tooltipTemplate"></app-title>
+  </div>
+  <div class="dashboard">
+    <div class="summary-grid-container">
+      <div>
+        <app-info-card [summary]="ppmSummary"></app-info-card>
+      </div>
+      <div>
+        <app-info-card [summary]="crapCostSummary"></app-info-card>
+      </div>
+      <div>
+        <app-info-card [summary]="quanitySummary"></app-info-card>
+      </div>
+      <div>
+        <app-info-card [summary]="defectQuantitySummary"></app-info-card>
+      </div>
+    </div>
+    <div class="table-container">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ 'warning' | translate }}</mat-card-title>
+          <mat-card-subtitle>{{subtitle}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <app-ppm-warning-table [ppmWarningList]="ppmWarningList"></app-ppm-warning-table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="grid-chart-container">
+      <div>
+        <mat-card *ngIf="dashboardPpmChartModel" class="chart-card">
+          <mat-card-header>
+            <mat-card-title>PPM</mat-card-title>
+            <mat-card-subtitle>{{subtitle}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <app-workshop-ppm-chart [model]="dashboardPpmChartModel"></app-workshop-ppm-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div>
+        <mat-card *ngIf="dashboardCrapCostChartModel" class="chart-card">
+          <mat-card-header>
+            <mat-card-title>{{ 'crapcost' | translate }}</mat-card-title>
+            <mat-card-subtitle>{{subtitle}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <app-workshop-crap-cost-chart [model]="dashboardCrapCostChartModel"></app-workshop-crap-cost-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div class="grid-workshop-container">
+      <div class="grid-workshop-item" *ngFor="let production of dashboardProductionInfoChartModels">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{ production.item.workshopName }}</mat-card-title>
+            <mat-card-subtitle>{{subtitle}} </mat-card-subtitle>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <app-production-chart [model]="production"></app-production-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #tooltipTemplate>
+  <div class="headerrow">
+    <h3>Dashboard: Az aktuális hét statisztikái</h3>
+  </div>
+  <div style="display: flex; flex-direction: column">
+    <span>PPM: Összesített PPM érték az aktuális hétre</span>
+    <span>Selejtköltség: Összesített selejtköltség érték az aktuális hétre</span>
+    <span>Darabszám: Összesített gyártott darabszám az aktuális hétre</span>
+    <span>Hibás darabszám: Az adott hétre vonatkozó keletkezett hibás darabok összege</span>
+    <span>Figyelmeztetések: A PPM célt meghaladó műveletek listája</span>
+    <span>Műhelyek - PPM: Az adott hétre vonatkozó PPM értékek műhelyenként</span>
+    <span>Műhelyek - selejtköltség: Az adott hétre vonatkozó selejtköltség értékek műhelyenként</span>
+    <br>
+  </div>
+</ng-template>

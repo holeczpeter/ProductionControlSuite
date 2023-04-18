@@ -1,0 +1,19 @@
+<div class="container-fluid">
+  <div class="flex-title">
+    <app-title class="flex-title-item" [title]="title"></app-title>
+  </div>
+  <div class="container-inside">
+    <app-workshop-search (select)="onSelected($event)">
+    </app-workshop-search>
+    <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
+    <div class="content" 
+                infinite-scroll
+                [scrollWindow]="false"
+                (scrolled)="onScrollDown($event)" 
+                (scrolledUp)="onScrollUp($event)">
+      <div *ngFor="let item of visibleitems">
+        <app-crap-cost-table [model]="item"></app-crap-cost-table>
+      </div>
+    </div>
+  </div>
+</div>

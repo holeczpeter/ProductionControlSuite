@@ -1,0 +1,34 @@
+<div class="container-fluid">
+  <div class="flex-title">
+    <app-title class="flex-title-item" [title]="title" [contentTemplate]="tooltipTemplate"></app-title>
+  </div>
+  <div class="container-inside">
+    <app-operation-search (select)="onSelectedOperation($event)">
+    </app-operation-search>
+
+    <app-interval-view [intervalOptions]="intervalOptions"></app-interval-view>
+    <div class="example-container" *ngIf="quantityReportModel">
+      <div>
+        <app-operation-quantity-table [tableModel]="tableModel"
+                                      [categories]="categories"
+                                      [shifts]="shifts">
+        </app-operation-quantity-table>
+      </div>
+      <div class="chart">
+        <app-operation-quantity-chart [chartModel]="quantityReportModel"
+                                      [chartTitle]="chartTitle">
+        </app-operation-quantity-chart>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #tooltipTemplate>
+  <div class="headerrow">
+    <h3>Darabszám jelentés</h3>
+  </div>
+  <div style="display: flex; flex-direction: column">
+    <span>A kiválaszott műveletre vonatkozó gyártott és hibás darabszámok, ppm értékek tekinthetőek meg műszakonkénti bontásban, kiválasztott időintervallumra</span>
+    <br>
+  </div>
+</ng-template>

@@ -1,0 +1,32 @@
+<div class="flex-container" *ngIf="menu && modules">
+  <ng-container *ngFor="let module of modules">
+    <mat-tree [dataSource]="module.dataSource" [treeControl]="module.treeControl">
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding
+                     [ngClass]="(node.item.node.type == 0) ? 'module': (node.item.node.type == 1) ? 'main':  (getParentType(node,module.treeControl) == 0) ? 'sub' : 'sub2'">
+        <mat-checkbox class="checklist-leaf-node"
+                      color="primary"
+                      [checked]="descendantsAllSelected(node,module.treeControl) || checklistSelection.isSelected(node)"
+                      [indeterminate]="descendantsPartiallySelected(node,module.treeControl)"
+                      (change)="itemSelectionToggle(node,module.treeControl, $event)">
+          {{node.item.node.title}}
+        </mat-checkbox>
+      </mat-tree-node>
+      <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding
+                     [ngClass]="(node.item.node.type == 0) ? 'module': (node.item.node.type == 1) ? 'main-with-icon':'sub-with-icon'">
+        <button mat-icon-button matTreeNodeToggle
+                [attr.aria-label]="'Toggle ' + node.item">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{module.treeControl.isExpanded(node) ? 'expand_more' : 'expand_less'}}
+          </mat-icon>
+        </button>
+        <mat-checkbox class="col" color="primary"
+                      [checked]="descendantsAllSelected(node,module.treeControl) || checklistSelection.isSelected(node)"
+                      [indeterminate]="descendantsPartiallySelected(node,module.treeControl)"
+                      (change)="itemSelectionToggle(node,module.treeControl, $event)">
+          {{node.item.node.title}}
+        </mat-checkbox>
+      </mat-tree-node>
+    </mat-tree>
+  </ng-container>
+</div>
+

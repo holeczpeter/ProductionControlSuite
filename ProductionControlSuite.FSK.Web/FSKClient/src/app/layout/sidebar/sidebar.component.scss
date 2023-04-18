@@ -1,0 +1,148 @@
+
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: calc(100% - 0px);
+}
+
+.close-button-container {
+  display: flex;
+  align-items: baseline;
+  align-content: space-between;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  width: 100%;
+  padding: 0px;
+  justify-content: flex-end;
+}
+
+
+
+.accordion {
+  width: 100%;
+  max-width: 270px;
+  box-sizing: border-box;
+  bottom: 60px;
+  flex-grow: 4;
+  padding: 0px;
+  margin: 0px 0px 60px 0px;
+}
+
+.accordion-inner {
+  height: 80vh;
+}
+
+.menu-text {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: white;
+}
+
+.menu-main {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  align-content: stretch;
+  gap: 10px;
+  margin: 40px 5px 5px 5px;
+  padding: 5px 5px 0px 5px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.submenu-container {
+  overflow: hidden;
+  padding: 0px;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-bottom: 0px;
+  transition: all 0.4s ease;
+  max-height: var(--max-height);
+}
+
+.submenu-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  align-content: stretch;
+  margin: 5px 10px 5px 10px;
+  padding: 5px 10px 5px 10px;
+  gap: 10px;
+  cursor: pointer;
+  border-radius: 3px;
+  overflow: hidden;
+  border-radius: 3px;
+}
+
+.active {
+  background-color: #FFA75D;
+}
+
+.submenu-item:hover {
+  background-color: #FF9237;
+}
+
+.title {
+  flex-grow: 4;
+}
+
+$mat-sidebar-icon-button-margin-compensation: 1.2;
+$mat-sidebar-icon-size: 14px * $mat-sidebar-icon-button-margin-compensation;
+
+.mat-icon-button i, .mat-icon-button .mat-icon {
+  line-height: 36px;
+}
+
+.menu-item-icon {
+  color: white;
+  height: $mat-sidebar-icon-size;
+  width: $mat-sidebar-icon-size;
+  font-size: $mat-sidebar-icon-size;
+  display: table-cell;
+}
+
+.menu-item-arrow {
+  transform: rotate(90deg);
+}
+
+.side-icon {
+  height: $mat-sidebar-icon-size;
+  width: $mat-sidebar-icon-size;
+  font-size: $mat-sidebar-icon-size;
+}
+
+.mat-list-base {
+  padding: 0px;
+}
+
+
+.mat-divider {
+  border-top-color: white;
+  margin-top: var(--margin-top);
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.logo {
+  height: 36px;
+  margin: 60px 0px 10px 0px;
+}
+
+.version {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-family: "Roboto";
+  font-style: normal;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: white;
+  margin: 0px 0px 10px 0px;
+}

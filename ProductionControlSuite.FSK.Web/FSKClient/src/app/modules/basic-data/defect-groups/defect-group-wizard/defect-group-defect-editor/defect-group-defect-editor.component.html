@@ -1,0 +1,75 @@
+
+<div cdkDropListGroup class="content" *ngIf="tree">
+  <div class="example-container">
+    <h3>{{'defectGroup.selectableDefects' | translate }}</h3>
+    <div class="info-box">
+      <mat-icon color="accent">info</mat-icon>
+      <p>{{'defectGroup.dragDefect' | translate}}</p>
+    </div>
+    <div cdkDropList
+         [cdkDropListData]="entityGroupService.getSelectableDefectsBy(tree, allDefects)"
+         class="example-list">
+      <div class="example-box" *ngFor="let item of entityGroupService.getSelectableDefectsBy(tree, allDefects)" cdkDrag> {{item.code}} -  {{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.name : item.translatedName}}</div>
+    </div>
+  </div>
+  <div class="edit">
+    <div>
+      <h3>{{'defectGroup.defectGroupLines' | translate}}</h3>
+    </div>
+          <form [formGroup]="tree">
+            <ng-container formArrayName="children">
+              <table mat-table
+                     [dataSource]="dataSource"
+                     class="mat-elevation-z8">
+                <ng-container matColumnDef="order">
+                  <th mat-header-cell *matHeaderCellDef> {{'order' | translate}} </th>
+                  <td mat-cell *matCellDef="let element" [formGroup]="element.get('node')">
+                    <mat-form-field class="order-form-field">
+                      <input matInput type="number" [formControlName]="'order'">
+                    </mat-form-field>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef> {{'defectGroup.defectGroupName' | translate}}</th>
+                  <td mat-cell *matCellDef="let element" [formGroup]="element.get('node')">
+                    <mat-form-field>
+                      <input matInput [formControlName]="'name'">
+                    </mat-form-field>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="relation">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{'defectGroup.defectGroupLines' | translate}}
+                    <div class="info-box">
+                      <mat-icon color="accent">info</mat-icon>
+                      <p>{{'defectGroup.dragDefectHere' | translate}}</p>
+                    </div>
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    <app-defect-group-defect-child [item]="element"></app-defect-group-defect-child>
+                  </td>
+
+                </ng-container>
+                <ng-container matColumnDef="delete">
+                  <th mat-header-cell *matHeaderCellDef> {{'delete' | translate}} </th>
+                  <td mat-cell *matCellDef="let element; let i =index">
+                    <button mat-icon-button (click)="remove(i)" color="primary">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"></tr>
+              </table>
+            </ng-container>
+
+          </form>
+          <div class="row justify-content-center pt-3">
+            <button class="new-defect" mat-raised-button color="primary" (click)="addGroupFromNode()">
+              {{'defectGroup.addDefectGroupLine' | translate}}
+            </button>
+          </div>
+  </div>
+  
+</div>
+

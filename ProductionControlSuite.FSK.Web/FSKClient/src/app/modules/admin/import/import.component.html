@@ -1,0 +1,19 @@
+<div class="container-fluid">
+  <div class="flex-title">
+    <app-title [title]="title"></app-title>
+  </div>
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab [label]="'operations.title' | translate">
+      <app-file-upload (upload)="onUploadOperations($event)"></app-file-upload>
+    </mat-tab>
+    <mat-tab [label]="'operations.edit' | translate">
+      <app-file-upload (upload)="onUpdateOperations($event)"></app-file-upload>
+    </mat-tab>
+    <mat-tab [label]="'defects.title' | translate">
+      <app-file-upload (upload)="onUploadDefects($event)"></app-file-upload>
+    </mat-tab>
+    <mat-tab [label]="'summarycard' | translate">
+      <app-file-upload (upload)="onUploadSummaryCards($event)"></app-file-upload>
+    </mat-tab>
+  </mat-tab-group>
+</div>

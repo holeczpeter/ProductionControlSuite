@@ -1,0 +1,238 @@
+<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".ts" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Microsoft.VisualStudio.Modeling" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<# // Get the Visual Studio API as a service:
+ DTE dte = ((IServiceProvider)this.Host).GetCOMService(typeof(DTE)) as DTE;Project currentProject = dte.Solution.FindProjectItem(Host.TemplateFile).ContainingProject;
+    List<ProjectItem> allItems = new List<ProjectItem>();
+    //Összes ProjectItem összeszedése, amiben van FileCodeModel (.cs kiterjesztésű)
+    foreach (Project p in dte.Solution.Projects){
+        allItems.AddRange(GetAllProjectItems(p.ProjectItems));
+    }
+
+    //Összes CodeElement a ProjectItemekben a megadott namespacen belül (Ezeken lehet selectelgetni)
+    List<CodeElement> allCodeElements = new List<CodeElement>();
+    IEnumerable<CodeElement> itemsToGenerate = new List<CodeElement>();
+    foreach (ProjectItem pi in allItems){
+        allCodeElements.AddRange(GetCodeElementsInNamespace(pi.FileCodeModel.CodeElements,""));
+    }
+
+
+    // SELECTOROK: Itt kell megírni a fő logikát, hogy melyeket szeretnénk kigenerálni.
+    // - BaseModel-ből származik
+    // - ExportToTs attribute
+    // - IRequest interfacet implementálja
+    foreach(CodeClass cc in allCodeElements.OfType<CodeClass>()
+        .Where(x => x.Bases.OfType<CodeClass>().Any(c => c.Name == "BaseModel") ||
+        x.Attributes.OfType<CodeAttribute>().Any(x => x.Name=="ExportToTs") ||
+    x.ImplementedInterfaces.OfType<CodeInterface>().Any(i => i.Name == "IRequest"))) {
+        //Hozzátesszük a végezetül generálandó elemekhez
+        itemsToGenerate = itemsToGenerate.Append((CodeElement)cc);
+        foreach (CodeProperty cp in GetProperties((CodeElement)cc)){
+            itemsToGenerate = itemsToGenerate.Concat(GetCodeElementOfProperty(allCodeElements, cp));
+        }
+    }
+
+    // Hozzátesszük a végezetül generálandó elemekhez
+    itemsToGenerate = itemsToGenerate.Concat(allCodeElements.OfType<CodeEnum>().Select(x=>(CodeElement)x));
+
+    // ----------Ez előtt kell összegyűjteni azokat az elemeket, amiket szeretnénk generálni.----------
+    itemsToGenerate = itemsToGenerate.Distinct();
+
+   
+    WriteLine("import " + "{ " + "TreeItem" +" }" + " from " + "'" + "../tree-item" + "'" + ";");
+    
+ 
+
+
+    // Itt állítjuk össze hogyan állítsuk össze a végterméket
+    // NOTE(BP): Kész, classokat interface-ként exportáljuk 
+    foreach (CodeClass cc in itemsToGenerate.OfType<CodeClass>().GroupBy(x=>x.FullName).Select(y => y.First())){
+        WriteLine("export interface " + cc.Name +" {");
+        PushIndent("  ");
+        foreach (CodeProperty cv in GetProperties((CodeElement)cc)){
+            WriteLine(GetTypescriptName(cv.Name)
+                + (cv.Type.AsString.Contains('?') ? "?" : "" )
+                +": "+GetTypescriptType(allCodeElements,cv.Type.AsString)+",");
+        }
+        PopIndent();
+        WriteLine("}");
+    }
+
+    //NOTE(BP): Kész, enumokat értékükkel együtt exportáljuk
+    foreach (CodeEnum ce in itemsToGenerate.OfType<CodeEnum>()){
+        WriteLine("export enum " + ce.Name +" {");
+        int previousEnumValue = 0;
+        PushIndent("  ");
+        foreach(CodeVariable child in GetEnumValues((CodeElement)ce)){
+            if (child.InitExpression != null)
+                previousEnumValue = Convert.ToInt32(child.InitExpression);
+            WriteLine(child.Name + " = " + ((previousEnumValue++).ToString())+",");
+        }
+        PopIndent();
+        WriteLine("}");
+    }
+
+#>
+
+<#+
+    //Segéd metódusok
+
+    // TODO(BP): Nullable paramétereket még nem képes feldolgozni syntax különbség miatt
+    // Pl: C# -> public long? CategoryId {get;set;} | Ts -> categoryId?: number --> A neve után kéne tenni a ?-t mielőtt még kiértékeljük a property típusát.
+    public string GetTypescriptName(string input){
+        return Regex.Replace(input, "^.", x => x.Value.ToLowerInvariant());
+    }
+
+    // Össze szedi azokat, amelyket az alap selectorban nem lennének benne, de a classon belül hivatkozunk rá
+    // Pl.: Egy class ami a DTOModelBase-ből van származtatva tartalmaz egy DisplayModel típusú propertyt,
+    //      de az nincs meg jelölve [ExportToTs] attributetal, akkor is kigenerálja
+    public IEnumerable<CodeElement> GetCodeElementOfProperty(IEnumerable<CodeElement> mergedItems, CodeProperty cp)
+    {
+        string typeAsString = cp.Type.AsString;
+        string typeGeneric = typeAsString.Substring(typeAsString.IndexOf('<') >= 0 ? typeAsString.IndexOf('<') : 0).Replace('<',' ').Replace('>',' ').Trim();
+        CodeElement ce = mergedItems.FirstOrDefault(x => x.FullName == typeGeneric);
+        if (ce != null){
+            yield return ce;
+        }
+    }
+
+    public string GetTypescriptType(List<CodeElement> allItems, string typeAsString){
+        int genericMarker = typeAsString.IndexOf('<');
+        
+        string baseType = null;
+        if (genericMarker > 0){
+            baseType = typeAsString.Substring(0,genericMarker);
+            baseType = baseType.Substring(baseType.LastIndexOf('.')+1);
+        }
+        else{
+            baseType = typeAsString.Substring(typeAsString.LastIndexOf('.')+1);
+            
+        }
+        string genericType = null;
+        if (genericMarker > 0){
+            genericType = typeAsString.Substring(typeAsString.IndexOf('<')).Replace('<',' ').Replace('>',' ').Trim();
+            CodeElement cc = allItems.FirstOrDefault(x=> x.FullName == genericType);
+            if (cc != null)
+            {
+                genericType = cc.Name.Substring(cc.Name.LastIndexOf('.')+1);
+            }
+        }
+        baseType = GetTypescriptEquivalent(allItems, baseType);
+        genericType = GetTypescriptEquivalent(allItems, genericType);
+        return string.IsNullOrEmpty(genericType) || baseType == "any" ? baseType : baseType+"<"+genericType+">";
+    }
+
+    public string GetTypescriptEquivalent(List<CodeElement> allItems, string csharpTypeBaseType){
+        switch (csharpTypeBaseType) {
+            case "decimal":
+            case "long":
+            case "int":
+                return "number";
+            case "bool":
+                return "boolean";
+            case "DateTime":
+                return "Date";
+            case "string":
+                return "string";
+            case "IEnumerable":
+            case "List":
+                return "Array";
+            
+        }
+        if (!string.IsNullOrEmpty(csharpTypeBaseType) && !allItems.Any(x => x.Name == csharpTypeBaseType))
+            return "any";
+        return csharpTypeBaseType;
+    }
+
+    public IEnumerable<ProjectItem> GetAllProjectItems(ProjectItems pi){
+        if (pi != null)
+            foreach(ProjectItem currentItem in pi){
+                if (currentItem.FileCodeModel != null){
+                    yield return currentItem;
+                }
+                foreach (ProjectItem pi2 in GetAllProjectItems(currentItem.ProjectItems)){
+                    yield return pi2;
+                }
+            }
+    }
+
+    public IEnumerable<CodeElement> GetCodeElementsInNamespace(CodeElements codeElements, string nameSpace)
+    {
+        foreach (CodeNamespace modelCodeElements in codeElements.OfType<CodeNamespace>())
+        {
+            if (modelCodeElements.FullName.Contains(nameSpace))
+            {
+                foreach (var modelCodeElementChild in modelCodeElements.Children.OfType<CodeClass>())
+                {
+                    yield return (CodeElement)modelCodeElementChild;
+                }
+
+                foreach (var modelCodeElementChild in modelCodeElements.Children.OfType<CodeEnum>())
+                {
+                    yield return (CodeElement)modelCodeElementChild;
+                }
+
+                foreach (var modelCodeElementChild in modelCodeElements.Children.OfType<CodeAttribute>())
+                {
+                    yield return (CodeElement)modelCodeElementChild;
+                }
+
+                foreach (var modelCodeElementChild in modelCodeElements.Children.OfType<CodeInterface>())
+                {
+                    yield return (CodeElement)modelCodeElementChild;
+                }
+            }
+        }
+    }
+
+    public IEnumerable<CodeVariable> GetVariables(CodeElement ce){
+        foreach(CodeVariable cv in ce.Children.OfType<CodeVariable>()){
+            yield return cv;
+        }
+    }
+
+    public IEnumerable<CodeVariable> GetEnumValues(CodeElement ce){
+        foreach(CodeVariable cv in ce.Children.OfType<CodeVariable>()){
+            yield return cv;
+        }
+    }
+
+    public IEnumerable<CodeProperty> GetProperties(CodeElement ce){
+        foreach(CodeProperty cp in ce.Children.OfType<CodeProperty>()){
+            yield return cp;
+        }
+
+        if (ce is CodeClass)
+        {
+            foreach(CodeClass cc in ((CodeClass)ce).Bases.OfType<CodeClass>().Where(x=>x.FullName != "System.Object")){
+                foreach (CodeProperty cp in GetProperties((CodeElement)cc)){
+                    yield return cp;
+                }
+            }
+        }
+    }
+
+    public IEnumerable<CodeAttribute> GetAttributes(CodeElement ce){
+        foreach(CodeAttribute cp in ce.Children.OfType<CodeAttribute>()){
+            yield return cp;
+        }
+    }
+
+    private string ToCamelCase(string s) {
+        var sb = new StringBuilder(s);
+        sb[0] = char.ToLowerInvariant(sb[0]);
+
+        return sb.ToString();
+    }
+ #>

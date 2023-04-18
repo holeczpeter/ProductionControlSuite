@@ -1,0 +1,98 @@
+<dialog-header [title]="title" (cancel)="onCancel()"></dialog-header>
+<mat-dialog-content>
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab [label]="'maindata' | translate">
+      <div class="container-editor">
+        <form [formGroup]="formGroup">
+          <div class="row pt-2">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'lastName'" [placeholder]="'lastName' | translate" required />
+              <mat-error class="col" *ngIf="formGroup.get('lastName')?.hasError('required')">
+                {{'lastName'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row pt-2">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'firstName'" [placeholder]="'firstName' | translate" required />
+              <mat-error class="col" *ngIf="formGroup.get('firstName')?.hasError('required')">
+                {{'firstName'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row pt-2">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'code'" [placeholder]="'code' | translate" required />
+              <mat-error class="col" *ngIf="formGroup.get('code')?.hasError('required')">
+                {{'code'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="row pt-2">
+            <mat-form-field class="col">
+              <mat-select [formControlName]="'roleId'" [placeholder]="'roleName' | translate" required>
+                <mat-option *ngFor="let option of roles" [value]="option.id">
+                  {{ option.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error class="col" *ngIf="formGroup.get('roleId')?.hasError('required')">
+                {{'roleName'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row pt-2">
+            <mat-form-field class="col">
+              <mat-select [formControlName]="'languageId'" [placeholder]="'language' | translate" required>
+                <mat-option *ngFor="let option of languages" [value]="option.id">
+                  {{ option.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error class="col" *ngIf="formGroup.get('languageId')?.hasError('required')">
+                {{'language'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row pt-4" [ngClass]="{'hidden': formGroup.get('password')?.disabled}">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'password'" [placeholder]="'password' | translate" [type]="hide ? 'password' : 'text'" />
+              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              <mat-error *ngIf="formGroup.get('password')?.hasError('minlength')">
+                A jelszónak legalább 4 karakter hosszúnak kell lennie!
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('password')?.hasError('required')">
+                {{'password'| translate}} {{'required' | translate}}
+              </mat-error>
+              <mat-hint class="mat-error"
+                        *ngIf="formGroup.get('password')?.value != formGroup.get('passwordRe')?.value">
+                A két jelszó nem egyezik!
+              </mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="row pt-4" [ngClass]="{'hidden': formGroup.get('password')?.disabled}">
+            <mat-form-field class="col">
+              <input matInput [formControlName]="'passwordRe'" [placeholder]="'password' | translate" [type]="hideRe ? 'password' : 'text'" />
+              <mat-icon matSuffix (click)="hideRe = !hideRe">{{hideRe ? 'visibility_off' : 'visibility'}}</mat-icon>
+              <mat-error *ngIf="formGroup.get('passwordRe')?.hasError('minlength')">
+                A jelszónak legalább 4 karakter hosszúnak kell lennie!
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('passwordRe')?.hasError('required')">
+                {{'password'| translate}} {{'required' | translate}}
+              </mat-error>
+              <mat-hint class="mat-error"
+                        *ngIf="formGroup.get('password')?.value != formGroup.get('passwordRe')?.value">
+                A két jelszó nem egyezik!
+              </mat-hint>
+            </mat-form-field>
+          </div>
+        </form>
+        </div>
+    </mat-tab>
+    <mat-tab  [label]="'workshops.title' | translate"><app-user-workshop-editor [userId]="id" (resfresh)="refreshWorkshops($event)"></app-user-workshop-editor></mat-tab>
+  </mat-tab-group>
+</mat-dialog-content>
+<div mat-dialog-actions>
+  <button mat-raised-button cdkFocusInitial color="blue" (click)="onSave()"  [disabled]="!formGroup.valid || formGroup.get('password')?.value != formGroup.get('passwordRe')?.value">{{'save'| translate}} </button>
+  <button mat-stroked-button color="blue" (click)="onCancel()">{{'cancel'| translate}} </button>
+</div>
+

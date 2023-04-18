@@ -1,0 +1,282 @@
+
+<div class="button-container">
+  <button mat-raised-button
+          [useExistingCss]="true"
+          printSectionId="print-section"
+          [disabled]="!printableOperation"
+          ngxPrint color="primary">
+    {{'print' | translate}}
+  </button>
+</div>
+<div *ngIf="printableOperation && numbers && count" id="print-section" class="paper">
+  <ng-container [ngSwitch]="count">
+    <ng-container *ngSwitchCase="'1'">
+      <div class="one-element">
+        <ng-container *ngTemplateOutlet="table2"></ng-container>
+      </div>
+    </ng-container>
+    <ng-container *ngSwitchCase="'2'">
+      <div class="row">
+        <div class="column-two" *ngFor="let number of numbers; index as i;">
+          <ng-container *ngTemplateOutlet="table"></ng-container>
+
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngSwitchCase="'4'">
+      <div class="row">
+        <div class="column-four" *ngFor="let number of numbers; index as i;">
+          <ng-container *ngTemplateOutlet="table"></ng-container>
+
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+
+</div>
+<ng-template #table>
+  <table border='0' class="main-table">
+    <td align='center'>
+      <app-summary-card-header [code]="code"></app-summary-card-header>
+      <table cellspacing='0' class="info-table">
+        <tr>
+          <td width='13%'>
+            <div class="text-left">
+              {{'date'| translate }}:
+            </div>
+          </td>
+          <td width='20%'>&nbsp;</td>
+          <td width='13%'>
+            <div class="text-left">
+              {{ 'quantity' | translate }}:
+            </div>
+          </td>
+          <td width='20%'>&nbsp;</td>
+          <td width='33%' colspan='4'>
+            <div class="text-left">
+              {{ 'defectQuantity' | translate }}:
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td width='13%'>
+            <div class="text-left">
+              {{ 'worker' | translate}}:
+            </div>
+          </td>
+          <td width='20%'>&nbsp;</td>
+          <td width='40%' colspan='5'>
+            <div class="text-left">
+              {{ 'productName' | translate}}: {{ printableOperation.productName }}
+            </div>
+          </td>
+
+        </tr>
+        <tr>
+          <td width='13%' colspan="2">
+            <div class="text-left">{{ 'operationCode' | translate}}: {{ printableOperation.code }}</div>
+          </td>
+          <td width='40%' colspan="3">
+            <div class="text-left">  {{'productCode'| translate}}: {{ printableOperation.productCode }}</div>
+          </td>
+          <td width='18%'>
+            <div class="text-left">  {{ 'shiftName'| translate }}</div>
+          </td>
+          <td width='10%' colspan="3">
+            <div class="text-left">  1. 2. 3. </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan='8' class="operation-info">
+            <div class="text-center">
+              {{ 'operationName' | translate }} : {{ (languageService.getCurrentLanguage() | async) == 'hu' ? printableOperation.name : printableOperation.translatedName}}
+            </div>
+          </td>
+        </tr>
+      </table>
+      <table class="defect-table">
+        <tr>
+          <td width='5%'>
+            <div class="text-center"><b>Nr.:</b></div>
+          </td>
+          <td width='60%'>
+            <div class="text-center"> <b>{{ 'defectName' | translate}}</b></div>
+          </td>
+          <td width='5%'>
+            <div class="text-center"> <b>Kat</b></div>
+          </td>
+          <td width='20%'>
+            <div class="text-center"><b>{{ 'defectQuantity' | translate }}</b></div>
+          </td>
+          <td width='10%'>
+            <div class="text-center"><b>{{ 'sum' | translate }}</b></div>
+          </td>
+        </tr>
+        <ng-container *ngFor="let defect of printableOperation?.defects">
+          <tr class="inside-row">
+            <td class="defect-td" width='5%'>
+              <div class="text-center">
+                {{ defect.order }}
+              </div>
+            </td>
+            <td class="defect-td" width='60%'>
+              <div class="text-left">{{ (languageService.getCurrentLanguage() | async) == 'hu' ? defect.name : defect.translatedName}}</div>
+            </td>
+            <td class="defect-td" width='5%'>
+              <div class="text-center">{{ defect.defectCategory | category}}</div>
+            </td>
+            <td class="defect-td" width='20%'></td>
+            <td class="defect-td" width='10%'></td>
+          </tr>
+        </ng-container>
+        <tr>
+          <td class="footer" colspan="4"><div class="text-left">Ellenőrizte:</div></td>
+          <td class="footer"><div class="text-right">{{ currentDate | date:'yyyy.MM.dd' }}</div></td>
+        </tr>
+      </table>
+    </td>
+  </table>
+</ng-template>
+<ng-template #table2>
+  <div class="content">
+    <table border='0' class="table2">
+      <td align='center'>
+        <app-summary-card-header [code]="code"></app-summary-card-header>
+        <table cellspacing='0' class="info-table">
+          <tr>
+            <td width='13%'>
+              <div class="text-left">
+                {{'date'| translate }}:
+              </div>
+            </td>
+            <td width='20%'>&nbsp;</td>
+            <td width='13%'>
+              <div class="text-left">
+                {{ 'quantity' | translate }}:
+              </div>
+            </td>
+            <td width='20%'>&nbsp;</td>
+            <td width='33%' colspan='4'>
+              <div class="text-left">
+                {{ 'defectQuantity' | translate }}:
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td width='13%'>
+              <div class="text-left">
+                {{ 'worker' | translate}}:
+              </div>
+            </td>
+            <td width='20%'>&nbsp;</td>
+            <td width='40%' colspan='5'>
+              <div class="text-left">
+                {{ 'productName' | translate}}: {{ printableOperation.productName }}
+              </div>
+            </td>
+
+          </tr>
+          <tr>
+            <td width='13%' colspan="2">
+              <div class="text-left">{{ 'operationCode' | translate}}: {{ printableOperation.code }}</div>
+            </td>
+            <td width='40%' colspan="3">
+              <div class="text-left">  {{'productCode'| translate}}: {{ printableOperation.productCode }}</div>
+            </td>
+            <td width='18%'>
+              <div class="text-left">  {{ 'shiftName'| translate }}</div>
+            </td>
+            <td width='10%' colspan="3">
+              <div class="text-left">  1. 2. 3. </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan='8' class="operation-info">
+              <div class="text-center">
+                {{ 'operationName' | translate }} : {{ (languageService.getCurrentLanguage() | async) == 'hu' ? printableOperation.name : printableOperation.translatedName}}
+              </div>
+            </td>
+          </tr>
+        </table>
+        <table class="defect-table">
+          <tr>
+            <td width='5%'>
+              <div class="text-center"><b>Nr.:</b></div>
+            </td>
+            <td width='60%'>
+              <div class="text-center"> <b>{{ 'defectName' | translate}}</b></div>
+            </td>
+            <td width='5%'>
+              <div class="text-center"> <b>Kat</b></div>
+            </td>
+            <td width='20%'>
+              <div class="text-center"><b>{{ 'defectQuantity' | translate }}</b></div>
+            </td>
+            <td width='10%'>
+              <div class="text-center"><b>{{ 'sum' | translate }}</b></div>
+            </td>
+          </tr>
+          <ng-container *ngFor="let defect of firstList">
+            <tr class="inside-row">
+              <td class="defect-td" width='5%'>
+                <div class="text-center">
+                  {{ defect.order }}
+                </div>
+              </td>
+              <td class="defect-td" width='60%'>
+                <div class="text-left">{{ (languageService.getCurrentLanguage() | async) == 'hu' ? defect.name : defect.translatedName}}</div>
+              </td>
+              <td class="defect-td" width='5%'>
+                <div class="text-center">{{ defect.defectCategory | category}}</div>
+              </td>
+              <td class="defect-td" width='20%'></td>
+              <td class="defect-td" width='10%'></td>
+            </tr>
+          </ng-container>
+         
+        </table>
+      </td>
+    </table>
+    <table class="defect-table">
+      <tr>
+        <td width='5%'>
+          <div class="text-center"><b>Nr.:</b></div>
+        </td>
+        <td width='60%'>
+          <div class="text-center"> <b>{{ 'defectName' | translate}}</b></div>
+        </td>
+        <td width='5%'>
+          <div class="text-center"> <b>Kat</b></div>
+        </td>
+        <td width='20%'>
+          <div class="text-center"><b>{{ 'defectQuantity' | translate }}</b></div>
+        </td>
+        <td width='10%'>
+          <div class="text-center"><b>{{ 'sum' | translate }}</b></div>
+        </td>
+      </tr>
+      <ng-container *ngFor="let defect of secondList">
+        <tr class="inside-row">
+          <td class="defect-td" width='5%'>
+            <div class="text-center">
+              {{ defect.order }}
+            </div>
+          </td>
+          <td class="defect-td" width='60%'>
+            <div class="text-left">{{ (languageService.getCurrentLanguage() | async) == 'hu' ? defect.name : defect.translatedName}}</div>
+          </td>
+          <td class="defect-td" width='5%'>
+            <div class="text-center">{{ defect.defectCategory | category}}</div>
+          </td>
+          <td class="defect-td" width='20%'></td>
+          <td class="defect-td" width='10%'></td>
+        </tr>
+      </ng-container>
+      <tr>
+        <td class="footer" colspan="4"><div class="text-left">Ellenőrizte:</div></td>
+        <td class="footer"><div class="text-right">{{ currentDate | date:'yyyy.MM.dd' }}</div></td>
+      </tr>
+    </table>
+  </div>
+ 
+</ng-template>

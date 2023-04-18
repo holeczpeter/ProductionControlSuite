@@ -1,0 +1,45 @@
+.confirm-container {
+  display: flex;
+  gap: 40px;
+  padding: 0px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: row;
+  align-content: center;
+  flex-wrap: nowrap;
+}
+
+.information-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 5px;
+}
+
+.message {
+  word-wrap: break-word;
+}
+
+.success-icon {
+  color: #5CC953;
+  fill: #5CC953;
+}
+
+.error-icon {
+  color: #F35B5A;
+  fill: #F35B5A;
+}
+
+.warning-icon {
+  color: #FDB10B;
+  fill: #FDB10B;
+}
+
+.info-icon {
+  color: #379DDA;
+  fill: #379DDA;
+}
+
+.confirm-button {
+  min-width: 102px;
+}

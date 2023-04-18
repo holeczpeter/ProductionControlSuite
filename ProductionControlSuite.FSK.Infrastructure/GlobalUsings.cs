@@ -1,0 +1,15 @@
+﻿global using ProductionControlSuite.FSK.Core.Common;
+global using ProductionControlSuite.FSK.Core.Entities;
+global using ProductionControlSuite.FSK.Core.Enums;
+global using ProductionControlSuite.FSK.Infrastructure.Common;
+global using ProductionControlSuite.FSK.Infrastructure.Persistence;
+global using ProductionControlSuite.FSK.Infrastructure.Persistence.EntityConfigurations;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Design;
+global using System.Reflection;
+global using Microsoft.EntityFrameworkCore.Metadata;
+global using Microsoft.EntityFrameworkCore.Metadata.Conventions;

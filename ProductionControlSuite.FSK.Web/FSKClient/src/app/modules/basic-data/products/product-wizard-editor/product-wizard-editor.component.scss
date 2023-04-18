@@ -1,0 +1,14 @@
+::ng-deep .mat-horizontal-stepper-header {
+  pointer-events: none !important;
+}
+.stepper-buttons {
+  justify-content: space-between;
+  margin: 20px;
+  display: flex;
+}
+
+.stepper-buttons-flex-end {
+  justify-content: flex-end;
+  margin: 20px;
+  display: flex;
+}

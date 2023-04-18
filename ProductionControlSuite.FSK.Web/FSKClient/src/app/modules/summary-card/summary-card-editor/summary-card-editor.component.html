@@ -1,0 +1,152 @@
+<form [formGroup]="cardForm" *ngIf="cardForm" class="card-form">
+  <table width='705' border='0'>
+    <td width='705' align='center'>
+      <app-summary-card-header [code]="code"></app-summary-card-header>
+      <br />
+      <table width='100%'>
+        <tr class="table-row">
+          <td class="text-cell" align='left'>
+            {{'date'| translate }}
+          </td>
+          <td class="text-cell">
+            <mat-form-field>
+              <input matInput [matDatepicker]="pickerStart" [formControlName]="'date'" required>
+              <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+              <mat-datepicker #pickerStart></mat-datepicker>
+              <mat-error class="col" *ngIf="cardForm.get('date')?.hasError('required')">
+                {{'date'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </td>
+          <td class="text-cell" align='left'>
+            {{ 'quantity' | translate }}
+          </td>
+          <td class="text-cell">
+            <mat-form-field>
+              <input matInput type="number" [formControlName]="'quantity'" required />
+              <span matSuffix>{{ (languageService.getCurrentLanguage() | async) == 'hu' ? 'db' : 'St.'}}</span>
+              <mat-error class="col" *ngIf="cardForm.get('quantity')?.hasError('required')">
+                {{'quantity'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr class="table-row">
+          <td class="text-cell" align='left'>
+            {{ 'worker' | translate}}
+          </td>
+          <td class="text-cell">
+            <mat-form-field>
+              <input matInput [formControlName]="'workerCode'" required />
+              <mat-error class="col" *ngIf="cardForm.get('workerCode')?.hasError('required')">
+                {{'worker'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </td>
+          <td class="text-cell">
+            {{'los' | translate }}
+          </td>
+          <td class="text-cell">
+            <mat-form-field>
+              <input matInput [formControlName]="'los'" />
+              <mat-error class="col" *ngIf="cardForm.get('los')?.hasError('required')">
+                {{'los'| translate}} {{'required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr class="table-row">
+          <td class="text-cell" align='left'>
+            {{ 'operationCode' | translate}}
+          </td>
+          <td class="text-cell">
+            <ng-container *ngIf="cardForm?.get('id')?.value == 0 ;else readonlyop">
+              <mat-form-field>
+                <mat-select [formControlName]="'operation'" #singleSelect required>
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="filterCtrl"></ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option *ngFor="let option of filtered | async" [value]="option">
+                    {{option.code}} - {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="cardForm.get('operation')?.hasError('required')">
+                  {{'operationName'| translate}} {{'required' | translate}}
+                </mat-error>
+              </mat-form-field>
+            </ng-container>
+            <ng-template #readonlyop>
+              <ng-container *ngIf="currentOperation">
+                {{currentOperation.code}} -
+                {{ (languageService.getCurrentLanguage() | async) == 'hu' ? currentOperation.name : currentOperation.translatedName}}
+              </ng-container>
+
+            </ng-template>
+          </td>
+          <td class="text-cell">
+            {{ 'shiftName'| translate }}
+          </td>
+          <td class="text-cell">
+            <mat-radio-group [formControlName]="'shiftId'">
+              <ng-container *ngFor="let option of shifts">
+                <mat-radio-button [value]="option.id" color="primary">
+                  {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
+                </mat-radio-button>
+              </ng-container>
+
+            </mat-radio-group>
+            <mat-error *ngIf="cardForm.get('shiftId')?.hasError('required')">
+              {{'shiftName'| translate}} {{'required' | translate}}
+            </mat-error>
+          </td>
+        </tr>
+        <tr class="table-row">
+          <td align='center' colspan='8'>
+            {{ 'operationName' | translate }} : {{ (languageService.getCurrentLanguage() | async) == 'hu' ? cardForm.get('operation')?.value?.name : cardForm.get('operation')?.value?.translatedName}}
+          </td>
+        </tr>
+      </table>
+      <table width='100%' class="defect">
+        <tr>
+          <td align='center' width='5%' class="defect">
+            <b>Nr.:</b>
+          </td>
+          <td align='center' width='20%' class="defect">
+            <b>{{ 'code' | translate}}</b>
+          </td>
+          <td align='center' width='60%' class="defect">
+            <b>{{ 'defectName' | translate}}</b>
+          </td>
+
+          <td align='center' width='5%' class="defect">
+            <b>{{ 'categoryName' | translate}}</b>
+          </td>
+          <td align='center' width='20%' class="defect">
+            <b>{{ 'defectQuantity' | translate }}</b>
+          </td>
+          <td align='center' width='10%' class="defect">
+            <b>{{'comment' | translate}} </b>
+          </td>
+        </tr>
+        <tr formArrayName="items" *ngFor="let item of items.controls; let i = index">
+          <ng-container [formGroupName]="i">
+            <td class="defect" align='center' width='5%'>{{item.value.order}}</td>
+            <td class="defect" width='20%'>{{ item.value.defectCode}}</td>
+            <td class="defect" width='40%'>{{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.value.defectName : item.value.defectTranslatedName}}</td>
+            <td class="defect" align='center' width='5%'>{{ item?.value.defectCategory | category }}</td>
+            <td class="defect" align='center' width='20%'>
+              <mat-form-field floatLabel="never" class="quantity">
+                <input matInput type="number" [formControlName]="'quantity'">
+              </mat-form-field>
+            </td>
+            <td class="defect" width='10%'>
+              <mat-form-field floatLabel="never">
+                <input matInput [formControlName]="'comment'">
+              </mat-form-field>
+            </td>
+          </ng-container>
+        </tr>
+      </table>
+    </td>
+  </table>
+</form>

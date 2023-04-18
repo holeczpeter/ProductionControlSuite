@@ -1,0 +1,111 @@
+<mat-drawer-container class="example-container" autosize cdkDropListGroup>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <div class="example-container">
+      <h3>{{'defectGroup.selectableOperation' | translate }}</h3>
+      <div class="info-box">
+        <mat-icon color="accent">info</mat-icon>
+        <p>{{'defectGroup.dragOperation' | translate }}</p>
+      </div>
+      <div cdkDropList
+           [cdkDropListData]="entityGroupService.selectableOperations"
+           class="example-list">
+        <div class="example-box" *ngFor="let item of entityGroupService.selectableOperations" cdkDrag> {{item.code}} -  {{ (languageService.getCurrentLanguage() | async) == 'hu' ? item.name : item.translatedName}}</div>
+      </div>
+    </div>
+  </mat-drawer>
+  <div class="example-sidenav-content" *ngIf="entityGroupService.treeForm">
+    <div class="base-grey router-container">
+      <div class="col-auto">
+        <ng-container>
+          <div (click)="drawer.toggle()"
+               disableRipple="true"
+               class="primary sidebar-button">
+            <div class="operation">{{'operations.title' | translate}}</div>
+            <div>
+              <mat-icon class="sidebar-icon">arrow_forward_ios</mat-icon>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="router">
+        <form [formGroup]="entityGroupService.treeForm">
+          <ng-container formArrayName="children">
+            <table mat-table
+                   [dataSource]="dataSource"
+                   multiTemplateDataRows
+                   class="mat-elevation-z8">
+              <ng-container matColumnDef="order">
+                <th mat-header-cell *matHeaderCellDef> {{'order' | translate}} </th>
+                <td mat-cell *matCellDef="let element" [formGroup]="element.get('node')">
+                  <mat-form-field class="order-form-field">
+                    <input matInput type="number" [formControlName]="'order'">
+                  </mat-form-field>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> {{'defectGroup.operationGroupName' | translate}} </th>
+                <td mat-cell *matCellDef="let element" [formGroup]="element.get('node')">
+                  <mat-form-field>
+                    <input matInput [formControlName]="'name'">
+                  </mat-form-field>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="relation">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{'defectGroup.operationGroupLines' | translate}}
+                  <div class="info-box">
+                    <mat-icon color="accent">info</mat-icon>
+                    <p>{{'defectGroup.dragOperationHere' | translate}}</p>
+                  </div>
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <app-defect-group-operation-child [item]="element"></app-defect-group-operation-child>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef> {{'delete' | translate }} </th>
+                <td mat-cell *matCellDef="let element; let i = dataIndex;">
+                  <button mat-icon-button (click)="remove(i)" color="primary">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="expand">
+                <th mat-header-cell *matHeaderCellDef class="expand-header"> {{'defectGroup.editDefectGroupLines' | translate}} </th>
+                <td mat-cell *matCellDef="let element">
+                  <ng-container>
+                    <button mat-icon-button aria-label="expand row"
+                            (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+                      <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                      <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+                    </button>
+                  </ng-container>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                  <div class="example-element-detail"
+                       [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                    <app-defect-group-defect-editor [tree]="element"></app-defect-group-defect-editor>
+                  </div>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+              <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+                  class="example-element-row"
+                  [class.example-expanded-row]="expandedElement === element">
+              </tr>
+              <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+            </table>
+          </ng-container>
+        </form>
+        <div class="row justify-content-center pt-3">
+          <button class="new-op" mat-raised-button color="primary" (click)="addGroupFromNode()">
+            {{'defectGroup.addOperationGroupLine' | translate}} 
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-drawer-container>
+

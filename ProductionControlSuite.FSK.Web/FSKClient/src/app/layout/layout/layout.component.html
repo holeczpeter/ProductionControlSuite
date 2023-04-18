@@ -1,0 +1,34 @@
+
+<app-header></app-header>
+<!--<mat-progress-bar color="primary" mode="indeterminate" *ngIf="spinnerService.visibility$ | async"></mat-progress-bar>-->
+<mat-sidenav-container class="base-grey"
+                       [overlayLoading]="this.spinnerService.visibility$"
+                       [loaderData]="loaderData"
+                       [onDestroy$]="onDestroy$">>
+  <mat-sidenav class="secondary-darker" infiniteScroll  (scrolled)="onScroll()"
+               mode="side"
+               [opened]="openedSidebar"
+               [style.--border-top-right-radius.px]="openedSidebar ? 10 : 0">
+    <app-sidebar #sidebar
+                 class="sidebar"
+                 [sidebarMenuItems]="sidebarMenuItems"
+                 (onClose)="onToggleSidebar()"></app-sidebar>
+  </mat-sidenav>
+  <mat-sidenav-content class="base-grey" infiniteScroll  (scrolled)="onScroll()">
+    <div class="base-grey router-container">
+      <div class="col-auto">
+        <ng-container *ngIf="!openedSidebar">
+          <div (click)="onToggleSidebar()"
+               disableRipple="true"
+               class="secondary-darker sidebar-button">
+            <mat-icon class="sidebar-icon">arrow_forward_ios</mat-icon>
+          </div>
+        </ng-container>
+      </div>
+      <div class="router" infiniteScroll (scrolled)="onScroll()">
+        <router-outlet>
+        </router-outlet>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

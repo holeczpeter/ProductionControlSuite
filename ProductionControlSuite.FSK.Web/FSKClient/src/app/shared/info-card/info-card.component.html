@@ -1,0 +1,18 @@
+<mat-card class="user-card">
+  <mat-card-content>
+    <div class="header">
+      <div>
+        <mat-icon class="header-info-icon"
+                  [ngStyle]="getColor()">{{ icon }}</mat-icon>
+      </div>
+      <div class="header-info">
+        <div class="header-text">{{ title | translate }}</div>
+        <div class="header-number">{{ value }} {{ currency | translate  }}</div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="interval">
+      {{ subtitle | translate  }}
+    </div>
+  </mat-card-content>
+</mat-card>

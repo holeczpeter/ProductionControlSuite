@@ -1,0 +1,158 @@
+<div class="container-fluid">
+  <div class="flex-title">
+    <app-title class="flex-title-item" [title]="title" [contentTemplate]="tooltipTemplate"></app-title>
+    <button mat-flat-button (click)="onAdd()" color="primary"> {{'add' | translate}} </button>
+  </div>
+  <app-table-toolbar (btnClick)="onExport()">
+  </app-table-toolbar>
+  <div class="responsive-table-container">
+    <table mat-table [dataSource]="dataSource"
+           *ngIf="filterForm"
+           matSort
+           class="w-100"
+           (matSortChange)="sortData($event)">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'name' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.name}}</td>
+      </ng-container>
+      <ng-container matColumnDef="translatedName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'translatedName' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.translatedName}}</td>
+      </ng-container>
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'code' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.code}}</td>
+      </ng-container>
+      <ng-container matColumnDef="norma">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'operations.norma' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.norma}}</td>
+      </ng-container>
+      <ng-container matColumnDef="operationTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'operations.operationTime' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.operationTime}}</td>
+      </ng-container>
+      <ng-container matColumnDef="ppmGoal">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'goal' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.ppmGoal}}</td>
+      </ng-container>
+      <ng-container matColumnDef="productName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'productName' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.productName}}</td>
+      </ng-container>
+      <ng-container matColumnDef="productCode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'productCode' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.productCode}}</td>
+      </ng-container>
+      <ng-container matColumnDef="statusName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'statusName' | translate}}  </th>
+        <td mat-cell *matCellDef="let element">{{element.statusName}}</td>
+      </ng-container>
+      <ng-container matColumnDef="defectsCount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="th-align-center"> {{'defects.title' | translate}}  </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <button type="button" mat-icon-button (click)="onOpenDefects(element)">
+            <mat-icon matBadge="{{element.defectsCount}}"
+                      matBadgeColor="primary">
+              open_in_new
+            </mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="copy">
+        <th mat-header-cell *matHeaderCellDef class="text-center"> {{'copy' | translate}}  </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <button type="button" mat-icon-button (click)="onCopy(element)">
+            <mat-icon mat-list-icon color="primary">content_copy</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef class="text-center"> {{'edit' | translate}} </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <button type="button"
+                  mat-icon-button
+                  color="primary"
+                  (click)="onEdit(element)">
+            <mat-icon mat-list-icon [color]="'primary'">edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef class="text-center">{{'delete' | translate}} </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <button type="button"
+                  mat-icon-button
+                  color="danger"
+                  (click)="onDelete(element.id)">
+            <mat-icon mat-list-icon [color]="'warn'">delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <ng-container [formGroup]="filterForm">
+        <ng-container *ngFor="let filter of filterableColumns; let i = index">
+          <ng-container [ngSwitch]="filter.type">
+            <ng-container *ngSwitchCase="0">
+              <ng-container [matColumnDef]="filter.columnDef">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-form-field [ngStyle]="{'max-width':filter.width}">
+                    <mat-label> {{'search' | translate}}</mat-label>
+                    <input matInput [formControlName]="filter.name" />
+                    <mat-icon matSuffix>search</mat-icon>
+                  </mat-form-field>
+                </th>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase="1">
+              <ng-container [matColumnDef]="filter.columnDef">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-form-field>
+                    <mat-label> {{'search' | translate}}</mat-label>
+                    <input matInput [matDatepicker]="pickerStart" [formControlName]="filter.name" required>
+                    <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerStart></mat-datepicker>
+                    <mat-icon matSuffix>search</mat-icon>
+                  </mat-form-field>
+                </th>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase="3">
+              <ng-container [matColumnDef]="filter.columnDef">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-form-field [ngStyle]="{'max-width':filter.width}">
+                    <mat-label> {{'search' | translate}}</mat-label>
+                    <input matInput type="number" [formControlName]="filter.name" />
+                    <mat-icon matSuffix>search</mat-icon>
+                  </mat-form-field>
+                </th>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+        <ng-container matColumnDef="more">
+          <th mat-header-cell *matHeaderCellDef class="text-center" [attr.colspan]="5"> </th>
+        </ng-container>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterableColumnNames"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnNames"></tr>
+    </table>
+    <mat-paginator [length]="totalCount"
+                   [pageSize]="paginationService.pageCount"
+                   [pageSizeOptions]="paginationService.selectItemsPerPage"
+                   (page)="switchPage($event)">
+    </mat-paginator>
+  </div>
+</div>
+<ng-template #tooltipTemplate>
+  <div class="headerrow">
+    <h3>Műveletek</h3>
+  </div>
+  <div style="display: flex; flex-direction: column">
+    <span>A rögzített műveletek listája</span>
+    <span>Hozzáadás: Új művelet létrehozása és termékhez rendelése</span>
+    <span>Szerkesztés: Az adott művelet adatainak módosítása</span>
+    <span>Törlés: Az adott művelet törlése. <strong>Figyelem, csak olyan művelet törölhető, amelyhez nem tartoznak hibák</strong></span>
+    <span>Exportálás: Lista exportálása xlsx formátumban</span>
+    <br>
+  </div>
+</ng-template>

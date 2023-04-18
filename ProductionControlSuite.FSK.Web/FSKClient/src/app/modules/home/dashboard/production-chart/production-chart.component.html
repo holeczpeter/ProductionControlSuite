@@ -1,0 +1,14 @@
+<div *ngIf="chartOptions"
+     class="chart-container">
+  <apx-chart [series]="chartOptions.series"
+             [colors]="chartOptions.colors"
+             [chart]="chartOptions.chart"
+             [xaxis]="chartOptions.xaxis"
+             [yaxis]="chartOptions.yaxis"
+             [responsive]="chartOptions.responsive"
+             [dataLabels]="chartOptions.dataLabels"
+             [subtitle]="chartOptions.subtitle"
+             [title]="chartOptions.title">
+  </apx-chart>
+</div>
+

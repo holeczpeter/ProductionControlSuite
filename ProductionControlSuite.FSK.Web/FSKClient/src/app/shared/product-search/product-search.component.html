@@ -1,0 +1,18 @@
+<form [formGroup]="formGroup" *ngIf="formGroup">
+  <div class="row pt-2">
+    <mat-form-field class="col">
+      <mat-select [formControlName]="'product'" [placeholder]="'productName' | translate" #productSelect required panelClass="myPanelClass">
+        <mat-option>
+          <ngx-mat-select-search [formControl]="productFilterCtrl"></ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngFor="let option of filteredProducts | async" [value]="option">
+          {{option.code}} - {{ (languageService.getCurrentLanguage() | async) == 'hu' ? option.name : option.translatedName}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="formGroup.get('product')?.hasError('required')">
+        {{'productName'| translate}} {{'required' | translate}}
+      </mat-error>
+    </mat-form-field>
+  </div>
+</form>
+
